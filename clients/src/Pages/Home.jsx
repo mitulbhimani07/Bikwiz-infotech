@@ -2,9 +2,9 @@ import React from 'react';
 
 const MarketplaceBanner = () => {
   return (
-    <div className="flex items-center justify-between px-8 py-16 bg-white">
+    <div className="flex items-center justify-between px-33 py-16 bg-white">
       <div className="w-1/2 pr-8">
-        <h1 className="text-5xl font-bold text-green-800 mb-6">
+        <h1 className="text-7xl font-bold text-green-800 mb-6">
           Find the talents for any job.
         </h1>
         <p className="text-lg text-gray-600 mb-8">
@@ -13,34 +13,32 @@ const MarketplaceBanner = () => {
         <button className="bg-green-500 text-white px-6 py-3 rounded-full hover:bg-green-600 transition duration-300">
           Post a Job
         </button>
-        <div className="mt-8 flex items-center space-x-4 opacity-70">
-          <span className="text-gray-500">Trusted by:</span>
+        <div className="mt-8 flex items-center space-x-4 opacity-100">
+          <span className="text-gray-500 font-bold">Trusted by:</span>
           <img 
-            src="/api/placeholder/100/40" 
+            src="https://html.creativegigstf.com/jobi/jobi/images/logo/media_14.png" 
             alt="Payoneer" 
-            className="h-8"
+            className="h-6"
           />
           <img 
-            src="/api/placeholder/40/40" 
+            src="https://html.creativegigstf.com/jobi/jobi/images/logo/media_15.png" 
             alt="Google" 
-            className="h-8"
+            className="h-6"
           />
           <img 
-            src="/api/placeholder/80/40" 
+            src="https://html.creativegigstf.com/jobi/jobi/images/logo/media_16.png" 
             alt="Adobe" 
-            className="h-8"
+            className="h-6"
           />
         </div>
       </div>
       <div className="w-1/2 relative">
-        <div className="absolute inset-0 bg-gradient-to-br from-green-100 to-white opacity-50 rounded-lg"></div>
+        <div className="absolute inset-0 bg-gradient-to-br opacity-50 rounded-lg"></div>
         <div className="relative z-10 flex justify-center items-center">
-          <div className="bg-orange-100 rounded-full p-2 absolute top-10 left-20 animate-pulse"></div>
-          <div className="bg-green-100 rounded-full p-2 absolute bottom-10 right-20 animate-pulse"></div>
-          <div className="bg-red-100 rounded-full p-2 absolute top-20 right-20 animate-pulse"></div>
+         
           
           <div className="flex items-center justify-center">
-            <svg width="400" height="320" viewBox="0 0 850 613" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg width="600" height="620" viewBox="0 0 850 613" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M553.968 557.346C553.968 557.346 608.99 548.955 635.842 561.901C662.694 574.846 665.211 581.918 665.211 581.918V586.712C665.211 589.109 663.173 591.147 660.776 591.147L547.734 589.829L534.548 576.044L541.261 558.904L553.968 557.346Z" fill="#FAAA4B"/>
               <path d="M579.74 457.141C580.939 456.302 627.091 446.833 657.659 440.6C674.441 437.124 691.823 441.918 704.53 453.425C707.527 456.062 709.325 459.778 709.445 463.733C710.044 473.442 708.725 491.901 693.621 505.565C672.284 524.863 617.741 556.747 617.741 556.747L553.967 557.466C553.967 557.466 538.983 575.565 547.734 590.068C547.734 590.068 399.329 596.901 295.398 579.401C295.398 579.401 273.461 570.051 280.414 537.449C287.247 504.846 324.288 500.411 324.288 500.411C324.288 500.411 462.024 466.13 465.86 466.13C469.456 465.891 579.74 457.141 579.74 457.141Z" fill="#0A2A3C"/>
               <path d="M490.435 457.141L454.472 464.692L429.418 485.309C429.418 485.309 451.955 507.243 451.356 505.326C450.756 503.408 459.507 497.175 462.024 485.309L470.775 479.315C470.775 479.315 488.277 487.346 498.946 481.353L490.435 457.141Z" fill="#BD7361"/>
