@@ -590,7 +590,7 @@ const MarketplaceBanner = () => {
 
     {/*  */}
 
-     <section className="trending-services-section py-20 bg-gray-100">
+     <section className="trending-services-section py-20 ">
       <div className="container mx-auto px-4">
         <div className="section-heading mb-12">
           <div className="flex items-center justify-between mb-8">
