@@ -2,7 +2,7 @@ import React from 'react';
 
 const Footer = () => {
   return (
-    <footer className="bg-white w-full py-8 md:py-12">
+    <footer className="bg-green-50 w-full py-8 md:py-12">
       <div className="max-w-7xl mx-auto px-4 md:px-8">
         {/* Grid Container */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 md:grid-cols-3 gap-8">
@@ -51,7 +51,7 @@ const Footer = () => {
           </div>
           
           {/* Newsletter Column - Full width on mobile */}
-          <div className="sm:col-span-2 lg:col-span-1 md:col-span-3 lg:col-span-1">
+          <div className="sm:col-span-2  md:col-span-3 lg:col-span-1">
             <h3 className="font-semibold text-xl md:text-2xl mb-3 md:mb-4 text-black">Newsletter</h3>
             <p className="text-gray-600 text-sm md:text-base mb-3">Join & get important news regularly</p>
             <div className="flex flex-col sm:flex-row gap-2 mb-2">
