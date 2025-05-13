@@ -95,7 +95,7 @@ function LandingHeader() {
               className="w-full pl-10 pr-24 py-2 border border-gray-200 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-green-500 text-[14px]"
             />
             <div className="absolute right-0 top-0 h-full">
-              <select className="h-full px-3 text-sm border-l text-[14px] border-gray-200 rounded-r-md bg-gray-50" style={{border:"1px solid #e5e7eb"}}>
+              <select className="h-full px-3 text-sm border-l text-[14px] border-gray-200 rounded-r-md bg-gray-100" style={{border:"1px solid #e5e7eb"}}>
                 <option>Talents</option>
                 <option>Jobs</option>
                 <option>Projects</option>
@@ -119,7 +119,7 @@ function LandingHeader() {
           
 
           {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center space-x-6 text-[20px] font-medium">
+          <div className="hidden lg:flex items-center space-x-8 text-[16px] font-medium">
             <a href="#" className="text-gray-700 hover:text-green-500">Find Job</a>
             <a href="#" className="text-gray-700 hover:text-green-500">Find Talents</a>
             <div className="relative">

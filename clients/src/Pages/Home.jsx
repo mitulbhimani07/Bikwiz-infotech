@@ -1,4 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react'; // Added useRef and useEffect
+import '../assets/css/Home.css';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation,Autoplay,Pagination } from 'swiper/modules';
+
+
+// Install Swiper modules
+import 'swiper/css';
+import 'swiper/css/navigation';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+import serivces1 from '../assets/images/serivces1.png'
+import serivces2 from '../assets/images/serivces2.png'
+import serivces3 from '../assets/images/serivces3.png'
+import serivces4 from '../assets/images/serivces4.png'
+import serivces5 from '../assets/images/serivces5.png'
 
 const MarketplaceBanner = () => {
   const [hoveredIndex, setHoveredIndex] = useState(null);
@@ -78,8 +92,81 @@ const MarketplaceBanner = () => {
       active: false
     }
   ];
+
+   const services = [
+    {
+      // icon: 'flaticon-accounting',
+      img:serivces1,
+      title: 'Audio & Video Editing',
+      // jobs: 324
+    },
+    {
+      // icon: 'flaticon-graduation-cap',
+      img:serivces2,
+      title: 'Product & Branding Design',
+      // jobs: 573
+    },
+    {
+      // icon: 'flaticon-planning',
+      img:serivces3,
+      title: 'Admin & Customer Support',
+      // jobs: 125
+    },
+    {
+      // icon: 'flaticon-programming',
+      img:serivces4,
+      title: 'WordPress Developement',
+      // jobs: 445
+    },
+    {
+      img:serivces5,
+      title: 'Healthcare',
+      // jobs: 254
+    },
+    // {
+    //   icon: 'flaticon-car',
+    //   title: 'Automotive',
+    //   jobs: 87
+    // }
+  ];
+
+  const [openAccordion, setOpenAccordion] = useState('seamless-search');
+  const [heights, setHeights] = useState({});
+  const contentRefs = {
+    'seamless-search': useRef(null),
+    'hire-top-talents': useRef(null),
+    'protected-payments': useRef(null),
+  };
+
+  useEffect(() => {
+    const measureHeights = () => {
+      const newHeights = {};
+      Object.keys(contentRefs).forEach((id) => {
+        if (contentRefs[id].current) {
+          newHeights[id] = contentRefs[id].current.scrollHeight;
+        }
+      });
+      setHeights(newHeights);
+    };
+
+    measureHeights();
+    window.addEventListener('resize', measureHeights);
+
+    return () => {
+      window.removeEventListener('resize', measureHeights);
+    };
+  }, []);
+
+  const toggleAccordion = (id) => {
+    if (openAccordion === id) {
+      setOpenAccordion(null);
+    } else {
+      setOpenAccordion(id);
+    }
+  };
+
   return (
-    <>
+    
 
       <div className="flex items-center justify-between px-33 py-16 bg-white">
         <div className="w-1/2 pr-8">
@@ -207,9 +294,383 @@ const MarketplaceBanner = () => {
             ))}
           </div>
         </div>
+        {/* Why choose us? */}
+      <section className="py-16 px-4 md:px-8 lg:px-16 bg-white">
+        <div className="container mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+            {/* Left Side - Circular Card with Search UI */}
+            <div className="relative flex justify-center">
+              <div className="choose-us-card w-full h-full max-w-md aspect-square rounded-full bg-gray-50 relative flex items-center justify-center">
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="w-4/5 max-w-sm">
+                    {/* Search Interface */}
+                    <div className="bg-white rounded-lg shadow-md mb-4 p-3 flex items-center">
+                      <input
+                        type="text"
+                        placeholder="Designer, Brand, Logo designer"
+                        className="w-full outline-none text-sm"
+                      />
+                      <button className="text-gray-400 ml-2">×</button>
+                    </div>
+
+                    {/* Search Button */}
+                    <div className="absolute right-0 top-0 translate-x-1/4 -translate-y-1/4">
+                      <button className="bg-green-500 text-white p-3 rounded-lg shadow-lg">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-5 w-5"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                          />
+                        </svg>
+                      </button>
+                    </div>
+
+                    {/* Profile Cards */}
+                    <div className="space-y-4 mt-8">
+                      {/* Profile Card 1 */}
+                      <div className="bg-white rounded-lg p-2 shadow-sm flex items-center justify-between">
+                        <div className="flex items-center">
+                          <div className="w-10 h-10 rounded-full bg-purple-100 overflow-hidden mr-3">
+                            <img
+                              src="/api/placeholder/40/40"
+                              alt="Profile"
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                          <div>
+                            <p className="font-medium text-sm">Antonio Volaska</p>
+                            <p className="text-xs text-gray-500">UI Designer</p>
+                          </div>
+                        </div>
+                        <div className="flex flex-col items-end text-xs">
+                          <button className="bg-gray-100 px-2 py-1 rounded text-xs">
+                            HIRE ME
+                          </button>
+                          <span className="text-gray-500 mt-1">From California</span>
+                        </div>
+                      </div>
+
+                      {/* Profile Card 2 */}
+                      <div className="bg-white rounded-lg p-2 shadow-sm flex items-center justify-between">
+                        <div className="flex items-center">
+                          <div className="w-10 h-10 rounded-full bg-yellow-100 overflow-hidden mr-3">
+                            <img
+                              src="/api/placeholder/40/40"
+                              alt="Profile"
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                          <div>
+                            <p className="font-medium text-sm">Rashed Ka</p>
+                            <p className="text-xs text-gray-500">Motion Designer</p>
+                          </div>
+                        </div>
+                        <div className="flex flex-col items-end text-xs">
+                          <button className="bg-gray-100 px-2 py-1 rounded text-xs">
+                            HIRE ME
+                          </button>
+                          <span className="text-gray-500 mt-1">From Bangladesh</span>
+                        </div>
+                      </div>
+
+                      {/* Profile Card 3 */}
+                      <div className="bg-white rounded-lg p-2 shadow-sm flex items-center justify-between">
+                        <div className="flex items-center">
+                          <div className="w-10 h-10 rounded-full bg-green-100 overflow-hidden mr-3">
+                            <img
+                              src="/api/placeholder/40/40"
+                              alt="Profile"
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                          <div>
+                            <p className="font-medium text-sm">Zubayer Al Hasan</p>
+                            <p className="text-xs text-gray-500">Developer</p>
+                          </div>
+                        </div>
+                        <div className="flex flex-col items-end text-xs">
+                          <button className="bg-gray-100 px-2 py-1 rounded text-xs">
+                            HIRE ME
+                          </button>
+                          <span className="text-gray-500 mt-1">From Norway</span>
+                        </div>
+                      </div>
+
+                      {/* Profile Card 4 */}
+                      <div className="bg-white rounded-lg p-2 shadow-sm flex items-center justify-between">
+                        <div className="flex items-center">
+                          <div className="w-10 h-10 rounded-full bg-pink-100 overflow-hidden mr-3">
+                            <img
+                              src="/api/placeholder/40/40"
+                              alt="Profile"
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                          <div>
+                            <p className="font-medium text-sm">Jannatul Ferdaus</p>
+                            <p className="text-xs text-gray-500">Youtuber</p>
+                          </div>
+                        </div>
+                        <div className="flex flex-col items-end text-xs">
+                          <button className="bg-gray-100 px-2 py-1 rounded text-xs">
+                            HIRE ME
+                          </button>
+                          <span className="text-gray-500 mt-1">From Turkey</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Right Side - Why Choose Us Content */}
+            <div className="p-4">
+              <p className="text-lg text-green-500 font-semibold mb-2">Why choose us?</p>
+              <h2 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-green-900 mb-8">
+                World of talent at your fingertips
+              </h2>
+
+              {/* Accordion */}
+              <div className="space-y-2">
+                {/* Accordion Item 1 */}
+                <div className="border-b border-gray-200">
+                  <button
+                    className="flex items-center justify-between w-full py-5 font-medium text-left text-gray-700"
+                    onClick={() => toggleAccordion('seamless-search')}
+                  >
+                    <span className="text-xl">Seamless Search</span>
+                    <svg
+                      className={`w-5 h-5 transition-transform duration-300 ${
+                        openAccordion === 'seamless-search' ? 'rotate-180' : ''
+                      }`}
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M19 9l-7 7-7-7"
+                      />
+                    </svg>
+                  </button>
+                  <div
+                    className="overflow-hidden transition-all duration-300 ease-in-out"
+                    style={{
+                      maxHeight:
+                        openAccordion === 'seamless-search'
+                          ? `${heights['seamless-search'] || 0}px`
+                          : '0',
+                    }}
+                  >
+                    <div
+                      ref={contentRefs['seamless-search']}
+                      className="pb-5 text-gray-600"
+                    >
+                      <p>
+                        It only takes 5 minutes. Set-up is smooth and simple,
+                        with fully customisable page design to reflect your
+                        brand.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Accordion Item 2 */}
+                <div className="border-b border-gray-200">
+                  <button
+                    className="flex items-center justify-between w-full py-5 font-medium text-left text-gray-700"
+                    onClick={() => toggleAccordion('hire-top-talents')}
+                  >
+                    <span className="text-xl">Hire top talents</span>
+                    <svg
+                      className={`w-5 h-5 transition-transform duration-300 ${
+                        openAccordion === 'hire-top-talents' ? 'rotate-180' : ''
+                      }`}
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M19 9l-7 7-7-7"
+                      />
+                    </svg>
+                  </button>
+                  <div
+                    className="overflow-hidden transition-all duration-300 ease-in-out"
+                    style={{
+                      maxHeight:
+                        openAccordion === 'hire-top-talents'
+                          ? `${heights['hire-top-talents'] || 0}px`
+                          : '0',
+                    }}
+                  >
+                    <div
+                      ref={contentRefs['hire-top-talents']}
+                      className="pb-5 text-gray-600"
+                    >
+                      <p>
+                        Access to top talent in various fields including design,
+                        development, and content creation.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Accordion Item 3 */}
+                <div className="border-b border-gray-200">
+                  <button
+                    className="flex items-center justify-between w-full py-5 font-medium text-left text-gray-700"
+                    onClick={() => toggleAccordion('protected-payments')}
+                  >
+                    <span className="text-xl">Protected payments, every time</span>
+                    <svg
+                      className={`w-5 h-5 transition-transform duration-300 ${
+                        openAccordion === 'protected-payments' ? 'rotate-180' : ''
+                      }`}
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M19 9l-7 7-7-7"
+                      />
+                    </svg>
+                  </button>
+                  <div
+                    className="overflow-hidden transition-all duration-300 ease-in-out"
+                    style={{
+                      maxHeight:
+                        openAccordion === 'protected-payments'
+                          ? `${heights['protected-payments'] || 0}px`
+                          : '0',
+                    }}
+                  >
+                    <div
+                      ref={contentRefs['protected-payments']}
+                      className="pb-5 text-gray-600"
+                    >
+                      <p>
+                        Secure payment system ensures worry-free transactions for
+                        both clients and freelancers.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-8">
+                <button className="bg-green-500 text-white px-6 py-3 rounded-full font-medium hover:bg-green-600 transition duration-300">
+                  Learn More
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    {/* </div> */}
+
+    {/*  */}
+
+     <section className="trending-services-section py-20 bg-gray-100">
+      <div className="container mx-auto px-4">
+        <div className="section-heading mb-12">
+          <div className="flex items-center justify-between mb-8">
+            <div>
+              <h5 className="text-4xl font-bold mt-2 text-green-800">Trending Services</h5>
+            </div>
+            {/* Navigation buttons */}
+            <div className="flex items-center space-x-4">
+              <div className="trending-swiper-button-prev cursor-pointer bg-white w-10 h-10 flex items-center justify-center shadow-md rounded-md">
+                <ChevronLeft className='text-green-700'/>
+              </div>
+              <div className="trending-swiper-button-next cursor-pointer bg-white w-10 h-10 flex items-center justify-center shadow-md rounded-md">
+                <ChevronRight className='text-green-700'/>
+              </div>
+            </div>
+          </div>
+        </div>
+        <Swiper
+          modules={[Navigation, Autoplay, Pagination]}
+          autoplay={{
+            delay: 2500,
+            disableOnInteraction: false,
+          }}
+          loop={true}
+          pagination={{
+            clickable: true,
+          }}
+          spaceBetween={30}
+          slidesPerView={1}
+          navigation={{
+            prevEl: '.trending-swiper-button-prev',
+            nextEl: '.trending-swiper-button-next',
+          }}
+          breakpoints={{
+            640: {
+              slidesPerView: 2
+            },
+            1024: {
+              slidesPerView: 3
+            },
+            1280: {
+              slidesPerView: 4
+            }
+          }}
+        >
+          {services.map((service, index) => (
+            <SwiperSlide key={index}>
+              {/* Service item with consistent height */}
+              <div className="service-item rounded-lg shadow-lg transition-all duration-300 hover:shadow-xl relative overflow-hidden group h-80">
+                {/* Container with fixed height */}
+                <div className="w-full h-full relative">
+                  {/* Image that fills the container while maintaining aspect ratio */}
+                  <img 
+                    src={service.img} 
+                    alt={service.title} 
+                    className="w-full h-full object-cover transition-transform duration-500 "
+                  />
+                  
+                  {/* Dark overlay that appears on hover */}
+                  <div className="absolute bottom-0 left-0 w-full h-0 bg-black opacity-40 group-hover:opacity-40 transition-all group-hover:h-full duration-300"></div>
+                  
+                  {/* Title positioned at the bottom */}
+                  <h5 className="text-2xl font-bold absolute bottom-6 left-6 text-white z-10">{service.title}</h5>
+                </div>
+              </div>
+            </SwiperSlide>
+          ))}
+        </Swiper>
       </div>
+    
+
+    </section>
+
+
+
     </>
 
+      
+        
   );
 };
 
