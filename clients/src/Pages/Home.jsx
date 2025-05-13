@@ -1,7 +1,58 @@
 import React, { useState, useRef, useEffect } from 'react'; // Added useRef and useEffect
 import '../assets/css/Home.css';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation,Autoplay,Pagination } from 'swiper/modules';
+
+
+// Install Swiper modules
+import 'swiper/css';
+import 'swiper/css/navigation';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+import serivces1 from '../assets/images/serivces1.png'
+import serivces2 from '../assets/images/serivces2.png'
+import serivces3 from '../assets/images/serivces3.png'
+import serivces4 from '../assets/images/serivces4.png'
+import serivces5 from '../assets/images/serivces5.png'
 
 const MarketplaceBanner = () => {
+
+   const services = [
+    {
+      // icon: 'flaticon-accounting',
+      img:serivces1,
+      title: 'Audio & Video Editing',
+      // jobs: 324
+    },
+    {
+      // icon: 'flaticon-graduation-cap',
+      img:serivces2,
+      title: 'Product & Branding Design',
+      // jobs: 573
+    },
+    {
+      // icon: 'flaticon-planning',
+      img:serivces3,
+      title: 'Admin & Customer Support',
+      // jobs: 125
+    },
+    {
+      // icon: 'flaticon-programming',
+      img:serivces4,
+      title: 'WordPress Developement',
+      // jobs: 445
+    },
+    {
+      img:serivces5,
+      title: 'Healthcare',
+      // jobs: 254
+    },
+    // {
+    //   icon: 'flaticon-car',
+    //   title: 'Automotive',
+    //   jobs: 87
+    // }
+  ];
+
   const [openAccordion, setOpenAccordion] = useState('seamless-search');
   const [heights, setHeights] = useState({});
   const contentRefs = {
@@ -38,7 +89,8 @@ const MarketplaceBanner = () => {
   };
 
   return (
-    <div className="px-33">
+    // <div className="px-33">
+      <>
       <div className="flex items-center justify-between   bg-white">
         <div className="w-1/2 pr-8">
           <h1 className="text-7xl font-bold text-green-800 mb-6">
@@ -408,7 +460,88 @@ const MarketplaceBanner = () => {
           </div>
         </div>
       </section>
-    </div>
+    {/* </div> */}
+
+    {/*  */}
+
+     <section className="trending-services-section py-20 bg-gray-100">
+      <div className="container mx-auto px-4">
+        <div className="section-heading mb-12">
+          <div className="flex items-center justify-between mb-8">
+            <div>
+              <h5 className="text-4xl font-bold mt-2 text-green-800">Trending Services</h5>
+            </div>
+            {/* Navigation buttons */}
+            <div className="flex items-center space-x-4">
+              <div className="trending-swiper-button-prev cursor-pointer bg-white w-10 h-10 flex items-center justify-center shadow-md rounded-md">
+                <ChevronLeft className='text-green-700'/>
+              </div>
+              <div className="trending-swiper-button-next cursor-pointer bg-white w-10 h-10 flex items-center justify-center shadow-md rounded-md">
+                <ChevronRight className='text-green-700'/>
+              </div>
+            </div>
+          </div>
+        </div>
+        <Swiper
+          modules={[Navigation, Autoplay, Pagination]}
+          autoplay={{
+            delay: 2500,
+            disableOnInteraction: false,
+          }}
+          loop={true}
+          pagination={{
+            clickable: true,
+          }}
+          spaceBetween={30}
+          slidesPerView={1}
+          navigation={{
+            prevEl: '.trending-swiper-button-prev',
+            nextEl: '.trending-swiper-button-next',
+          }}
+          breakpoints={{
+            640: {
+              slidesPerView: 2
+            },
+            1024: {
+              slidesPerView: 3
+            },
+            1280: {
+              slidesPerView: 4
+            }
+          }}
+        >
+          {services.map((service, index) => (
+            <SwiperSlide key={index}>
+              {/* Service item with consistent height */}
+              <div className="service-item rounded-lg shadow-lg transition-all duration-300 hover:shadow-xl relative overflow-hidden group h-80">
+                {/* Container with fixed height */}
+                <div className="w-full h-full relative">
+                  {/* Image that fills the container while maintaining aspect ratio */}
+                  <img 
+                    src={service.img} 
+                    alt={service.title} 
+                    className="w-full h-full object-cover transition-transform duration-500 "
+                  />
+                  
+                  {/* Dark overlay that appears on hover */}
+                  <div className="absolute bottom-0 left-0 w-full h-0 bg-black opacity-40 group-hover:opacity-40 transition-all group-hover:h-full duration-300"></div>
+                  
+                  {/* Title positioned at the bottom */}
+                  <h5 className="text-2xl font-bold absolute bottom-6 left-6 text-white z-10">{service.title}</h5>
+                </div>
+              </div>
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      </div>
+    </section>
+
+
+
+    </>
+
+      
+        
   );
 };
 
