@@ -166,8 +166,7 @@ const MarketplaceBanner = () => {
   };
 
   return (
-    
-
+    <>
       <div className="flex items-center justify-between px-33 py-16 bg-white">
         <div className="w-1/2 pr-8">
           <h1 className="text-7xl font-bold text-green-800 mb-6">
@@ -667,9 +666,9 @@ const MarketplaceBanner = () => {
 
 
 
-    </>
+    </div>
 
-      
+      </>
         
   );
 };
