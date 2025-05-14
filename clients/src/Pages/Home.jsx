@@ -13,6 +13,10 @@ import serivces2 from '../assets/images/serivces2.png'
 import serivces3 from '../assets/images/serivces3.png'
 import serivces4 from '../assets/images/serivces4.png'
 import serivces5 from '../assets/images/serivces5.png'
+import Image1 from '../assets/images/img 23.png';
+import Image2 from '../assets/images/img 20.png';
+import Image3 from '../assets/images/img 21.png';
+import Image4 from '../assets/images/img 22.png';
 
 const MarketplaceBanner = () => {
   const [hoveredIndex, setHoveredIndex] = useState(null);
@@ -307,14 +311,14 @@ const MarketplaceBanner = () => {
                     <div className="bg-white rounded-lg shadow-md mb-4 p-3 flex items-center">
                       <input
                         type="text"
-                        placeholder="Designer, Brand, Logo designer"
-                        className="w-full outline-none text-sm"
+                        placeholder="Designer, Brand, Logo designer "
+                        className="w-full outline-none text-sm placeholder-black"
                       />
-                      <button className="text-gray-400 ml-2">×</button>
+                      <button className="text-black font-bold ml-5 text-xl">×</button>
                     </div>
 
                     {/* Search Button */}
-                    <div className="absolute right-0 top-0 translate-x-1/4 -translate-y-1/4">
+                    <div className="absolute right-0 md:top-12 top-0 translate-x-1/4 -translate-y-1/4">
                       <button className="bg-green-500 text-white p-3 rounded-lg shadow-lg">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -340,7 +344,7 @@ const MarketplaceBanner = () => {
                         <div className="flex items-center">
                           <div className="w-10 h-10 rounded-full bg-purple-100 overflow-hidden mr-3">
                             <img
-                              src="/api/placeholder/40/40"
+                              src={Image1}
                               alt="Profile"
                               className="w-full h-full object-cover"
                             />
@@ -351,10 +355,10 @@ const MarketplaceBanner = () => {
                           </div>
                         </div>
                         <div className="flex flex-col items-end text-xs">
-                          <button className="bg-gray-100 px-2 py-1 rounded text-xs">
+                          <button className="bg-green-100 px-2 py-1 rounded text-xs">
                             HIRE ME
                           </button>
-                          <span className="text-gray-500 mt-1">From California</span>
+                          <span className="text-blck mt-1 text-sm"><span className='text-gray-400'>From </span> California</span>
                         </div>
                       </div>
 
@@ -363,7 +367,7 @@ const MarketplaceBanner = () => {
                         <div className="flex items-center">
                           <div className="w-10 h-10 rounded-full bg-yellow-100 overflow-hidden mr-3">
                             <img
-                              src="/api/placeholder/40/40"
+                              src={Image2}
                               alt="Profile"
                               className="w-full h-full object-cover"
                             />
@@ -374,10 +378,10 @@ const MarketplaceBanner = () => {
                           </div>
                         </div>
                         <div className="flex flex-col items-end text-xs">
-                          <button className="bg-gray-100 px-2 py-1 rounded text-xs">
+                          <button className="bg-green-100 px-2 py-1 rounded text-xs">
                             HIRE ME
                           </button>
-                          <span className="text-gray-500 mt-1">From Bangladesh</span>
+                          <span className="text-blck mt-1 text-sm"><span className='text-gray-400'>From </span> Bangladesh</span>
                         </div>
                       </div>
 
@@ -386,7 +390,7 @@ const MarketplaceBanner = () => {
                         <div className="flex items-center">
                           <div className="w-10 h-10 rounded-full bg-green-100 overflow-hidden mr-3">
                             <img
-                              src="/api/placeholder/40/40"
+                              src={Image3}
                               alt="Profile"
                               className="w-full h-full object-cover"
                             />
@@ -397,10 +401,10 @@ const MarketplaceBanner = () => {
                           </div>
                         </div>
                         <div className="flex flex-col items-end text-xs">
-                          <button className="bg-gray-100 px-2 py-1 rounded text-xs">
+                          <button className="bg-green-100 px-2 py-1 rounded text-xs">
                             HIRE ME
                           </button>
-                          <span className="text-gray-500 mt-1">From Norway</span>
+                          <span className="text-blck mt-1 text-sm"><span className='text-gray-400'>From </span> Norway</span>
                         </div>
                       </div>
 
@@ -409,7 +413,7 @@ const MarketplaceBanner = () => {
                         <div className="flex items-center">
                           <div className="w-10 h-10 rounded-full bg-pink-100 overflow-hidden mr-3">
                             <img
-                              src="/api/placeholder/40/40"
+                              src={Image4}
                               alt="Profile"
                               className="w-full h-full object-cover"
                             />
@@ -420,10 +424,10 @@ const MarketplaceBanner = () => {
                           </div>
                         </div>
                         <div className="flex flex-col items-end text-xs">
-                          <button className="bg-gray-100 px-2 py-1 rounded text-xs">
+                          <button className="bg-green-100 px-2 py-1 rounded text-xs">
                             HIRE ME
                           </button>
-                          <span className="text-gray-500 mt-1">From Turkey</span>
+                          <span className="text-blck mt-1 text-sm"><span className='text-gray-400'>From </span>Turkey</span>
                         </div>
                       </div>
                     </div>
