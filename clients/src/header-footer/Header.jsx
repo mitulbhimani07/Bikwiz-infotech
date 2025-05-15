@@ -32,7 +32,7 @@ const Header = () => {
               Log In
             </a>
             <a
-              href="#"
+              href="/joinas"
               className="bg-orange-500 hover:bg-orange-600 text-white text-[16px] font-medium py-2 px-5 rounded-full transition"
             >
               Sign Up
@@ -69,7 +69,7 @@ const Header = () => {
               Log In
             </a>
             <a
-              href="#"
+              href="/joinas"
               className="bg-orange-500 hover:bg-orange-600 text-white text-[16px] font-medium py-2 px-5 rounded-full transition text-center"
             >
               Sign Up

@@ -2,7 +2,7 @@ import React from 'react';
 
 const Footer = () => {
   return (
-    <footer className="bg-green-50 w-full py-8 md:py-12">
+    <footer className=" w-full py-8 md:py-12">
       <div className="max-w-7xl mx-auto px-4 md:px-8">
         {/* Grid Container */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 md:grid-cols-3 gap-8">
@@ -60,7 +60,7 @@ const Footer = () => {
                 placeholder="Enter your email*"
                 className="w-full p-2 border border-gray-300 rounded-md sm:rounded-l-md sm:rounded-r-none text-sm md:text-base focus:outline-none focus:ring-1 focus:ring-green-500"
               />
-              <button className="bg-green-900 text-white px-4 py-2 rounded-md sm:rounded-r-md sm:rounded-l-none text-sm md:text-base hover:bg-green-800 whitespace-nowrap">
+              <button className="bg-orange-500 text-white px-4 py-2 rounded-md sm:rounded-r-md sm:rounded-l-none text-sm md:text-base hover:bg-green-800 whitespace-nowrap">
                 Send
               </button>
             </div>

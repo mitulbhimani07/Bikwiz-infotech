@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
 
 
 export default function SMEConnection() {
@@ -73,7 +74,9 @@ export default function SMEConnection() {
           }`}
           disabled={!selected}
         >
-          Create Account
+          <Link to="/signup">
+            Create Account
+          </Link>
         </button>
         
         {/* Login link */}
