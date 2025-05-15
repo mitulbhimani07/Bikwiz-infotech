@@ -22,6 +22,35 @@ import '../App.css'
 const MarketplaceBanner = () => {
   const [hoveredIndex, setHoveredIndex] = useState(null);
   const [isHovered, setIsHovered] = useState(false);
+  
+
+  const steps = [
+    {
+      number: "01",
+      title: "Easy Sign Up",
+      icon: "cursor-pointer",
+      content: "Create your profile as a freelancer or client in just a few clicks."
+    },
+    {
+      number: "02",
+      title: "Post or Find Projects",
+      icon: "users",
+      content: "List your services or browse freelance jobs in India that match your skills."
+    },
+    {
+      number: "03",
+      title: "Work Together Seamlessly",
+      icon: "document-text",
+      content: "Use our built-in chat to communicate, share files, and manage projects easily."
+    },
+    {
+      number: "04",
+      title: "Get Paid Instantly",
+      icon: "template",
+      content: "Enjoy hassle-free, instant payments with complete security."
+    }
+  ];
+
 
 
   const services = [
@@ -177,7 +206,8 @@ const MarketplaceBanner = () => {
             </button>
           </div>
         </div>
-      </section>      {/* // =================card================== */}
+      </section>
+      {/* // =================card================== */}
       <section className="trending-services-section py-20">
         <div className="container mx-auto px-4 md:px-10">
           {/* Heading and navigation */}
@@ -239,6 +269,122 @@ const MarketplaceBanner = () => {
           </Swiper>
         </div>
       </section>
+
+
+      <section className="w-full py-20 bg-gray-50">
+        <div className="max-w-6xl mx-auto px-6">
+          {/* Header */}
+          <div className="flex justify-between items-center mb-16">
+            <h2 className="text-5xl font-bold text-gray-900">How Our Freelancing Platform Works</h2>
+            <div className="flex items-center text-sm text-gray-500">
+              <span className="mr-3 font-medium">By designership.com</span>
+              <div
+                className="w-14 h-14 rounded-lg flex items-center justify-center"
+                style={{ backgroundColor: 'oklch(70.5% 0.213 47.604)' }}
+              >
+                <svg viewBox="0 0 24 24" width="28" height="28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M13 9L16 12L13 15M8 9L11 12L8 15" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          {/* Progress Bar - Hidden circles but keep step buttons */}
+          <div className="mb-16">
+            <div className="flex justify-between items-center relative">
+              {steps.map((step, index) => (
+                <div key={index} className="flex flex-col items-center relative z-10">
+                  <button
+                    className={`w-16 h-16 rounded-lg flex items-center justify-center text-lg font-bold ${parseInt(step.number) === 1 ?
+                      'text-white' :
+                      'bg-white text-gray-500 border-2 border-gray-200'
+                      }`}
+                    style={{
+                      backgroundColor: parseInt(step.number) === 1 ? 'oklch(70.5% 0.213 47.604)' : 'transparent'
+                    }}
+                  >
+                    {parseInt(step.number) === 1 ? (
+                      <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                      </svg>
+                    ) : (
+                      step.number
+                    )}
+                  </button>
+                </div>
+              ))}
+
+              {/* Line connecting the squares - behind the buttons */}
+              <div className="absolute h-1 bg-gray-200 top-8 left-0 right-0 z-0">
+                <div className="h-full z-0" style={{ width: '8%', backgroundColor: 'oklch(70.5% 0.213 47.604)' }}></div>
+              </div>
+            </div>
+          </div>
+
+          {/* Cards - 4 cards */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {steps.map((step, index) => (
+              <div key={index} className="bg-white p-8 shadow-lg h-96 flex flex-col">
+                <div className="mb-6">
+                  {index === 0 && (
+                    <div className="w-16 h-16 rounded-lg flex items-center justify-center" style={{ backgroundColor: 'oklch(90% 0.05 47.604)' }}>
+                      <svg width="36" height="36" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 20L10.6464 13.3536C11.0369 12.9631 11.0369 12.3303 10.6464 11.9397L7 8.29289M17 4L10.6464 10.3536C10.2559 10.7441 10.2559 11.3769 10.6464 11.7675L14 15.1213" stroke="oklch(70.5% 0.213 47.604)" strokeWidth="1.8" strokeLinecap="round" />
+                      </svg>
+                    </div>
+                  )}
+                  {index === 1 && (
+                    <div className="w-16 h-16 rounded-lg flex items-center justify-center" style={{ backgroundColor: 'oklch(90% 0.05 47.604)' }}>
+                      <svg width="36" height="36" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M16 7C16 9.20914 14.2091 11 12 11C9.79086 11 8 9.20914 8 7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7Z" stroke="oklch(70.5% 0.213 47.604)" strokeWidth="1.8" />
+                        <path d="M12 14C8.13401 14 5 17.134 5 21H19C19 17.134 15.866 14 12 14Z" stroke="oklch(70.5% 0.213 47.604)" strokeWidth="1.8" />
+                      </svg>
+                    </div>
+                  )}
+                  {index === 2 && (
+                    <div className="w-16 h-16 rounded-lg flex items-center justify-center" style={{ backgroundColor: 'oklch(90% 0.05 47.604)' }}>
+                      <svg width="36" height="36" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M16 15.2V19.5C16 20.0523 15.5523 20.5 15 20.5H5C4.44772 20.5 4 20.0523 4 19.5V8.5C4 7.94772 4.44772 7.5 5 7.5H15C15.5523 7.5 16 7.94772 16 8.5V11" stroke="oklch(70.5% 0.213 47.604)" strokeWidth="1.8" />
+                        <path d="M16 3.5L16 11.5" stroke="oklch(70.5% 0.213 47.604)" strokeWidth="1.8" />
+                        <path d="M8 15L10 17L16 11" stroke="oklch(70.5% 0.213 47.604)" strokeWidth="1.8" />
+                      </svg>
+                    </div>
+                  )}
+                  {index === 3 && (
+                    <div className="w-16 h-16 rounded-lg flex items-center justify-center" style={{ backgroundColor: 'oklch(90% 0.05 47.604)' }}>
+                      <svg width="36" height="36" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="4" y="4" width="16" height="16" rx="2" stroke="oklch(70.5% 0.213 47.604)" strokeWidth="1.8" />
+                        <circle cx="9" cy="9" r="2" stroke="oklch(70.5% 0.213 47.604)" strokeWidth="1.8" />
+                      </svg>
+                    </div>
+                  )}
+                </div>
+                <div className="text-sm font-semibold uppercase text-gray-500 tracking-wide mb-2">STEP {index + 1}</div>
+                <h3 className="text-2xl font-bold text-gray-900 mb-2">{step.title}</h3>
+
+                <p className="mt-3 text-lg text-gray-600 flex-grow leading-relaxed">{step.content}</p>
+
+                {index === 0 && (
+                  <button
+                    className="mt-auto px-6 py-3 text-white rounded-lg flex items-center justify-center text-lg font-medium w-48 h-14 transition-colors hover:bg-opacity-90"
+                    style={{ backgroundColor: 'oklch(70.5% 0.213 47.604)' }}
+                  >
+                    Learn More
+                    <svg className="ml-2" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </button>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+
+
+
+
 
       <div className="relative py-14 px-4 sm:px-6 lg:px-8  overflow-hidden">
 
