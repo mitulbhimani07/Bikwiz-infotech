@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 export default function SignUp() {
     const [theme, setTheme] = useState('light');
@@ -40,7 +41,7 @@ export default function SignUp() {
             <div className={`max-w-3xl w-full p-8 rounded-lg ${bgColor} ${textColor} transition-colors duration-300`}>
                 <div className="flex justify-between items-center mb-6">
                     <div className="flex items-center">
-                        <div className="h-8 w-8 rounded-full bg-green-600 flex items-center justify-center">
+                        <div className="h-8 w-8 rounded-ful l bg-orange-600 flex items-center justify-center">
                             <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
                             </svg>
@@ -227,7 +228,7 @@ export default function SignUp() {
                     <div className={`${bgColor} px-3 relative text-sm ${theme === 'light' ? 'text-gray-500' : 'text-gray-400'}`}>OR</div>
                 </div>
 
-                <div className="space-y-3">
+                <div className=" gap-6 flex">
                     <button
                         type="button"
                         className={`w-full flex justify-center items-center py-3 px-4 border ${inputBorderColor} rounded-md shadow-sm ${inputBgColor} text-sm font-medium ${textColor} hover:bg-gray-50 dark:hover:bg-orange-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 hover:text-amber-50 transition-colors duration-200`}
@@ -253,7 +254,9 @@ export default function SignUp() {
                     <p className={`text-sm ${theme === 'light' ? 'text-gray-600' : 'text-gray-400'}`}>
                         Already have an account?{' '}
                         <a href="#" className="text-orange-500 font-medium hover:underline">
-                            Log In
+                            <Link to="/login">
+                                Log In
+                            </Link>
                         </a>
                     </p>
                 </div>
