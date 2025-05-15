@@ -13,3 +13,10 @@
     background: #ededed; /* Light blue on hover */
     /* box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2); */
   }
+  .banner-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.6); /* Dark transparent overlay */
+  z-index: 1;
+}
