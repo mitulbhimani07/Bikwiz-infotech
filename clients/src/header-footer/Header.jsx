@@ -28,7 +28,7 @@ const Header = () => {
 
           {/* Buttons - Desktop */}
           <div className="hidden md:flex items-center space-x-4">
-            <a href="#" className="text-[16px] font-medium text-gray-800 hover:text-orange-500">
+            <a href="/login" className="text-[16px] font-medium text-gray-800 hover:text-orange-500">
               Log In
             </a>
             <a
@@ -65,7 +65,7 @@ const Header = () => {
           </nav>
 
           <div className="flex flex-col space-y-4 mt-8">
-            <a href="#" className="text-[16px] font-medium text-gray-800 hover:text-orange-500 py-2">
+            <a href="/login" className="text-[16px] font-medium text-gray-800 hover:text-orange-500 py-2">
               Log In
             </a>
             <a
