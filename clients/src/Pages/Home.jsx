@@ -19,6 +19,8 @@ import Image3 from '../assets/images/img 21.png';
 import Image4 from '../assets/images/img 22.png';
 import banner from '../assets/images/banner.jpg';
 import '../App.css'
+import Footer from '../header-footer/Footer';
+import Header from '../header-footer/Header';
 // import { useNavigate } from 'react-router-dom';
 
 const MarketplaceBanner = () => {
@@ -174,6 +176,7 @@ const MarketplaceBanner = () => {
 
   return (
     <>
+      <Header />
       <section
         className="banner-section relative w-[95%] mx-auto h-[610px] flex items-center justify-center bg-cover bg-center my-5"
         style={{ backgroundImage: `url(${banner})`, borderRadius: "20px", overflow: "hidden" }}
@@ -608,6 +611,7 @@ const MarketplaceBanner = () => {
 
 
       </div>
+      <Footer />
 
     </>
 
