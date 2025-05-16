@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 export default function SignUp() {
     const [theme, setTheme] = useState('light');
@@ -11,6 +12,12 @@ export default function SignUp() {
     const [country, setCountry] = useState('');
     const [agreedToTerms, setAgreedToTerms] = useState(false);
     const [receiveEmails, setReceiveEmails] = useState(false);
+
+     const { search } = useLocation();
+  const params = new URLSearchParams(search);
+  const selected = params.get('selected') || '';
+
+  console.log("selected------",selected)
 
     const toggleTheme = () => {
         setTheme(theme === 'light' ? 'dark' : 'light');
@@ -106,7 +113,7 @@ export default function SignUp() {
                             </div>
                         </div>
 
-                        <div>
+                            {selected=='client' ? <div>
                             <label htmlFor="workEmail" className="block text-sm font-medium mb-1">
                                 Work Email
                             </label>
@@ -118,7 +125,23 @@ export default function SignUp() {
                                 className={`appearance-none block w-full px-3 py-3 border ${inputBorderColor} rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 ${inputBgColor} transition-colors duration-200`}
                                 placeholder="john.doe@company.com"
                             />
-                        </div>
+                        </div>:( <div>
+                        <label htmlFor="workEmail" className="block text-sm font-medium mb-1">
+                             Email
+                        </label>
+                        <input
+                            id="workEmail"
+                            type="email"
+                            value={workEmail}
+                            onChange={(e) => setWorkEmail(e.target.value)}
+                            className={`appearance-none block w-full px-3 py-3 border ${inputBorderColor} rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 ${inputBgColor} transition-colors duration-200`}
+                            placeholder="john.doe@company.com"
+                        />
+                    </div>)
+                        }
+                    
+
+                   
 
                         <div>
                             <div className="flex items-center justify-between mb-1">

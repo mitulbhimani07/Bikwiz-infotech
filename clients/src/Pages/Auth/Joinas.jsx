@@ -1,9 +1,15 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 
 export default function SMEConnection() {
   const [selected, setSelected] = useState('')
+  const navigate=useNavigate()
+  console.log("selected",selected)
+
+  const handleNext =()=>{
+    navigate(`/signup?selected=${selected}`);
+  }
 
   return (
     <div className="container mx-auto px-4 py-8 font-sans">
@@ -20,9 +26,9 @@ export default function SMEConnection() {
         <div className="flex flex-col md:flex-row gap-6 justify-center mb-10">
           {/* Expert card */}
           <div
-            className={`border rounded-lg px-20 py-10 flex flex-col items-center cursor-pointer transition relative ${selected === 'expert' ? 'border-[#F54900] shadow-md' : 'border-gray-200 hover:border-gray-300'
+            className={`border rounded-lg px-20 py-10 flex flex-col items-center cursor-pointer transition relative ${selected === 'client' ? 'border-[#F54900] shadow-md' : 'border-gray-200 hover:border-gray-300'
               }`}
-            onClick={() => setSelected('expert')}
+            onClick={() => setSelected('client')}
           >
             <div className="mb-6">
               <div className="w-12 h-12 bg-orange-50 rounded-full flex items-center justify-center">
@@ -37,15 +43,15 @@ export default function SMEConnection() {
 
             {/* Selection circle */}
             <div className="absolute top-4 right-4 w-6 h-6 border border-gray-300 rounded-full flex items-center justify-center">
-              {selected === 'expert' && <div className="w-4 h-4 bg-[#F54900] rounded-full"></div>}
+              {selected === 'client' && <div className="w-4 h-4 bg-[#F54900] rounded-full"></div>}
             </div>
           </div>
 
           {/* Business card */}
           <div
-            className={`border rounded-lg px-20 py-10 flex flex-col items-center cursor-pointer transition relative ${selected === 'business' ? 'border-[#F54900] shadow-md' : 'border-gray-200 hover:border-gray-300'
+            className={`border rounded-lg px-20 py-10 flex flex-col items-center cursor-pointer transition relative ${selected === 'freelencer' ? 'border-[#F54900] shadow-md' : 'border-gray-200 hover:border-gray-300'
               }`}
-            onClick={() => setSelected('business')}
+            onClick={() => setSelected('freelencer')}
           >
             <div className="mb-6">
               <div className="w-12 h-12 bg-orange-50 rounded-full flex items-center justify-center">
@@ -60,7 +66,7 @@ export default function SMEConnection() {
 
             {/* Selection circle */}
             <div className="absolute top-4 right-4 w-6 h-6 border border-gray-300 rounded-full flex items-center justify-center">
-              {selected === 'business' && <div className="w-4 h-4 bg-[#F54900] rounded-full"></div>}
+              {selected === 'freelencer' && <div className="w-4 h-4 bg-[#F54900] rounded-full"></div>}
             </div>
           </div>
         </div>
@@ -70,10 +76,11 @@ export default function SMEConnection() {
           className={`px-6 py-3 rounded-md font-medium text-lg transition ${selected ? 'bg-[#F54900] text-white hover:bg-orange-700' : 'bg-gray-200 text-gray-500 cursor-not-allowed'
             }`}
           disabled={!selected}
+          onClick={handleNext}
         >
-          <Link to="/signup">
+          
             Create Account
-          </Link>
+         
         </button>
 
         {/* Login link */}
