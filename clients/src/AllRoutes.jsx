@@ -4,6 +4,9 @@ import Home from './Pages/Home'
 import Joinas from './Pages/Auth/Joinas'
 import SignUp from './Pages/Auth/SingUp'
 import SignIn from './Pages/Auth/SignIn'
+import VerifyEmail from './Pages/Auth/ForgotPassword/verifyEmail'
+import VerifyOTP from './Pages/Auth/ForgotPassword/VerifyOTP'
+import ResetPassword from './Pages/Auth/ForgotPassword/ResetPassword'
 function AllRoutes() {
   return (
     <div>
@@ -13,6 +16,10 @@ function AllRoutes() {
           <Route path='/joinas' element={<Joinas/>}/>
           <Route path='/signup' element={<SignUp/>}/>
           <Route path='/login' element={<SignIn/>}/>
+          {/* ForgotPassword  */}
+          <Route path='/verifyemail' element={<VerifyEmail/>}/>
+          <Route path='/verifyotp' element={<VerifyOTP/>}/>
+          <Route path='/resetpassword' element={<ResetPassword/>}/>
         </Routes>
     </div>
   )
