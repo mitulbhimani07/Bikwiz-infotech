@@ -4,9 +4,9 @@ import Home from './Pages/Home'
 import Joinas from './Pages/Auth/Joinas'
 import SignUp from './Pages/Auth/SingUp'
 import SignIn from './Pages/Auth/SignIn'
-import VerifyEmail from './Pages/Auth/ForgotPassword/verifyEmail'
-import VerifyOTP from './Pages/Auth/ForgotPassword/VerifyOTP'
-import ResetPassword from './Pages/Auth/ForgotPassword/ResetPassword'
+import VerifyEmail from './Pages/Auth/verifyEmail'
+import VerifyOTP from './Pages/Auth/VerifyOTP'
+import ResetPassword from './Pages/Auth/ResetPassword'
 function AllRoutes() {
   return (
     <div>
