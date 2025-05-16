@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { FiMenu, FiX } from 'react-icons/fi';
+import { Link } from 'react-router-dom';
 
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -14,29 +15,29 @@ const Header = () => {
         <div className="max-w-[1440px] mx-auto px-6 py-4 flex justify-between items-center">
           {/* Logo */}
           <div className="text-lg font-semibold text-gray-800">
-            Bikwiz Infotech
+            <Link to="/">Bikwiz Infotech</Link>
           </div>
 
           {/* Nav Links - Desktop */}
           <nav className="hidden md:flex space-x-6 text-[16px] font-medium text-gray-700">
-            <a href="#" className="hover:text-orange-500">Home</a>
-            <a href="#" className="hover:text-orange-500">About Us</a>
-            <a href="#" className="hover:text-orange-500">Find Talent</a>
-            <a href="#" className="hover:text-orange-500">Find Work</a>
-            <a href="#" className="hover:text-orange-500">Blog</a>
+            <Link to="/" className="hover:text-orange-500">Home</Link>
+            <Link to="/about" className="hover:text-orange-500">About Us</Link>
+            <Link to="/find-talent" className="hover:text-orange-500">Find Talent</Link>
+            <Link to="/find-work" className="hover:text-orange-500">Find Work</Link>
+            <Link to="/blog" className="hover:text-orange-500">Blog</Link>
           </nav>
 
           {/* Buttons - Desktop */}
           <div className="hidden md:flex items-center space-x-4">
-            <a href="/login" className="text-[16px] font-medium text-gray-800 hover:text-orange-500">
+            <Link to="/login" className="text-[16px] font-medium text-gray-800 hover:text-orange-500">
               Log In
-            </a>
-            <a
-              href="/joinas"
+            </Link>
+            <Link
+              to="/joinas"
               className="bg-orange-500 hover:bg-orange-600 text-white text-[16px] font-medium py-2 px-5 rounded-full transition"
             >
               Sign Up
-            </a>
+            </Link>
           </div>
 
           {/* Mobile Menu Button */}
@@ -57,23 +58,23 @@ const Header = () => {
       >
         <div className="flex flex-col h-full pt-20 px-6">
           <nav className="flex flex-col space-y-6 text-[16px] font-medium text-gray-700">
-            <a href="#" className="hover:text-orange-500 py-2 border-b border-gray-100">Home</a>
-            <a href="#" className="hover:text-orange-500 py-2 border-b border-gray-100">About Us</a>
-            <a href="#" className="hover:text-orange-500 py-2 border-b border-gray-100">Find Talent</a>
-            <a href="#" className="hover:text-orange-500 py-2 border-b border-gray-100">Find Work</a>
-            <a href="#" className="hover:text-orange-500 py-2 border-b border-gray-100">Blog</a>
+            <Link to="/" className="hover:text-orange-500 py-2 border-b border-gray-100">Home</Link>
+            <Link to="/about" className="hover:text-orange-500 py-2 border-b border-gray-100">About Us</Link>
+            <Link to="/find-talent" className="hover:text-orange-500 py-2 border-b border-gray-100">Find Talent</Link>
+            <Link to="/find-work" className="hover:text-orange-500 py-2 border-b border-gray-100">Find Work</Link>
+            <Link to="/blog" className="hover:text-orange-500 py-2 border-b border-gray-100">Blog</Link>
           </nav>
 
           <div className="flex flex-col space-y-4 mt-8">
-            <a href="/login" className="text-[16px] font-medium text-gray-800 hover:text-orange-500 py-2">
+            <Link to="/login" className="text-[16px] font-medium text-gray-800 hover:text-orange-500 py-2">
               Log In
-            </a>
-            <a
-              href="/joinas"
+            </Link>
+            <Link
+              to="/joinas"
               className="bg-orange-500 hover:bg-orange-600 text-white text-[16px] font-medium py-2 px-5 rounded-full transition text-center"
             >
               Sign Up
-            </a>
+            </Link>
           </div>
         </div>
       </div>
