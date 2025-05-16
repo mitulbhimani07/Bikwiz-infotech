@@ -24,8 +24,35 @@ import Header from '../header-footer/Header';
 const MarketplaceBanner = () => {
   const [hoveredIndex, setHoveredIndex] = useState(null);
   const [isHovered, setIsHovered] = useState(false);
+  const sectionRef = useRef(null);
+  const progressBarRef = useRef(null);
   const [hoveredStep, setHoveredStep] = useState(0);
+  const [isSticky, setIsSticky] = useState(false);
+  const [sectionInView, setSectionInView] = useState(false);
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!progressBarRef.current) return;
+      const offsetTop = progressBarRef.current.offsetTop;
+      const scrollTop = window.scrollY;
+      setIsSticky(scrollTop > offsetTop);
+    };
 
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Section in view logic
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => setSectionInView(entry.isIntersecting),
+      { threshold: 0.3 }
+    );
+
+    if (sectionRef.current) observer.observe(sectionRef.current);
+    return () => {
+      if (sectionRef.current) observer.unobserve(sectionRef.current);
+    };
+  }, []);
 
 
   const steps = [
@@ -276,122 +303,139 @@ const MarketplaceBanner = () => {
       </section>
 
 
-      <section className="w-full py-20 ">
+      <section ref={sectionRef} className="w-full py-20 relative">
         <div className="max-w-6xl mx-auto px-6">
-          {/* Header */}
-          <div className="flex justify-between items-center mb-16">
-            <h2 className="text-5xl font-bold text-gray-900">How Our Freelancing Platform Works</h2>
-            <div className="flex items-center text-sm text-gray-500">
-              <span className="mr-3 font-medium">By designership.com</span>
-              <div
-                className="w-14 h-14 rounded-lg flex items-center justify-center"
-                style={{ backgroundColor: 'oklch(70.5% 0.213 47.604)' }}
-              >
-                <svg viewBox="0 0 24 24" width="28" height="28" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M13 9L16 12L13 15M8 9L11 12L8 15" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </div>
-            </div>
-          </div>
-
-          {/* Progress Bar */}
-          {/* Progress Bar */}
           <div className="mb-16">
-            <div className="relative flex justify-between items-center">
-              {/* Connecting line (behind buttons only between them) */}
-              <div className="absolute top-1/2 transform -translate-y-1/2 left-0 right-0 h-1 bg-gray-200 z-0 overflow-hidden">
-                <div
-                  className="h-full transition-all duration-300"
-                  style={{
-                    width: `${((hoveredStep - 1) / (steps.length - 1)) * 100}%`,
-                    backgroundColor: hoveredStep ? 'oklch(70.5% 0.213 47.604)' : 'transparent',
-                  }}
-                ></div>
-              </div>
+            <h2 className="text-5xl font-bold text-gray-900 text-center">
+              How Our Freelancing Platform Works
+            </h2>
+          </div>
 
-              {steps.map((step, index) => {
-                const isActive = hoveredStep > index;
-                return (
-                  <div key={index} className="relative z-10">
-                    <button
-                      className={`w-16 h-16 rounded-lg flex items-center justify-center text-lg font-bold transition-all duration-300 ${isActive ? 'text-white' : 'bg-white text-gray-500 border-2 border-gray-200'
-                        }`}
+          {/* Desktop horizontal progress bar */}
+          <div
+            ref={progressBarRef}
+            className="w-full transition-all duration-300 bg-white z-30 py-4 "
+          >
+            <div className="max-w-6xl mx-auto">
+              <div className="hidden md:block">
+                <div className="relative flex justify-between items-center">
+                  <div className="absolute top-1/2 transform -translate-y-1/2 left-0 right-0 h-1 bg-gray-200 z-0">
+                    <div
+                      className="h-full transition-all duration-300"
                       style={{
-                        backgroundColor: isActive ? 'oklch(70.5% 0.213 47.604)' : 'white',
+                        width: `${((hoveredStep - 1) / (steps.length - 1)) * 100}%`,
+                        backgroundColor: hoveredStep ? 'oklch(70.5% 0.213 47.604)' : 'transparent',
                       }}
-                    >
-                      {isActive ? (
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                          <polyline points="20 6 9 17 4 12"></polyline>
-                        </svg>
-                      ) : (
-                        step.number
-                      )}
-                    </button>
+                    ></div>
                   </div>
-                );
-              })}
+
+                  {steps.map((step, index) => {
+                    const isActive = hoveredStep > index;
+                    return (
+                      <div key={index} className="relative z-10">
+                        <button
+                          className={`w-16 h-16 rounded-lg flex items-center justify-center text-lg font-bold transition-all duration-300 ${isActive
+                              ? 'text-white'
+                              : 'bg-white text-gray-500 border-2 border-gray-200'
+                            }`}
+                          style={{
+                            backgroundColor: isActive ? 'oklch(70.5% 0.213 47.604)' : 'white',
+                          }}
+                          onMouseEnter={() => setHoveredStep(index + 1)}
+                          onMouseLeave={() => setHoveredStep(0)}
+                        >
+                          {isActive ? (
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                              <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                          ) : (
+                            step.number
+                          )}
+                        </button>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
             </div>
           </div>
 
+          {/* Spacer when sticky */}
+          {/* {isSticky && <div className="h-24 md:h-20"></div>} */}
 
-          {/* Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          {/* Mobile vertical progress bar (only when section is in view) */}
+          {sectionInView && (
+            <div className="md:hidden fixed right-3 top-1/2 transform -translate-y-1/2 z-40">
+              <div className="relative">
+                <div className="absolute top-0 bottom-0 left-4 w-1 bg-gray-200 z-0">
+                  <div
+                    className="w-full transition-all duration-300"
+                    style={{
+                      height: `${(hoveredStep / steps.length) * 100}%`,
+                      backgroundColor: hoveredStep ? 'oklch(70.5% 0.213 47.604)' : 'transparent',
+                    }}
+                  ></div>
+                </div>
+
+                {steps.map((step, index) => {
+                  const isActive = hoveredStep > index;
+                  return (
+                    <div
+                      key={index}
+                      className="flex items-start mb-6 relative z-10"
+                      onMouseEnter={() => setHoveredStep(index + 1)}
+                      onMouseLeave={() => setHoveredStep(0)}
+                    >
+                      <button
+                        className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all duration-300 ${isActive
+                            ? 'text-white'
+                            : 'bg-white text-gray-500 border-2 border-gray-200'
+                          }`}
+                        style={{
+                          backgroundColor: isActive ? 'oklch(70.5% 0.213 47.604)' : 'white',
+                        }}
+                      >
+                        {isActive ? (
+                          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                          </svg>
+                        ) : (
+                          index + 1
+                        )}
+                      </button>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
+          {/* Step Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mt-16">
             {steps.map((step, index) => (
               <div
                 key={index}
-                className="bg-white p-8 shadow-lg h-96 flex flex-col transition-all duration-300"
+                className={`bg-white p-8 shadow-lg h-96 flex flex-col transition-all duration-300 ${sectionInView ? 'pr-10' : ''
+                  }`}
                 onMouseEnter={() => setHoveredStep(index + 1)}
                 onMouseLeave={() => setHoveredStep(0)}
               >
                 <div className="mb-6">
                   <div className="w-16 h-16 rounded-lg flex items-center justify-center" style={{ backgroundColor: 'oklch(90% 0.05 47.604)' }}>
-                    {index === 0 && (
-                      <svg width="36" height="36" viewBox="0 0 24 24" fill="none">
-                        <path d="M4 20L10.6464 13.3536C11.0369 12.9631 11.0369 12.3303 10.6464 11.9397L7 8.29289M17 4L10.6464 10.3536C10.2559 10.7441 10.2559 11.3769 10.6464 11.7675L14 15.1213" stroke="oklch(70.5% 0.213 47.604)" strokeWidth="1.8" strokeLinecap="round" />
-                      </svg>
-                    )}
-                    {index === 1 && (
-                      <svg width="36" height="36" viewBox="0 0 24 24" fill="none">
-                        <path d="M16 7C16 9.20914 14.2091 11 12 11C9.79086 11 8 9.20914 8 7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7Z" stroke="oklch(70.5% 0.213 47.604)" strokeWidth="1.8" />
-                        <path d="M12 14C8.13401 14 5 17.134 5 21H19C19 17.134 15.866 14 12 14Z" stroke="oklch(70.5% 0.213 47.604)" strokeWidth="1.8" />
-                      </svg>
-                    )}
-                    {index === 2 && (
-                      <svg width="36" height="36" viewBox="0 0 24 24" fill="none">
-                        <path d="M16 15.2V19.5C16 20.0523 15.5523 20.5 15 20.5H5C4.44772 20.5 4 20.0523 4 19.5V8.5C4 7.94772 4.44772 7.5 5 7.5H15C15.5523 7.5 16 7.94772 16 8.5V11" stroke="oklch(70.5% 0.213 47.604)" strokeWidth="1.8" />
-                        <path d="M16 3.5L16 11.5" stroke="oklch(70.5% 0.213 47.604)" strokeWidth="1.8" />
-                        <path d="M8 15L10 17L16 11" stroke="oklch(70.5% 0.213 47.604)" strokeWidth="1.8" />
-                      </svg>
-                    )}
-                    {index === 3 && (
-                      <svg width="36" height="36" viewBox="0 0 24 24" fill="none">
-                        <rect x="4" y="4" width="16" height="16" rx="2" stroke="oklch(70.5% 0.213 47.604)" strokeWidth="1.8" />
-                        <circle cx="9" cy="9" r="2" stroke="oklch(70.5% 0.213 47.604)" strokeWidth="1.8" />
-                      </svg>
-                    )}
+                    {/* Icons per step - you can add your SVGs here */}
+                    <span className="text-xl font-bold text-oklch(70.5% 0.213 47.604)">{step.number}</span>
                   </div>
                 </div>
                 <div className="text-sm font-semibold uppercase text-gray-500 tracking-wide mb-2">STEP {index + 1}</div>
                 <h3 className="text-2xl font-bold text-gray-900 mb-2">{step.title}</h3>
                 <p className="mt-3 text-lg text-gray-600 flex-grow leading-relaxed">{step.content}</p>
-
-                {/* {index === 0 && (
-                <button
-                  className="mt-auto px-6 py-3 text-white rounded-lg flex items-center justify-center text-lg font-medium w-48 h-14 transition-colors hover:bg-opacity-90"
-                  style={{ backgroundColor: 'oklch(70.5% 0.213 47.604)' }}
-                >
-                  Learn More
-                  <svg className="ml-2" width="20" height="20" viewBox="0 0 24 24" fill="none">
-                    <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </button>
-              )} */}
               </div>
             ))}
           </div>
         </div>
       </section>
+
+
 
 
 
@@ -453,7 +497,7 @@ const MarketplaceBanner = () => {
 
 
       <div className="w-full py-12 bg-white">
-        <div className="max-w-7xl mx-auto">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header */}
           <div className="text-center mb-10">
             <p className="text-orange-500 font-medium mb-2">3940+ Happy Users</p>
@@ -461,11 +505,11 @@ const MarketplaceBanner = () => {
           </div>
 
           {/* Testimonials Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-12">
             {testimonials.map((testimonial) => (
-              <div key={testimonial.id} className="flex items-start space-x-6">
+              <div key={testimonial.id} className="flex items-start space-x-4 sm:space-x-6">
                 {/* Avatar */}
-                <div className={`rounded-lg overflow-hidden w-32 h-32 ${testimonial.bgColor} flex-shrink-0`}>
+                <div className={`rounded-lg overflow-hidden w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 ${testimonial.bgColor} flex-shrink-0`}>
                   <img
                     src={testimonial.avatar}
                     alt={`${testimonial.name} avatar`}
@@ -482,11 +526,11 @@ const MarketplaceBanner = () => {
                     ))}
                   </div>
                   {/* Testimonial Text */}
-                  <p className="text-gray-800 mb-3 text-lg">{testimonial.text}</p>
+                  <p className="text-gray-800 mb-3 text-base sm:text-lg">{testimonial.text}</p>
                   {/* Name and Role */}
                   <div>
                     <p className="font-semibold text-gray-900">{testimonial.name}</p>
-                    <p className="text-gray-600">{testimonial.role}</p>
+                    <p className="text-gray-600 text-sm sm:text-base">{testimonial.role}</p>
                   </div>
                 </div>
               </div>
@@ -496,37 +540,41 @@ const MarketplaceBanner = () => {
       </div>
 
 
+
       {/* ========= */}
-    <div className="bg-orange-500 px-8 py-20 md:px-12 md:py-24 rounded-3xl relative overflow-hidden w-[85%]  mx-auto  ">
-      {/* Top-left corner circle */}
-      <div className="absolute top-0 left-0 w-36 h-36  border-2   rounded-full -translate-x-1/2 -translate-y-1/2 " style={{border:"5px solid white"}}></div>
-      
-      {/* Bottom-right corner circle */}
-      <div className="absolute bottom-0 right-0 w-36 h-36 rounded-full translate-x-1/2 translate-y-1/2 " style={{border:"5px solid white"}}></div>
-      
-      {/* Content container */}
-      <div className="max-w-4xl mx-auto">
-        <h2 className="text-white text-center text-4xl md:text-5xl font-bold mb-8">Subscribe to our newsletter</h2>
-        
-        <div className="flex flex-col md:flex-row gap-3 justify-center items-center">
-          <input 
-            type="text" 
-            placeholder="First name" 
-            className="text-[20px] w-full md:w-auto flex-1 p-4 rounded-md border border-orange-400 bg-orange-500 placeholder-orange-200 text-white outline-none"
-          />
-          
-          <input 
-            type="email" 
-            placeholder="Email address" 
-            className=" text-[20px] w-full md:w-auto flex-1 p-4 rounded-md border border-orange-400 bg-orange-500 placeholder-orange-200 text-white outline-none"
-          />
-          
-          <button className="w-full text-[20px] md:w-auto bg-white text-black font-medium py-4 px-6 rounded-md  transition duration-300">
-            Subscribe Now
-          </button>
+      <div className="bg-orange-500 px-4 sm:px-6 md:px-12 py-16 md:py-24 rounded-3xl relative overflow-hidden w-[95%] max-w-7xl mx-auto">
+        {/* Top-left corner circle */}
+        <div className="absolute top-0 left-0 w-28 h-28 sm:w-36 sm:h-36 border-[5px] border-white rounded-full -translate-x-1/2 -translate-y-1/2"></div>
+
+        {/* Bottom-right corner circle */}
+        <div className="absolute bottom-0 right-0 w-28 h-28 sm:w-36 sm:h-36 border-[5px] border-white rounded-full translate-x-1/2 translate-y-1/2"></div>
+
+        {/* Content container */}
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-white text-3xl sm:text-4xl md:text-5xl font-bold mb-8">
+            Subscribe to our newsletter
+          </h2>
+
+          <div className="flex flex-col md:flex-row gap-4 justify-center items-center">
+            <input
+              type="text"
+              placeholder="First name"
+              className="text-base sm:text-lg w-full md:flex-1 p-4 rounded-md border border-orange-400 bg-orange-500 placeholder-orange-200 text-white outline-none"
+            />
+
+            <input
+              type="email"
+              placeholder="Email address"
+              className="text-base sm:text-lg w-full md:flex-1 p-4 rounded-md border border-orange-400 bg-orange-500 placeholder-orange-200 text-white outline-none"
+            />
+
+            <button className="w-full md:w-auto text-base sm:text-lg bg-white text-black font-medium py-4 px-6 rounded-md transition duration-300">
+              Subscribe Now
+            </button>
+          </div>
         </div>
       </div>
-    </div>
+
 
       <Footer />
 
