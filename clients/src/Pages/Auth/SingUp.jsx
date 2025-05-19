@@ -302,7 +302,7 @@ export default function SignUp() {
                                     </svg>
                                     Sign up with Google
                                 </button> */}
-                                <LoginSocialGoogle className={`w-[50%] flex justify-center items-center py-3 rounded-md  ${inputBgColor} text-sm font-medium ${textColor}  dark:hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors duration-200`}
+                                <LoginSocialGoogle className={`w-[50%] flex justify-center items-center py-3 rounded-md  ${inputBgColor} text-sm font-medium ${textColor}   focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors duration-200`}
                                     client_id='1045466982465-p8irl41k8jnmuiukbkjc1jt04ed82aja.apps.googleusercontent.com'
                                     // onLoginStart={onLoginStart}
                                     // redirect_uri={REDIRECT_URI}
@@ -335,7 +335,7 @@ export default function SignUp() {
                                     Sign up with Facebook
                                 </button> */}
 
-                                <LoginSocialFacebook className={`w-[50%] flex justify-center items-center py-3 rounded-md  ${inputBgColor} text-sm font-medium ${textColor}  dark:hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors duration-200`}
+                                <LoginSocialFacebook className={`w-[50%] flex justify-center items-center py-3 rounded-md  ${inputBgColor} text-sm font-medium ${textColor}   focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors duration-200`}
                                     appId='1106598061210789'
                                     // fieldsProfile={
                                     //   'id,first_name,last_name,middle_name,name,name_format,picture,short_name,email,gender'
@@ -533,7 +533,7 @@ export default function SignUp() {
                                     Sign up with Google
                                 </button> */}
 
-                                <LoginSocialGoogle className={`w-[50%] flex justify-center items-center py-3 rounded-md  ${inputBgColor} text-sm font-medium ${textColor}  dark:hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors duration-200`} 
+                                <LoginSocialGoogle className={`w-[50%] flex justify-center items-center py-3 rounded-md  ${inputBgColor} text-sm font-medium ${textColor}   focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors duration-200`} 
                                     client_id='1045466982465-p8irl41k8jnmuiukbkjc1jt04ed82aja.apps.googleusercontent.com'
                                     // onLoginStart={onLoginStart}
                                     // redirect_uri={REDIRECT_URI}
@@ -561,7 +561,7 @@ export default function SignUp() {
                                     Sign up with Facebook
                                 </button> */}
 
-                                <LoginSocialFacebook className={`w-[50%] flex justify-center items-center py-3 rounded-md  ${inputBgColor} text-sm font-medium ${textColor}  dark:hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors duration-200`} 
+                                <LoginSocialFacebook className={`w-[50%] flex justify-center items-center py-3 rounded-md  ${inputBgColor} text-sm font-medium ${textColor}   focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors duration-200`} 
                                           appId='1106598061210789'
                                           // fieldsProfile={
                                           //   'id,first_name,last_name,middle_name,name,name_format,picture,short_name,email,gender'
