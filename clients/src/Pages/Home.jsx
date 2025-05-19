@@ -542,7 +542,7 @@ const MarketplaceBanner = () => {
 
 
       {/* ========= */}
-      <div className="bg-orange-500 px-4 sm:px-6 md:px-12 py-16 md:py-24 rounded-3xl relative overflow-hidden w-[95%] max-w-7xl mx-auto">
+      <div className="bg-orange-500 px-4 sm:px-6 md:px-12  md:py-24 rounded-3xl relative overflow-hidden w-[95%] max-w-7xl mx-auto py-[48px] my-[48px]">
         {/* Top-left corner circle */}
         <div className="absolute top-0 left-0 w-28 h-28 sm:w-36 sm:h-36 border-[5px] border-white rounded-full -translate-x-1/2 -translate-y-1/2"></div>
 
