@@ -1,5 +1,14 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Link } from 'react-router-dom';
+import {
+  LoginSocialGoogle,
+  LoginSocialFacebook
+} from 'reactjs-social-login';
+
+import {
+  FacebookLoginButton,
+  GoogleLoginButton
+} from 'react-social-login-buttons';
 
 export default function SignIn() {
   const [theme, setTheme] = useState('light');
@@ -29,6 +38,11 @@ export default function SignIn() {
   const pageBgColor = theme === 'light' ? 'bg-white' : 'bg-gray-950';
   const borderColor = theme === 'light' ? 'border-gray-200' : 'border-gray-700';
   const headerBg = theme === 'light' ? 'bg-white' : 'bg-gray-950';
+   const [provider, setProvider] = useState('');
+  const [profile, setProfile] = useState();
+  // const onLoginStart = useCallback(() => {
+  //   alert('login start');
+  // }, []);
 
   return (
     <>
@@ -157,7 +171,7 @@ export default function SignIn() {
             <div className={`${bgColor} px-3 relative text-sm ${theme === 'light' ? 'text-gray-500' : 'text-gray-400'}`}>OR</div>
           </div>
 
-          <div className="space-y-3">
+          {/* <div className="space-y-3">
             <button
               type="button"
               className={`w-full flex justify-center items-center py-3 px-4 border ${inputBorderColor} rounded-md shadow-sm ${inputBgColor} text-sm font-medium ${textColor} hover:bg-gray-50 dark:hover:bg-orange-500 hover:text-amber-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors duration-200`}
@@ -185,7 +199,44 @@ export default function SignIn() {
               </svg>
               Log In with Facebook
             </button>
-          </div>
+          </div> */}
+
+            <LoginSocialGoogle
+          client_id='1045466982465-p8irl41k8jnmuiukbkjc1jt04ed82aja.apps.googleusercontent.com'
+          // onLoginStart={onLoginStart}
+          // redirect_uri={REDIRECT_URI}
+          scope="openid profile email"
+          discoveryDocs="claims_supported"
+          access_type="offline"
+          onResolve={({ provider, data }) => {
+            setProvider(provider);
+            setProfile(data);
+          }}
+          onReject={err => {
+            console.log(err);
+          }}
+        >
+          <GoogleLoginButton />
+        </LoginSocialGoogle>
+
+         <LoginSocialFacebook
+          appId='1106598061210789'
+          // fieldsProfile={
+          //   'id,first_name,last_name,middle_name,name,name_format,picture,short_name,email,gender'
+          // }
+          // onLoginStart={onLoginStart}
+          // onLogoutSuccess={onLogoutSuccess}
+          // redirect_uri={REDIRECT_URI}
+          onResolve={({ provider, data }) => {
+            setProvider(provider);
+            setProfile(data);
+          }}
+          onReject={err => {
+            console.log(err);
+          }}
+        >
+          <FacebookLoginButton />
+        </LoginSocialFacebook>
 
           <div className="text-center mt-6">
             <p className={`text-sm ${theme === 'light' ? 'text-gray-600' : 'text-gray-400'}`}>

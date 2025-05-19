@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-export default function EmailInput() {
+export default function VerifyEmail() {
   const [theme, setTheme] = useState('light');
   const [email, setEmail] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
