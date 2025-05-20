@@ -2,22 +2,27 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const clientSchema = new Schema({
-    name: {
+    fname: {
         type: String,
         required: true,
-        trim: true
+        // trim: true
+    },
+     lname: {
+        type: String,
+        required: true,
+        // trim: true
     },
     email: {
         type: String,
         required: true,
-        trim: true,
+        // trim: true,
         unique: true,
         lowercase: true,
     },
     password: {
         type: String,
         required: true,
-        trim: true,
+        // trim: true,
     },
     role: {
         type: String,
@@ -26,7 +31,7 @@ const clientSchema = new Schema({
     },
     country: {
         type: String,
-        trim: true,
+        // trim: true,
     }
 }, {
     timestamps: true,

@@ -1,4 +1,4 @@
-const ClientModel = require("../../Model/Authentication/ClientSignUp");
+const ClientModel = require("../../Model/Authentication/ClientAuth");
 module.exports.SignUp = async (req, res) => {
     try {
         console.log(req.body );
