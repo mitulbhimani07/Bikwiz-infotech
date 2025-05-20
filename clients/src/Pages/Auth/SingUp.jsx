@@ -11,6 +11,7 @@ import {
     GoogleLoginButton
 } from 'react-social-login-buttons';
 import { ClientSignup } from '../../API/Api';
+import logo from '../../assets/images/logo.png'; // Adjust the path to your logo image
 
 
 export default function SignUp() {
@@ -28,12 +29,12 @@ export default function SignUp() {
     const [clientAgreedToTerms, setClientAgreedToTerms] = useState(false);
     const [clientReceiveEmails, setClientReceiveEmails] = useState(false);
 
-    const [client,setclient]=useState({
-        fname:'',
-        lname:'',
-        email:'',
-        password:'',
-        country:''
+    const [client, setclient] = useState({
+        fname: '',
+        lname: '',
+        email: '',
+        password: '',
+        country: ''
     })
 
     // Freelancer form state
@@ -57,16 +58,16 @@ export default function SignUp() {
         setTheme(theme === 'light' ? 'dark' : 'light');
     };
 
-    const clientOnChange=(e)=>{
+    const clientOnChange = (e) => {
         setclient({ ...client, [e.target.name]: e.target.value });
     }
 
-    const handleClientSubmit =async (e) => {
+    const handleClientSubmit = async (e) => {
         e.preventDefault();
-        try{
-            const res=await ClientSignup(client);
+        try {
+            const res = await ClientSignup(client);
             console.log("Response:", res);
-        }catch(error){
+        } catch (error) {
             console.log("Error submitting form:", error);
         }
         // console.log('Submitting Client Form with:', {
@@ -87,7 +88,7 @@ export default function SignUp() {
             firstName: freelancerFirstName,
             lastName: freelancerLastName,
             email: freelancerEmail,
-            
+
             password: freelancerPassword,
             country: freelancerCountry,
             agreedToTerms: freelancerAgreedToTerms,
@@ -110,12 +111,9 @@ export default function SignUp() {
             <header className={`${headerBg} ${textColor} ${borderColor} transition-colors duration-300`}>
                 <div className="container mx-auto px-24 py-5 flex justify-between items-center">
                     <div className="flex items-center">
-                        <div className="h-10 w-10 rounded-full bg-orange-600 flex items-center justify-center mr-3">
-                            <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-                            </svg>
-                        </div>
-                        <span className="font-bold text-xl">Bikwiz Infotech</span>
+                        <Link to="/">
+                            <img src={logo} alt="Bikwiz Infotech" width={130} height={130} />
+                        </Link>
                     </div>
                     <button
                         onClick={toggleTheme}
@@ -558,7 +556,7 @@ export default function SignUp() {
                                     Sign up with Google
                                 </button> */}
 
-                                <LoginSocialGoogle className={`w-[50%] flex justify-center items-center py-3 rounded-md  ${inputBgColor} text-sm font-medium ${textColor}   focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors duration-200`} 
+                                <LoginSocialGoogle className={`w-[50%] flex justify-center items-center py-3 rounded-md  ${inputBgColor} text-sm font-medium ${textColor}   focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors duration-200`}
                                     client_id='1045466982465-p8irl41k8jnmuiukbkjc1jt04ed82aja.apps.googleusercontent.com'
                                     // onLoginStart={onLoginStart}
                                     // redirect_uri={REDIRECT_URI}
@@ -586,24 +584,24 @@ export default function SignUp() {
                                     Sign up with Facebook
                                 </button> */}
 
-                                <LoginSocialFacebook className={`w-[50%] flex justify-center items-center py-3 rounded-md  ${inputBgColor} text-sm font-medium ${textColor}   focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors duration-200`} 
-                                          appId='1106598061210789'
-                                          // fieldsProfile={
-                                          //   'id,first_name,last_name,middle_name,name,name_format,picture,short_name,email,gender'
-                                          // }
-                                          // onLoginStart={onLoginStart}
-                                          // onLogoutSuccess={onLogoutSuccess}
-                                          // redirect_uri={REDIRECT_URI}
-                                          onResolve={({ provider, data }) => {
-                                            setProvider(provider);
-                                            setProfile(data);
-                                          }}
-                                          onReject={err => {
-                                            console.log(err);
-                                          }}
-                                        >
-                                          <FacebookLoginButton />
-                                        </LoginSocialFacebook>
+                                <LoginSocialFacebook className={`w-[50%] flex justify-center items-center py-3 rounded-md  ${inputBgColor} text-sm font-medium ${textColor}   focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors duration-200`}
+                                    appId='1106598061210789'
+                                    // fieldsProfile={
+                                    //   'id,first_name,last_name,middle_name,name,name_format,picture,short_name,email,gender'
+                                    // }
+                                    // onLoginStart={onLoginStart}
+                                    // onLogoutSuccess={onLogoutSuccess}
+                                    // redirect_uri={REDIRECT_URI}
+                                    onResolve={({ provider, data }) => {
+                                        setProvider(provider);
+                                        setProfile(data);
+                                    }}
+                                    onReject={err => {
+                                        console.log(err);
+                                    }}
+                                >
+                                    <FacebookLoginButton />
+                                </LoginSocialFacebook>
                             </div>
                         </form>
                     )}

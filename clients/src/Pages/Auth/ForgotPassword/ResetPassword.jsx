@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import logo from '../../../assets/images/logo.png'; // Adjust the path to your logo image
 
 export default function ResetPassword() {
   const [theme, setTheme] = useState('light');
@@ -35,12 +36,9 @@ export default function ResetPassword() {
       <header className={`${headerBg} ${textColor} ${borderColor} transition-colors duration-300`}>
         <div className="container mx-auto px-24 py-5 flex justify-between items-center">
           <div className="flex items-center">
-            <div className="h-10 w-10 rounded-full bg-orange-600 flex items-center justify-center mr-3">
-              <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-              </svg>
-            </div>
-            <span className="font-bold text-xl">Bikwiz Infotech</span>
+            <Link to="/">
+              <img src={logo} alt="Bikwiz Infotech" width={130} height={130} />
+            </Link>
           </div>
           <button
             onClick={toggleTheme}

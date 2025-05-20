@@ -1,13 +1,14 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import logo from '../../assets/images/logo.png'; // Adjust the path to your logo image
 
 
 export default function SMEConnection() {
   const [selected, setSelected] = useState('')
-  const navigate=useNavigate()
-  console.log("selected",selected)
+  const navigate = useNavigate()
+  console.log("selected", selected)
 
-  const handleNext =()=>{
+  const handleNext = () => {
     navigate(`/signup?selected=${selected}`);
   }
 
@@ -15,7 +16,9 @@ export default function SMEConnection() {
     <div className="container mx-auto px-4 py-8 font-sans">
       {/* Header with logo */}
       <div className="mb-12 ms-12">
-        <h1 className="text-xl text-gray-800">Bikwiz Infotech</h1>
+        <Link to="/">
+          <img src={logo} alt="Bikwiz Infotech" width={130} height={130} />
+        </Link>
       </div>
 
       {/* Main content */}
@@ -78,9 +81,9 @@ export default function SMEConnection() {
           disabled={!selected}
           onClick={handleNext}
         >
-          
-            Create Account
-         
+
+          Create Account
+
         </button>
 
         {/* Login link */}

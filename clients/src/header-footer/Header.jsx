@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { FiMenu, FiX } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
+import logo from '../assets/images/logo.png'; // Adjust the path to your logo image
 
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -15,7 +16,9 @@ const Header = () => {
         <div className="max-w-[1440px] mx-auto px-6 py-4 flex justify-between items-center">
           {/* Logo */}
           <div className="text-lg font-semibold text-gray-800">
-            <Link to="/">Bikwiz Infotech</Link>
+            <Link to="/">
+              <img src={logo} alt="Bikwiz Infotech" width={130} height={130} />
+            </Link>
           </div>
 
           {/* Nav Links - Desktop */}

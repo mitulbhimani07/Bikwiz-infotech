@@ -11,5 +11,8 @@ route.get('/freelancersignup', freelancerController.FreelancerView);
 // // Get a single freelancer by ID
 route.get('/freelancersignup/:id', freelancerController.SingleFreelancerView);
 // // Delete a freelancer by ID
+route.delete('/freelancersignup/:id', freelancerController.deleteFreelancer);
+// // Update a freelancer by ID
+route.put('/freelancerupdate/:id', freelancerController.updateFreelancer);
 
 module.exports = route;
