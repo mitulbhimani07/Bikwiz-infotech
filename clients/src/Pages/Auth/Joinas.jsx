@@ -18,8 +18,7 @@ export default function SMEConnection() {
       <div className="mb-12 ms-12">
         <Link to="/">
           <img src={logo} alt="Bikwiz Infotech" width={130} height={130} />
-        </Link>
-      </div>
+        </Link>      </div>
 
       {/* Main content */}
       <div className="text-center mb-12">
