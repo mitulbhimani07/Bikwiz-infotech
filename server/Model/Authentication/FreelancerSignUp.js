@@ -1,32 +1,35 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
-const FreelancerSignUpSchema = new Schema({
-    freelancerName: {
+
+const freelancerSchema = new Schema({
+    name: {
+        type: String,
+        required: true,
+        trim: true
+    },
+    email: {
         type: String,
         required: true,
         trim: true,
         unique: true,
         lowercase: true,
     },
-    freelancerEmail: {
-        type: String,
-        required: true,
-        trim: true,
-        unique: true,
-        lowercase: true,
-    },
-    freelancerPassword: {
+    password: {
         type: String,
         required: true,
         trim: true,
     },
-    freelancerCountry: {
+    role: {
         type: String,
-        required: true,
-        trim: true,
+        enum: ['client', 'admin', 'freelancer'],
+        default: 'freelancer'
     },
+    country: {
+        type: String,
+        trim: true,
+    }
 }, {
     timestamps: true,
 });
-module.exports = mongoose.model('FreelancerSignUp', FreelancerSignUpSchema);
-// This code defines a Mongoose schema for a Freelancer sign-up model in a Node.js application.
+
+module.exports = mongoose.model('freelancer', freelancerSchema);
