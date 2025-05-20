@@ -7,6 +7,16 @@ const freelancerSchema = new Schema({
         required: true,
         trim: true
     },
+     fname: {
+        type: String,
+        required: true,
+        // trim: true,
+    },
+    lname: {
+        type: String,
+        required: true,
+        // trim: true,
+    },
     email: {
         type: String,
         required: true,

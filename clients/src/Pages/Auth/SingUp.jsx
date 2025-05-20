@@ -10,7 +10,7 @@ import {
     FacebookLoginButton,
     GoogleLoginButton
 } from 'react-social-login-buttons';
-import { ClientSignup } from '../../API/Api';
+import { ClientSignup, FreelancerSignup } from '../../API/Api';
 import logo from '../../assets/images/logo.png'; // Adjust the path to your logo image
 import toast from 'react-hot-toast';
 import { FaExclamationTriangle } from 'react-icons/fa';
@@ -48,12 +48,21 @@ export default function SignUp() {
         country: ''
     })
 
+    const [freelancer, setFreelancer] = useState({
+        fname: '',
+        lname: '',
+        email: '',
+        password: '',
+        country: ''
+    })
+
     // Freelancer form state
-    const [freelancerFirstName, setFreelancerFirstName] = useState('');
-    const [freelancerLastName, setFreelancerLastName] = useState('');
-    const [freelancerEmail, setFreelancerEmail] = useState('');
-    const [freelancerPassword, setFreelancerPassword] = useState('');
-    const [freelancerCountry, setFreelancerCountry] = useState('');
+    // const [freelancerFirstName, setFreelancerFirstName] = useState('');
+    // const [freelancerLastName, setFreelancerLastName] = useState('');
+    // const [freelancerEmail, setFreelancerEmail] = useState('');
+    // const [freelancerPassword, setFreelancerPassword] = useState('');
+    // const [freelancerCountry, setFreelancerCountry] = useState('');
+
     const [freelancerAgreedToTerms, setFreelancerAgreedToTerms] = useState(false);
     const [freelancerReceiveEmails, setFreelancerReceiveEmails] = useState(false);
 
@@ -124,6 +133,10 @@ export default function SignUp() {
         setclient({ ...client, [e.target.name]: e.target.value });
     }
 
+    const FreelancerOnChange = (e) => {
+        setFreelancer({ ...freelancer, [e.target.name]: e.target.value });
+    }
+
     const handleClientSubmit = async (e) => {
         e.preventDefault();
         if (!validateForm()) {
@@ -142,24 +155,34 @@ export default function SignUp() {
             console.log("Error submitting form:", error);
         }
         setclient({})
-        setShowClientPassword(false);
-        setShowFreelancerPassword(false);
+        setFreelancerAgreedToTerms(false);
+        setFreelancerReceiveEmails(false);
 
     };
 
-    const handleFreelancerSubmit = (e) => {
+
+    
+
+    const handleFreelancerSubmit = async(e) => {
         e.preventDefault();
-        console.log('Submitting Freelancer Form with:', {
-            firstName: freelancerFirstName,
-            lastName: freelancerLastName,
-            email: freelancerEmail,
+         if (!validateForm()) {
+            return;
+        }
 
-
-            password: freelancerPassword,
-            country: freelancerCountry,
-            agreedToTerms: freelancerAgreedToTerms,
-            receiveEmails: freelancerReceiveEmails
-        });
+        if (!clientAgreedToTerms) {
+            alert('You must agree to the terms and conditions');
+            return;
+        }
+        try {
+            const res = await FreelancerSignup(freelancer);
+            console.log("Response:", res);
+            toast.success("Sigup Successfully!!!")
+        }  catch  (error)  {
+            console.log("Error submitting form:", error);
+        }
+        setFreelancer({})
+        setFreelancerAgreedToTerms(false);
+        setFreelancerReceiveEmails(false);
         // Freelancer form submission logic would go here
     };
 
@@ -232,7 +255,7 @@ export default function SignUp() {
                                         placeholder="John"
 
                                     />
-                                    {errors.email && (
+                                    {errors.fname && (
                                         <div className="flex items-center mt-1 text-sm text-red-700">
                                             <FaExclamationTriangle className="w-4 h-4 mr-1" />
                                             <span>{errors.fname}</span>
@@ -254,7 +277,7 @@ export default function SignUp() {
                                         placeholder="Doe"
 
                                     />
-                                    {errors.email && (
+                                    {errors.lname && (
                                         <div className="flex items-center mt-1 text-sm text-red-700">
                                             <FaExclamationTriangle className="w-4 h-4 mr-1" />
                                             <span>{errors.lname}</span>
@@ -327,7 +350,7 @@ export default function SignUp() {
                                         )}
                                     </button>
                                 </div>
-                                {errors.email && (
+                                {errors.password && (
                                     <div className="flex items-center mt-1 text-sm text-red-700">
                                         <FaExclamationTriangle className="w-4 h-4 mr-1" />
                                         <span>{errors.password}</span>
@@ -360,7 +383,7 @@ export default function SignUp() {
                                     <option value="BR">Brazil</option>
                                     <option value="ZA">South Africa</option>
                                 </select>
-                                {errors.email && (
+                                {errors.country && (
                                     <div className="flex items-center mt-1 text-sm text-red-700">
                                         <FaExclamationTriangle className="w-4 h-4 mr-1" />
                                         <span>{errors.country}</span>
@@ -500,12 +523,20 @@ export default function SignUp() {
                                     <input
                                         id="freelancerFirstName"
                                         type="text"
-                                        value={freelancerFirstName}
-                                        onChange={(e) => setFreelancerFirstName(e.target.value)}
-                                        className={`appearance-none block w-full px-3 py-3 border ${inputBorderColor} rounded-md  placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 ${inputBgColor} transition-colors duration-200`}
+                                        name='fname'
+                                        value={freelancer.fname? freelancer.fname : ""}
+                                        onChange={ FreelancerOnChange}
+                                        className={`appearance-none block w-full px-3 py-3 border ${inputBorderColor} ${errors.email ? "border-red-700 focus:ring-red-600 focus:border-red-700" : "border-gray-300"
+                                            } rounded-md  placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 ${inputBgColor} transition-colors duration-200`}
                                         placeholder="John"
 
                                     />
+                                    {errors.fname && (
+                                        <div className="flex items-center mt-1 text-sm text-red-700">
+                                            <FaExclamationTriangle className="w-4 h-4 mr-1" />
+                                            <span>{errors.fname}</span>
+                                        </div>
+                                    )}
                                 </div>
                                 <div>
                                     <label htmlFor="freelancerLastName" className="block text-sm font-medium mb-1">
@@ -514,12 +545,20 @@ export default function SignUp() {
                                     <input
                                         id="freelancerLastName"
                                         type="text"
-                                        value={freelancerLastName}
-                                        onChange={(e) => setFreelancerLastName(e.target.value)}
-                                        className={`appearance-none block w-full px-3 py-3 border ${inputBorderColor} rounded-md  placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 ${inputBgColor} transition-colors duration-200`}
+                                        name='lname'
+                                        value={freelancer.lname? freelancer.lname : ""}
+                                        onChange={ FreelancerOnChange}
+                                        className={`appearance-none block w-full px-3 py-3 border ${inputBorderColor} ${errors.email ? "border-red-700 focus:ring-red-600 focus:border-red-700" : "border-gray-300"
+                                            } rounded-md  placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 ${inputBgColor} transition-colors duration-200`}
                                         placeholder="Doe"
 
                                     />
+                                    {errors.lname && (
+                                        <div className="flex items-center mt-1 text-sm text-red-700">
+                                            <FaExclamationTriangle className="w-4 h-4 mr-1" />
+                                            <span>{errors.lname}</span>
+                                        </div>
+                                    )}
                                 </div>
                             </div>
 
@@ -529,13 +568,21 @@ export default function SignUp() {
                                 </label>
                                 <input
                                     id="freelancerEmail"
-                                    type="email"
-                                    value={freelancerEmail}
-                                    onChange={(e) => setFreelancerEmail(e.target.value)}
-                                    className={`appearance-none block w-full px-3 py-3 border ${inputBorderColor} rounded-md  placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 ${inputBgColor} transition-colors duration-200`}
+                                    type="text"
+                                    name='email'
+                                    value={freelancer.email? freelancer.email : ""}
+                                    onChange={ FreelancerOnChange}
+                                    className={`appearance-none block w-full px-3 py-3 border ${inputBorderColor} ${errors.email ? "border-red-700 focus:ring-red-600 focus:border-red-700" : "border-gray-300"
+                                            } rounded-md  placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 ${inputBgColor} transition-colors duration-200`}
                                     placeholder="johndoe@example.com"
 
                                 />
+                                {errors.email && (
+                                        <div className="flex items-center mt-1 text-sm text-red-700">
+                                            <FaExclamationTriangle className="w-4 h-4 mr-1" />
+                                            <span>{errors.email}</span>
+                                        </div>
+                                    )}
                             </div>
 
                             <div>
@@ -551,9 +598,11 @@ export default function SignUp() {
                                     <input
                                         id="freelancerPassword"
                                         type={showFreelancerPassword ? "text" : "password"}
-                                        value={freelancerPassword}
-                                        onChange={(e) => setFreelancerPassword(e.target.value)}
-                                        className={`appearance-none block w-full px-3 py-3 border ${inputBorderColor} rounded-md  placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 ${inputBgColor} transition-colors duration-200`}
+                                        name='password'
+                                        value={freelancer.password? freelancer.password : ""}
+                                    onChange={ FreelancerOnChange}
+                                        className={`appearance-none block w-full px-3 py-3 border ${inputBorderColor} ${errors.email ? "border-red-700 focus:ring-red-600 focus:border-red-700" : "border-gray-300"
+                                            } rounded-md  placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 ${inputBgColor} transition-colors duration-200`}
                                         placeholder="Minimum 8 characters"
                                         minLength="8"
 
@@ -576,6 +625,12 @@ export default function SignUp() {
                                         )}
                                     </button>
                                 </div>
+                                {errors.password && (
+                                    <div className="flex items-center mt-1 text-sm text-red-700">
+                                        <FaExclamationTriangle className="w-4 h-4 mr-1" />
+                                        <span>{errors.password}</span>
+                                    </div>
+                                )}
                             </div>
 
                             <div>
@@ -584,9 +639,11 @@ export default function SignUp() {
                                 </label>
                                 <select
                                     id="freelancerCountry"
-                                    value={freelancerCountry}
-                                    onChange={(e) => setFreelancerCountry(e.target.value)}
-                                    className={`appearance-none block w-full px-3 py-3 border ${inputBorderColor} rounded-md  placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 ${inputBgColor} transition-colors duration-200`}
+                                    value={freelancer.country? freelancer.country : ""}
+                                    name='country'
+                                    onChange={ FreelancerOnChange}
+                                    className={`appearance-none block w-full px-3 py-3 border ${inputBorderColor} ${errors.email ? "border-red-700 focus:ring-red-600 focus:border-red-700" : "border-gray-300"
+                                            } rounded-md  placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 ${inputBgColor} transition-colors duration-200`}
 
                                 >
                                     <option value="">Select a country</option>
@@ -601,6 +658,12 @@ export default function SignUp() {
                                     <option value="BR">Brazil</option>
                                     <option value="ZA">South Africa</option>
                                 </select>
+                                {errors.country && (
+                                        <div className="flex items-center mt-1 text-sm text-red-700">
+                                            <FaExclamationTriangle className="w-4 h-4 mr-1" />
+                                            <span>{errors.country}</span>
+                                        </div>
+                                    )}
                             </div>
 
                             <div className="flex items-start">
