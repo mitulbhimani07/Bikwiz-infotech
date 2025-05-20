@@ -42,3 +42,35 @@ module.exports.SingleClientview = async (req, res) => {
         res.status(500).json({ message: "Internal server error" });
     }
 }
+module.exports.ClientDelete = async (req, res) => {
+    try {
+        const client = await ClientModel.findByIdAndDelete(req.params.id);
+        if (!client) {
+            return res.status(404).json({ message: "Client not found" });
+        }
+        res.status(200).json({
+            message: "Client deleted successfully",
+            data: client
+        });
+    }
+    catch (error) {
+        console.error("Error in ClientDelete:", error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+}
+module.exports.ClientUpdate = async (req, res) => {
+    try {
+        const client = await ClientModel.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        if (!client) {
+            return res.status(404).json({ message: "Client not found" });
+        }
+        res.status(200).json({
+            message: "Client updated successfully",
+            data: client
+        });
+    }
+    catch (error) {
+        console.error("Error in ClientUpdate:", error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+}

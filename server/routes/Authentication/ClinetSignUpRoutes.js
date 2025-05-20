@@ -1,11 +1,15 @@
 const express = require("express");
 const router = express.Router();
-const FreelancerSignUpController = require("../../controller/Authentication/FreelancerSignUp");
+const clientSignUpController = require("../../controller/Authentication/ClientSignUp");
 // Register client route
-router.post('/signup', FreelancerSignUpController.SignUp);
+router.post('/signup', clientSignUpController.SignUp);
 // View all clients route
-router.get('/view', FreelancerSignUpController.FreelancerView);
+router.get('/view', clientSignUpController.Clientview);
 // View single client route
-router.get('/view/:id', FreelancerSignUpController.SingleFreelancerView);
+router.get('/view/:id', clientSignUpController.SingleClientview);
+// Delete client route
+router.delete('/delete/:id', clientSignUpController.ClientDelete);
+// Update client route
+router.put('/update/:id', clientSignUpController.ClientUpdate);
 
 module.exports = router;

@@ -1,14 +1,15 @@
 const express = require('express');
-const router = express.Router();
-const freelancerController = require('../controller/Authentication/FreelancerSignUp');
+const route = express.Router();
+const freelancerController = require('../../controller/Authentication/FreelancerSignUp');
 
 // Create a new freelancer
-router.post('/freelancersignup', freelancerController.SignUp);
+route.post('/freelancersignup', freelancerController.freelancerSignUp);
 
 // Get all freelancers
-router.get('/freelancersignup', freelancerController.FreelancerView);
+route.get('/freelancersignup', freelancerController.FreelancerView);
 
-// Get a single freelancer by ID
-router.get('/freelancersignup/:id', freelancerController.SingleFreelancerView);
+// // Get a single freelancer by ID
+route.get('/freelancersignup/:id', freelancerController.SingleFreelancerView);
+// // Delete a freelancer by ID
 
-module.exports = router;
+module.exports = route;
