@@ -10,6 +10,7 @@ import {
   GoogleLoginButton
 } from 'react-social-login-buttons';
 import logo from '../../assets/images/logo.png'; // Adjust the path to your logo image
+import logo2 from '../../assets/images/logo2.png'; // Adjust the path to your logo image
 
 export default function SignIn() {
   const [theme, setTheme] = useState('light');
@@ -51,7 +52,11 @@ export default function SignIn() {
         <div className="container mx-auto px-24 py-5 flex justify-between items-center">
           <div className="flex items-center">
             <Link to="/">
-              <img src={logo} alt="Bikwiz Infotech" width={130} height={130} />
+              {theme === 'light' ? (
+                <img src={logo} alt="Bikwiz Infotech" width={130} height={130} />
+              ) : (
+                <img src={logo2} alt="Bikwiz Infotech" width={130} height={130} />
+              )}
             </Link>
           </div>
           <button

@@ -14,6 +14,7 @@ import { ClientSignup } from '../../API/Api';
 import logo from '../../assets/images/logo.png'; // Adjust the path to your logo image
 import toast from 'react-hot-toast';
 import { FaExclamationTriangle } from 'react-icons/fa';
+import logo2 from '../../assets/images/logo2.png'; // Adjust the path to your logo image
 
 
 export default function SignUp() {
@@ -137,7 +138,7 @@ export default function SignUp() {
             const res = await ClientSignup(client);
             console.log("Response:", res);
             toast.success("Sigup Successfully!!!")
-        }  catch  (error)  {
+        } catch (error) {
             console.log("Error submitting form:", error);
         }
         setclient({})
@@ -177,7 +178,11 @@ export default function SignUp() {
                 <div className="container mx-auto px-24 py-5 flex justify-between items-center">
                     <div className="flex items-center">
                         <Link to="/">
-                            <img src={logo} alt="Bikwiz Infotech" width={130} height={130} />
+                            {theme === 'light' ? (
+                                <img src={logo} alt="Bikwiz Infotech" width={130} height={130} />
+                            ) : (
+                                <img src={logo2} alt="Bikwiz Infotech" width={130} height={130} />
+                            )}
                         </Link>
                     </div>
                     <button
