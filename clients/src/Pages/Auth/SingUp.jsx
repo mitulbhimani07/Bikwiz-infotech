@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 import {
     LoginSocialGoogle,
@@ -19,6 +19,16 @@ import { FaExclamationTriangle } from 'react-icons/fa';
 export default function SignUp() {
     const [provider, setProvider] = useState('');
     const [profile, setProfile] = useState();
+    const navigate = useNavigate();
+     const { search } = useLocation();
+    const params = new URLSearchParams(search);
+    const selected = params.get('selected') || '';
+
+    useEffect(() => {
+    if (!selected || (selected !== 'client' && selected !== 'freelencer')) {
+        navigate('/joinas'); // Redirect if invalid or missing
+    }
+}, [selected, navigate]);
     // const [data,setdata]=useState({})
     const [errors, setErrors] = useState({
         fname: '',
@@ -30,12 +40,6 @@ export default function SignUp() {
 
 
     const [theme, setTheme] = useState('light');
-    // Client form state
-    // const [clientFirstName, setClientFirstName] = useState('');
-    // const [clientLastName, setClientLastName] = useState('');
-    // const [clientWorkEmail, setClientWorkEmail] = useState('');
-    // const [clientPassword, setClientPassword] = useState('');
-    // const [clientCountry, setClientCountry] = useState('');
     const [clientAgreedToTerms, setClientAgreedToTerms] = useState(false);
     const [clientReceiveEmails, setClientReceiveEmails] = useState(false);
 
@@ -55,13 +59,6 @@ export default function SignUp() {
         country: ''
     })
 
-    // Freelancer form state
-    // const [freelancerFirstName, setFreelancerFirstName] = useState('');
-    // const [freelancerLastName, setFreelancerLastName] = useState('');
-    // const [freelancerEmail, setFreelancerEmail] = useState('');
-    // const [freelancerPassword, setFreelancerPassword] = useState('');
-    // const [freelancerCountry, setFreelancerCountry] = useState('');
-
     const [freelancerAgreedToTerms, setFreelancerAgreedToTerms] = useState(false);
     const [freelancerReceiveEmails, setFreelancerReceiveEmails] = useState(false);
 
@@ -69,9 +66,7 @@ export default function SignUp() {
     const [showClientPassword, setShowClientPassword] = useState(false);
     const [showFreelancerPassword, setShowFreelancerPassword] = useState(false);
 
-    const { search } = useLocation();
-    const params = new URLSearchParams(search);
-    const selected = params.get('selected') || '';
+   
 
 
     const validateForm = () => {
