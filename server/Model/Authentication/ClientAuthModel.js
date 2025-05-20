@@ -2,7 +2,17 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const clientSchema = new Schema({
-    name: {
+    // name: {
+    //     type: String,
+    //     required: true,
+    //     // trim: true,
+    // },
+    fname: {
+        type: String,
+        required: true,
+        // trim: true,
+    },
+    lname: {
         type: String,
         required: true,
         // trim: true,

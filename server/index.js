@@ -7,6 +7,7 @@ require('dotenv').config();
 app.use(express.json());
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json())
 
 app.use('/client', require('./routes/Authentication/ClinetAuthRoutes'));
 app.use('/freelancer', require('./routes/Authentication/FreelancerAuthRoutes'));
