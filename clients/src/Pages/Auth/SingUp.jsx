@@ -11,11 +11,20 @@ import {
     GoogleLoginButton
 } from 'react-social-login-buttons';
 import { ClientSignup } from '../../API/Api';
+import { FaExclamationTriangle } from 'react-icons/fa';
 
 
 export default function SignUp() {
     const [provider, setProvider] = useState('');
     const [profile, setProfile] = useState();
+    // const [data,setdata]=useState({})
+    const [errors, setErrors] = useState({
+        fname: '',
+        lname: '',
+        email: '',
+        password: '',
+        country: ''
+    });
 
 
     const [theme, setTheme] = useState('light');
@@ -28,12 +37,12 @@ export default function SignUp() {
     const [clientAgreedToTerms, setClientAgreedToTerms] = useState(false);
     const [clientReceiveEmails, setClientReceiveEmails] = useState(false);
 
-    const [client,setclient]=useState({
-        fname:'',
-        lname:'',
-        email:'',
-        password:'',
-        country:''
+    const [client, setclient] = useState({
+        fname: '',
+        lname: '',
+        email: '',
+        password: '',
+        country: ''
     })
 
     // Freelancer form state
@@ -53,32 +62,85 @@ export default function SignUp() {
     const params = new URLSearchParams(search);
     const selected = params.get('selected') || '';
 
+
+    const validateForm = () => {
+        let valid = true;
+        const newErrors = {
+            fname: '',
+            lname: '',
+            email: '',
+            password: '',
+            country: ''
+        };
+
+        // First name validation
+        if (!client.fname.trim()) {
+            newErrors.fname = 'First name is required ';
+            valid = false;
+        }
+
+        // Last name validation
+        if (!client.lname.trim()) {
+            newErrors.lname = 'Last name is required';
+            valid = false;
+        }
+
+        // Email validation
+        if (!client.email.trim()) {
+            newErrors.email = 'Email is required';
+            valid = false;
+        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(client.email)) {
+            newErrors.email = 'Please enter a valid email address';
+            valid = false;
+        }
+
+        // Password validation
+        if (!client.password) {
+            newErrors.password = 'Password is required';
+            valid = false;
+        } else if (client.password.length < 8) {
+            newErrors.password = 'Password must be at least 8 characters';
+            valid = false;
+        }
+
+        // Country validation
+        if (!client.country) {
+            newErrors.country = 'Please select a country';
+            valid = false;
+        }
+
+        setErrors(newErrors);
+        return valid;
+    };
+
     const toggleTheme = () => {
         setTheme(theme === 'light' ? 'dark' : 'light');
     };
 
-    const clientOnChange=(e)=>{
+    const clientOnChange = (e) => {
         setclient({ ...client, [e.target.name]: e.target.value });
     }
 
-    const handleClientSubmit =async (e) => {
+    const handleClientSubmit = async (e) => {
         e.preventDefault();
-        try{
-            const res=await ClientSignup(client);
+        if (!validateForm()) {
+            return;
+        }
+
+        if (!clientAgreedToTerms) {
+            alert('You must agree to the terms and conditions');
+            return;
+        }
+        try {
+            const res = await ClientSignup(client);
             console.log("Response:", res);
-        }catch(error){
+        } catch (error) {
             console.log("Error submitting form:", error);
         }
-        // console.log('Submitting Client Form with:', {
-        //     firstName: clientFirstName,
-        //     lastName: clientLastName,
-        //     workEmail: clientWorkEmail,
-        //     password: clientPassword,
-        //     country: clientCountry,
-        //     agreedToTerms: clientAgreedToTerms,
-        //     receiveEmails: clientReceiveEmails
-        // });
-        // Client form submission logic would go here
+        setclient({})
+        setShowClientPassword(false);
+        setShowFreelancerPassword(false);
+
     };
 
     const handleFreelancerSubmit = (e) => {
@@ -87,7 +149,7 @@ export default function SignUp() {
             firstName: freelancerFirstName,
             lastName: freelancerLastName,
             email: freelancerEmail,
-            
+
             password: freelancerPassword,
             country: freelancerCountry,
             agreedToTerms: freelancerAgreedToTerms,
@@ -157,12 +219,19 @@ export default function SignUp() {
                                         id="clientFirstName"
                                         type="text"
                                         name='fname'
-                                        value={client.fname}
+                                        value={client.fname ? client.fname : ""}
                                         onChange={clientOnChange}
-                                        className={`appearance-none block w-full px-3 py-3 border ${inputBorderColor} rounded-md  placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 ${inputBgColor} transition-colors duration-200`}
+                                        className={`appearance-none block w-full px-3 py-3 border ${inputBorderColor} ${errors.email ? "border-red-700 focus:ring-red-600 focus:border-red-700" : "border-gray-300"
+                                            } rounded-md  placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 ${inputBgColor} transition-colors duration-200`}
                                         placeholder="John"
-                                        required
+
                                     />
+                                    {errors.email && (
+                                        <div className="flex items-center mt-1 text-sm text-red-700">
+                                            <FaExclamationTriangle className="w-4 h-4 mr-1" />
+                                            <span>{errors.fname}</span>
+                                        </div>
+                                    )}
                                 </div>
                                 <div>
                                     <label htmlFor="clientLastName" className="block text-sm font-medium mb-1">
@@ -172,12 +241,19 @@ export default function SignUp() {
                                         id="clientLastName"
                                         type="text"
                                         name='lname'
-                                        value={client.lname}
+                                        value={client.lname ? client.lname : ""}
                                         onChange={clientOnChange}
-                                        className={`appearance-none block w-full px-3 py-3 border ${inputBorderColor} rounded-md  placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 ${inputBgColor} transition-colors duration-200`}
+                                        className={`appearance-none block w-full px-3 py-3 border ${inputBorderColor} ${errors.email ? "border-red-700 focus:ring-red-600 focus:border-red-700" : "border-gray-300"
+                                            } rounded-md  placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 ${inputBgColor} transition-colors duration-200`}
                                         placeholder="Doe"
-                                        required
+
                                     />
+                                    {errors.email && (
+                                        <div className="flex items-center mt-1 text-sm text-red-700">
+                                            <FaExclamationTriangle className="w-4 h-4 mr-1" />
+                                            <span>{errors.lname}</span>
+                                        </div>
+                                    )}
                                 </div>
                             </div>
 
@@ -185,16 +261,24 @@ export default function SignUp() {
                                 <label htmlFor="clientWorkEmail" className="block text-sm font-medium mb-1">
                                     Work Email
                                 </label>
+
                                 <input
                                     id="clientWorkEmail"
-                                    type="email"
-                                    name='email'
-                                    value={client.email}
+                                    type="text"
+                                    name="email"
+                                    value={client.email || ""}
                                     onChange={clientOnChange}
-                                    className={`appearance-none block w-full px-3 py-3 border ${inputBorderColor} rounded-md  placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 ${inputBgColor} transition-colors duration-200`}
+                                    className={`appearance-none block w-full px-3 py-3 border ${errors.email ? "border-red-700 focus:ring-red-600 focus:border-red-700" : "border-gray-300"
+                                        } rounded-md placeholder-gray-400 focus:outline-none focus:ring-2 transition-colors duration-200`}
                                     placeholder="john.doe@company.com"
-                                    required
                                 />
+
+                                {errors.email && (
+                                    <div className="flex items-center mt-1 text-sm text-red-700">
+                                        <FaExclamationTriangle className="w-4 h-4 mr-1" />
+                                        <span>{errors.email}</span>
+                                    </div>
+                                )}
                             </div>
 
                             <div>
@@ -210,13 +294,14 @@ export default function SignUp() {
                                     <input
                                         id="clientPassword"
                                         type={showClientPassword ? "text" : "password"}
-                                        value={client.password}
+                                        value={client.password ? client.password : ""}
                                         name='password'
                                         onChange={clientOnChange}
-                                        className={`appearance-none block w-full px-3 py-3 border ${inputBorderColor} rounded-md  placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 ${inputBgColor} transition-colors duration-200`}
+                                        className={`appearance-none block w-full px-3 py-3 border ${inputBorderColor} ${errors.email ? "border-red-700 focus:ring-red-600 focus:border-red-700" : "border-gray-300"
+                                            } rounded-md  placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 ${inputBgColor} transition-colors duration-200`}
                                         placeholder="Minimum 8 characters"
                                         minLength="8"
-                                        required
+
                                     />
                                     <button
                                         type="button"
@@ -236,6 +321,12 @@ export default function SignUp() {
                                         )}
                                     </button>
                                 </div>
+                                {errors.email && (
+                                    <div className="flex items-center mt-1 text-sm text-red-700">
+                                        <FaExclamationTriangle className="w-4 h-4 mr-1" />
+                                        <span>{errors.password}</span>
+                                    </div>
+                                )}
                             </div>
 
                             <div>
@@ -244,11 +335,12 @@ export default function SignUp() {
                                 </label>
                                 <select
                                     id="clientCountry"
-                                    value={client.country}
+                                    value={client.country ? client.country : ""}
                                     name='country'
                                     onChange={clientOnChange}
-                                    className={`appearance-none block w-full px-3 py-3 border ${inputBorderColor} rounded-md  placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 ${inputBgColor} transition-colors duration-200`}
-                                    required
+                                    className={`appearance-none block w-full px-3 py-3 border ${inputBorderColor} ${errors.email ? "border-red-700 focus:ring-red-600 focus:border-red-700" : "border-gray-300"
+                                        } rounded-md  placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 ${inputBgColor} transition-colors duration-200`}
+
                                 >
                                     <option value="">Select a country</option>
                                     <option value="US">United States</option>
@@ -262,6 +354,12 @@ export default function SignUp() {
                                     <option value="BR">Brazil</option>
                                     <option value="ZA">South Africa</option>
                                 </select>
+                                {errors.email && (
+                                    <div className="flex items-center mt-1 text-sm text-red-700">
+                                        <FaExclamationTriangle className="w-4 h-4 mr-1" />
+                                        <span>{errors.country}</span>
+                                    </div>
+                                )}
                             </div>
 
                             <div className="flex items-start">
@@ -271,7 +369,8 @@ export default function SignUp() {
                                         type="checkbox"
                                         checked={clientReceiveEmails}
                                         onChange={(e) => setClientReceiveEmails(e.target.checked)}
-                                        className="h-4 w-4 text-orange-500 focus:ring-orange-500 border-gray-300 rounded"
+                                        className={`h-4 w-4 text-orange-500 focus:ring-orange-500 border-gray-300 rounded ${errors.email ? "border-red-700 focus:ring-red-600 focus:border-red-700" : "border-gray-300"
+                                            }`}
                                     />
                                 </div>
                                 <div className="ml-3 text-sm">
@@ -288,8 +387,9 @@ export default function SignUp() {
                                         type="checkbox"
                                         checked={clientAgreedToTerms}
                                         onChange={(e) => setClientAgreedToTerms(e.target.checked)}
-                                        className="h-4 w-4 text-orange-500 focus:ring-orange-500 border-gray-300 rounded"
-                                        required
+                                        className={`h-4 w-4 text-orange-500 focus:ring-orange-500 border-gray-300 rounded ${errors.email ? "border-red-700 focus:ring-red-600 focus:border-red-700" : "border-gray-300"
+                                            }`}
+
                                     />
                                 </div>
                                 <div className="ml-3 text-sm">
@@ -398,7 +498,7 @@ export default function SignUp() {
                                         onChange={(e) => setFreelancerFirstName(e.target.value)}
                                         className={`appearance-none block w-full px-3 py-3 border ${inputBorderColor} rounded-md  placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 ${inputBgColor} transition-colors duration-200`}
                                         placeholder="John"
-                                        required
+
                                     />
                                 </div>
                                 <div>
@@ -412,7 +512,7 @@ export default function SignUp() {
                                         onChange={(e) => setFreelancerLastName(e.target.value)}
                                         className={`appearance-none block w-full px-3 py-3 border ${inputBorderColor} rounded-md  placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 ${inputBgColor} transition-colors duration-200`}
                                         placeholder="Doe"
-                                        required
+
                                     />
                                 </div>
                             </div>
@@ -428,7 +528,7 @@ export default function SignUp() {
                                     onChange={(e) => setFreelancerEmail(e.target.value)}
                                     className={`appearance-none block w-full px-3 py-3 border ${inputBorderColor} rounded-md  placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 ${inputBgColor} transition-colors duration-200`}
                                     placeholder="johndoe@example.com"
-                                    required
+
                                 />
                             </div>
 
@@ -450,7 +550,7 @@ export default function SignUp() {
                                         className={`appearance-none block w-full px-3 py-3 border ${inputBorderColor} rounded-md  placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 ${inputBgColor} transition-colors duration-200`}
                                         placeholder="Minimum 8 characters"
                                         minLength="8"
-                                        required
+
                                     />
                                     <button
                                         type="button"
@@ -481,7 +581,7 @@ export default function SignUp() {
                                     value={freelancerCountry}
                                     onChange={(e) => setFreelancerCountry(e.target.value)}
                                     className={`appearance-none block w-full px-3 py-3 border ${inputBorderColor} rounded-md  placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 ${inputBgColor} transition-colors duration-200`}
-                                    required
+
                                 >
                                     <option value="">Select a country</option>
                                     <option value="US">United States</option>
@@ -522,7 +622,7 @@ export default function SignUp() {
                                         checked={freelancerAgreedToTerms}
                                         onChange={(e) => setFreelancerAgreedToTerms(e.target.checked)}
                                         className="h-4 w-4 text-orange-500 focus:ring-orange-500 border-gray-300 rounded"
-                                        required
+
                                     />
                                 </div>
                                 <div className="ml-3 text-sm">
@@ -558,7 +658,7 @@ export default function SignUp() {
                                     Sign up with Google
                                 </button> */}
 
-                                <LoginSocialGoogle className={`w-[50%] flex justify-center items-center py-3 rounded-md  ${inputBgColor} text-sm font-medium ${textColor}   focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors duration-200`} 
+                                <LoginSocialGoogle className={`w-[50%] flex justify-center items-center py-3 rounded-md  ${inputBgColor} text-sm font-medium ${textColor}   focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors duration-200`}
                                     client_id='1045466982465-p8irl41k8jnmuiukbkjc1jt04ed82aja.apps.googleusercontent.com'
                                     // onLoginStart={onLoginStart}
                                     // redirect_uri={REDIRECT_URI}
@@ -586,24 +686,24 @@ export default function SignUp() {
                                     Sign up with Facebook
                                 </button> */}
 
-                                <LoginSocialFacebook className={`w-[50%] flex justify-center items-center py-3 rounded-md  ${inputBgColor} text-sm font-medium ${textColor}   focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors duration-200`} 
-                                          appId='1106598061210789'
-                                          // fieldsProfile={
-                                          //   'id,first_name,last_name,middle_name,name,name_format,picture,short_name,email,gender'
-                                          // }
-                                          // onLoginStart={onLoginStart}
-                                          // onLogoutSuccess={onLogoutSuccess}
-                                          // redirect_uri={REDIRECT_URI}
-                                          onResolve={({ provider, data }) => {
-                                            setProvider(provider);
-                                            setProfile(data);
-                                          }}
-                                          onReject={err => {
-                                            console.log(err);
-                                          }}
-                                        >
-                                          <FacebookLoginButton />
-                                        </LoginSocialFacebook>
+                                <LoginSocialFacebook className={`w-[50%] flex justify-center items-center py-3 rounded-md  ${inputBgColor} text-sm font-medium ${textColor}   focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors duration-200`}
+                                    appId='1106598061210789'
+                                    // fieldsProfile={
+                                    //   'id,first_name,last_name,middle_name,name,name_format,picture,short_name,email,gender'
+                                    // }
+                                    // onLoginStart={onLoginStart}
+                                    // onLogoutSuccess={onLogoutSuccess}
+                                    // redirect_uri={REDIRECT_URI}
+                                    onResolve={({ provider, data }) => {
+                                        setProvider(provider);
+                                        setProfile(data);
+                                    }}
+                                    onReject={err => {
+                                        console.log(err);
+                                    }}
+                                >
+                                    <FacebookLoginButton />
+                                </LoginSocialFacebook>
                             </div>
                         </form>
                     )}
