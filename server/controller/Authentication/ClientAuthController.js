@@ -4,11 +4,11 @@ module.exports.SignUp = async (req, res) => {
         console.log(req.body.fname);
         console.log(req.body.lname);
 
-        const name = req.body.fname + " " + req.body.lname;
+        req.body.name = req.body.fname + " " + req.body.lname;
         const ClientSignUp = await ClientModel.create(req.body);
         res.status(201).json({
             message: "Client signed up successfully",
-            data:ClientSignUp,name
+            data:ClientSignUp
         });
     }
     catch (error) {
