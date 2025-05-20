@@ -87,6 +87,7 @@ export default function SignUp() {
             firstName: freelancerFirstName,
             lastName: freelancerLastName,
             email: freelancerEmail,
+            
             password: freelancerPassword,
             country: freelancerCountry,
             agreedToTerms: freelancerAgreedToTerms,

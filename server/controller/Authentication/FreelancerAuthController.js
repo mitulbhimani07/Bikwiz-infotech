@@ -1,5 +1,5 @@
-const ClientModel = require("../../Model/Authentication/ClientSignUp");
-const FreelancerModel = require("../../Model/Authentication/FreelancerSignUp");
+const ClientModel = require("../../Model/Authentication/ClientAuthModel");
+const FreelancerModel = require("../../Model/Authentication/FreelancerAuthModel");
 
 module.exports.SignUp = async (req, res) => {
     try {
