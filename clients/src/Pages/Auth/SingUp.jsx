@@ -10,6 +10,7 @@ import {
     FacebookLoginButton,
     GoogleLoginButton
 } from 'react-social-login-buttons';
+import { ClientSignup } from '../../API/Api';
 
 
 export default function SignUp() {
@@ -19,13 +20,21 @@ export default function SignUp() {
 
     const [theme, setTheme] = useState('light');
     // Client form state
-    const [clientFirstName, setClientFirstName] = useState('');
-    const [clientLastName, setClientLastName] = useState('');
-    const [clientWorkEmail, setClientWorkEmail] = useState('');
-    const [clientPassword, setClientPassword] = useState('');
-    const [clientCountry, setClientCountry] = useState('');
+    // const [clientFirstName, setClientFirstName] = useState('');
+    // const [clientLastName, setClientLastName] = useState('');
+    // const [clientWorkEmail, setClientWorkEmail] = useState('');
+    // const [clientPassword, setClientPassword] = useState('');
+    // const [clientCountry, setClientCountry] = useState('');
     const [clientAgreedToTerms, setClientAgreedToTerms] = useState(false);
     const [clientReceiveEmails, setClientReceiveEmails] = useState(false);
+
+    const [client,setclient]=useState({
+        fname:'',
+        lname:'',
+        email:'',
+        password:'',
+        country:''
+    })
 
     // Freelancer form state
     const [freelancerFirstName, setFreelancerFirstName] = useState('');
@@ -48,17 +57,27 @@ export default function SignUp() {
         setTheme(theme === 'light' ? 'dark' : 'light');
     };
 
-    const handleClientSubmit = (e) => {
+    const clientOnChange=(e)=>{
+        setclient({ ...client, [e.target.name]: e.target.value });
+    }
+
+    const handleClientSubmit =async (e) => {
         e.preventDefault();
-        console.log('Submitting Client Form with:', {
-            firstName: clientFirstName,
-            lastName: clientLastName,
-            workEmail: clientWorkEmail,
-            password: clientPassword,
-            country: clientCountry,
-            agreedToTerms: clientAgreedToTerms,
-            receiveEmails: clientReceiveEmails
-        });
+        try{
+            const res=await ClientSignup(client);
+            console.log("Response:", res);
+        }catch(error){
+            console.log("Error submitting form:", error);
+        }
+        // console.log('Submitting Client Form with:', {
+        //     firstName: clientFirstName,
+        //     lastName: clientLastName,
+        //     workEmail: clientWorkEmail,
+        //     password: clientPassword,
+        //     country: clientCountry,
+        //     agreedToTerms: clientAgreedToTerms,
+        //     receiveEmails: clientReceiveEmails
+        // });
         // Client form submission logic would go here
     };
 
@@ -136,8 +155,9 @@ export default function SignUp() {
                                     <input
                                         id="clientFirstName"
                                         type="text"
-                                        value={clientFirstName}
-                                        onChange={(e) => setClientFirstName(e.target.value)}
+                                        name='fname'
+                                        value={client.fname}
+                                        onChange={clientOnChange}
                                         className={`appearance-none block w-full px-3 py-3 border ${inputBorderColor} rounded-md  placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 ${inputBgColor} transition-colors duration-200`}
                                         placeholder="John"
                                         required
@@ -150,8 +170,9 @@ export default function SignUp() {
                                     <input
                                         id="clientLastName"
                                         type="text"
-                                        value={clientLastName}
-                                        onChange={(e) => setClientLastName(e.target.value)}
+                                        name='lname'
+                                        value={client.lname}
+                                        onChange={clientOnChange}
                                         className={`appearance-none block w-full px-3 py-3 border ${inputBorderColor} rounded-md  placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 ${inputBgColor} transition-colors duration-200`}
                                         placeholder="Doe"
                                         required
@@ -166,8 +187,9 @@ export default function SignUp() {
                                 <input
                                     id="clientWorkEmail"
                                     type="email"
-                                    value={clientWorkEmail}
-                                    onChange={(e) => setClientWorkEmail(e.target.value)}
+                                    name='email'
+                                    value={client.email}
+                                    onChange={clientOnChange}
                                     className={`appearance-none block w-full px-3 py-3 border ${inputBorderColor} rounded-md  placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 ${inputBgColor} transition-colors duration-200`}
                                     placeholder="john.doe@company.com"
                                     required
@@ -187,8 +209,9 @@ export default function SignUp() {
                                     <input
                                         id="clientPassword"
                                         type={showClientPassword ? "text" : "password"}
-                                        value={clientPassword}
-                                        onChange={(e) => setClientPassword(e.target.value)}
+                                        value={client.password}
+                                        name='password'
+                                        onChange={clientOnChange}
                                         className={`appearance-none block w-full px-3 py-3 border ${inputBorderColor} rounded-md  placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 ${inputBgColor} transition-colors duration-200`}
                                         placeholder="Minimum 8 characters"
                                         minLength="8"
@@ -220,8 +243,9 @@ export default function SignUp() {
                                 </label>
                                 <select
                                     id="clientCountry"
-                                    value={clientCountry}
-                                    onChange={(e) => setClientCountry(e.target.value)}
+                                    value={client.country}
+                                    name='country'
+                                    onChange={clientOnChange}
                                     className={`appearance-none block w-full px-3 py-3 border ${inputBorderColor} rounded-md  placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 ${inputBgColor} transition-colors duration-200`}
                                     required
                                 >
