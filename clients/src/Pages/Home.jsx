@@ -244,9 +244,10 @@ const MarketplaceBanner = () => {
         <div className="container mx-auto px-4 md:px-10">
           {/* Heading and navigation */}
           <div className="flex items-center justify-between mb-12">
-            <h5 className="text-3xl md:text-4xl font-bold text-black">
-              Popular Freelance Categories in India
-            </h5>
+            <h5 className="text-3xl md:text-4xl font-bold text-black text-center mx-auto w-fit">
+  Popular <span className="text-amber-500">Freelance Categories</span> in India
+</h5>
+
             <div className="flex items-center space-x-4">
               <div className="trending-swiper-button-prev cursor-pointer bg-white w-10 h-10 flex items-center justify-center shadow-md rounded-md hover:bg-green-100">
                 <ChevronLeft className="text-amber-500" />
@@ -307,7 +308,7 @@ const MarketplaceBanner = () => {
         <div className="max-w-6xl mx-auto px-6">
           <div className="mb-16">
             <h2 className="text-5xl font-bold text-gray-900 text-center">
-              How Our Freelancing Platform Works
+              How <span className="text-amber-500">Our Freelancing</span>  Platform Works
             </h2>
           </div>
 
@@ -411,11 +412,11 @@ const MarketplaceBanner = () => {
           )}
 
           {/* Step Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mt-16">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-16">
             {steps.map((step, index) => (
               <div
                 key={index}
-                className={`bg-white p-8 shadow-lg h-96 flex flex-col transition-all duration-300 ${sectionInView ? 'pr-10' : ''
+                className={`bg-white p-8 shadow-lg h-100 w-65 flex flex-col transition-all duration-300 ${sectionInView ? 'pr-10' : ''
                   }`}
                 onMouseEnter={() => setHoveredStep(index + 1)}
                 onMouseLeave={() => setHoveredStep(0)}
@@ -427,8 +428,8 @@ const MarketplaceBanner = () => {
                   </div>
                 </div>
                 <div className="text-sm font-semibold uppercase text-gray-500 tracking-wide mb-2">STEP {index + 1}</div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-2">{step.title}</h3>
-                <p className="mt-3 text-lg text-gray-600 flex-grow leading-relaxed">{step.content}</p>
+                <h3 className="text-xl font-bold text-orange-500 mb-2">{step.title}</h3>
+                <p className="mt-3 text-lg text-gray-900 flex-grow leading-relaxed">{step.content}</p>
               </div>
             ))}
           </div>
@@ -501,7 +502,7 @@ const MarketplaceBanner = () => {
           {/* Header */}
           <div className="text-center mb-10">
             <p className="text-orange-500 font-medium mb-2">3940+ Happy Users</p>
-            <h2 className="text-4xl md:text-4xl font-bold text-gray-900">Hear from Our Community</h2>
+            <h2 className="text-4xl md:text-4xl font-bold text-gray-900">Hear <span className="text-amber-500">from Our</span> Community</h2>
           </div>
 
           {/* Testimonials Grid */}
