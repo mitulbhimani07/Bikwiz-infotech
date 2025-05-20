@@ -8,8 +8,8 @@ app.use(express.json());
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 
-app.use('/client', require('./routes/Authentication/ClinetSignUpRoutes'));
-app.use('/freelancer', require('./routes/Authentication/FreelancerSignUpRoutes'));
+app.use('/client', require('./routes/Authentication/ClinetAuthRoutes'));
+app.use('/freelancer', require('./routes/Authentication/FreelancerAuthRoutes'));
 app.listen(PORT, () => {
   console.log(`Server is running on port http://localhost:${PORT}`);
 });

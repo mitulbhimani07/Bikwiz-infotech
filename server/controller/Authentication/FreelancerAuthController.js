@@ -1,9 +1,4 @@
-<<<<<<< HEAD:server/controller/Authentication/FreelancerSignUp.js
-const FreelancerModel = require('../../Model/Authentication/FreelancerSignUp');
-=======
-const ClientModel = require("../../Model/Authentication/ClientAuthModel");
 const FreelancerModel = require("../../Model/Authentication/FreelancerAuthModel");
->>>>>>> f317155aa232a66a2a82e3eb2575ad446e5cd753:server/controller/Authentication/FreelancerAuthController.js
 
 module.exports.freelancerSignUp = async (req, res) => {
     try {

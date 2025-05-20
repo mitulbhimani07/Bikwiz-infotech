@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const clientSignUpController = require("../../controller/Authentication/ClientSignUp");
+const clientSignUpController = require("../../controller/Authentication/ClientAuthController");
 // Register client route
 router.post('/signup', clientSignUpController.SignUp);
 // View all clients route

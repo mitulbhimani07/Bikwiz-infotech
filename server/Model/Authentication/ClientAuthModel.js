@@ -2,15 +2,10 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const clientSchema = new Schema({
-    fname: {
+    name: {
         type: String,
         required: true,
-        // trim: true
-    },
-     lname: {
-        type: String,
-        required: true,
-        // trim: true
+        // trim: true,
     },
     email: {
         type: String,

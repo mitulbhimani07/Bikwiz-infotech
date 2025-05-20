@@ -1,6 +1,6 @@
 const express = require('express');
 const route = express.Router();
-const freelancerController = require('../../controller/Authentication/FreelancerSignUp');
+const freelancerController = require('../../controller/Authentication/FreelancerAuthController');
 
 // Create a new freelancer
 route.post('/freelancersignup', freelancerController.freelancerSignUp);
