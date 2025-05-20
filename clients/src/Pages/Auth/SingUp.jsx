@@ -21,11 +21,20 @@ export default function SignUp() {
     const [profile, setProfile] = useState();
     // const [data,setdata]=useState({})
     const [errors, setErrors] = useState({
-        fname: '',
-        lname: '',
-        email: '',
-        password: '',
-        country: ''
+        client: {
+            fname: '',
+            lname: '',
+            email: '',
+            password: '',
+            country: ''
+        },
+        freelancer: {
+            fname: '',
+            lname: '',
+            email: '',
+            password: '',
+            country: ''
+        }
     });
 
 
@@ -124,6 +133,52 @@ export default function SignUp() {
         return valid;
     };
 
+    const validateFreelancerForm = () => {
+        let valid = true;
+        const newErrors = {
+            fname: '',
+            lname: '',
+            email: '',
+            password: '',
+            country: ''
+        };
+
+        if (!freelancer.fname.trim()) {
+            newErrors.fname = 'First name is required';
+            valid = false;
+        }
+
+        if (!freelancer.lname.trim()) {
+            newErrors.lname = 'Last name is required';
+            valid = false;
+        }
+
+        if (!freelancer.email.trim()) {
+            newErrors.email = 'Email is required';
+            valid = false;
+        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(freelancer.email)) {
+            newErrors.email = 'Please enter a valid email address';
+            valid = false;
+        }
+
+        if (!freelancer.password) {
+            newErrors.password = 'Password is required';
+            valid = false;
+        } else if (freelancer.password.length < 8) {
+            newErrors.password = 'Password must be at least 8 characters';
+            valid = false;
+        }
+
+        if (!freelancer.country) {
+            newErrors.country = 'Please select a country';
+            valid = false;
+        }
+
+        setErrors(prev => ({ ...prev, freelancer: newErrors }));
+        return valid;
+    };
+
+
     const toggleTheme = () => {
         setTheme(theme === 'light' ? 'dark' : 'light');
     };
@@ -150,7 +205,7 @@ export default function SignUp() {
             const res = await ClientSignup(client);
             console.log("Response:", res);
             toast.success("Sigup Successfully!!!")
-        }  catch  (error)  {
+        } catch (error) {
             console.log("Error submitting form:", error);
         }
         setclient({})
@@ -160,23 +215,24 @@ export default function SignUp() {
     };
 
 
-    
 
-    const handleFreelancerSubmit = async(e) => {
+
+
+    const handleFreelancerSubmit = async (e) => {
         e.preventDefault();
-         if (!validateForm()) {
+        if (!validateFreelancerForm()) {
             return;
         }
 
-        if (!clientAgreedToTerms) {
-            alert('You must agree to the terms and conditions');
+        if (!freelancerAgreedToTerms) {
+            toast.error('You must agree to the terms and conditions');
             return;
         }
         try {
             const res = await FreelancerSignup(freelancer);
             console.log("Response:", res);
             toast.success("Sigup Successfully!!!")
-        }  catch  (error)  {
+        } catch (error) {
             console.log("Error submitting form:", error);
         }
         setFreelancer({})
@@ -519,8 +575,8 @@ export default function SignUp() {
                                         id="freelancerFirstName"
                                         type="text"
                                         name='fname'
-                                        value={freelancer.fname? freelancer.fname : ""}
-                                        onChange={ FreelancerOnChange}
+                                        value={freelancer.fname ? freelancer.fname : ""}
+                                        onChange={FreelancerOnChange}
                                         className={`appearance-none block w-full px-3 py-3 border ${inputBorderColor} ${errors.email ? "border-red-700 focus:ring-red-600 focus:border-red-700" : "border-gray-300"
                                             } rounded-md  placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 ${inputBgColor} transition-colors duration-200`}
                                         placeholder="John"
@@ -541,8 +597,8 @@ export default function SignUp() {
                                         id="freelancerLastName"
                                         type="text"
                                         name='lname'
-                                        value={freelancer.lname? freelancer.lname : ""}
-                                        onChange={ FreelancerOnChange}
+                                        value={freelancer.lname ? freelancer.lname : ""}
+                                        onChange={FreelancerOnChange}
                                         className={`appearance-none block w-full px-3 py-3 border ${inputBorderColor} ${errors.email ? "border-red-700 focus:ring-red-600 focus:border-red-700" : "border-gray-300"
                                             } rounded-md  placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 ${inputBgColor} transition-colors duration-200`}
                                         placeholder="Doe"
@@ -565,19 +621,19 @@ export default function SignUp() {
                                     id="freelancerEmail"
                                     type="text"
                                     name='email'
-                                    value={freelancer.email? freelancer.email : ""}
-                                    onChange={ FreelancerOnChange}
+                                    value={freelancer.email ? freelancer.email : ""}
+                                    onChange={FreelancerOnChange}
                                     className={`appearance-none block w-full px-3 py-3 border ${inputBorderColor} ${errors.email ? "border-red-700 focus:ring-red-600 focus:border-red-700" : "border-gray-300"
-                                            } rounded-md  placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 ${inputBgColor} transition-colors duration-200`}
+                                        } rounded-md  placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 ${inputBgColor} transition-colors duration-200`}
                                     placeholder="johndoe@example.com"
 
                                 />
                                 {errors.email && (
-                                        <div className="flex items-center mt-1 text-sm text-red-700">
-                                            <FaExclamationTriangle className="w-4 h-4 mr-1" />
-                                            <span>{errors.email}</span>
-                                        </div>
-                                    )}
+                                    <div className="flex items-center mt-1 text-sm text-red-700">
+                                        <FaExclamationTriangle className="w-4 h-4 mr-1" />
+                                        <span>{errors.email}</span>
+                                    </div>
+                                )}
                             </div>
 
                             <div>
@@ -594,8 +650,8 @@ export default function SignUp() {
                                         id="freelancerPassword"
                                         type={showFreelancerPassword ? "text" : "password"}
                                         name='password'
-                                        value={freelancer.password? freelancer.password : ""}
-                                    onChange={ FreelancerOnChange}
+                                        value={freelancer.password ? freelancer.password : ""}
+                                        onChange={FreelancerOnChange}
                                         className={`appearance-none block w-full px-3 py-3 border ${inputBorderColor} ${errors.email ? "border-red-700 focus:ring-red-600 focus:border-red-700" : "border-gray-300"
                                             } rounded-md  placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 ${inputBgColor} transition-colors duration-200`}
                                         placeholder="Minimum 8 characters"
@@ -634,11 +690,11 @@ export default function SignUp() {
                                 </label>
                                 <select
                                     id="freelancerCountry"
-                                    value={freelancer.country? freelancer.country : ""}
+                                    value={freelancer.country ? freelancer.country : ""}
                                     name='country'
-                                    onChange={ FreelancerOnChange}
+                                    onChange={FreelancerOnChange}
                                     className={`appearance-none block w-full px-3 py-3 border ${inputBorderColor} ${errors.email ? "border-red-700 focus:ring-red-600 focus:border-red-700" : "border-gray-300"
-                                            } rounded-md  placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 ${inputBgColor} transition-colors duration-200`}
+                                        } rounded-md  placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 ${inputBgColor} transition-colors duration-200`}
 
                                 >
                                     <option value="">Select a country</option>
@@ -654,11 +710,11 @@ export default function SignUp() {
                                     <option value="ZA">South Africa</option>
                                 </select>
                                 {errors.country && (
-                                        <div className="flex items-center mt-1 text-sm text-red-700">
-                                            <FaExclamationTriangle className="w-4 h-4 mr-1" />
-                                            <span>{errors.country}</span>
-                                        </div>
-                                    )}
+                                    <div className="flex items-center mt-1 text-sm text-red-700">
+                                        <FaExclamationTriangle className="w-4 h-4 mr-1" />
+                                        <span>{errors.country}</span>
+                                    </div>
+                                )}
                             </div>
 
                             <div className="flex items-start">
