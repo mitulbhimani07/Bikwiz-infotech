@@ -501,7 +501,7 @@ const MarketplaceBanner = () => {
           {/* Header */}
           <div className="text-center mb-10">
             <p className="text-orange-500 font-medium mb-2">3940+ Happy Users</p>
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900">Hear from Our Community</h2>
+            <h2 className="text-4xl md:text-4xl font-bold text-gray-900">Hear from Our Community</h2>
           </div>
 
           {/* Testimonials Grid */}
@@ -509,7 +509,7 @@ const MarketplaceBanner = () => {
             {testimonials.map((testimonial) => (
               <div key={testimonial.id} className="flex items-start space-x-4 sm:space-x-6">
                 {/* Avatar */}
-                <div className={`rounded-lg overflow-hidden w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 ${testimonial.bgColor} flex-shrink-0`}>
+                <div className={`rounded-lg overflow-hidden w-24 h-24 sm:w-28 sm:h-28 md:w-30 md:h-30 ${testimonial.bgColor} flex-shrink-0`}>
                   <img
                     src={testimonial.avatar}
                     alt={`${testimonial.name} avatar`}
@@ -526,7 +526,7 @@ const MarketplaceBanner = () => {
                     ))}
                   </div>
                   {/* Testimonial Text */}
-                  <p className="text-gray-800 mb-3 text-base sm:text-lg">{testimonial.text}</p>
+                  <p className="text-gray-800 mb-3 text-base sm:text-l">{testimonial.text}</p>
                   {/* Name and Role */}
                   <div>
                     <p className="font-semibold text-gray-900">{testimonial.name}</p>

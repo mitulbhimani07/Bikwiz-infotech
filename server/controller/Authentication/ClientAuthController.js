@@ -1,14 +1,13 @@
 const ClientModel = require("../../Model/Authentication/ClientAuthModel");
 module.exports.SignUp = async (req, res) => {
     try {
-        console.log(req.body.fname);
-        console.log(req.body.lname);
+        console.log(req.body );
 
-        const name = req.body.fname + " " + req.body.lname;
+        req.body.name = req.body.fname + " " + req.body.lname;
         const ClientSignUp = await ClientModel.create(req.body);
         res.status(201).json({
             message: "Client signed up successfully",
-            data:ClientSignUp,name
+            data:ClientSignUp
         });
     }
     catch (error) {
@@ -63,10 +62,21 @@ module.exports.ClientDelete = async (req, res) => {
 }
 module.exports.ClientUpdate = async (req, res) => {
     try {
-        const client = await ClientModel.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        // Add this line BEFORE updating the client
+        if (req.body.fname && req.body.lname) {
+            req.body.name = req.body.fname + " " + req.body.lname;
+        }
+
+        const client = await ClientModel.findByIdAndUpdate(
+            req.params.id,
+            req.body,
+            { new: true }
+        );
+
         if (!client) {
             return res.status(404).json({ message: "Client not found" });
         }
+
         res.status(200).json({
             message: "Client updated successfully",
             data: client
@@ -76,4 +86,4 @@ module.exports.ClientUpdate = async (req, res) => {
         console.error("Error in ClientUpdate:", error);
         res.status(500).json({ message: "Internal server error" });
     }
-}
+};

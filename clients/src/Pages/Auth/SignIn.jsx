@@ -9,6 +9,7 @@ import {
   FacebookLoginButton,
   GoogleLoginButton
 } from 'react-social-login-buttons';
+import logo from '../../assets/images/logo.png'; // Adjust the path to your logo image
 
 export default function SignIn() {
   const [theme, setTheme] = useState('light');
@@ -38,7 +39,7 @@ export default function SignIn() {
   const pageBgColor = theme === 'light' ? 'bg-white' : 'bg-gray-950';
   const borderColor = theme === 'light' ? 'border-gray-200' : 'border-gray-700';
   const headerBg = theme === 'light' ? 'bg-white' : 'bg-gray-950';
-   const [provider, setProvider] = useState('');
+  const [provider, setProvider] = useState('');
   const [profile, setProfile] = useState();
   // const onLoginStart = useCallback(() => {
   //   alert('login start');
@@ -46,15 +47,12 @@ export default function SignIn() {
 
   return (
     <>
-        <header className={`${headerBg} ${textColor}  ${borderColor} transition-colors duration-300`}>
+      <header className={`${headerBg} ${textColor}  ${borderColor} transition-colors duration-300`}>
         <div className="container mx-auto px-24 py-5 flex justify-between items-center">
           <div className="flex items-center">
-            <div className="h-10 w-10 rounded-full bg-orange-600 flex items-center justify-center mr-3">
-              <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-              </svg>
-            </div>
-            <span className="font-bold text-xl">Bikwiz Infotech</span>
+            <Link to="/">
+              <img src={logo} alt="Bikwiz Infotech" width={130} height={130} />
+            </Link>
           </div>
           <button
             onClick={toggleTheme}
@@ -201,42 +199,42 @@ export default function SignIn() {
             </button>
           </div> */}
 
-            <LoginSocialGoogle
-          client_id='1045466982465-p8irl41k8jnmuiukbkjc1jt04ed82aja.apps.googleusercontent.com'
-          // onLoginStart={onLoginStart}
-          // redirect_uri={REDIRECT_URI}
-          scope="openid profile email"
-          discoveryDocs="claims_supported"
-          access_type="offline"
-          onResolve={({ provider, data }) => {
-            setProvider(provider);
-            setProfile(data);
-          }}
-          onReject={err => {
-            console.log(err);
-          }}
-        >
-          <GoogleLoginButton />
-        </LoginSocialGoogle>
+          <LoginSocialGoogle
+            client_id='1045466982465-p8irl41k8jnmuiukbkjc1jt04ed82aja.apps.googleusercontent.com'
+            // onLoginStart={onLoginStart}
+            // redirect_uri={REDIRECT_URI}
+            scope="openid profile email"
+            discoveryDocs="claims_supported"
+            access_type="offline"
+            onResolve={({ provider, data }) => {
+              setProvider(provider);
+              setProfile(data);
+            }}
+            onReject={err => {
+              console.log(err);
+            }}
+          >
+            <GoogleLoginButton />
+          </LoginSocialGoogle>
 
-         <LoginSocialFacebook
-          appId='1106598061210789'
-          // fieldsProfile={
-          //   'id,first_name,last_name,middle_name,name,name_format,picture,short_name,email,gender'
-          // }
-          // onLoginStart={onLoginStart}
-          // onLogoutSuccess={onLogoutSuccess}
-          // redirect_uri={REDIRECT_URI}
-          onResolve={({ provider, data }) => {
-            setProvider(provider);
-            setProfile(data);
-          }}
-          onReject={err => {
-            console.log(err);
-          }}
-        >
-          <FacebookLoginButton />
-        </LoginSocialFacebook>
+          <LoginSocialFacebook
+            appId='1106598061210789'
+            // fieldsProfile={
+            //   'id,first_name,last_name,middle_name,name,name_format,picture,short_name,email,gender'
+            // }
+            // onLoginStart={onLoginStart}
+            // onLogoutSuccess={onLogoutSuccess}
+            // redirect_uri={REDIRECT_URI}
+            onResolve={({ provider, data }) => {
+              setProvider(provider);
+              setProfile(data);
+            }}
+            onReject={err => {
+              console.log(err);
+            }}
+          >
+            <FacebookLoginButton />
+          </LoginSocialFacebook>
 
           <div className="text-center mt-6">
             <p className={`text-sm ${theme === 'light' ? 'text-gray-600' : 'text-gray-400'}`}>
