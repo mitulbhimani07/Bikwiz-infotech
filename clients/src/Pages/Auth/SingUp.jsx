@@ -12,6 +12,7 @@ import {
 } from 'react-social-login-buttons';
 import { ClientSignup } from '../../API/Api';
 import logo from '../../assets/images/logo.png'; // Adjust the path to your logo image
+import toast from 'react-hot-toast';
 
 
 export default function SignUp() {
@@ -67,8 +68,10 @@ export default function SignUp() {
         try {
             const res = await ClientSignup(client);
             console.log("Response:", res);
+            toast.success("Sigup Successfully!!!")
         } catch (error) {
             console.log("Error submitting form:", error);
+            toast.error("Something wrong!!!")
         }
         // console.log('Submitting Client Form with:', {
         //     firstName: clientFirstName,
