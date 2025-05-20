@@ -175,7 +175,7 @@ export default function SignUp() {
             valid = false;
         }
 
-        setErrors(prev => ({ ...prev, freelancer: newErrors }));
+        setErrors(newErrors);
         return valid;
     };
 
