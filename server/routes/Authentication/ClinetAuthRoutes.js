@@ -14,4 +14,8 @@ router.put('/update/:id', clientSignUpController.ClientUpdate);
 // Login client route
 router.post('/signin', clientSignUpController.ClientLogin);
 
+router.post('/verifyEmail',clientSignUpController.VerifyEmail)
+router.post('/verifyOtp',clientSignUpController.verifyOtp)
+router.post('/ResetPassword',clientSignUpController.ResetPassword)
+
 module.exports = router;

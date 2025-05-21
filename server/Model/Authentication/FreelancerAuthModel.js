@@ -37,6 +37,12 @@ const freelancerSchema = new Schema({
     country: {
         type: String,
         trim: true,
+    },
+    otp:{
+        type:String
+    },
+    otpExpiration:{
+        type:String
     }
 }, {
     timestamps: true,
