@@ -7,6 +7,8 @@ import SignIn from './Pages/Auth/SignIn'
 import VerifyEmail from './Pages/Auth/ForgotPassword/VerifyEmail'
 import VerifyOTP from './Pages/Auth/ForgotPassword/VerifyOTP'
 import ResetPassword from './Pages/Auth/ForgotPassword/ResetPassword'
+import ClientDashboard from './Pages/client/ClientDashboard'
+import FreelancerDashboard from './Pages/freelancer/FreelancerDashboard'
 function AllRoutes() {
   return (
     <div>
@@ -20,6 +22,8 @@ function AllRoutes() {
           <Route path='/verifyemail' element={<VerifyEmail/>}/>
           <Route path='/verifyotp' element={<VerifyOTP/>}/>
           <Route path='/resetpassword' element={<ResetPassword/>}/>
+          <Route path='/ClientDashboard' element={<ClientDashboard/>}/>
+          <Route path='/FreelancerDashboard' element={<FreelancerDashboard/>}/>
         </Routes>
     </div>
   )

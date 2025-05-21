@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   LoginSocialGoogle,
   LoginSocialFacebook
@@ -12,11 +12,13 @@ import {
 import logo from '../../assets/images/logo.png'; // Adjust the path to your logo image
 import logo2 from '../../assets/images/logo2.png'; // Adjust the path to your logo image
 import { Signin } from '../../API/Api';
+import toast from 'react-hot-toast';
 
 export default function SignIn() {
   const [theme, setTheme] = useState('light');
   // const [workEmail, setWorkEmail] = useState('');
   // const [password, setPassword] = useState('');
+  const navigate=useNavigate()
 
   const [signin,setSignin]=useState({
     workEmail:'',
@@ -30,14 +32,25 @@ export default function SignIn() {
   };
 
   const handleChange = (e) => {
-        setclient({ ...client, [e.target.name]: e.target.value });
+        setSignin({ ...signin, [e.target.name]: e.target.value });
     }
 
-  const handleSubmit = async() => {
+  const handleSubmit = async(e) => {
+    e.preventDefault();
     try {
-            const res = await Signin(client);
+            const res = await Signin(signin);
             console.log("Response:", res);
-            toast.success("Sigin Successfully!!!")
+            toast.success("SignIn Successfully!!!")
+
+            const role=res.role;
+
+            if(role=='client'){
+              navigate('/ClientDashboard')
+            }else{
+              navigate('/FreelancerDashboard')
+            }
+
+            
         } catch (error) {
             console.log("Error submitting form:", error);
         }
@@ -99,14 +112,14 @@ export default function SignIn() {
 
           <form onSubmit={handleSubmit} className="space-y-5">
             <div>
-              <label htmlFor="workEmail" className="block text-sm font-medium mb-1">
-                Work Email
+              <label htmlFor="email" className="block text-sm font-medium mb-1">
+                Email
               </label>
               <input
                 id="workEmail"
                 type="text"
                 name="email"
-                value={signin.workEmail}
+                value={signin.email}
                 onChange={handleChange}
                 className={`appearance-none block w-full px-3 py-3 border ${inputBorderColor} rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 ${inputBgColor} transition-colors duration-200`}
                 placeholder="john.doe@company.com"
