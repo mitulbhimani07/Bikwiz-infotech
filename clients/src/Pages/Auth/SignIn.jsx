@@ -17,6 +17,8 @@ import { FaExclamationTriangle } from 'react-icons/fa';
 
 export default function SignIn() {
   const [theme, setTheme] = useState('light');
+    const [errors, setErrors] = useState({});
+
   // const [workEmail, setWorkEmail] = useState('');
   // const [password, setPassword] = useState('');
   const navigate = useNavigate()
@@ -37,7 +39,7 @@ export default function SignIn() {
 
     // Email Validation
     if (!signin.email) {
-      newErrors.email = "Email is required.";
+      newErrors.email = "Email is required";
     } else if (!/\S+@\S+\.\S+/.test(signin.email)) {
       newErrors.email = "Email format is invalid.";
     }
@@ -92,7 +94,6 @@ export default function SignIn() {
   const headerBg = theme === 'light' ? 'bg-white' : 'bg-gray-950';
   const [provider, setProvider] = useState('');
   const [profile, setProfile] = useState();
-  const [errors, setErrors] = useState({});
 
   // const onLoginStart = useCallback(() => {
   //   alert('login start');
@@ -151,7 +152,7 @@ export default function SignIn() {
                 className={`appearance-none block w-full px-3 py-3 border ${errors.email ? "border-red-700 focus:ring-red-600 focus:border-red-700" : "border-gray-300"
                   } ${inputBorderColor} rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 ${inputBgColor} transition-colors duration-200`}
                 placeholder="john.doe@company.com"
-                required
+                
               />
               {errors.email && (
                 <div className="flex items-center mt-1 text-sm text-red-700">
@@ -177,7 +178,7 @@ export default function SignIn() {
                   className={`appearance-none block w-full px-3 py-3 border ${errors.email ? "border-red-700 focus:ring-red-600 focus:border-red-700" : "border-gray-300"
                   } ${inputBorderColor} rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 ${inputBgColor} transition-colors duration-200`}
                   placeholder="Min 8 character"
-                  required
+                  
                 />
                 {errors.password && (
                 <div className="flex items-center mt-1 text-sm text-red-700">
@@ -315,7 +316,7 @@ export default function SignIn() {
               Don't have an account?{' '}
               <a href="#" className="text-orange-500 font-medium hover:underline">
                 <Link to="/joinas">
-                  Sign Up
+                  Create an account
                 </Link>
               </a>
             </p>
