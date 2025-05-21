@@ -245,8 +245,8 @@ const MarketplaceBanner = () => {
           {/* Heading and navigation */}
           <div className="flex items-center justify-between mb-12">
             <h5 className="text-3xl md:text-4xl font-bold text-black text-center mx-auto w-fit">
-  Popular <span className="text-amber-500">Freelance Categories</span> in India
-</h5>
+              Popular <span className="text-amber-500">Freelance Categories</span> in India
+            </h5>
 
             <div className="flex items-center space-x-4">
               <div className="trending-swiper-button-prev cursor-pointer bg-white w-10 h-10 flex items-center justify-center shadow-md rounded-md hover:bg-green-100">
@@ -336,8 +336,8 @@ const MarketplaceBanner = () => {
                       <div key={index} className="relative z-10">
                         <button
                           className={`w-16 h-16 rounded-lg flex items-center justify-center text-lg font-bold transition-all duration-300 ${isActive
-                              ? 'text-white'
-                              : 'bg-white text-gray-500 border-2 border-gray-200'
+                            ? 'text-white'
+                            : 'bg-white text-gray-500 border-2 border-gray-200'
                             }`}
                           style={{
                             backgroundColor: isActive ? 'oklch(70.5% 0.213 47.604)' : 'white',
@@ -389,8 +389,8 @@ const MarketplaceBanner = () => {
                     >
                       <button
                         className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all duration-300 ${isActive
-                            ? 'text-white'
-                            : 'bg-white text-gray-500 border-2 border-gray-200'
+                          ? 'text-white'
+                          : 'bg-white text-gray-500 border-2 border-gray-200'
                           }`}
                         style={{
                           backgroundColor: isActive ? 'oklch(70.5% 0.213 47.604)' : 'white',
