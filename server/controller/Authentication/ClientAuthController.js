@@ -1,5 +1,9 @@
 const ClientModel = require("../../Model/Authentication/ClientAuthModel");
+const freelancermodel=require("../../Model/Authentication/FreelancerAuthModel")
 const bcrypt = require('bcrypt');
+var jwt = require('jsonwebtoken');
+
+const JWT_SECRET = process.env.JWT_SECRET;
 
 // Salt rounds for bcrypt (higher is more secure but slower)
 const SALT_ROUNDS = 10;
@@ -117,36 +121,64 @@ module.exports.ClientUpdate = async (req, res) => {
     }
 };
 
-// Add a login method
+
 module.exports.ClientLogin = async (req, res) => {
     try {
         const { email, password } = req.body;
-        
-        // Find client by email
-        const client = await ClientModel.findOne({ email });
-        
-        if (!client) {
-            return res.status(404).json({ message: "Client not found" });
+
+        if (!email || !password) {
+            return res.status(400).json({ message: "Email and password are required" });
         }
-        
-        // Compare provided password with stored hash
-        const isPasswordValid = await bcrypt.compare(password, client.password);
-        
+
+        let user = null;
+        let role = null;
+
+        // Try finding user in Client collection
+        user = await ClientModel.findOne({ email });
+        if (user) {
+            role = 'client';
+        } else {
+            // Try finding in Freelancer collection
+            user = await freelancermodel.findOne({ email });
+            if (user) {
+                role = 'freelancer';
+            }
+        }
+
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        const isPasswordValid = await bcrypt.compare(password, user.password);
         if (!isPasswordValid) {
             return res.status(401).json({ message: "Invalid credentials" });
         }
-        
-        // Don't send password back in response
-        const clientResponse = client.toObject();
-        delete clientResponse.password;
-        
+
+        const userResponse = user.toObject();
+        delete userResponse.password;
+
+        // ✅ Create JWT token
+        const token = jwt.sign(
+            {
+                userId: user._id,
+                email: user.email,
+                role: role, // Include role in token
+            },
+            process.env.JWT_SECRET, // Make sure this is defined in your .env
+            { expiresIn: '1h' }
+        );
+
         res.status(200).json({
             message: "Login successful",
-            data: clientResponse
+            role,
+            token,
+            data: userResponse
         });
-    }
-    catch (error) {
+
+    } catch (error) {
         console.error("Error in Login:", error);
         res.status(500).json({ message: "Internal server error" });
     }
 };
+
+
