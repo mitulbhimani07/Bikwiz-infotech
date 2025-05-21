@@ -11,11 +11,17 @@ import {
 } from 'react-social-login-buttons';
 import logo from '../../assets/images/logo.png'; // Adjust the path to your logo image
 import logo2 from '../../assets/images/logo2.png'; // Adjust the path to your logo image
+import { Signin } from '../../API/Api';
 
 export default function SignIn() {
   const [theme, setTheme] = useState('light');
-  const [workEmail, setWorkEmail] = useState('');
-  const [password, setPassword] = useState('');
+  // const [workEmail, setWorkEmail] = useState('');
+  // const [password, setPassword] = useState('');
+
+  const [signin,setSignin]=useState({
+    workEmail:'',
+    password:''
+  })
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
 
@@ -23,12 +29,18 @@ export default function SignIn() {
     setTheme(theme === 'light' ? 'dark' : 'light');
   };
 
-  const handleSubmit = () => {
-    console.log('Logging in with:', {
-      workEmail,
-      password,
-      rememberMe
-    });
+  const handleChange = (e) => {
+        setclient({ ...client, [e.target.name]: e.target.value });
+    }
+
+  const handleSubmit = async() => {
+    try {
+            const res = await Signin(client);
+            console.log("Response:", res);
+            toast.success("Sigin Successfully!!!")
+        } catch (error) {
+            console.log("Error submitting form:", error);
+        }
     // Login logic would go here
   };
 
@@ -85,18 +97,20 @@ export default function SignIn() {
             </p>
           </div>
 
-          <div className="space-y-5">
+          <form onSubmit={handleSubmit} className="space-y-5">
             <div>
               <label htmlFor="workEmail" className="block text-sm font-medium mb-1">
                 Work Email
               </label>
               <input
                 id="workEmail"
-                type="email"
-                value={workEmail}
-                onChange={(e) => setWorkEmail(e.target.value)}
+                type="text"
+                name="email"
+                value={signin.workEmail}
+                onChange={handleChange}
                 className={`appearance-none block w-full px-3 py-3 border ${inputBorderColor} rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 ${inputBgColor} transition-colors duration-200`}
                 placeholder="john.doe@company.com"
+                required
               />
             </div>
 
@@ -105,16 +119,17 @@ export default function SignIn() {
                 <label htmlFor="password" className="block text-sm font-medium">
                   Password
                 </label>
-
               </div>
               <div className="relative">
                 <input
                   id="password"
                   type={showPassword ? "text" : "password"}
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  value={signin.password}
+                  name="password"
+                  onChange={handleChange}
                   className={`appearance-none block w-full px-3 py-3 border ${inputBorderColor} rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 ${inputBgColor} transition-colors duration-200`}
                   placeholder="Min 8 character"
+                  required
                 />
 
                 <button
@@ -161,13 +176,13 @@ export default function SignIn() {
 
             <div>
               <button
-                onClick={handleSubmit}
+                type="submit"
                 className="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-orange-500 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition-colors duration-200"
               >
                 Log In
               </button>
             </div>
-          </div>
+          </form>
 
           <div className="relative flex items-center justify-center my-6">
             <div className={`border-t ${inputBorderColor} absolute w-full`}></div>

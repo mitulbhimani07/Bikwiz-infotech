@@ -23,3 +23,15 @@ export const FreelancerSignup=async(payload)=>{
         throw error;
     }
 }
+
+export const Signin=async(payload)=>{
+    try{
+        const response=await axios.post("http://localhost:3000/client/signin",payload);
+
+        console.log("user",response.data);
+        return response.data;
+    }catch(error){
+        console.error("Error in Signin API:", error);
+        throw error;
+    }
+}
