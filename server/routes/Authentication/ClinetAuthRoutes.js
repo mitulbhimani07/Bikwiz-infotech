@@ -11,5 +11,7 @@ router.get('/view/:id', clientSignUpController.SingleClientview);
 router.delete('/delete/:id', clientSignUpController.ClientDelete);
 // Update client route
 router.put('/update/:id', clientSignUpController.ClientUpdate);
+// Login client route
+router.post('/signin', clientSignUpController.ClientLogin);
 
 module.exports = router;
