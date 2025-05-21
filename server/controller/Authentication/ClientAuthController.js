@@ -1,4 +1,5 @@
 const ClientModel = require("../../Model/Authentication/ClientAuthModel");
+const freelancermodel=require("../../Model/Authentication/FreelancerAuthModel")
 const bcrypt = require('bcrypt');
 
 // Salt rounds for bcrypt (higher is more secure but slower)
@@ -117,36 +118,51 @@ module.exports.ClientUpdate = async (req, res) => {
     }
 };
 
-// Add a login method
+
 module.exports.ClientLogin = async (req, res) => {
     try {
         const { email, password } = req.body;
-        
-        // Find client by email
-        const client = await ClientModel.findOne({ email });
-        
-        if (!client) {
-            return res.status(404).json({ message: "Client not found" });
+
+        if (!email || !password) {
+            return res.status(400).json({ message: "Email and password are required" });
         }
-        
-        // Compare provided password with stored hash
-        const isPasswordValid = await bcrypt.compare(password, client.password);
-        
+
+        let user = null;
+        let role = null;
+
+        // Try finding user in Client collection
+        user = await ClientModel.findOne({ email });
+        if (user) {
+            role = 'client';
+        } else {
+            // Try finding in Freelancer collection
+            user = await freelancermodel.findOne({ email });
+            if (user) {
+                role = 'freelancer';
+            }
+        }
+
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        const isPasswordValid = await bcrypt.compare(password, user.password);
         if (!isPasswordValid) {
             return res.status(401).json({ message: "Invalid credentials" });
         }
-        
-        // Don't send password back in response
-        const clientResponse = client.toObject();
-        delete clientResponse.password;
-        
+
+        const userResponse = user.toObject();
+        delete userResponse.password;
+
         res.status(200).json({
             message: "Login successful",
-            data: clientResponse
+            role,
+            data: userResponse
         });
-    }
-    catch (error) {
+
+    } catch (error) {
         console.error("Error in Login:", error);
         res.status(500).json({ message: "Internal server error" });
     }
 };
+
