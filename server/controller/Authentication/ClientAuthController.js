@@ -1,6 +1,9 @@
 const ClientModel = require("../../Model/Authentication/ClientAuthModel");
 const freelancermodel=require("../../Model/Authentication/FreelancerAuthModel")
 const bcrypt = require('bcrypt');
+var jwt = require('jsonwebtoken');
+
+const JWT_SECRET = process.env.JWT_SECRET;
 
 // Salt rounds for bcrypt (higher is more secure but slower)
 const SALT_ROUNDS = 10;
@@ -154,9 +157,21 @@ module.exports.ClientLogin = async (req, res) => {
         const userResponse = user.toObject();
         delete userResponse.password;
 
+        // ✅ Create JWT token
+        const token = jwt.sign(
+            {
+                userId: user._id,
+                email: user.email,
+                role: role, // Include role in token
+            },
+            process.env.JWT_SECRET, // Make sure this is defined in your .env
+            { expiresIn: '1h' }
+        );
+
         res.status(200).json({
             message: "Login successful",
             role,
+            token,
             data: userResponse
         });
 
@@ -165,4 +180,5 @@ module.exports.ClientLogin = async (req, res) => {
         res.status(500).json({ message: "Internal server error" });
     }
 };
+
 
