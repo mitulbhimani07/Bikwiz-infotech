@@ -13,16 +13,17 @@ import logo from '../../assets/images/logo.png'; // Adjust the path to your logo
 import logo2 from '../../assets/images/logo2.png'; // Adjust the path to your logo image
 import { Signin } from '../../API/Api';
 import toast from 'react-hot-toast';
+import { FaExclamationTriangle } from 'react-icons/fa';
 
 export default function SignIn() {
   const [theme, setTheme] = useState('light');
   // const [workEmail, setWorkEmail] = useState('');
   // const [password, setPassword] = useState('');
-  const navigate=useNavigate()
+  const navigate = useNavigate()
 
-  const [signin,setSignin]=useState({
-    workEmail:'',
-    password:''
+  const [signin, setSignin] = useState({
+    workEmail: '',
+    password: ''
   })
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
@@ -31,29 +32,53 @@ export default function SignIn() {
     setTheme(theme === 'light' ? 'dark' : 'light');
   };
 
-  const handleChange = (e) => {
-        setSignin({ ...signin, [e.target.name]: e.target.value });
+  const validateForm = () => {
+    const newErrors = {};
+
+    // Email Validation
+    if (!signin.email) {
+      newErrors.email = "Email is required.";
+    } else if (!/\S+@\S+\.\S+/.test(signin.email)) {
+      newErrors.email = "Email format is invalid.";
     }
 
-  const handleSubmit = async(e) => {
+    // Password Validation
+    if (!signin.password) {
+      newErrors.password = "Password is required.";
+    } else if (signin.password.length < 8) {
+      newErrors.password = "Password must be at least 8 characters.";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+
+  const handleChange = (e) => {
+    setSignin({ ...signin, [e.target.name]: e.target.value });
+  }
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!validateForm()) return;
+
     try {
-            const res = await Signin(signin);
-            console.log("Response:", res);
-            toast.success("SignIn Successfully!!!")
+      const res = await Signin(signin);
+      console.log("Response:", res);
+      toast.success("SignIn Successfully!!!")
 
-            const role=res.role;
+      const role = res.role;
 
-            if(role=='client'){
-              navigate('/ClientDashboard')
-            }else{
-              navigate('/FreelancerDashboard')
-            }
+      if (role == 'client') {
+        navigate('/ClientDashboard')
+      } else {
+        navigate('/FreelancerDashboard')
+      }
 
-            
-        } catch (error) {
-            console.log("Error submitting form:", error);
-        }
+
+    } catch (error) {
+      console.log("Error submitting form:", error);
+    }
     // Login logic would go here
   };
 
@@ -67,6 +92,8 @@ export default function SignIn() {
   const headerBg = theme === 'light' ? 'bg-white' : 'bg-gray-950';
   const [provider, setProvider] = useState('');
   const [profile, setProfile] = useState();
+  const [errors, setErrors] = useState({});
+
   // const onLoginStart = useCallback(() => {
   //   alert('login start');
   // }, []);
@@ -121,10 +148,17 @@ export default function SignIn() {
                 name="email"
                 value={signin.email}
                 onChange={handleChange}
-                className={`appearance-none block w-full px-3 py-3 border ${inputBorderColor} rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 ${inputBgColor} transition-colors duration-200`}
+                className={`appearance-none block w-full px-3 py-3 border ${errors.email ? "border-red-700 focus:ring-red-600 focus:border-red-700" : "border-gray-300"
+                  } ${inputBorderColor} rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 ${inputBgColor} transition-colors duration-200`}
                 placeholder="john.doe@company.com"
                 required
               />
+              {errors.email && (
+                <div className="flex items-center mt-1 text-sm text-red-700">
+                  <FaExclamationTriangle className="w-4 h-4 mr-1" />
+                  <span>{errors.email}</span>
+                </div>
+              )}
             </div>
 
             <div>
@@ -140,10 +174,17 @@ export default function SignIn() {
                   value={signin.password}
                   name="password"
                   onChange={handleChange}
-                  className={`appearance-none block w-full px-3 py-3 border ${inputBorderColor} rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 ${inputBgColor} transition-colors duration-200`}
+                  className={`appearance-none block w-full px-3 py-3 border ${errors.email ? "border-red-700 focus:ring-red-600 focus:border-red-700" : "border-gray-300"
+                  } ${inputBorderColor} rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 ${inputBgColor} transition-colors duration-200`}
                   placeholder="Min 8 character"
                   required
                 />
+                {errors.password && (
+                <div className="flex items-center mt-1 text-sm text-red-700">
+                  <FaExclamationTriangle className="w-4 h-4 mr-1" />
+                  <span>{errors.password}</span>
+                </div>
+              )}
 
                 <button
                   type="button"
