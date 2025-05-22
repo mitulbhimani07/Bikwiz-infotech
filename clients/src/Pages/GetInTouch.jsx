@@ -97,8 +97,8 @@ export default function GetInTouch() {
       </div>
 
 
-      <Footer />
-      <Header/>
+      
+      
 
 
       {/* add map */}
