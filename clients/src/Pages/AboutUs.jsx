@@ -8,7 +8,7 @@ export default function AboutUs() {
     <div>
         <Header />
         <section
-        className="banner-section relative w-[95%] mx-auto h-[610px] flex items-center justify-center bg-cover bg-center my-5"
+        className="banner-section relative w-[95%] mx-auto h-[450px] flex items-center justify-center bg-cover bg-center my-5"
         style={{ backgroundImage: `url(${banner})`, borderRadius: "20px", overflow: "hidden" }}
       >
         {/* Top-right Sign Up Button */}
@@ -16,7 +16,7 @@ export default function AboutUs() {
 
         {/* Content */}
         <div className="relative z-10 text-center px-4 md:px-10 max-w-7xl">
-          <h1 className="text-white text-3xl sm:text-4xl md:text-3xl lg:text-6xl font-bold leading-tight">
+          <h1 className="text-white text-3xl sm:text-4xl md:text-3xl lg:text-5xl font-bold leading-tight">
             Bikwiz Infotech: India’s Own Freelance Platform<br />
           </h1>
 
