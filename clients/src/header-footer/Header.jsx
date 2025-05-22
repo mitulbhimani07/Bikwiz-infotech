@@ -22,7 +22,7 @@ const Header = () => {
           </div>
 
           {/* Nav Links - Desktop */}
-          <nav className="hidden md:flex space-x-6 text-[16px] font-medium text-gray-700">
+          <nav className="hidden lg:flex space-x-6 text-[16px] font-medium text-gray-700">
             <Link to="/" className="hover:text-orange-500">Home</Link>
             <Link to="/about" className="hover:text-orange-500">About Us</Link>
             <Link to="/find-talent" className="hover:text-orange-500">Find Talent</Link>
@@ -32,7 +32,7 @@ const Header = () => {
           </nav>
 
           {/* Buttons - Desktop */}
-          <div className="hidden md:flex items-center space-x-4">
+          <div className="hidden lg:flex items-center space-x-4">
             <Link to="/login" className="text-[16px] font-medium text-gray-800 hover:text-orange-500">
               Log In
             </Link>
@@ -46,7 +46,7 @@ const Header = () => {
 
           {/* Mobile Menu Button */}
           <button
-            className="md:hidden text-gray-700 focus:outline-none"
+            className="lg:hidden text-gray-700 focus:outline-none"
             onClick={toggleMobileMenu}
           >
             {isMobileMenuOpen ? <FiX size={24} /> : <FiMenu size={24} />}
@@ -58,7 +58,7 @@ const Header = () => {
       <div
         className={`fixed top-0 left-0 w-full h-full bg-white z-40 transform transition-transform duration-300 ease-in-out ${
           isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'
-        } md:hidden`}
+        } lg:hidden`}
       >
         <div className="flex flex-col h-full pt-20 px-6">
           <nav className="flex flex-col space-y-6 text-[16px] font-medium text-gray-700">
