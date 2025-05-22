@@ -484,9 +484,9 @@ export default function AboutUs() {
           </p>
 
           {/* Custom Grid Layout */}
-          <div className="grid gap-8">
+          <div className="grid  gap-8">
             {/* First row - 3 cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-3 gap-8">
               {features.slice(0, 3).map((item, index) => (
                 <div
                   key={index}
@@ -507,7 +507,7 @@ export default function AboutUs() {
             </div>
 
             {/* Second row - 2 cards centered */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 max-w-4xl mx-auto">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 max-w-4xl mx-auto">
               {features.slice(3, 5).map((item, index) => (
                 <div
                   key={index + 3}
