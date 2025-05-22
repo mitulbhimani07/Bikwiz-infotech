@@ -164,6 +164,51 @@ export default function AboutUs() {
       </div>
 
 
+      
+    {/* our vision section */}
+
+
+     <div className="max-w-7xl mx-auto p-4 bg-white">
+      {/* Our Vision Section */}
+      <div className="mb-16">
+        <div className="flex flex-col lg:flex-row gap-12 items-center">
+          {/* Illustration */}
+          <div className="flex-shrink-0 lg:w-1/2">
+            <div className="relative w-full max-w-md mx-auto">
+              <img 
+                src={vision} 
+                alt="Our Vision Illustration" 
+                className="w-full h-auto object-contain"
+              />
+            </div>
+          </div>
+
+          {/* Text Content */}
+          <div className="flex-1 lg:w-1/2">
+            <h2 className="text-5xl font-bold text-black mb-8 leading-tight">
+              Our Vision
+            </h2>
+            
+            <div className="space-y-6 text-gray-800 text-lg leading-relaxed">
+              <p>
+                We dream of an India where freelancing is a respected, stable, and rewarding 
+                career. A country where anyone, from metros to small towns, can use their 
+                skills, work independently, and earn with pride.
+              </p>
+              
+              <p>
+                Bikwiz Infotech is more than just a platform-it's a movement to empower 
+                India's freelance talent, help local businesses grow, and create a strong digital 
+                workforce for tomorrow.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+
       <div className="bg-orange-500 py-3 overflow-hidden">
   <div className="max-w-7xl mx-auto py-5">
     <marquee
@@ -278,51 +323,8 @@ export default function AboutUs() {
           </div>
         </div>
       </section>
-      <Footer />
 
 
-    {/* our vision section */}
-
-
-     <div className="max-w-7xl mx-auto p-4 bg-white">
-      {/* Our Vision Section */}
-      <div className="mb-16">
-        <div className="flex flex-col lg:flex-row gap-12 items-center">
-          {/* Illustration */}
-          <div className="flex-shrink-0 lg:w-1/2">
-            <div className="relative w-full max-w-md mx-auto">
-              <img 
-                src={vision} 
-                alt="Our Vision Illustration" 
-                className="w-full h-auto object-contain"
-              />
-            </div>
-          </div>
-
-          {/* Text Content */}
-          <div className="flex-1 lg:w-1/2">
-            <h2 className="text-5xl font-bold text-black mb-8 leading-tight">
-              Our Vision
-            </h2>
-            
-            <div className="space-y-6 text-gray-800 text-lg leading-relaxed">
-              <p>
-                We dream of an India where freelancing is a respected, stable, and rewarding 
-                career. A country where anyone, from metros to small towns, can use their 
-                skills, work independently, and earn with pride.
-              </p>
-              
-              <p>
-                Bikwiz Infotech is more than just a platform-it's a movement to empower 
-                India's freelance talent, help local businesses grow, and create a strong digital 
-                workforce for tomorrow.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div>
 
 
     {/* why choose section */}
@@ -475,6 +477,8 @@ export default function AboutUs() {
           </div>
         </div>
       </div>
+
+      <Footer/>
 
     </>
 
