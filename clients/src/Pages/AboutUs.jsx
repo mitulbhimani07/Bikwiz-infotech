@@ -221,83 +221,71 @@ export default function AboutUs() {
         </div>
       </section>
 
-      {/* Our purpose section */}
-      <div className="max-w-7xl mx-auto p-6 bg-white">
-        {/* Main container with dashed border */}
-        <div className="">
-          <div className="flex flex-col lg:flex-row">
-            {/* Text Content Section */}
-
             {/* Our purpose section */}
-            <div className="max-w-7xl mx-auto p-6 bg-white">
-              {/* Main container with dashed border */}
-              <div className="">
-                <div className="flex flex-col lg:flex-row">
-                  {/* Text Content Section */}
-                  <div className="flex-1 p-8 lg:p-12">
-                    <h2 className="text-5xl font-bold text-black mb-8 leading-tight">
-                      Our Purpose
-                    </h2>
+            <div className="w-full bg-white">
+      {/* Main container */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-12">
+        {/* Our purpose section */}
+        <div className="flex flex-col lg:flex-row items-center lg:items-stretch gap-8 lg:gap-12">
+          {/* Text Content Section */}
+          <div className="flex-1 text-center lg:text-left px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-12">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-black mb-6 sm:mb-8 leading-tight">
+              Our Purpose
+            </h2>
 
-                    <div className="space-y-6 text-gray-800 text-lg leading-relaxed max-w-2xl">
-                      <p>
-                        At Bikwiz, we firmly believe freelancing is the future of work in India. With
-                        Digital India and remote work growing rapidly, our aim is to create a platform
-                        where Indian freelancers can shine, earn respect, and grow in their careers on
-                        their own terms.
-                      </p>
+            <div className="space-y-4 sm:space-y-6 text-gray-800 text-base sm:text-lg leading-relaxed max-w-2xl mx-auto lg:mx-0">
+              <p>
+                At Bikwiz, we firmly believe freelancing is the future of work in India. With
+                Digital India and remote work growing rapidly, our aim is to create a platform
+                where Indian freelancers can shine, earn respect, and grow in their careers on
+                their own terms.
+              </p>
 
-                      <p>
-                        We are committed to supporting every Indian freelancer, from big cities to
-                        small towns, by providing the right tools, trust, and transparency.
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Vertical Dashed Divider */}
-                  <div className="hidden lg:block w-px  my-8"></div>
-
-                  {/* Illustration Section */}
-                  <div className="flex-shrink-0 p-8 lg:p-12 flex items-center justify-center">
-                    <div className="relative w-80 h-80">
-                      <img src={about1} alt="Our Purpose Illustration" className="w-full h-full object-contain" />
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <p>
+                We are committed to supporting every Indian freelancer, from big cities to
+                small towns, by providing the right tools, trust, and transparency.
+              </p>
             </div>
+          </div>
 
-            {/* Team Section */}
+          {/* Vertical Dashed Divider - Only visible on large screens */}
+          <div className="hidden lg:block w-px bg-gray-300 border-l-2 border-dashed border-gray-300 my-8"></div>
 
+          {/* Horizontal Divider - Only visible on mobile/tablet */}
+          <div className="block lg:hidden w-full max-w-xs mx-auto">
+            <hr className="border-t-2 border-dashed border-gray-300" />
+          </div>
 
+          {/* Illustration Section */}
+          <div className="flex-shrink-0 flex items-center justify-center px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-12">
+            <div className="relative w-64 h-64 sm:w-72 sm:h-72 md:w-80 md:h-80 lg:w-80 lg:h-80">
+              <img 
+                src={about1} 
+                alt="Our Purpose Illustration" 
+                className="w-full h-full object-contain"
+              />
+            </div>
           </div>
         </div>
       </div>
-      {/* our vision section */}
+    </div>
+            {/* our vision section */}
 
 
-      <div className="max-w-7xl mx-auto p-4 bg-white">
+             <div className="w-full bg-white">
+      {/* Main container */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-12">
         {/* Our Vision Section */}
-        <div className="mb-16">
-          <div className="flex flex-col lg:flex-row gap-12 items-center">
-            {/* Illustration */}
-            <div className="flex-shrink-0 lg:w-1/2">
-              <div className="relative w-full max-w-md mx-auto">
-                <img
-                  src={vision}
-                  alt="Our Vision Illustration"
-                  className="w-full h-auto object-contain"
-                />
-              </div>
-            </div>
-
-            {/* Text Content */}
-            <div className="flex-1 lg:w-1/2">
-              <h2 className="text-5xl font-bold text-black mb-8 leading-tight">
+        <div className="mb-8 sm:mb-12 lg:mb-16">
+          <div className="flex flex-col lg:flex-row gap-8 sm:gap-10 lg:gap-12 items-center">
+            
+            {/* Text Content - First on mobile/tablet, Second on desktop */}
+            <div className="flex-1 lg:w-1/2 text-center lg:text-left px-4 sm:px-6 lg:px-8 order-1 lg:order-2">
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-black mb-6 sm:mb-8 leading-tight">
                 Our Vision
               </h2>
 
-              <div className="space-y-6 text-gray-800 text-lg leading-relaxed">
+              <div className="space-y-4 sm:space-y-6 text-gray-800 text-base sm:text-lg leading-relaxed max-w-2xl mx-auto lg:mx-0">
                 <p>
                   We dream of an India where freelancing is a respected, stable, and rewarding
                   career. A country where anyone, from metros to small towns, can use their
@@ -311,10 +299,30 @@ export default function AboutUs() {
                 </p>
               </div>
             </div>
+
+            {/* Horizontal Divider - Only visible on mobile/tablet */}
+            <div className="block lg:hidden w-full max-w-xs mx-auto order-2">
+              <hr className="border-t-2 border-dashed border-gray-300" />
+            </div>
+
+            {/* Vertical Dashed Divider - Only visible on large screens */}
+            <div className="hidden lg:block w-px bg-gray-300 border-l-2 border-dashed border-gray-300 my-8 order-3"></div>
+
+            {/* Illustration - Second on mobile/tablet, First on desktop */}
+            <div className="flex-shrink-0 lg:w-1/2 flex items-center justify-center px-4 sm:px-6 lg:px-8 order-3 lg:order-1">
+              <div className="relative w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg">
+                <img
+                  src={vision}
+                  alt="Our Vision Illustration"
+                  className="w-full h-auto object-contain"
+                />
+              </div>
+            </div>
+
           </div>
         </div>
-
       </div>
+    </div>
 
 
 
