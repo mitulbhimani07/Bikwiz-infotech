@@ -19,6 +19,7 @@ import banner from '../assets/images/banner.jpg';
 import '../App.css'
 import Footer from '../header-footer/Footer';
 import Header from '../header-footer/Header';
+import { Link } from 'react-router-dom';
 // import { useNavigate } from 'react-router-dom';
 
 const MarketplaceBanner = () => {
@@ -230,12 +231,12 @@ const MarketplaceBanner = () => {
           </p>
 
           <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <button className="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 px-6 rounded-full transition">
+            <Link to='/login' className="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 px-6 rounded-full transition">
               Hire Freelancer
-            </button>
-            <button className="border border-white hover:bg-white hover:text-black text-white font-semibold py-2 px-6 rounded-full transition">
+            </Link>
+            <Link to='/login' className="border border-white hover:bg-white hover:text-black text-white font-semibold py-2 px-6 rounded-full transition">
               Start Earning
-            </button>
+            </Link>
           </div>
         </div>
       </section>

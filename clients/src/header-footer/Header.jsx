@@ -28,6 +28,7 @@ const Header = () => {
             <Link to="/find-talent" className="hover:text-orange-500">Find Talent</Link>
             <Link to="/find-work" className="hover:text-orange-500">Find Work</Link>
             <Link to="/blog" className="hover:text-orange-500">Blog</Link>
+            <Link to="/getInTouch" className="hover:text-orange-500">Get In Touch</Link>
           </nav>
 
           {/* Buttons - Desktop */}

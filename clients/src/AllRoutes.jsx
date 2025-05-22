@@ -9,11 +9,14 @@ import VerifyOTP from './Pages/Auth/ForgotPassword/VerifyOTP'
 import ResetPassword from './Pages/Auth/ForgotPassword/ResetPassword'
 import ClientDashboard from './Pages/client/ClientDashboard'
 import FreelancerDashboard from './Pages/freelancer/FreelancerDashboard'
+import GetInTouch from './Pages/GetInTouch'
 function AllRoutes() {
   return (
     <div>
         <Routes>
+          {/* pages */}
           <Route path='/' element={<Home/>}/>
+          <Route path='/getInTouch' element={<GetInTouch/>}/>
           {/* signIng */}
           <Route path='/joinas' element={<Joinas/>}/>
           <Route path='/signup' element={<SignUp/>}/>
@@ -24,6 +27,7 @@ function AllRoutes() {
           <Route path='/resetpassword' element={<ResetPassword/>}/>
           <Route path='/ClientDashboard' element={<ClientDashboard/>}/>
           <Route path='/FreelancerDashboard' element={<FreelancerDashboard/>}/>
+          
         </Routes>
     </div>
   )
