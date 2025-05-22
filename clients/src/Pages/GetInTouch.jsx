@@ -2,7 +2,7 @@ import React from 'react';
 import Header from '../header-footer/Header';
 import Footer from '../header-footer/Footer';
 import { FaFacebookF, FaTwitter, FaLinkedinIn, FaBehance, FaReact } from 'react-icons/fa';
-import banner from '../assets/images/getintouch.jpeg';
+import banner from '../assets/images/getintouch.jpg';
 
 
 
@@ -19,14 +19,12 @@ export default function GetInTouch() {
 
         {/* Content */}
         <div className="relative z-10 text-center px-4 md:px-10 max-w-7xl ">
-          <h1 className="text-white text-3xl sm:text-3xl md:text-5xl lg:text-4xl font-bold leading-tight">
-            Looking to hire or be hired? Whether you're building your team or your career, get in touch — <br />
-            <span className="block mt-2">we're your bridge to better collaborations.</span>
+          <h1 className="text-white text-3xl sm:text-3xl md:text-5xl lg:text-6xl font-bold leading-tight">
+            Get in Touch 
           </h1>
 
           <p className="text-white text-base sm:text-lg mt-6 leading-relaxed">
-            Welcome to Best freelancing platform, designed to bring together skilled freelancers and forward-thinking businesses.
-            Whether you want to hire the best Indian freelancers or find freelance jobs in India, this is your go-to destination.
+            Looking to hire top talent or land quality projects? Whether you're expanding your team or building your freelance career, get in touch, we connect passionate freelancers and ambitious clients for long-term, successful collaborations.
           </p>
 
           {/* <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center items-center">
@@ -46,11 +44,14 @@ export default function GetInTouch() {
           <div className="space-y-6">
             {/* <p className="text-sm text-gray-500">/ get in touch /</p> */}
             <h1 className="text-4xl font-bold text-black leading-snug">
-              We are always ready <br />
-              to help you and <br />
-              answer your <br />
-              questions
+              
             </h1>
+            <h5 className="text-3xl md:text-4xl font-bold text-black w-fit">
+              We are always ready <br />
+            <span className="text-amber-500">to help you and</span><br />
+             <span className="text-amber-500">answer </span>your<br /> 
+              questions  
+            </h5>
             <p className="text-gray-500">
               Pacific hake false trevally queen parrotfish black prickleback <br />
               mosshead warbonnet sweepers! Greenling sleeper.
