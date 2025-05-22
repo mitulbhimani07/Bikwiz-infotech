@@ -10,6 +10,7 @@ import ResetPassword from './Pages/Auth/ForgotPassword/ResetPassword'
 import ClientDashboard from './Pages/client/ClientDashboard'
 import FreelancerDashboard from './Pages/freelancer/FreelancerDashboard'
 import GetInTouch from './Pages/GetInTouch'
+import AboutUs from './Pages/AboutUs'
 function AllRoutes() {
   return (
     <div>
@@ -17,6 +18,7 @@ function AllRoutes() {
           {/* pages */}
           <Route path='/' element={<Home/>}/>
           <Route path='/getInTouch' element={<GetInTouch/>}/>
+          <Route path='/about' element={<AboutUs/>}/>
           {/* signIng */}
           <Route path='/joinas' element={<Joinas/>}/>
           <Route path='/signup' element={<SignUp/>}/>
