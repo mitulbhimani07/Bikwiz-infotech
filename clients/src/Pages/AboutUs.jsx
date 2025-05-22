@@ -369,35 +369,59 @@ export default function AboutUs() {
                     ))}
                 </div>
             </div>
+
             <div className="bg-orange-500 py-3 overflow-hidden">
-                <div className="py-5 relative">
-                    <div className="flex whitespace-nowrap animate-marquee">
-                        {/* Repeated logos for seamless scrolling */}
-                        {[...Array(2)].map((_, i) => (
-                            <div key={i} className="flex items-center gap-12 pr-12">
-                                <span className="flex items-center gap-2 text-white font-semibold">
-                                    <Shell className="w-5 h-5" /> SHELLS
-                                </span>
-                                <span className="flex items-center gap-2 text-white font-semibold">
-                                    <Search className="w-5 h-5" /> SmartFinder
-                                </span>
-                                <span className="flex items-center gap-2 text-white font-semibold">
-                                    <Zap className="w-5 h-5" /> Zoomerr
-                                </span>
-                                <span className="flex items-center gap-2 text-white font-semibold">
-                                    <Palette className="w-5 h-5" /> ArtVenue
-                                </span>
-                                <span className="flex items-center gap-2 text-white font-semibold">
-                                    <Contrast className="w-5 h-5" /> kontrastr
-                                </span>
-                                <span className="flex items-center gap-2 text-white font-semibold">
-                                    <Waves className="w-5 h-5" /> WAVESMARATHON
-                                </span>
-                            </div>
-                        ))}
-                    </div>
+                <div className=" py-5">
+                    <marquee
+                        behavior="scroll"
+                        direction="left"
+                        scrollAmount="10"
+                        className="text-white font-semibold whitespace-nowrap"
+                    >
+                        <span className="inline-flex items-center gap-40 ">
+                            <span className="flex items-center gap-2">
+                                <Shell className="w-5 h-5" /> SHELLS
+                            </span>
+                            <span className="flex items-center gap-2">
+                                <Search className="w-5 h-5" /> SmartFinder
+                            </span>
+                            <span className="flex items-center gap-2">
+                                <Zap className="w-5 h-5" /> Zoomerr
+                            </span>
+                            <span className="flex items-center gap-2">
+                                <Palette className="w-5 h-5" /> ArtVenue
+                            </span>
+                            <span className="flex items-center gap-2">
+                                <Contrast className="w-5 h-5" /> kontrastr
+                            </span>
+                            <span className="flex items-center gap-2">
+                                <Waves className="w-5 h-5" /> WAVESMARATHON
+                            </span>
+
+                            {/* Repeat again to ensure seamlessness */}
+                            <span className="flex items-center gap-2">
+                                <Shell className="w-5 h-5" /> SHELLS
+                            </span>
+                            <span className="flex items-center gap-2">
+                                <Search className="w-5 h-5" /> SmartFinder
+                            </span>
+                            <span className="flex items-center gap-2">
+                                <Zap className="w-5 h-5" /> Zoomerr
+                            </span>
+                            <span className="flex items-center gap-2">
+                                <Palette className="w-5 h-5" /> ArtVenue
+                            </span>
+                            <span className="flex items-center gap-2">
+                                <Contrast className="w-5 h-5" /> kontrastr
+                            </span>
+                            <span className="flex items-center gap-2">
+                                <Waves className="w-5 h-5" /> WAVESMARATHON
+                            </span>
+                        </span>
+                    </marquee>
                 </div>
             </div>
+
 
 
 
