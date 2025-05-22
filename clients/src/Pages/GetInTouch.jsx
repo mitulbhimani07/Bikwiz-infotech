@@ -2,7 +2,7 @@ import React from 'react';
 import Header from '../header-footer/Header';
 import Footer from '../header-footer/Footer';
 import { FaFacebookF, FaTwitter, FaLinkedinIn, FaBehance, FaReact } from 'react-icons/fa';
-import banner from '../assets/images/banner.jpg';
+import banner from '../assets/images/getintouch.jpeg';
 
 
 
@@ -11,17 +11,17 @@ export default function GetInTouch() {
     <>
       <Header />
       <section
-        className="banner-section relative w-[95%] mx-auto h-[610px] flex items-center justify-center bg-cover bg-center my-5"
+        className="banner-section relative w-[95%] mx-auto h-[450px] flex items-center justify-center bg-cover bg-center my-5"
         style={{ backgroundImage: `url(${banner})`, borderRadius: "20px", overflow: "hidden" }}
       >
         {/* Top-right Sign Up Button */}
 
 
         {/* Content */}
-        <div className="relative z-10 text-center px-4 md:px-10 max-w-7xl">
-          <h1 className="text-white text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
-            India’s Top Freelance Marketplace –<br />
-            <span className="block mt-2">Where Talent Meets Opportunity</span>
+        <div className="relative z-10 text-center px-4 md:px-10 max-w-7xl ">
+          <h1 className="text-white text-3xl sm:text-3xl md:text-5xl lg:text-4xl font-bold leading-tight">
+            Looking to hire or be hired? Whether you're building your team or your career, get in touch — <br />
+            <span className="block mt-2">we're your bridge to better collaborations.</span>
           </h1>
 
           <p className="text-white text-base sm:text-lg mt-6 leading-relaxed">
