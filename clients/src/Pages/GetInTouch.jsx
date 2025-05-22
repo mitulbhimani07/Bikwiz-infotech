@@ -2,26 +2,44 @@ import React from 'react';
 import Header from '../header-footer/Header';
 import Footer from '../header-footer/Footer';
 import { FaFacebookF, FaTwitter, FaLinkedinIn, FaBehance, FaReact } from 'react-icons/fa';
+import banner from '../assets/images/banner.jpg';
+
 
 
 export default function GetInTouch() {
   return (
     <>
       <Header />
-      <section className="relative h-[400px] w-[95%] mx-auto my-10 rounded-4xl flex items-center justify-center overflow-hidden bg-gradient-to-r from-orange-500 from-orange-500 to-[#000]">
-        {/* Left abstract shape */}
-        <div className="absolute -left-24 top-1/2 transform -translate-y-1/2 w-96 h-96 bg-gradient-to-tr from-yellow-400 via-pink-500 from-orange-500 opacity-70 blur-3xl rounded-full rotate-45 z-0"></div>
+      <section
+        className="banner-section relative w-[95%] mx-auto h-[610px] flex items-center justify-center bg-cover bg-center my-5"
+        style={{ backgroundImage: `url(${banner})`, borderRadius: "20px", overflow: "hidden" }}
+      >
+        {/* Top-right Sign Up Button */}
 
-        {/* Right abstract shape */}
-        <div className="absolute -right-20 top-1/3 w-96 h-96 bg-gradient-to-br from-orange-500 from-orange-500 from-orange-500 opacity-60 blur-3xl rounded-full z-0"></div>
 
-        {/* Content on top */}
-        <div className="relative z-10 bg-white/10 backdrop-blur-md p-10 rounded-2xl border border-white/20 text-white text-center shadow-lg">
-          <h1 className="text-4xl font-bold">Get In Touch</h1>
+        {/* Content */}
+        <div className="relative z-10 text-center px-4 md:px-10 max-w-7xl">
+          <h1 className="text-white text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
+            India’s Top Freelance Marketplace –<br />
+            <span className="block mt-2">Where Talent Meets Opportunity</span>
+          </h1>
+
+          <p className="text-white text-base sm:text-lg mt-6 leading-relaxed">
+            Welcome to Best freelancing platform, designed to bring together skilled freelancers and forward-thinking businesses.
+            Whether you want to hire the best Indian freelancers or find freelance jobs in India, this is your go-to destination.
+          </p>
+
+          {/* <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <Link to='/login' className="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 px-6 rounded-full transition">
+              Hire Freelancer
+            </Link>
+            <Link to='/login' className="border border-white hover:bg-white hover:text-black text-white font-semibold py-2 px-6 rounded-full transition">
+              Start Earning
+            </Link>
+          </div> */}
         </div>
       </section>
-      <Footer />
-      <Header />
+      
       <div className="min-h-screen flex flex-col items-center justify-center bg-white px-4 py-10" >
         <div className="max-w-7xl w-full grid md:grid-cols-2 gap-10" style={{ alignItems: 'center' }}>
           {/* Left Side - Contact Info */}
