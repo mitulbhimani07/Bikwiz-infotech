@@ -56,23 +56,23 @@ export default function AboutUs() {
       bgColor: "bg-green-600"
     },
     {
-      id: 3,
+      id: 4,
       name: "Michael Chen",
       role: "Full Stack Developer",
       description: "Technology enthusiast and problem solver",
       image: Akshay,
       bgColor: "bg-green-600"
     },
-    {
-      id: 3,
+        {
+      id: 5,
       name: "Michael Chen",
       role: "Full Stack Developer",
       description: "Technology enthusiast and problem solver",
       image: Akshay,
       bgColor: "bg-green-600"
     },
-    {
-      id: 3,
+        {
+      id: 6,
       name: "Michael Chen",
       role: "Full Stack Developer",
       description: "Technology enthusiast and problem solver",
@@ -248,13 +248,7 @@ export default function AboutUs() {
               </div>
             </div>
 
-            {/* Vertical Dashed Divider - Only visible on large screens */}
-            <div className="hidden lg:block w-px bg-gray-300 border-l-2 border-dashed border-gray-300 my-8"></div>
-
-            {/* Horizontal Divider - Only visible on mobile/tablet */}
-            <div className="block lg:hidden w-full max-w-xs mx-auto">
-              <hr className="border-t-2 border-dashed border-gray-300" />
-            </div>
+          
 
             {/* Illustration Section */}
             <div className="flex-shrink-0 flex items-center justify-center px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-12">
@@ -490,9 +484,9 @@ export default function AboutUs() {
           </p>
 
           {/* Custom Grid Layout */}
-          <div className="grid gap-8">
+          <div className="grid  gap-8">
             {/* First row - 3 cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-3 gap-8">
               {features.slice(0, 3).map((item, index) => (
                 <div
                   key={index}
@@ -513,7 +507,7 @@ export default function AboutUs() {
             </div>
 
             {/* Second row - 2 cards centered */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 max-w-4xl mx-auto">
+            <div className="grid grid-cols-2 sm:grid-cols-2 gap-8 max-w-4xl mx-auto">
               {features.slice(3, 5).map((item, index) => (
                 <div
                   key={index + 3}

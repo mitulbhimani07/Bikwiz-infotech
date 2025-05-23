@@ -11,6 +11,10 @@ import ClientDashboard from './Pages/client/ClientDashboard'
 import FreelancerDashboard from './Pages/freelancer/FreelancerDashboard'
 import GetInTouch from './Pages/GetInTouch'
 import AboutUs from './Pages/AboutUs'
+import Blog from './Pages/Blog'
+import SingleBlog from './Pages/singleBlog'
+import FAQs from './Pages/FAQ\'s'
+import FindWork from './Pages/FindWork'
 import FindTalent from './Pages/FindTalent'
 function AllRoutes() {
   return (
@@ -20,6 +24,10 @@ function AllRoutes() {
           <Route path='/' element={<Home/>}/>
           <Route path='/getInTouch' element={<GetInTouch/>}/>
           <Route path='/about' element={<AboutUs/>}/>
+          <Route path='/blog' element={<Blog/>}/>
+          <Route path='singleBlog/:id' element={<SingleBlog/>}/>
+          <Route path='faqs' element={<FAQs/>}/>
+          <Route path='/FindWork' element={<FindWork/>}/>
           <Route path='/findTalent' element={<FindTalent/>}/>
           {/* signIng */}
           <Route path='/joinas' element={<Joinas/>}/>
