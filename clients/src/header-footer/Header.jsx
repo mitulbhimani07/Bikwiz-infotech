@@ -23,12 +23,13 @@ const Header = () => {
 
           {/* Nav Links - Desktop */}
           <nav className="hidden lg:flex space-x-6 text-[16px] font-medium text-gray-700">
-            <Link to="/" className="hover:text-orange-500">Home</Link>
-            <Link to="/about" className="hover:text-orange-500">About Us</Link>
-            <Link to="/find-talent" className="hover:text-orange-500">Find Talent</Link>
-            <Link to="/FindWork" className="hover:text-orange-500">Find Work</Link>
-            <Link to="/blog" className="hover:text-orange-500">Blog</Link>
-            <Link to="/getInTouch" className="hover:text-orange-500">Get In Touch</Link>
+            <Link to="/" className="hover:text-orange-500 focus:text-orange-500">Home</Link>
+            <Link to="/about" className="hover:text-orange-500 focus:text-orange-500">About Us</Link>
+            <Link to="/find-talent" className="hover:text-orange-500 focus:text-orange-500">Find Talent</Link>
+            <Link to="/FindWork" className="hover:text-orange-500 focus:text-orange-500">Find Work</Link>
+            <Link to="/blog" className="hover:text-orange-500 focus:text-orange-500">Blog</Link>
+            <Link to="/faqs" className="hover:text-orange-500 focus:text-orange-500">FAQ'S</Link>
+            <Link to="/getInTouch" className="hover:text-orange-500 focus:text-orange-500">Get In Touch</Link>
           </nav>
 
           {/* Buttons - Desktop */}
