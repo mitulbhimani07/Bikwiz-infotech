@@ -26,8 +26,8 @@ import Footer from '../header-footer/Footer';
 
 export default function AboutUs() {
   const [currentSlide, setCurrentSlide] = useState(0);
-    const [slidesToShow, setSlidesToShow] = useState(3);
- 
+  const [slidesToShow, setSlidesToShow] = useState(3);
+
 
   const teamMembers = [
     {
@@ -63,7 +63,7 @@ export default function AboutUs() {
       image: Akshay,
       bgColor: "bg-green-600"
     },
-        {
+    {
       id: 3,
       name: "Michael Chen",
       role: "Full Stack Developer",
@@ -71,7 +71,7 @@ export default function AboutUs() {
       image: Akshay,
       bgColor: "bg-green-600"
     },
-        {
+    {
       id: 3,
       name: "Michael Chen",
       role: "Full Stack Developer",
@@ -103,7 +103,7 @@ export default function AboutUs() {
 
   const maxSlide = Math.max(0, teamMembers.length - slidesToShow);
 
-  
+
 
   const getTransformValue = () => {
     const percentage = (100 / slidesToShow);
@@ -221,228 +221,226 @@ export default function AboutUs() {
         </div>
       </section>
 
-            {/* Our purpose section */}
-            <div className="w-full bg-white">
-      {/* Main container */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-12">
-        {/* Our purpose section */}
-        <div className="flex flex-col lg:flex-row items-center lg:items-stretch gap-8 lg:gap-12">
-          {/* Text Content Section */}
-          <div className="flex-1 text-center lg:text-left px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-12">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-black mb-6 sm:mb-8 leading-tight">
-              Our Purpose
-            </h2>
-
-            <div className="space-y-4 sm:space-y-6 text-gray-800 text-base sm:text-lg leading-relaxed max-w-2xl mx-auto lg:mx-0">
-              <p>
-                At Bikwiz, we firmly believe freelancing is the future of work in India. With
-                Digital India and remote work growing rapidly, our aim is to create a platform
-                where Indian freelancers can shine, earn respect, and grow in their careers on
-                their own terms.
-              </p>
-
-              <p>
-                We are committed to supporting every Indian freelancer, from big cities to
-                small towns, by providing the right tools, trust, and transparency.
-              </p>
-            </div>
-          </div>
-
-          {/* Vertical Dashed Divider - Only visible on large screens */}
-          <div className="hidden lg:block w-px bg-gray-300 border-l-2 border-dashed border-gray-300 my-8"></div>
-
-          {/* Horizontal Divider - Only visible on mobile/tablet */}
-          <div className="block lg:hidden w-full max-w-xs mx-auto">
-            <hr className="border-t-2 border-dashed border-gray-300" />
-          </div>
-
-          {/* Illustration Section */}
-          <div className="flex-shrink-0 flex items-center justify-center px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-12">
-            <div className="relative w-64 h-64 sm:w-72 sm:h-72 md:w-80 md:h-80 lg:w-80 lg:h-80">
-              <img 
-                src={about1} 
-                alt="Our Purpose Illustration" 
-                className="w-full h-full object-contain"
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-            {/* our vision section */}
-
-
-             <div className="w-full bg-white">
-      {/* Main container */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-12">
-        {/* Our Vision Section */}
-        <div className="mb-8 sm:mb-12 lg:mb-16">
-          <div className="flex flex-col lg:flex-row gap-8 sm:gap-10 lg:gap-12 items-center">
-            
-            {/* Text Content - First on mobile/tablet, Second on desktop */}
-            <div className="flex-1 lg:w-1/2 text-center lg:text-left px-4 sm:px-6 lg:px-8 order-1 lg:order-2">
+      {/* Our purpose section */}
+      <div className="w-full bg-white">
+        {/* Main container */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-12">
+          {/* Our purpose section */}
+          <div className="flex flex-col lg:flex-row items-center lg:items-stretch gap-8 lg:gap-12">
+            {/* Text Content Section */}
+            <div className="flex-1 text-center lg:text-left px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-12">
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-black mb-6 sm:mb-8 leading-tight">
-                Our Vision
+                Our Purpose
               </h2>
 
               <div className="space-y-4 sm:space-y-6 text-gray-800 text-base sm:text-lg leading-relaxed max-w-2xl mx-auto lg:mx-0">
                 <p>
-                  We dream of an India where freelancing is a respected, stable, and rewarding
-                  career. A country where anyone, from metros to small towns, can use their
-                  skills, work independently, and earn with pride.
+                  At Bikwiz, we firmly believe freelancing is the future of work in India. With
+                  Digital India and remote work growing rapidly, our aim is to create a platform
+                  where Indian freelancers can shine, earn respect, and grow in their careers on
+                  their own terms.
                 </p>
 
                 <p>
-                  Bikwiz Infotech is more than just a platform-it's a movement to empower
-                  India's freelance talent, help local businesses grow, and create a strong digital
-                  workforce for tomorrow.
+                  We are committed to supporting every Indian freelancer, from big cities to
+                  small towns, by providing the right tools, trust, and transparency.
                 </p>
               </div>
             </div>
 
+            {/* Vertical Dashed Divider - Only visible on large screens */}
+            <div className="hidden lg:block w-px bg-gray-300 border-l-2 border-dashed border-gray-300 my-8"></div>
+
             {/* Horizontal Divider - Only visible on mobile/tablet */}
-            <div className="block lg:hidden w-full max-w-xs mx-auto order-2">
+            <div className="block lg:hidden w-full max-w-xs mx-auto">
               <hr className="border-t-2 border-dashed border-gray-300" />
             </div>
 
-            {/* Vertical Dashed Divider - Only visible on large screens */}
-            <div className="hidden lg:block w-px bg-gray-300 border-l-2 border-dashed border-gray-300 my-8 order-3"></div>
-
-            {/* Illustration - Second on mobile/tablet, First on desktop */}
-            <div className="flex-shrink-0 lg:w-1/2 flex items-center justify-center px-4 sm:px-6 lg:px-8 order-3 lg:order-1">
-              <div className="relative w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg">
+            {/* Illustration Section */}
+            <div className="flex-shrink-0 flex items-center justify-center px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-12">
+              <div className="relative w-64 h-64 sm:w-72 sm:h-72 md:w-80 md:h-80 lg:w-80 lg:h-80">
                 <img
-                  src={vision}
-                  alt="Our Vision Illustration"
-                  className="w-full h-auto object-contain"
+                  src={about1}
+                  alt="Our Purpose Illustration"
+                  className="w-full h-full object-contain"
                 />
               </div>
             </div>
-
           </div>
         </div>
       </div>
-    </div>
+      {/* our vision section */}
+
+
+      <div className="w-full bg-white">
+        {/* Main container */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-12">
+          {/* Our Vision Section */}
+          <div className="mb-8 sm:mb-12 lg:mb-16">
+            <div className="flex flex-col lg:flex-row gap-8 sm:gap-10 lg:gap-12 items-center">
+
+              {/* Text Content - First on mobile/tablet, Second on desktop */}
+              <div className="flex-1 lg:w-1/2 text-center lg:text-left px-4 sm:px-6 lg:px-8 order-1 lg:order-2">
+                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-black mb-6 sm:mb-8 leading-tight">
+                  Our Vision
+                </h2>
+
+                <div className="space-y-4 sm:space-y-6 text-gray-800 text-base sm:text-lg leading-relaxed max-w-2xl mx-auto lg:mx-0">
+                  <p>
+                    We dream of an India where freelancing is a respected, stable, and rewarding
+                    career. A country where anyone, from metros to small towns, can use their
+                    skills, work independently, and earn with pride.
+                  </p>
+
+                  <p>
+                    Bikwiz Infotech is more than just a platform-it's a movement to empower
+                    India's freelance talent, help local businesses grow, and create a strong digital
+                    workforce for tomorrow.
+                  </p>
+                </div>
+              </div>
+
+              {/* Horizontal Divider - Only visible on mobile/tablet */}
+              <div className="block lg:hidden w-full max-w-xs mx-auto order-2">
+                <hr className="border-t-2 border-dashed border-gray-300" />
+              </div>
+
+              {/* Vertical Dashed Divider - Only visible on large screens */}
+              <div className="hidden lg:block w-px bg-gray-300 border-l-2 border-dashed border-gray-300 my-8 order-3"></div>
+
+              {/* Illustration - Second on mobile/tablet, First on desktop */}
+              <div className="flex-shrink-0 lg:w-1/2 flex items-center justify-center px-4 sm:px-6 lg:px-8 order-3 lg:order-1">
+                <div className="relative w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg">
+                  <img
+                    src={vision}
+                    alt="Our Vision Illustration"
+                    className="w-full h-auto object-contain"
+                  />
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
 
 
 
       <div className="max-w-7xl mx-auto px-6 py-16 bg-white">
-      {/* Header */}
-      <div className="text-center mb-12">
-        <h2 className="text-5xl font-bold mb-4" style={{ color: '#FF6B35' }}>
-          Meet Our Team
-        </h2>
-        <p className="text-gray-600 text-lg max-w-2xl mx-auto">
-          Highly professional and capable of running your business across all digital channels.
-        </p>
-      </div>
+        {/* Header */}
+        <div className="text-center mb-12">
+          <h2 className="text-5xl font-bold mb-4" style={{ color: '#FF6B35' }}>
+            Meet Our Team
+          </h2>
+          <p className="text-gray-600 text-lg max-w-2xl mx-auto">
+            Highly professional and capable of running your business across all digital channels.
+          </p>
+        </div>
 
-      {/* Slider Container */}
-      <div className="relative">
-        {/* Navigation Buttons */}
-        <button
-          onClick={prevSlide}
-          className="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-white rounded-full shadow-lg flex items-center justify-center hover:shadow-xl transition-shadow duration-300"
-          style={{ marginLeft: '-24px' }}
-        >
-          <ChevronLeft className="w-6 h-6 text-gray-600" />
-        </button>
-
-        <button
-          onClick={nextSlide}
-          className="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-white rounded-full shadow-lg flex items-center justify-center hover:shadow-xl transition-shadow duration-300"
-          style={{ marginRight: '-24px' }}
-        >
-          <ChevronRight className="w-6 h-6 text-gray-600" />
-        </button>
-
-        {/* Cards Container */}
-        <div className="overflow-hidden">
-          <div
-            className="flex transition-transform duration-500 ease-in-out"
-            style={{ 
-              transform: `translateX(-${getTransformValue()}%)`,
-              gap: '2rem' 
-            }}
+        {/* Slider Container */}
+        <div className="relative">
+          {/* Navigation Buttons */}
+          <button
+            onClick={prevSlide}
+            className="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-white rounded-full shadow-lg flex items-center justify-center hover:shadow-xl transition-shadow duration-300"
+            style={{ marginLeft: '-24px' }}
           >
-            {teamMembers.map((member, index) => (
-              <div 
-                key={member.id} 
-                className="flex-shrink-0 px-4"
-                style={{ 
-                  width: `calc(${100 / slidesToShow}% - 1.5rem)` 
-                }}
-              >
-                {/* Card Wrapper with hover group */}
-                <div className={`relative rounded-3xl overflow-hidden h-96 sm:h-112 lg:h-112 ${member.bgColor} group`}>
-                  {/* Member Image */}
-                  <div className="h-full overflow-hidden">
-                    <img
-                      src={member.image}
-                      alt={member.name}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
+            <ChevronLeft className="w-6 h-6 text-gray-600" />
+          </button>
 
-                  {/* Card Content - Hidden initially, shows on hover */}
-                  <div className="absolute bottom-0 left-0 right-0 bg-white rounded-3xl p-6 m-4 transform translate-y-6 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
-                    <div className="mb-2">
-                      <h3 className="text-xl font-bold text-gray-900">
-                        {member.name}
-                      </h3>
-                      <div className={`inline-block rounded text-sm font-medium ${
-                        member.highlighted ? 'text-orange-600' : 'text-orange-600'
-                      }`}>
-                        {member.role}
-                      </div>
+          <button
+            onClick={nextSlide}
+            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-white rounded-full shadow-lg flex items-center justify-center hover:shadow-xl transition-shadow duration-300"
+            style={{ marginRight: '-24px' }}
+          >
+            <ChevronRight className="w-6 h-6 text-gray-600" />
+          </button>
+
+          {/* Cards Container */}
+          <div className="overflow-hidden">
+            <div
+              className="flex transition-transform duration-500 ease-in-out"
+              style={{
+                transform: `translateX(-${getTransformValue()}%)`,
+                gap: '2rem'
+              }}
+            >
+              {teamMembers.map((member, index) => (
+                <div
+                  key={member.id}
+                  className="flex-shrink-0 px-4"
+                  style={{
+                    width: `calc(${100 / slidesToShow}% - 1.5rem)`
+                  }}
+                >
+                  {/* Card Wrapper with hover group */}
+                  <div className={`relative rounded-3xl overflow-hidden h-96 sm:h-112 lg:h-112 ${member.bgColor} group`}>
+                    {/* Member Image */}
+                    <div className="h-full overflow-hidden">
+                      <img
+                        src={member.image}
+                        alt={member.name}
+                        className="w-full h-full object-cover"
+                      />
                     </div>
 
-                    <p className="text-gray-600 text-sm mb-4 leading-relaxed">
-                      {member.description}
-                    </p>
+                    {/* Card Content - Hidden initially, shows on hover */}
+                    <div className="absolute bottom-0 left-0 right-0 bg-white rounded-3xl p-6 m-4 transform translate-y-6 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
+                      <div className="mb-2">
+                        <h3 className="text-xl font-bold text-gray-900">
+                          {member.name}
+                        </h3>
+                        <div className={`inline-block rounded text-sm font-medium ${member.highlighted ? 'text-orange-600' : 'text-orange-600'
+                          }`}>
+                          {member.role}
+                        </div>
+                      </div>
 
-                    {/* Social Icons */}
-                    <div className="flex space-x-3">
-                      <a
-                        href="#"
-                        className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors duration-200"
-                      >
-                        <Facebook className="w-4 h-4 text-gray-600" />
-                      </a>
-                      <a
-                        href="#"
-                        className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors duration-200"
-                      >
-                        <Github className="w-4 h-4 text-gray-600" />
-                      </a>
-                      <a
-                        href="#"
-                        className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors duration-200"
-                      >
-                        <Linkedin className="w-4 h-4 text-gray-600" />
-                      </a>
+                      <p className="text-gray-600 text-sm mb-4 leading-relaxed">
+                        {member.description}
+                      </p>
+
+                      {/* Social Icons */}
+                      <div className="flex space-x-3">
+                        <a
+                          href="#"
+                          className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors duration-200"
+                        >
+                          <Facebook className="w-4 h-4 text-gray-600" />
+                        </a>
+                        <a
+                          href="#"
+                          className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors duration-200"
+                        >
+                          <Github className="w-4 h-4 text-gray-600" />
+                        </a>
+                        <a
+                          href="#"
+                          className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors duration-200"
+                        >
+                          <Linkedin className="w-4 h-4 text-gray-600" />
+                        </a>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* Slide Indicators */}
-      <div className="flex justify-center mt-8 space-x-2">
-        {Array.from({ length: maxSlide + 1 }).map((_, index) => (
-          <button
-            key={index}
-            onClick={() => setCurrentSlide(index)}
-            className={`w-3 h-3 rounded-full transition-colors duration-200 ${
-              currentSlide === index ? 'bg-orange-500' : 'bg-gray-300'
-            }`}
-          />
-        ))}
+        {/* Slide Indicators */}
+        <div className="flex justify-center mt-8 space-x-2">
+          {Array.from({ length: maxSlide + 1 }).map((_, index) => (
+            <button
+              key={index}
+              onClick={() => setCurrentSlide(index)}
+              className={`w-3 h-3 rounded-full transition-colors duration-200 ${currentSlide === index ? 'bg-orange-500' : 'bg-gray-300'
+                }`}
+            />
+          ))}
+        </div>
       </div>
-    </div>
 
 
       <div className="bg-orange-500 py-3 overflow-hidden">
