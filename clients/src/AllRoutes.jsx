@@ -11,6 +11,7 @@ import ClientDashboard from './Pages/client/ClientDashboard'
 import FreelancerDashboard from './Pages/freelancer/FreelancerDashboard'
 import GetInTouch from './Pages/GetInTouch'
 import AboutUs from './Pages/AboutUs'
+import FindWork from './Pages/FindWork'
 function AllRoutes() {
   return (
     <div>
@@ -19,6 +20,7 @@ function AllRoutes() {
           <Route path='/' element={<Home/>}/>
           <Route path='/getInTouch' element={<GetInTouch/>}/>
           <Route path='/about' element={<AboutUs/>}/>
+          <Route path='/FindWork' element={<FindWork/>}/>
           {/* signIng */}
           <Route path='/joinas' element={<Joinas/>}/>
           <Route path='/signup' element={<SignUp/>}/>

@@ -26,7 +26,7 @@ const Header = () => {
             <Link to="/" className="hover:text-orange-500">Home</Link>
             <Link to="/about" className="hover:text-orange-500">About Us</Link>
             <Link to="/find-talent" className="hover:text-orange-500">Find Talent</Link>
-            <Link to="/find-work" className="hover:text-orange-500">Find Work</Link>
+            <Link to="/FindWork" className="hover:text-orange-500">Find Work</Link>
             <Link to="/blog" className="hover:text-orange-500">Blog</Link>
             <Link to="/getInTouch" className="hover:text-orange-500">Get In Touch</Link>
           </nav>
@@ -65,7 +65,7 @@ const Header = () => {
             <Link to="/" className="hover:text-orange-500 py-2 border-b border-gray-100">Home</Link>
             <Link to="/about" className="hover:text-orange-500 py-2 border-b border-gray-100">About Us</Link>
             <Link to="/find-talent" className="hover:text-orange-500 py-2 border-b border-gray-100">Find Talent</Link>
-            <Link to="/find-work" className="hover:text-orange-500 py-2 border-b border-gray-100">Find Work</Link>
+            <Link to="/FindWork" className="hover:text-orange-500 py-2 border-b border-gray-100">Find Work</Link>
             <Link to="/blog" className="hover:text-orange-500 py-2 border-b border-gray-100">Blog</Link>
           </nav>
 

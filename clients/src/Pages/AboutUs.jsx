@@ -248,13 +248,7 @@ export default function AboutUs() {
             </div>
           </div>
 
-          {/* Vertical Dashed Divider - Only visible on large screens */}
-          <div className="hidden lg:block w-px bg-gray-300 border-l-2 border-dashed border-gray-300 my-8"></div>
-
-          {/* Horizontal Divider - Only visible on mobile/tablet */}
-          <div className="block lg:hidden w-full max-w-xs mx-auto">
-            <hr className="border-t-2 border-dashed border-gray-300" />
-          </div>
+          
 
           {/* Illustration Section */}
           <div className="flex-shrink-0 flex items-center justify-center px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-12">
