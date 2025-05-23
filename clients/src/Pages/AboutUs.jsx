@@ -56,7 +56,7 @@ export default function AboutUs() {
       bgColor: "bg-green-600"
     },
     {
-      id: 3,
+      id: 4,
       name: "Michael Chen",
       role: "Full Stack Developer",
       description: "Technology enthusiast and problem solver",
@@ -64,7 +64,7 @@ export default function AboutUs() {
       bgColor: "bg-green-600"
     },
         {
-      id: 3,
+      id: 5,
       name: "Michael Chen",
       role: "Full Stack Developer",
       description: "Technology enthusiast and problem solver",
@@ -72,7 +72,7 @@ export default function AboutUs() {
       bgColor: "bg-green-600"
     },
         {
-      id: 3,
+      id: 6,
       name: "Michael Chen",
       role: "Full Stack Developer",
       description: "Technology enthusiast and problem solver",
@@ -515,7 +515,7 @@ export default function AboutUs() {
             </div>
 
             {/* Second row - 2 cards centered */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 max-w-4xl mx-auto">
+            <div className="grid grid-cols-2 sm:grid-cols-2 gap-8 max-w-4xl mx-auto">
               {features.slice(3, 5).map((item, index) => (
                 <div
                   key={index + 3}
