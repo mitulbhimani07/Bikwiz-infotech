@@ -5,7 +5,7 @@ import logo2 from '../../../assets/images/logo2.png'; // Adjust the path to your
 
 export default function VerifyEmail() {
   const [theme, setTheme] = useState('light');
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState({ email: '' });
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isValid, setIsValid] = useState(true);
   const [errorMessage, setErrorMessage] = useState('');
@@ -24,39 +24,24 @@ export default function VerifyEmail() {
 
   // Handle email change
   const handleEmailChange = (e) => {
-    setEmail(e.target.value);
-    // Reset validation state when user types
-    if (!isValid) {
-      setIsValid(true);
-      setErrorMessage('');
-    }
+    setEmail({ ...email, [e.target.name]: e.target.value });
+
   };
 
-  // Validate email format
-  const validateEmail = (email) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  };
 
   // Handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!email.trim()) {
-      setIsValid(false);
-      setErrorMessage('Please enter your email address');
-      return;
-    }
 
-    if (!validateEmail(email)) {
-      setIsValid(false);
-      setErrorMessage('Please enter a valid email address');
-      return;
-    }
+    try {
+      const res = await VerifyEmail(email);
+      console.log("Response:", res);
+      toast.success("SignIn Successfully!!!")
 
-    // In a real app, you would send the verification email here
-    console.log('Sending verification email to:', email);
-    setIsSubmitted(true);
+    } catch (error) {
+      console.log("Error submitting form:", error);
+    }
   };
 
   return (
@@ -118,14 +103,10 @@ export default function VerifyEmail() {
                   autoComplete="email"
                   value={email}
                   onChange={handleEmailChange}
-                  className={`appearance-none block w-full px-3 py-3 border ${isValid ? inputBorderColor : 'border-red-500'} rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 ${inputBgColor} transition-colors duration-200`}
+                  className={`appearance-none block w-full px-3 py-3 border  rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 ${inputBgColor} transition-colors duration-200`}
                   placeholder="your.email@example.com"
                 />
-                {!isValid && (
-                  <p className="mt-2 text-sm text-red-600">
-                    {errorMessage}
-                  </p>
-                )}
+
               </div>
 
               <div>

@@ -35,3 +35,15 @@ export const Signin=async(payload)=>{
         throw error;
     }
 }
+
+export const VerifyEmail=async(payload)=>{
+    try{
+        const response=await axios.post("http://localhost:3000/client/verifyEmail",payload);
+
+        console.log("verifyemail",response.data);
+        return response.data;
+    }catch(error){
+        console.error("Error in VerifyEmail API:", error);
+        throw error;
+    }
+}
