@@ -188,6 +188,7 @@ module.exports.verifyOtp=async(req,res)=>{
         res.status(200).json({
             status: "Success",
             message: "OTP verified successfully.",
+            user,
             role
         });
 
@@ -255,6 +256,51 @@ module.exports.ResetPassword=async(req,res)=>{
             message: "An error occurred during password reset.",
             error: error.message
             
+        });
+    }
+}
+
+module.exports.ChangePassword=async(req,res)=>{
+    try{
+        const {email,password,newPassword}=req.body;
+        let user=await ClientModel.findOne({email})
+        if(user){
+            role="Client"
+        }else{
+            user = await freelancermodel.findOne({ email });
+            if (user) {
+                role = 'freelancer';
+            }
+        }
+
+         if (!user) {
+            return res.status(404).json({
+                status: "Failure",
+                message: "User not found."
+            });
+        }
+
+        const isPasswordCorrect = await bcrypt.compare(password, user.password);
+        if (!isPasswordCorrect) {
+            return res.status(401).json({
+                status: "Failure",
+                message: "Current password is incorrect."
+            });
+        }
+
+        const hashedNewPassword = await bcrypt.hash(newPassword, SALT_ROUNDS);
+        user.password = hashedNewPassword;
+        await user.save();
+
+        res.status(200).json({
+            status: "Success",
+            message: "Password changed successfully."
+        });
+    }catch(error){
+         res.status(500).json({
+            status: "Failure",
+            message: "An error occurred while changing the password.",
+            error: error.message
         });
     }
 }

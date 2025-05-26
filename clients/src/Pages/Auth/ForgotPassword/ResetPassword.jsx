@@ -1,29 +1,53 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import logo from '../../../assets/images/logo.png'; // Adjust the path to your logo image
-import logo2 from '../../../assets/images/logo2.png'; // Adjust the path to your logo image
+import { Link, useNavigate } from 'react-router-dom';
+import logo from '../../../assets/images/logo.png';
+import logo2 from '../../../assets/images/logo2.png';
+import { useDispatch, useSelector } from 'react-redux'; // ✅ Adjust path to your actual api.js
+import { Resetpassword } from '../../../API/Api';
 
 export default function ResetPassword() {
   const [theme, setTheme] = useState('light');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
+  const verifyOtp = useSelector((state) => state.counter.otp); // Make sure 'counter.otp' is set correctly
+  const verifyemail=useSelector((state)=>state.counter.email);
+  console.log("verifyOtp--",verifyOtp)
   const toggleTheme = () => {
     setTheme(theme === 'light' ? 'dark' : 'light');
   };
 
-  const handleSubmit = () => {
-    if (!newPassword || !confirmPassword) {
-      alert("Both password fields are required.");
-      return;
-    }
-    if (newPassword !== confirmPassword) {
-      alert("Passwords do not match.");
-      return;
-    }
-    console.log('New Password:', newPassword);
-    // Add API request logic here
+ const handleSubmit = async () => {
+  if (!newPassword || !confirmPassword) {
+    alert("Both password fields are required.");
+    return;
+  }
+  if (newPassword !== confirmPassword) {
+    alert("Passwords do not match.");
+    return;
+  }
+
+  const payload = {
+    email: verifyemail,
+    otp: verifyOtp,
+    newPassword: newPassword
   };
+
+  console.log("Sending Reset Password Payload:", payload); // ✅ Debug print
+
+  try {
+    const response = await Resetpassword(payload);
+    console.log('Password reset successful:', response);
+    alert("Password reset successfully!");
+    navigate('/login');
+  } catch (error) {
+    alert("Failed to reset password. Please try again.");
+    console.error("Reset password error:", error);
+  }
+};
+
 
   const textColor = theme === 'light' ? 'text-gray-900' : 'text-white';
   const inputBgColor = theme === 'light' ? 'bg-white' : 'bg-gray-800';
@@ -73,7 +97,6 @@ export default function ResetPassword() {
           </div>
 
           <div className="space-y-5">
-            {/* New Password */}
             <div>
               <label htmlFor="newPassword" className="block text-sm font-medium mb-1">
                 New Password
@@ -81,6 +104,7 @@ export default function ResetPassword() {
               <input
                 id="newPassword"
                 type="password"
+                name='newPassword'
                 value={newPassword}
                 onChange={(e) => setNewPassword(e.target.value)}
                 className={`appearance-none block w-full px-3 py-3 border ${inputBorderColor} rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 ${inputBgColor}`}
@@ -88,7 +112,6 @@ export default function ResetPassword() {
               />
             </div>
 
-            {/* Confirm Password */}
             <div>
               <label htmlFor="confirmPassword" className="block text-sm font-medium mb-1">
                 Confirm Password
@@ -103,17 +126,16 @@ export default function ResetPassword() {
               />
             </div>
 
-            {/* Submit Button */}
             <div>
-              <button
-                onClick={handleSubmit}
-                className="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-orange-500 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
-              >
-                Update Password
-              </button>
+             <button
+  onClick={handleSubmit} // ✅ FIXED
+  className="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-orange-500 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
+>
+  Reset Password
+</button>
+
             </div>
 
-            {/* Back to Login */}
             <div className="text-sm text-center mt-6">
               <Link to="/login" className="text-orange-500 hover:underline">
                 Back to Login

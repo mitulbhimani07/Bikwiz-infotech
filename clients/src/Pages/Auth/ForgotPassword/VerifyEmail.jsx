@@ -41,9 +41,9 @@ export default function VerifyEmail() {
 
 
     try {
-      const res = await verifyemail({email});
+      const res = await verifyemail({email},dispatch);
       console.log("Response:", res);
-      dispatch(setEmails(res.client.email))
+      // dispatch(setEmails(res.client.email))
       console.log("email-----",res.client.email)
       navigate('/verifyotp')
 
