@@ -15,6 +15,7 @@ import job9 from '../assets/images/FindWork/work9.png';
 import job10 from '../assets/images/FindWork/work10.png';
 import job11 from '../assets/images/FindWork/work11.png';
 import job12 from '../assets/images/FindWork/work12.png';
+import { Link } from 'react-router-dom';
 // import job1 from '../assets/images/FindWork/work1.png';
 
 function FindWork() {
@@ -854,7 +855,7 @@ function FindWork() {
 
         {/* Right Section: Apply Button */}
         <button className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white px-5 py-2 rounded-lg font-semibold text-sm w-full sm:w-auto">
-          Apply Now
+         <Link to='/companydetails/:id'> Apply Now </Link>
         </button>
       </div>
     </div>

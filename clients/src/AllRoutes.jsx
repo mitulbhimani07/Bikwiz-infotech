@@ -16,6 +16,8 @@ import SingleBlog from './Pages/singleBlog'
 import FAQs from './Pages/FAQ\'s'
 import FindWork from './Pages/FindWork'
 import FindTalent from './Pages/FindTalent'
+import CompanyDetails from './Pages/CompanyDetails'
+import FreelancerProfile from './Pages/FreelancerProfile'
 function AllRoutes() {
   return (
     <div>
@@ -29,6 +31,8 @@ function AllRoutes() {
           <Route path='faqs' element={<FAQs/>}/>
           <Route path='/FindWork' element={<FindWork/>}/>
           <Route path='/findTalent' element={<FindTalent/>}/>
+          <Route path="/companydetails/:id" element={<CompanyDetails/>}/>
+          <Route path="/freelacerprofile/:id" element={<FreelancerProfile/>}/>
           {/* signIng */}
           <Route path='/joinas' element={<Joinas/>}/>
           <Route path='/signup' element={<SignUp/>}/>
