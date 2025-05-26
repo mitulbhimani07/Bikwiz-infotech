@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import logo from '../../../assets/images/logo.png'; // Adjust the path to your logo image
 import logo2 from '../../../assets/images/logo2.png'; // Adjust the path to your logo image
+import { useDispatch, useSelector } from 'react-redux';
+import { setEmails } from '../../../Redux/ReduxSlice';
+import { verifyemail } from '../../../API/Api';
 
 export default function VerifyEmail() {
   const [theme, setTheme] = useState('light');
-  const [email, setEmail] = useState({ email: '' });
+  const [email, setEmail] = useState();
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isValid, setIsValid] = useState(true);
   const [errorMessage, setErrorMessage] = useState('');
@@ -24,9 +27,12 @@ export default function VerifyEmail() {
 
   // Handle email change
   const handleEmailChange = (e) => {
-    setEmail({ ...email, [e.target.name]: e.target.value });
+    setEmail(e.target.value );
 
   };
+
+    const dispatch=useDispatch()
+    const navigate=useNavigate()
 
 
   // Handle form submission
@@ -35,9 +41,13 @@ export default function VerifyEmail() {
 
 
     try {
-      const res = await VerifyEmail(email);
+      const res = await verifyemail({email});
       console.log("Response:", res);
-      toast.success("SignIn Successfully!!!")
+      dispatch(setEmails(res.client.email))
+      console.log("email-----",res.client.email)
+      navigate('/verifyotp')
+
+      // toast.success("SignIn Successfully!!!")
 
     } catch (error) {
       console.log("Error submitting form:", error);
@@ -100,7 +110,7 @@ export default function VerifyEmail() {
                   id="email"
                   name="email"
                   type="email"
-                  autoComplete="email"
+                  // autoComplete="email"
                   value={email}
                   onChange={handleEmailChange}
                   className={`appearance-none block w-full px-3 py-3 border  rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 ${inputBgColor} transition-colors duration-200`}

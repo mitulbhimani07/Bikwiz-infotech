@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import logo from '../../../assets/images/logo.png'; // Adjust the path to your logo image
 import logo2 from '../../../assets/images/logo2.png'; // Adjust the path to your logo image
+import { useSelector } from 'react-redux';
 
 export default function VerifyOTP() {
   const [theme, setTheme] = useState('light');
@@ -10,7 +11,7 @@ export default function VerifyOTP() {
   const [isError, setIsError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [timer, setTimer] = useState(60);
-  const [email, setEmail] = useState('your.email@example.com'); // Ideally passed via props or context
+  // const [email, setEmail] = useState('your.email@example.com'); // Ideally passed via props or context
 
   // Theme toggle function
   const toggleTheme = () => {
@@ -57,6 +58,9 @@ export default function VerifyOTP() {
       if (nextInput) nextInput.focus();
     }
   };
+  const verifyEmail = useSelector((state) => state.counter?.email);
+
+  console.log("verifyEmail",verifyEmail)
 
   // Handle paste event for OTP
   const handlePaste = (e) => {
@@ -160,9 +164,9 @@ export default function VerifyOTP() {
             </svg>
             <h2 className="text-3xl font-bold mt-4">Verify OTP</h2>
             <p className={`mt-2 ${theme === 'light' ? 'text-gray-600' : 'text-gray-400'}`}>
-              {isVerified
+              {/* {isVerified
                 ? 'Your account has been verified successfully!'
-                : `Enter the verification code sent to ${email}`}
+                : `Enter the verification code sent to ${email}`} */}
             </p>
           </div>
 

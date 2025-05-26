@@ -144,7 +144,7 @@ module.exports.VerifyEmail=async(req,res)=>{
             } else {
                 return res
                     .status(200)
-                    .json({ message: "OTP sent to your email", otp,role }); // Include isAdmin in the response
+                    .json({ message: "OTP sent to your email", client,role }); // Include isAdmin in the response
             }
         });
 
