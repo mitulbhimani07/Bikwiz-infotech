@@ -10,12 +10,15 @@ export const ReduxSlice = createSlice({
   reducers: {
    setEmails:(state,actions)=>{
     state.email = actions.payload;
+   },
+   setotp:(state,actions)=>{
+    state.otp=actions.payload;
    }
     
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { setEmails } = ReduxSlice.actions
+export const { setEmails,setotp } = ReduxSlice.actions
 
 export default ReduxSlice.reducer
