@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { Plus, Minus } from 'lucide-react'
 import Header from '../header-footer/Header'
 import Footer from '../header-footer/Footer'
@@ -40,6 +40,57 @@ export default function FAQs() {
         setOpenAccordion(openAccordion === id ? null : id);
     };
 
+    // Accordion Item Component with smooth animation
+    const AccordionItem = ({ faq, isOpen, onToggle }) => {
+        const contentRef = useRef(null);
+        const [height, setHeight] = useState(0);
+
+        useEffect(() => {
+            if (contentRef.current) {
+                setHeight(isOpen ? contentRef.current.scrollHeight : 0);
+            }
+        }, [isOpen]);
+
+        return (
+            <div className="bg-white border-b border-gray-200">
+                {/* Question Header */}
+                <button
+                    onClick={onToggle}
+                    className="w-full px-6 py-5 text-left flex items-center justify-between hover:bg-gray-50 transition-colors duration-200"
+                >
+                    <h3 className="text-lg font-medium text-gray-900 pr-4">
+                        {faq.question}
+                    </h3>
+                    <div className="flex-shrink-0">
+                        <div className={`w-6 h-6 rounded-full flex items-center justify-center transition-all duration-300 ${
+                            isOpen ? 'bg-orange-500 rotate-180' : 'bg-transparent'
+                        }`}>
+                            {isOpen ? (
+                                <Minus className="w-4 h-4 text-white transition-transform duration-300" />
+                            ) : (
+                                <Plus className="w-4 h-4 text-gray-600 transition-transform duration-300" />
+                            )}
+                        </div>
+                    </div>
+                </button>
+
+                {/* Answer Content with smooth animation */}
+                <div
+                    className="overflow-hidden transition-all duration-500 ease-in-out"
+                    style={{ height: `${height}px` }}
+                >
+                    <div ref={contentRef} className="px-6 pb-5">
+                        <div className={`text-gray-600 leading-relaxed pt-2 border-t border-gray-100 transition-opacity duration-300 ${
+                            isOpen ? 'opacity-100' : 'opacity-0'
+                        }`}>
+                            {faq.answer}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+    };
+
     return (
         <div>
             <Header />
@@ -55,10 +106,10 @@ export default function FAQs() {
             >
                 <div className="relative z-10 text-center px-4 md:px-10 max-w-7xl">
                     <h1 className="text-white text-3xl sm:text-3xl md:text-5xl lg:text-6xl font-bold leading-tight">
-                        Get in Touch
+                        FAQ'S
                     </h1>
                     <p className="text-white text-base sm:text-lg mt-6 leading-relaxed">
-                        Looking to hire top talent or land quality projects? Whether you're expanding your team or building your freelance career, get in touch, we connect passionate freelancers and ambitious clients for long-term, successful collaborations.
+                        
                     </p>
                 </div>
             </section>
@@ -73,37 +124,12 @@ export default function FAQs() {
                     {/* Accordion */}
                     <div className="space-y-4">
                         {faqs.map((faq) => (
-                            <div key={faq.id} className="bg-white border-b border-gray-200 ">
-                                {/* Question Header */}
-                                <button
-                                    onClick={() => toggleAccordion(faq.id)}
-                                    className="w-full px-6 py-5 text-left flex items-center justify-between hover:bg-gray-50 transition-colors duration-200"
-                                >
-                                    <h3 className="text-lg font-medium text-gray-900 pr-4">
-                                        {faq.question}
-                                    </h3>
-                                    <div className="flex-shrink-0">
-                                        {openAccordion === faq.id ? (
-                                            <div className="w-6 h-6 rounded-full bg-orange-500 flex items-center justify-center">
-                                                <Minus className="w-6 h-6 text-white" />
-                                            </div>
-                                        ) : (
-                                            <div className="w-6 h-6 rounded-full flex items-center justify-center">
-                                                <Plus className="w-6 h-6 text-gray-600" />
-                                            </div>
-                                        )}
-                                    </div>
-                                </button>
-
-                                {/* Answer Content */}
-                                {openAccordion === faq.id && (
-                                    <div className="px-6 pb-5">
-                                        <div className="text-gray-600 leading-relaxed pt-2 border-t border-gray-100">
-                                            {faq.answer}
-                                        </div>
-                                    </div>
-                                )}
-                            </div>
+                            <AccordionItem
+                                key={faq.id}
+                                faq={faq}
+                                isOpen={openAccordion === faq.id}
+                                onToggle={() => toggleAccordion(faq.id)}
+                            />
                         ))}
                     </div>
 
