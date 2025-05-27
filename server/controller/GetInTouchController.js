@@ -1,16 +1,16 @@
 var Contactus=require('../Model/GetInTouchModel')
 
 
-module.exports.ContactUs=async(req,res)=>{
+module.exports.Contact=async(req,res)=>{
     try{
-        const Contact=await Contactus(req.body);
-
+        console.log(req.body)
+        const data=await Contactus.create(req.body);
         res.status(201).json({
-            message: "Client signed up successfully",
-            data: Contact
+            message: "Message sent successfully",
+            data
         });
     }catch(error){
-        console.error("Error in SignUp:", error);
+        console.error("Error in message:", error);
         res.status(500).json({ message: "Internal server error" });
     }
 }

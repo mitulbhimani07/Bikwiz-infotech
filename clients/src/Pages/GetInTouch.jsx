@@ -1,12 +1,45 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Header from '../header-footer/Header';
 import Footer from '../header-footer/Footer';
 import { FaFacebookF, FaTwitter, FaLinkedinIn, FaBehance, FaReact } from 'react-icons/fa';
 import banner from '../assets/images/getintouch.jpg';
+import { ContactUs } from '../API/Api';
+import toast from 'react-hot-toast';
 
 
 
 export default function GetInTouch() {
+
+  const [contact,setcontact]=useState({
+    fullname:'',
+    email:'',
+    subject:'',
+    message:''
+  })
+
+  const handleChange=(e)=>{
+    setcontact({...contact,[e.target.name]:e.target.value})
+  }
+
+  const handleSubmit=async(e)=>{
+    e.preventDefault();
+    try{
+      const res=await ContactUs(contact);
+      console.log("res---------",res);
+      toast.success("Sent Message SuccessFully!!")
+      setcontact({
+        fullname:'',
+        email:'',
+        subject:'',
+        message:''
+      })
+    }catch(error){
+      console.log("Error submitting form:", error);
+      toast.error("Something Went Wrong!!")
+    }
+
+  }
+
   return (
     <>
       <Header />
@@ -97,24 +130,36 @@ export default function GetInTouch() {
               Define your goals and identify areas where AI can add <br />
               value to your business
             </p>
-            <form className="space-y-4">
+            <form className="space-y-4" onSubmit={handleSubmit}>
               <input
                 type="text"
                 placeholder="Full name"
+                name='fullname'
+                value={contact.fullname}
+                onChange={handleChange}
                 className="w-full border-b border-gray-300 bg-transparent py-2 focus:outline-none"
               />
               <input
                 type="email"
                 placeholder="Email"
+                name='email'
+                value={contact.email}
+                onChange={handleChange}
                 className="w-full border-b border-gray-300 bg-transparent py-2 focus:outline-none"
               />
               <input
                 type="text"
                 placeholder="Subject"
+                name='subject'
+                value={contact.subject}
+                onChange={handleChange}
                 className="w-full border-b border-gray-300 bg-transparent py-2 focus:outline-none"
               />
               <textarea
                 placeholder="Message"
+                name='message'
+                value={contact.message}
+                onChange={handleChange}
                 rows={4}
                 className="w-full border-b border-gray-300 bg-transparent py-2 resize-none focus:outline-none"
               />

@@ -4,6 +4,7 @@ import logo from '../../../assets/images/logo.png';
 import logo2 from '../../../assets/images/logo2.png';
 import { useSelector, useDispatch } from 'react-redux';
 import { verifyotp } from '../../../API/Api';
+import toast from 'react-hot-toast';
 
 
 export default function VerifyOTP() {
@@ -95,10 +96,12 @@ export default function VerifyOTP() {
 
       const response = await verifyotp(payload, dispatch);
       console.log("OTP verified:", response);
+      toast.success("OTP Verify SuccessFully!!")
       navigate('/resetpassword')
       setIsVerified(true);
     } catch (error) {
       setIsError(true);
+      toast.error("OTP Invalid.Please try again.")
       setErrorMessage('Invalid verification code. Please try again.');
     }
   };

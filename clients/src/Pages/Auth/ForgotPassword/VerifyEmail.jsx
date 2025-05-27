@@ -5,6 +5,7 @@ import logo2 from '../../../assets/images/logo2.png'; // Adjust the path to your
 import { useDispatch, useSelector } from 'react-redux';
 import { setEmails } from '../../../Redux/ReduxSlice';
 import { verifyemail } from '../../../API/Api';
+import toast from 'react-hot-toast';
 
 export default function VerifyEmail() {
   const [theme, setTheme] = useState('light');
@@ -47,10 +48,11 @@ export default function VerifyEmail() {
       console.log("email-----",res.client.email)
       navigate('/verifyotp')
 
-      // toast.success("SignIn Successfully!!!")
+      toast.success("Email Verify Successfully!!!")
 
     } catch (error) {
       console.log("Error submitting form:", error);
+      toast.error("Email Worng.Please try again.")
     }
   };
 

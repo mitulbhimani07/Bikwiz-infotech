@@ -22,6 +22,9 @@ import talent14 from "../assets/images/findTalent/14.png"
 import card1 from "../assets/images/findTalent/card1.png"
 import card2 from "../assets/images/findTalent/card2.png"
 import card3 from "../assets/images/findTalent/card3.png"
+import { CiGrid41 } from 'react-icons/ci';
+import { FaList } from 'react-icons/fa';
+import { IoGrid, IoGridOutline } from 'react-icons/io5';
 
 
 
@@ -292,6 +295,7 @@ function FindTalent() {
 
     const [minPrice, setMinPrice] = useState(50);
     const [maxPrice, setMaxPrice] = useState(290);
+    const [viewMode, setViewMode] = useState('list');
     const [isDragging, setIsDragging] = useState(null);
 
     const sliderRef = useRef(null);
@@ -679,85 +683,151 @@ function FindTalent() {
 
                                     {/* Sort + View Options */}
                                     <div className="flex items-center gap-4">
-                                        {/* Sort Dropdown */}
-                                        <select
-                                            className="border border-gray-300 text-sm text-gray-700 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-orange-500"
-                                        >
-                                            <option>Short by</option>
-                                            <option>Rating</option>
-                                            <option>Newest</option>
-                                            <option>Experience</option>
-                                        </select>
+    {/* Sort Dropdown */}
+    <select
+        className="border border-gray-300 text-sm text-gray-700 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-orange-500"
+    >
+        <option>Short by</option>
+        <option>Rating</option>
+        <option>Newest</option>
+        <option>Experience</option>
+    </select>
 
-                                        {/* View Toggle Buttons */}
-                                        <button className="bg-orange-500 hover:bg-orange-600 text-white p-2 rounded-md transition">
-                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none"
-                                                viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                                                <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-                                            </svg>
-                                        </button>
-                                        <button className="bg-orange-100 hover:bg-orange-200 text-orange-600 p-2 rounded-md transition">
-                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none"
-                                                viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                                                <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h4v4H4V6zm6 0h4v4h-4V6zm6 0h4v4h-4V6zM4 12h4v4H4v-4zm6 0h4v4h-4v-4zm6 0h4v4h-4v-4zM4 18h4v4H4v-4zm6 0h4v4h-4v-4zm6 0h4v4h-4v-4z" />
-                                            </svg>
-                                        </button>
-                                    </div>
+    {/* View Toggle Buttons */}
+    <button 
+        onClick={() => setViewMode('list')}
+        className={`p-2 rounded-md transition ${
+            viewMode === 'list' 
+                ? 'bg-orange-500 hover:bg-orange-600 text-white' 
+                : 'bg-orange-100 hover:bg-orange-200 text-orange-600'
+        }`}
+    >
+        <FaList />
+    </button>
+    <button 
+        onClick={() => setViewMode('grid')}
+        className={`p-2 rounded-md transition ${
+            viewMode === 'grid' 
+                ? 'bg-orange-500 hover:bg-orange-600 text-white' 
+                : 'bg-orange-100 hover:bg-orange-200 text-orange-600'
+        }`}
+    >
+        <IoGrid />
+    </button>
+</div>
                                 </div>
                             </div>
 
 
-                            <div className="space-y-4 mb-8">
-                                {currentJobs.map((job) => (
-                                    <div
-                                        key={job.id}
-                                        className="bg-white rounded-lg border border-gray-200 px-6 py-4 hover:shadow-md transition-shadow"
-                                    >
-                                        <div className="flex items-center justify-between flex-col sm:flex-row gap-4 sm:gap-0">
-                                            {/* Left Section: Logo + Info */}
-                                            <div className="flex items-start sm:items-center gap-4">
-                                                {/* Logo */}
-                                                <div className="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0">
-                                                    <img src={job.logo} alt={job.company} className="w-full h-full object-cover" />
-                                                </div>
 
-                                                {/* Details */}
-                                                <div>
-                                                    <h3 className="text-[#1e1d4e] font-semibold text-base">{job.title}</h3>
-                                                    <p className="text-gray-500 text-sm">{job.company}</p>
 
-                                                    <div className="flex flex-wrap items-center gap-4 mt-1 text-xs text-gray-500">
-                                                        <div className="flex items-center gap-1">
-                                                            <MapPin className="w-3.5 h-3.5" />
-                                                            <span>{job.location}</span>
-                                                        </div>
-                                                        <div className="flex items-center gap-1">
-                                                            <Briefcase className="w-3.5 h-3.5" />
-                                                            <span>{job.type}</span>
-                                                        </div>
-                                                        <div className="flex items-center gap-1">
-                                                            <DollarSign className="w-3.5 h-3.5" />
-                                                            <span>{job.salary}</span>
-                                                        </div>
-                                                    </div>
-
-                                                    <div className="flex items-center gap-2 mt-2">
-                                                        <span className="bg-orange-500 text-white text-xs font-semibold px-2 py-0.5 rounded">
-                                                            {job.rating}
-                                                        </span>
-                                                        <div className="flex">{renderStars(job.rating)}</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            {/* Right Section: Apply Button */}
-                                            <button className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white px-5 py-2 rounded-lg font-semibold text-sm w-full sm:w-auto">
-                                                Apply Now
-                                            </button>
-                                        </div>
-                                    </div>
-                                ))}
+                                <div className="mb-8">
+                                    {viewMode==='list'?(
+                                        <div className="space-y-4">
+            {currentJobs.map((job) => (
+                <div
+                    key={job.id}
+                    className="bg-white rounded-lg border border-gray-200 px-6 py-4 hover:shadow-md transition-shadow"
+                >
+                    <div className="flex items-center justify-between flex-col sm:flex-row gap-4 sm:gap-0">
+                        {/* Left Section: Logo + Info */}
+                        <div className="flex items-start sm:items-center gap-4">
+                            {/* Logo */}
+                            <div className="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0">
+                                <img src={job.logo} alt={job.company} className="w-full h-full object-cover" />
                             </div>
+
+                            {/* Details */}
+                            <div>
+                                <h3 className="text-[#1e1d4e] font-semibold text-base">{job.title}</h3>
+                                <p className="text-gray-500 text-sm">{job.company}</p>
+
+                                <div className="flex flex-wrap items-center gap-4 mt-1 text-xs text-gray-500">
+                                    <div className="flex items-center gap-1">
+                                        <MapPin className="w-3.5 h-3.5" />
+                                        <span>{job.location}</span>
+                                    </div>
+                                    <div className="flex items-center gap-1">
+                                        <Briefcase className="w-3.5 h-3.5" />
+                                        <span>{job.type}</span>
+                                    </div>
+                                    <div className="flex items-center gap-1">
+                                        <DollarSign className="w-3.5 h-3.5" />
+                                        <span>{job.salary}</span>
+                                    </div>
+                                </div>
+
+                                <div className="flex items-center gap-2 mt-2">
+                                    <span className="bg-orange-500 text-white text-xs font-semibold px-2 py-0.5 rounded">
+                                        {job.rating}
+                                    </span>
+                                    <div className="flex">{renderStars(job.rating)}</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Right Section: Apply Button */}
+                        <button className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white px-5 py-2 rounded-lg font-semibold text-sm w-full sm:w-auto">
+                            Apply Now
+                        </button>
+                    </div>
+                </div>
+            ))}
+        </div>
+                                    ):(
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+            {currentJobs.map((job) => (
+                <div
+                    key={job.id}
+                    className="bg-white rounded-lg border border-gray-200 p-6 hover:shadow-lg transition-all duration-300 text-center"
+                >
+                    {/* Profile Image */}
+                    <div className="w-20 h-20 mx-auto mb-4 rounded-xl overflow-hidden">
+                        <img 
+                            src={job.logo} 
+                            alt={job.company} 
+                            className="w-full h-full object-cover" 
+                        />
+                    </div>
+
+                    {/* Name and Title */}
+                    <h3 className="text-lg font-semibold text-gray-900 mb-1">{job.title}</h3>
+                    <p className="text-gray-600 text-sm mb-4">{job.company}</p>
+
+                    {/* Rating */}
+                    <div className="flex items-center justify-center gap-2 mb-3">
+                        <span className="bg-orange-500 text-white text-sm font-semibold px-2.5 py-1 rounded">
+                            {job.rating}
+                        </span>
+                        <div className="flex text-orange-400">
+                            {renderStars(job.rating)}
+                        </div>
+                    </div>
+
+                    {/* Location and Salary */}
+                    <div className="space-y-2 mb-6 text-sm text-gray-600">
+                        <div className="flex items-center justify-center gap-1">
+                            <MapPin className="w-4 h-4" />
+                            <span>{job.location}</span>
+                        </div>
+                        <div className="flex items-center justify-center gap-1">
+                            <DollarSign className="w-4 h-4" />
+                            <span>{job.salary}</span>
+                        </div>
+                    </div>
+
+                    {/* View Profile Button */}
+                    <button className="w-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white py-2.5 px-4 rounded-lg font-semibold text-sm transition-all duration-300 flex items-center justify-center gap-2">
+                        <span>View Profile</span>
+                    </button>
+                </div>
+            ))}
+        </div>
+                                    )
+                                    
+                                    }
+                                </div>
+                            
 
 
                             {/* Pagination */}

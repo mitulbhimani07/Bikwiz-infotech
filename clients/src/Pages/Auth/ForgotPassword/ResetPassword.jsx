@@ -4,6 +4,7 @@ import logo from '../../../assets/images/logo.png';
 import logo2 from '../../../assets/images/logo2.png';
 import { useDispatch, useSelector } from 'react-redux'; // ✅ Adjust path to your actual api.js
 import { Resetpassword } from '../../../API/Api';
+import toast from 'react-hot-toast';
 
 export default function ResetPassword() {
   const [theme, setTheme] = useState('light');
@@ -40,11 +41,13 @@ export default function ResetPassword() {
   try {
     const response = await Resetpassword(payload);
     console.log('Password reset successful:', response);
-    alert("Password reset successfully!");
+    // alert("Password reset successfully!");
+    toast.success("Password reset successfully!!")
     navigate('/login');
   } catch (error) {
-    alert("Failed to reset password. Please try again.");
+    // alert("Failed to reset password. Please try again.");
     console.error("Reset password error:", error);
+    toast.error("Failed to reset password. Please try again.")
   }
 };
 

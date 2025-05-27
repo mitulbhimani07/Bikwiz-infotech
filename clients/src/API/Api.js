@@ -74,3 +74,15 @@ export const Resetpassword=async(payload)=>{
         throw error;
     }
 }
+
+export const ContactUs=async(payload)=>{
+    try{
+        const response=await axios.post("http://localhost:3000/contact/GetInTouch",payload)
+
+        console.log("Contact Us",response);
+        return response.data
+    }catch(error){
+        console.error("Error in Reset Passowrd API:", error);
+        throw error;
+    }
+}
