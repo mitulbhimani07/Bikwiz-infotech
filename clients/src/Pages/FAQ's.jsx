@@ -108,8 +108,8 @@ export default function FAQs() {
                     <h1 className="text-white text-3xl sm:text-3xl md:text-5xl lg:text-6xl font-bold leading-tight">
                         FAQ'S
                     </h1>
-                    <p className="text-white text-base sm:text-lg mt-6 leading-relaxed">
-                        
+                    <p className="text-white text-xl sm:text-lg mt-6 leading-relaxed max-w-[800px] mx-auto">
+                       Starting your freelance journey or hiring for your next big idea? Bikwiz makes it simple connecting skilled freelancers with clients who value quality and long-term success. 
                     </p>
                 </div>
             </section>

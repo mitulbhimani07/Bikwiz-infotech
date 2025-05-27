@@ -1,10 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { FiMenu, FiX } from "react-icons/fi";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import logo from "../assets/images/logo.png"; // Adjust if needed
 
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const { pathname } = useLocation();
+useEffect(() => {
+    // Scroll to top when pathname changes
+    window.scrollTo(0, 0);
+  }, [pathname]);
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen((prevState) => !prevState);

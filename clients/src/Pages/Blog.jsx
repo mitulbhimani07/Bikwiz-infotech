@@ -113,11 +113,10 @@ export default function Blog() {
       >
         <div className="relative z-10 text-center px-4 md:px-10 max-w-7xl">
           <h1 className="text-white text-3xl sm:text-3xl md:text-5xl lg:text-6xl font-bold leading-tight">
-            Get in Touch
+            Blogs
           </h1>
-          <p className="text-white text-base sm:text-lg mt-6 leading-relaxed">
-            Looking to hire top talent or land quality projects? Whether you're expanding your team or building your freelance career, get in touch, we connect passionate freelancers and ambitious clients for long-term, successful collaborations.
-          </p>
+          <p className="text-white text-base sm:text-lg mt-6 leading-relaxed max-w-[800px] mx-auto">
+            Want to grow as a freelancer or find the right talent for your team? The Bikwiz blog brings you real stories, useful tips, and smart insights to help you work better, earn more, and build lasting freelance success.          </p>
         </div>
       </section>
 
@@ -156,8 +155,8 @@ export default function Blog() {
           Load More
         </button>
       </div>
-        {/* Footer */}
-        <Footer />
+      {/* Footer */}
+      <Footer />
     </div>
   )
 }

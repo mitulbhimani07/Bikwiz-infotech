@@ -684,151 +684,149 @@ function FindTalent() {
 
                                     {/* Sort + View Options */}
                                     <div className="flex items-center gap-4">
-    {/* Sort Dropdown */}
-    <select
-        className="border border-gray-300 text-sm text-gray-700 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-orange-500"
-    >
-        <option>Short by</option>
-        <option>Rating</option>
-        <option>Newest</option>
-        <option>Experience</option>
-    </select>
+                                        {/* Sort Dropdown */}
+                                        <select
+                                            className="border border-gray-300 text-sm text-gray-700 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-orange-500"
+                                        >
+                                            <option>Short by</option>
+                                            <option>Rating</option>
+                                            <option>Newest</option>
+                                            <option>Experience</option>
+                                        </select>
 
-    {/* View Toggle Buttons */}
-    <button 
-        onClick={() => setViewMode('list')}
-        className={`p-2 rounded-md transition ${
-            viewMode === 'list' 
-                ? 'bg-orange-500 hover:bg-orange-600 text-white' 
-                : 'bg-orange-100 hover:bg-orange-200 text-orange-600'
-        }`}
-    >
-        <FaList />
-    </button>
-    <button 
-        onClick={() => setViewMode('grid')}
-        className={`p-2 rounded-md transition ${
-            viewMode === 'grid' 
-                ? 'bg-orange-500 hover:bg-orange-600 text-white' 
-                : 'bg-orange-100 hover:bg-orange-200 text-orange-600'
-        }`}
-    >
-        <IoGrid />
-    </button>
-</div>
+                                        {/* View Toggle Buttons */}
+                                        <button
+                                            onClick={() => setViewMode('list')}
+                                            className={`p-2 rounded-md transition ${viewMode === 'list'
+                                                    ? 'bg-orange-500 hover:bg-orange-600 text-white'
+                                                    : 'bg-orange-100 hover:bg-orange-200 text-orange-600'
+                                                }`}
+                                        >
+                                            <FaList />
+                                        </button>
+                                        <button
+                                            onClick={() => setViewMode('grid')}
+                                            className={`p-2 rounded-md transition ${viewMode === 'grid'
+                                                    ? 'bg-orange-500 hover:bg-orange-600 text-white'
+                                                    : 'bg-orange-100 hover:bg-orange-200 text-orange-600'
+                                                }`}
+                                        >
+                                            <IoGrid />
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
 
 
 
 
-                                <div className="mb-8">
-                                    {viewMode==='list'?(
-                                        <div className="space-y-4">
-            {currentJobs.map((job) => (
-                <div
-                    key={job.id}
-                    className="bg-white rounded-lg border border-gray-200 px-6 py-4 hover:shadow-md transition-shadow"
-                >
-                    <div className="flex items-center justify-between flex-col sm:flex-row gap-4 sm:gap-0">
-                        {/* Left Section: Logo + Info */}
-                        <div className="flex items-start sm:items-center gap-4">
-                            {/* Logo */}
-                            <div className="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0">
-                                <img src={job.logo} alt={job.company} className="w-full h-full object-cover" />
+                            <div className="mb-8">
+                                {viewMode === 'list' ? (
+                                    <div className="space-y-4">
+                                        {currentJobs.map((job) => (
+                                            <div
+                                                key={job.id}
+                                                className="bg-white rounded-lg border border-gray-200 px-6 py-4 hover:shadow-md transition-shadow"
+                                            >
+                                                <div className="flex items-center justify-between flex-col sm:flex-row gap-4 sm:gap-0">
+                                                    {/* Left Section: Logo + Info */}
+                                                    <div className="flex items-start sm:items-center gap-4">
+                                                        {/* Logo */}
+                                                        <div className="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0">
+                                                            <img src={job.logo} alt={job.company} className="w-full h-full object-cover" />
+                                                        </div>
+
+                                                        {/* Details */}
+                                                        <div>
+                                                            <h3 className="text-[#1e1d4e] font-semibold text-base">{job.title}</h3>
+                                                            <p className="text-gray-500 text-sm">{job.company}</p>
+
+                                                            <div className="flex flex-wrap items-center gap-4 mt-1 text-xs text-gray-500">
+                                                                <div className="flex items-center gap-1">
+                                                                    <MapPin className="w-3.5 h-3.5" />
+                                                                    <span>{job.location}</span>
+                                                                </div>
+                                                                <div className="flex items-center gap-1">
+                                                                    <Briefcase className="w-3.5 h-3.5" />
+                                                                    <span>{job.type}</span>
+                                                                </div>
+                                                                <div className="flex items-center gap-1">
+                                                                    <DollarSign className="w-3.5 h-3.5" />
+                                                                    <span>{job.salary}</span>
+                                                                </div>
+                                                            </div>
+
+                                                            <div className="flex items-center gap-2 mt-2">
+                                                                <span className="bg-orange-500 text-white text-xs font-semibold px-2 py-0.5 rounded">
+                                                                    {job.rating}
+                                                                </span>
+                                                                <div className="flex">{renderStars(job.rating)}</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    {/* Right Section: Apply Button */}
+                                                    <button className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white px-5 py-2 rounded-lg font-semibold text-sm w-full sm:w-auto">
+                                                        <Link to="/freelacerprofile/:id"> Apply Now</Link>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                ) : (
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+                                        {currentJobs.map((job) => (
+                                            <div
+                                                key={job.id}
+                                                className="bg-white rounded-lg border border-gray-200 p-6 hover:shadow-lg transition-all duration-300 text-center"
+                                            >
+                                                {/* Profile Image */}
+                                                <div className="w-20 h-20 mx-auto mb-4 rounded-xl overflow-hidden">
+                                                    <img
+                                                        src={job.logo}
+                                                        alt={job.company}
+                                                        className="w-full h-full object-cover"
+                                                    />
+                                                </div>
+
+                                                {/* Name and Title */}
+                                                <h3 className="text-lg font-semibold text-gray-900 mb-1">{job.title}</h3>
+                                                <p className="text-gray-600 text-sm mb-4">{job.company}</p>
+
+                                                {/* Rating */}
+                                                <div className="flex items-center justify-center gap-2 mb-3">
+                                                    <span className="bg-orange-500 text-white text-sm font-semibold px-2.5 py-1 rounded">
+                                                        {job.rating}
+                                                    </span>
+                                                    <div className="flex text-orange-400">
+                                                        {renderStars(job.rating)}
+                                                    </div>
+                                                </div>
+
+                                                {/* Location and Salary */}
+                                                <div className="space-y-2 mb-6 text-sm text-gray-600">
+                                                    <div className="flex items-center justify-center gap-1">
+                                                        <MapPin className="w-4 h-4" />
+                                                        <span>{job.location}</span>
+                                                    </div>
+                                                    <div className="flex items-center justify-center gap-1">
+                                                        <DollarSign className="w-4 h-4" />
+                                                        <span>{job.salary}</span>
+                                                    </div>
+                                                </div>
+
+                                                {/* View Profile Button */}
+                                                <button className="w-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white py-2.5 px-4 rounded-lg font-semibold text-sm transition-all duration-300 flex items-center justify-center gap-2">
+                                                    <span><Link to='/freelacerprofile/:id'>View Profile</Link></span>
+                                                </button>
+                                            </div>
+                                        ))}
+                                    </div>
+                                )
+
+                                }
                             </div>
 
-                            {/* Details */}
-                            <div>
-                                <h3 className="text-[#1e1d4e] font-semibold text-base">{job.title}</h3>
-                                <p className="text-gray-500 text-sm">{job.company}</p>
-
-                                <div className="flex flex-wrap items-center gap-4 mt-1 text-xs text-gray-500">
-                                    <div className="flex items-center gap-1">
-                                        <MapPin className="w-3.5 h-3.5" />
-                                        <span>{job.location}</span>
-                                    </div>
-                                    <div className="flex items-center gap-1">
-                                        <Briefcase className="w-3.5 h-3.5" />
-                                        <span>{job.type}</span>
-                                    </div>
-                                    <div className="flex items-center gap-1">
-                                        <DollarSign className="w-3.5 h-3.5" />
-                                        <span>{job.salary}</span>
-                                    </div>
-                                </div>
-
-                                <div className="flex items-center gap-2 mt-2">
-                                    <span className="bg-orange-500 text-white text-xs font-semibold px-2 py-0.5 rounded">
-                                        {job.rating}
-                                    </span>
-                                    <div className="flex">{renderStars(job.rating)}</div>
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* Right Section: Apply Button */}
-                        <button className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white px-5 py-2 rounded-lg font-semibold text-sm w-full sm:w-auto">
-                            <Link to="/freelacerprofile/:id"> Apply Now</Link>
-                        </button>
-                    </div>
-                </div>
-            ))}
-        </div>
-                                    ):(
-                                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6">
-            {currentJobs.map((job) => (
-                <div
-                    key={job.id}
-                    className="bg-white rounded-lg border border-gray-200 p-6 hover:shadow-lg transition-all duration-300 text-center"
-                >
-                    {/* Profile Image */}
-                    <div className="w-20 h-20 mx-auto mb-4 rounded-xl overflow-hidden">
-                        <img 
-                            src={job.logo} 
-                            alt={job.company} 
-                            className="w-full h-full object-cover" 
-                        />
-                    </div>
-
-                    {/* Name and Title */}
-                    <h3 className="text-lg font-semibold text-gray-900 mb-1">{job.title}</h3>
-                    <p className="text-gray-600 text-sm mb-4">{job.company}</p>
-
-                    {/* Rating */}
-                    <div className="flex items-center justify-center gap-2 mb-3">
-                        <span className="bg-orange-500 text-white text-sm font-semibold px-2.5 py-1 rounded">
-                            {job.rating}
-                        </span>
-                        <div className="flex text-orange-400">
-                            {renderStars(job.rating)}
-                        </div>
-                    </div>
-
-                    {/* Location and Salary */}
-                    <div className="space-y-2 mb-6 text-sm text-gray-600">
-                        <div className="flex items-center justify-center gap-1">
-                            <MapPin className="w-4 h-4" />
-                            <span>{job.location}</span>
-                        </div>
-                        <div className="flex items-center justify-center gap-1">
-                            <DollarSign className="w-4 h-4" />
-                            <span>{job.salary}</span>
-                        </div>
-                    </div>
-
-                    {/* View Profile Button */}
-                    <button className="w-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white py-2.5 px-4 rounded-lg font-semibold text-sm transition-all duration-300 flex items-center justify-center gap-2">
-                        <span>View Profile</span>
-                    </button>
-                </div>
-            ))}
-        </div>
-                                    )
-                                    
-                                    }
-                                </div>
-                            
 
 
                             {/* Pagination */}
@@ -873,43 +871,43 @@ function FindTalent() {
             </div>
 
             <div className="min-h-screen bg-white py-16 px-4">
-  <div className="max-w-7xl mx-auto">
-    {/* Header */}
-    <div className="text-center mb-16">
-      <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-        Let us help you get started
-      </h1>
-    </div>
+                <div className="max-w-7xl mx-auto">
+                    {/* Header */}
+                    <div className="text-center mb-16">
+                        <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+                            Let us help you get started
+                        </h1>
+                    </div>
 
-    {/* Flex Card Layout with Negative Gap */}
-    <div className="flex flex-wrap justify-center md:justify-between">
-      {cardData.map((card, index) => (
-        <div
-          key={index}
-          className="text-center h-[450px] w-[550px] md:w-[400px] my-4 group  bg-[#fff5f5] p-8 rounded-[6px]"
-        >
-          <div className="relative">
-            <div className="w-48 h-48 mx-auto flex items-center justify-center relative overflow-hidden">
-              <img
-                src={card.image}
-                alt=""
-                className="absolute top-0 left-0 w-[200px] h-[200px] object-cover transform transition-transform duration-300 "
-              />
+                    {/* Flex Card Layout with Negative Gap */}
+                    <div className="flex flex-wrap justify-center md:justify-between">
+                        {cardData.map((card, index) => (
+                            <div
+                                key={index}
+                                className="text-center h-[450px] w-[550px] md:w-[400px] my-4 group  bg-[#fff5f5] p-8 rounded-[6px]"
+                            >
+                                <div className="relative">
+                                    <div className="w-48 h-48 mx-auto flex items-center justify-center relative overflow-hidden">
+                                        <img
+                                            src={card.image}
+                                            alt=""
+                                            className="absolute top-0 left-0 w-[200px] h-[200px] object-cover transform transition-transform duration-300 "
+                                        />
+                                    </div>
+                                </div>
+
+                                <h2 className="text-xl font-bold text-gray-900 mb-4">{card.title}</h2>
+                                <p className="text-gray-600 mb-8 max-w-sm mx-auto leading-relaxed">
+                                    {card.description}
+                                </p>
+                                <button className="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 px-8 rounded-lg transition-colors duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+                                    {card.buttonText}
+                                </button>
+                            </div>
+                        ))}
+                    </div>
+                </div>
             </div>
-          </div>
-
-          <h2 className="text-xl font-bold text-gray-900 mb-4">{card.title}</h2>
-          <p className="text-gray-600 mb-8 max-w-sm mx-auto leading-relaxed">
-            {card.description}
-          </p>
-          <button className="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 px-8 rounded-lg transition-colors duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-1">
-            {card.buttonText}
-          </button>
-        </div>
-      ))}
-    </div>
-  </div>
-</div>
 
 
             <Footer />

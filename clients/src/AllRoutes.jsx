@@ -27,8 +27,8 @@ function AllRoutes() {
           <Route path='/getInTouch' element={<GetInTouch/>}/>
           <Route path='/about' element={<AboutUs/>}/>
           <Route path='/blog' element={<Blog/>}/>
-          <Route path='singleBlog/:id' element={<SingleBlog/>}/>
-          <Route path='faqs' element={<FAQs/>}/>
+          <Route path='/singleBlog/:id' element={<SingleBlog/>}/>
+          <Route path='/faqs' element={<FAQs/>}/>
           <Route path='/FindWork' element={<FindWork/>}/>
           <Route path='/findTalent' element={<FindTalent/>}/>
           <Route path="/companydetails/:id" element={<CompanyDetails/>}/>
