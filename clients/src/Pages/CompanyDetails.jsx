@@ -322,7 +322,7 @@ function CompanyDetails() {
                                                 </div>
                                             </div>
                                             <div className="flex items-center justify-center sm:justify-end">
-                                                <div className="bg-amber-100 p-2 rounded-full">
+                                                <div className="bg-amber-100 h-8 w-8 rounded-full flex items-center justify-center mr-2">
                                                     <button className="text-orange-300 hover:text-orange-500 transition-colors">
                                                         <FaHeart size={18} />
                                                     </button>
