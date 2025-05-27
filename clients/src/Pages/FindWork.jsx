@@ -17,6 +17,7 @@ import job11 from '../assets/images/FindWork/work11.png';
 import job12 from '../assets/images/FindWork/work12.png';
 import { FaList } from 'react-icons/fa';
 import { IoGrid } from 'react-icons/io5';
+import { Link } from 'react-router-dom';
 // import job1 from '../assets/images/FindWork/work1.png';
 
 function FindWork() {
@@ -867,7 +868,7 @@ function FindWork() {
 
         {/* Right Section: Apply Button */}
         <button className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white px-5 py-2 rounded-lg font-semibold text-sm w-full sm:w-auto">
-          Apply Now
+         <Link to='/companydetails/:id'> Apply Now </Link>
         </button>
       </div>
     </div>

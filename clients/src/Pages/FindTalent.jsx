@@ -22,6 +22,7 @@ import talent14 from "../assets/images/findTalent/14.png"
 import card1 from "../assets/images/findTalent/card1.png"
 import card2 from "../assets/images/findTalent/card2.png"
 import card3 from "../assets/images/findTalent/card3.png"
+import { Link } from 'react-router-dom';
 import { CiGrid41 } from 'react-icons/ci';
 import { FaList } from 'react-icons/fa';
 import { IoGrid, IoGridOutline } from 'react-icons/io5';
@@ -768,7 +769,7 @@ function FindTalent() {
 
                         {/* Right Section: Apply Button */}
                         <button className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white px-5 py-2 rounded-lg font-semibold text-sm w-full sm:w-auto">
-                            Apply Now
+                            <Link to="/freelacerprofile/:id"> Apply Now</Link>
                         </button>
                     </div>
                 </div>
