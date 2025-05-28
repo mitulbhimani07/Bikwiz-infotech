@@ -18,5 +18,6 @@ router.post('/verifyEmail',clientSignUpController.VerifyEmail)
 router.post('/verifyOtp',clientSignUpController.verifyOtp)
 router.post('/ResetPassword',clientSignUpController.ResetPassword)
 router.post('/ChangePassword',clientSignUpController.ChangePassword)
+router.post('/googlesignup',clientSignUpController.GoogleSignup)
 
 module.exports = router;

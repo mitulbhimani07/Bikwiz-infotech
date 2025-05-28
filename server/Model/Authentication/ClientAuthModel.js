@@ -9,12 +9,12 @@ const clientSchema = new Schema({
     },
     fname: {
         type: String,
-        required: true,
+        // required: true,
         // trim: true,
     },
     lname: {
         type: String,
-        required: true,
+        // required: true,
         // trim: true,
     },
     email: {
@@ -26,7 +26,7 @@ const clientSchema = new Schema({
     },
     password: {
         type: String,
-        required: true,
+        // required: true,
         // trim: true,
     },
     role: {

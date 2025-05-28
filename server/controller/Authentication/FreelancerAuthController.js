@@ -47,6 +47,54 @@ module.exports.FreelancerView = async (req, res) => {
     }
 };
 
+module.exports.GoogleSignup = async (req, res) => {
+  try {
+    const { email, name = "", country = "" } = req.body;
+
+    if (!email) {
+      return res.status(400).json({ message: "Email is required" });
+    }
+
+    // Check if user already exists (in client or freelancer collection)
+    let user = await FreelancerModel.findOne({ email });
+
+    if (!user) {
+      // Create new client (default role)
+      const newUser = await FreelancerModel.create({
+        email,
+        name,
+        fname: name.split(" ")[0] || "",
+        lname: name.split(" ")[1] || "",
+        password: "", // No password for social login
+        country,
+        signupMethod: "google"
+      });
+
+      const userResponse = newUser.toObject();
+      delete userResponse.password;
+
+      return res.status(201).json({
+        message: "Google user created",
+        role: "freelancer",
+        data: userResponse
+      });
+    } else {
+      const userResponse = user.toObject();
+      delete userResponse.password;
+
+      return res.status(200).json({
+        message: "User already exists",
+        role,
+        data: userResponse
+      });
+    }
+
+  } catch (error) {
+    console.error("Google Signup Error:", error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+};
+
 module.exports.SingleFreelancerView = async (req, res) => {
     try {
         const freelancer = await FreelancerModel.findById(req.params.id).select('-password'); // Exclude password

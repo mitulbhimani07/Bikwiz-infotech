@@ -86,3 +86,25 @@ export const ContactUs=async(payload)=>{
         throw error;
     }
 }
+
+export const GoogleSignup=async(payload)=>{
+    try{
+        const response=await axios.post("http://localhost:3000/client/googlesignup",payload)
+
+        return response.data
+    }catch(error){
+        console.error("Error in Reset Passowrd API:", error);
+        throw error;
+    }
+}
+
+export const Googlesignup=async(payload)=>{
+    try{
+        const response=await axios.post("http://localhost:3000/freelancer/googlesignup",payload)
+
+        return response.data
+    }catch(error){
+        console.error("Error in Reset Passowrd API:", error);
+        throw error;
+    }
+}

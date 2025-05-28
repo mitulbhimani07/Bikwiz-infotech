@@ -16,5 +16,5 @@ route.delete('/freelancersignup/:id', freelancerController.deleteFreelancer);
 route.put('/freelancerupdate/:id', freelancerController.updateFreelancer);
 // // Login a freelancer
 route.post('/freelancersignin', freelancerController.freelancerLogin);
-
+route.post('/googlesignup',freelancerController.GoogleSignup)
 module.exports = route;

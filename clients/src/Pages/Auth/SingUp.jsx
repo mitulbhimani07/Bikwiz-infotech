@@ -10,7 +10,7 @@ import {
     FacebookLoginButton,
     GoogleLoginButton
 } from 'react-social-login-buttons';
-import { ClientSignup, FreelancerSignup } from '../../API/Api';
+import { ClientSignup, FreelancerSignup, Googlesignup, GoogleSignup } from '../../API/Api';
 import logo from '../../assets/images/logo.png'; // Adjust the path to your logo image
 import toast from 'react-hot-toast';
 import { FaExclamationTriangle } from 'react-icons/fa';
@@ -21,15 +21,15 @@ export default function SignUp() {
     const [provider, setProvider] = useState('');
     const [profile, setProfile] = useState();
     const navigate = useNavigate();
-     const { search } = useLocation();
+    const { search } = useLocation();
     const params = new URLSearchParams(search);
     const selected = params.get('selected') || '';
 
     useEffect(() => {
-    if (!selected || (selected !== 'client' && selected !== 'freelencer')) {
-        navigate('/joinas'); // Redirect if invalid or missing
-    }
-}, [selected, navigate]);
+        if (!selected || (selected !== 'client' && selected !== 'freelencer')) {
+            navigate('/joinas'); // Redirect if invalid or missing
+        }
+    }, [selected, navigate]);
     // const [data,setdata]=useState({})
     const [errors, setErrors] = useState({
         client: {
@@ -76,8 +76,8 @@ export default function SignUp() {
     const [showClientPassword, setShowClientPassword] = useState(false);
     const [showFreelancerPassword, setShowFreelancerPassword] = useState(false);
 
-   
-  
+
+
 
     const validateForm = () => {
         let valid = true;
@@ -237,6 +237,10 @@ export default function SignUp() {
         setFreelancerReceiveEmails(false);
         // Freelancer form submission logic would go here
     };
+
+    const googlesignup = () => {
+        console.log("ftffgg")
+    }
 
     // Dynamic style based on theme
     const bgColor = theme === 'light' ? 'bg-white' : 'bg-gray-950';
@@ -508,7 +512,7 @@ export default function SignUp() {
                                     </svg>
                                     Sign up with Google
                                 </button> */}
-                                <LoginSocialGoogle className={`w-[50%] flex justify-center items-center py-3 rounded-md  ${inputBgColor} text-sm font-medium ${textColor}   focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors duration-200`}
+                                {/* <LoginSocialGoogle className={`w-[50%] flex justify-center items-center py-3 rounded-md  ${inputBgColor} text-sm font-medium ${textColor}   focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors duration-200`}
                                     client_id='1045466982465-p8irl41k8jnmuiukbkjc1jt04ed82aja.apps.googleusercontent.com'
                                     // onLoginStart={onLoginStart}
                                     // redirect_uri={REDIRECT_URI}
@@ -524,7 +528,43 @@ export default function SignUp() {
                                     }}
                                 >
                                     <GoogleLoginButton />
+                                </LoginSocialGoogle> */}
+
+
+                                <LoginSocialGoogle className={`w-[50%] flex justify-center items-center py-3 rounded-md  ${inputBgColor} text-sm font-medium ${textColor}   focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors duration-200`}
+                                    client_id="1045466982465-p8irl41k8jnmuiukbkjc1jt04ed82aja.apps.googleusercontent.com"
+                                    scope="profile email"
+                                    access_type="online"
+                                    onResolve={async ({ provider, data }) => {
+                                        setProvider(provider);
+                                        setProfile(data);
+                                        console.log("data", data)
+                                        try {
+                                            const payload = {
+                                                email: data.email,
+                                                name: data.name,
+                                                country: "IN", // or dynamically detect later
+                                            };
+
+                                            const res = await GoogleSignup(payload); // Call your API function
+                                            toast.success(res.message || "Google login success");
+
+                                            navigate("/ClientDashboard"); // Or wherever you want to send them
+                                        } catch (err) {
+                                            console.error("Google signup error:", err);
+                                            toast.error("Failed to save Google login");
+                                        }
+                                    }}
+                                    onReject={(err) => {
+                                        console.log("Google Login Error", err);
+                                    }}
+                                >
+                                    <div className="flex items-center justify-center w-full gap-2 border border-gray-300 rounded-3xl p-3 text-xl cursor-pointer hover:bg-gray-50">
+                                        <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google logo" className="w-5 h-5" />
+                                        <span>Continue with Google</span>
+                                    </div>
                                 </LoginSocialGoogle>
+
 
                                 {/* <button
                                     type="button"
@@ -769,43 +809,42 @@ export default function SignUp() {
                             </div>
 
                             <div className="gap-6 flex">
-                                {/* <button
-                                    type="button"
-                                    className={`w-full flex justify-center items-center py-3 px-4 border ${inputBorderColor} rounded-md  ${inputBgColor} text-sm font-medium ${textColor} hover:bg-gray-50 dark:hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors duration-200`}
-                                >
-                                    <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="30" height="30" viewBox="0 0 48 48">
-                                        <path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"></path><path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"></path><path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"></path><path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"></path>
-                                    </svg>
-                                    Sign up with Google
-                                </button> */}
+
 
                                 <LoginSocialGoogle className={`w-[50%] flex justify-center items-center py-3 rounded-md  ${inputBgColor} text-sm font-medium ${textColor}   focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors duration-200`}
-                                    client_id='1045466982465-p8irl41k8jnmuiukbkjc1jt04ed82aja.apps.googleusercontent.com'
-                                    // onLoginStart={onLoginStart}
-                                    // redirect_uri={REDIRECT_URI}
-                                    scope="openid profile email"
-                                    discoveryDocs="claims_supported"
-                                    access_type="offline"
-                                    onResolve={({ provider, data }) => {
+                                    client_id="1045466982465-p8irl41k8jnmuiukbkjc1jt04ed82aja.apps.googleusercontent.com"
+                                    scope="profile email"
+                                    access_type="online"
+                                    onResolve={async ({ provider, data }) => {
                                         setProvider(provider);
                                         setProfile(data);
+                                        console.log("data", data)
+                                        try {
+                                            const payload = {
+                                                email: data.email,
+                                                name: data.name,
+                                                country: "IN", // or dynamically detect later
+                                            };
+
+                                            const res = await Googlesignup(payload); // Call your API function
+                                            toast.success(res.message);
+
+                                            navigate("/FreelancerDashboard"); // Or wherever you want to send them
+                                        } catch (err) {
+                                            console.error("Google signup error:", err);
+                                            toast.error("Failed to save Google login");
+                                        }
                                     }}
-                                    onReject={err => {
-                                        console.log(err);
+                                    onReject={(err) => {
+                                        console.log("Google Login Error", err);
                                     }}
                                 >
-                                    <GoogleLoginButton />
+                                    <div className="flex items-center justify-center w-full gap-2 border border-gray-300 rounded-3xl p-3 text-xl cursor-pointer hover:bg-gray-50">
+                                        <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google logo" className="w-5 h-5" />
+                                        <span>Continue with Google</span>
+                                    </div>
                                 </LoginSocialGoogle>
 
-                                {/* <button
-                                    type="button"
-                                    className={`w-full flex justify-center items-center py-3 px-4 border ${inputBorderColor} rounded-md  ${inputBgColor} text-sm font-medium ${textColor} hover:bg-gray-50 dark:hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors duration-200`}
-                                >
-                                    <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="30" height="30" viewBox="0 0 48 48">
-                                        <linearGradient id="Ld6sqrtcxMyckEl6xeDdMa_uLWV5A9vXIPu_gr1" x1="9.993" x2="40.615" y1="9.993" y2="40.615" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#2aa4f4"></stop><stop offset="1" stop-color="#007ad9"></stop></linearGradient><path fill="url(#Ld6sqrtcxMyckEl6xeDdMa_uLWV5A9vXIPu_gr1)" d="M24,4C12.954,4,4,12.954,4,24s8.954,20,20,20s20-8.954,20-20S35.046,4,24,4z"></path><path fill="#fff" d="M26.707,29.301h5.176l0.813-5.258h-5.989v-2.874c0-2.184,0.714-4.121,2.757-4.121h3.283V12.46 c-0.577-0.078-1.797-0.248-4.102-0.248c-4.814,0-7.636,2.542-7.636,8.334v3.498H16.06v5.258h4.948v14.452 C21.988,43.9,22.981,44,24,44c0.921,0,1.82-0.084,2.707-0.204V29.301z"></path>
-                                    </svg>
-                                    Sign up with Facebook
-                                </button> */}
 
                                 <LoginSocialFacebook className={`w-[50%] flex justify-center items-center py-3 rounded-md  ${inputBgColor} text-sm font-medium ${textColor}   focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors duration-200`}
                                     appId='1106598061210789'
@@ -815,9 +854,11 @@ export default function SignUp() {
                                     // onLoginStart={onLoginStart}
                                     // onLogoutSuccess={onLogoutSuccess}
                                     // redirect_uri={REDIRECT_URI}
-                                    onResolve={({ provider, data }) => {
+                                    onResolve={async ({ provider, data }) => {
                                         setProvider(provider);
                                         setProfile(data);
+
+
                                     }}
                                     onReject={err => {
                                         console.log(err);
