@@ -1,5 +1,5 @@
 const ClientModel = require("../../Model/Authentication/ClientAuthModel");
-const freelancermodel=require("../../Model/Authentication/FreelancerAuthModel")
+const freelancermodel = require("../../Model/Authentication/FreelancerAuthModel")
 const bcrypt = require('bcrypt');
 var jwt = require('jsonwebtoken');
 const nodemailer = require("nodemailer");
@@ -12,10 +12,10 @@ const SALT_ROUNDS = 10;
 var transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-      user: 'mitulbhimani281@gmail.com',
-      pass: 'ider cpmw znpp kdcc'
+        user: 'mitulbhimani281@gmail.com',
+        pass: 'ider cpmw znpp kdcc'
     }
-  });
+});
 
 module.exports.SignUp = async (req, res) => {
     try {
@@ -28,11 +28,11 @@ module.exports.SignUp = async (req, res) => {
 
         req.body.name = req.body.fname + " " + req.body.lname;
         const ClientSignUp = await ClientModel.create(req.body);
-        
+
         // Don't send password back in response
         const clientResponse = ClientSignUp.toObject();
         delete clientResponse.password;
-        
+
         res.status(201).json({
             message: "Client signed up successfully",
             data: clientResponse
@@ -81,11 +81,11 @@ module.exports.ClientDelete = async (req, res) => {
         if (!client) {
             return res.status(404).json({ message: "Client not found" });
         }
-        
+
         // Don't send password back in response
         const clientResponse = client.toObject();
         delete clientResponse.password;
-        
+
         res.status(200).json({
             message: "Client deleted successfully",
             data: clientResponse
@@ -97,13 +97,13 @@ module.exports.ClientDelete = async (req, res) => {
     }
 };
 
-module.exports.VerifyEmail=async(req,res)=>{
-    try{
-        const {email}=req.body;
+module.exports.VerifyEmail = async (req, res) => {
+    try {
+        const { email } = req.body;
 
-         let role = null;
+        let role = null;
 
-        let client=await ClientModel.findOne({email});
+        let client = await ClientModel.findOne({ email });
         if (client) {
             role = 'client';
         } else {
@@ -128,7 +128,7 @@ module.exports.VerifyEmail=async(req,res)=>{
 
         await client.save();
 
-         console.log(`OTP for ${client.email}: ${otp}`);
+        console.log(`OTP for ${client.email}: ${otp}`);
 
         // Send OTP via email
         const mailOptions = {
@@ -144,25 +144,25 @@ module.exports.VerifyEmail=async(req,res)=>{
             } else {
                 return res
                     .status(200)
-                    .json({ message: "OTP sent to your email", client,role }); // Include isAdmin in the response
+                    .json({ message: "OTP sent to your email", client, role }); // Include isAdmin in the response
             }
         });
 
-    }catch(error){
+    } catch (error) {
         console.error("Error:", error.message);
-      return res.status(500).json({ message: "An error occurred: " + error.message });
+        return res.status(500).json({ message: "An error occurred: " + error.message });
     }
 }
 
-module.exports.verifyOtp=async(req,res)=>{
-    try{
-        const {email,otp}=req.body;
+module.exports.verifyOtp = async (req, res) => {
+    try {
+        const { email, otp } = req.body;
 
-        let role=null;
-        let user=await ClientModel.findOne({email});
-        if(user){
-            role='client';
-        }else {
+        let role = null;
+        let user = await ClientModel.findOne({ email });
+        if (user) {
+            role = 'client';
+        } else {
             // Try finding in Freelancer collection
             user = await freelancermodel.findOne({ email });
             if (user) {
@@ -178,7 +178,7 @@ module.exports.verifyOtp=async(req,res)=>{
         if (user.otp !== otp) {
             return res.status(400).json({ message: "Invalid OTP. Please try again." });
         }
-            
+
         // Check if OTP is expired
         if (user.otpExpiration < new Date()) {
             return res.status(400).json({ message: "OTP has expired. Please request a new one." });
@@ -192,8 +192,8 @@ module.exports.verifyOtp=async(req,res)=>{
             role
         });
 
-         await user.save();
-    }catch(error){
+        await user.save();
+    } catch (error) {
         res.status(500).json({
             status: "Failure",
             message: "An error occurred during OTP verification.",
@@ -203,21 +203,21 @@ module.exports.verifyOtp=async(req,res)=>{
 }
 
 
-module.exports.ResetPassword=async(req,res)=>{
-    try{
+module.exports.ResetPassword = async (req, res) => {
+    try {
         const { email, newPassword, otp } = req.body;
-        let role=null;
+        let role = null;
         let user = await ClientModel.findOne({ email });
-       if(user){
-            role='client';
-        }else {
+        if (user) {
+            role = 'client';
+        } else {
             // Try finding in Freelancer collection
             user = await freelancermodel.findOne({ email });
             if (user) {
                 role = 'freelancer';
             }
         }
-        
+
         if (!user) {
             return res.status(404).json({
                 status: "Failure",
@@ -250,79 +250,122 @@ module.exports.ResetPassword=async(req,res)=>{
             message: "Password reset successfully."
         });
 
-    }catch(error){
+    } catch (error) {
         res.status(500).json({
             status: "Failure",
             message: "An error occurred during password reset.",
             error: error.message
-            
+
         });
     }
 }
 
 module.exports.GoogleSignup = async (req, res) => {
-  try {
-    const { email, name = "", country = "" } = req.body;
+    try {
+        const { email, name = "", country = "" } = req.body;
 
-    if (!email) {
-      return res.status(400).json({ message: "Email is required" });
+        if (!email) {
+            return res.status(400).json({ message: "Email is required" });
+        }
+
+        // Check if user already exists (in client or freelancer collection)
+        let user = await ClientModel.findOne({ email });
+
+        if (!user) {
+            // Create new client (default role)
+            const newUser = await ClientModel.create({
+                email,
+                name,
+                fname: name.split(" ")[0] || "",
+                lname: name.split(" ")[1] || "",
+                password: "", // No password for social login
+                country,
+                signupMethod: "google"
+            });
+
+            const userResponse = newUser.toObject();
+            delete userResponse.password;
+
+            return res.status(201).json({
+                message: "Google user created",
+                role: "client",
+                data: userResponse
+            });
+        } else {
+            const userResponse = user.toObject();
+            delete userResponse.password;
+
+            return res.status(200).json({
+                message: "User already exists",
+                role,
+                data: userResponse
+            });
+        }
+
+    } catch (error) {
+        console.error("Google Signup Error:", error);
+        return res.status(500).json({ message: "Internal server error" });
     }
+};
 
-    // Check if user already exists (in client or freelancer collection)
-    let user = await ClientModel.findOne({ email });
+module.exports.GoogleLogin = async (req, res) => {
+    try {
+        const { email } = req.body;
 
-    if (!user) {
-      // Create new client (default role)
-      const newUser = await ClientModel.create({
-        email,
-        name,
-        fname: name.split(" ")[0] || "",
-        lname: name.split(" ")[1] || "",
-        password: "", // No password for social login
-        country,
-        signupMethod: "google"
-      });
+        if (!email) {
+            return res.status(400).json({ message: "Email is required" });
+        }
 
-      const userResponse = newUser.toObject();
-      delete userResponse.password;
+        // First, try to find the user in the Client collection
+        let user = await ClientModel.findOne({ email });
+        if (user) {
+            const userResponse = user.toObject();
+            delete userResponse.password;
+            return res.status(200).json({
+                message: "Login successful",
+                role: "client",
+                data: userResponse
+            });
+        }
 
-      return res.status(201).json({
-        message: "Google user created",
-        role: "client",
-        data: userResponse
-      });
-    } else {
-      const userResponse = user.toObject();
-      delete userResponse.password;
+        // Then, try to find the user in the Freelancer collection
+        user = await freelancermodel.findOne({ email });
+        if (user) {
+            const userResponse = user.toObject();
+            delete userResponse.password;
+            return res.status(200).json({
+                message: "Login successful",
+                role: "freelancer",
+                data: userResponse
+            });
+        }
 
-      return res.status(200).json({
-        message: "User already exists",
-        role,
-        data: userResponse
-      });
+        // If user is not found in either collection
+        return res.status(404).json({
+            message: "User not found. Please sign up first."
+        });
+
+    } catch (error) {
+        console.error("Google Login Error:", error);
+        return res.status(500).json({ message: "Internal server error" });
     }
-
-  } catch (error) {
-    console.error("Google Signup Error:", error);
-    return res.status(500).json({ message: "Internal server error" });
-  }
 };
 
 
-module.exports.ChangePassword=async(req,res)=>{
-    try{
-        const {email,password,newPassword}=req.body;
-        let user=await ClientModel.findOne({email})
-        if(user){
-            role="Client"
-        }else{
+module.exports.ChangePassword = async (req, res) => {
+    try {
+        const { email, password, newPassword } = req.body;
+        let user = await ClientModel.findOne({ email })
+        if (user) {
+            role = "Client"
+        } else {
             user = await freelancermodel.findOne({ email });
             if (user) {
                 role = 'freelancer';
             }
         }
 
-         if (!user) {
+        if (!user) {
             return res.status(404).json({
                 status: "Failure",
                 message: "User not found."
@@ -345,8 +388,8 @@ module.exports.ChangePassword=async(req,res)=>{
             status: "Success",
             message: "Password changed successfully."
         });
-    }catch(error){
-         res.status(500).json({
+    } catch (error) {
+        res.status(500).json({
             status: "Failure",
             message: "An error occurred while changing the password.",
             error: error.message
@@ -360,7 +403,7 @@ module.exports.ClientUpdate = async (req, res) => {
         if (req.body.password) {
             req.body.password = await bcrypt.hash(req.body.password, SALT_ROUNDS);
         }
-        
+
         // Update name if fname and lname are provided
         if (req.body.fname && req.body.lname) {
             req.body.name = req.body.fname + " " + req.body.lname;
