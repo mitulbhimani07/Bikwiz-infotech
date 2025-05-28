@@ -896,7 +896,7 @@ function FindTalent() {
                                     </div>
                                 </div>
 
-                                <h2 className="text-xl font-bold text-gray-900 mb-4">{card.title}</h2>
+                                <h2 className="text-xl font-bold text-gray-900 mb-4 ">{card.title}</h2>
                                 <p className="text-gray-600 mb-8 max-w-sm mx-auto leading-relaxed">
                                     {card.description}
                                 </p>
