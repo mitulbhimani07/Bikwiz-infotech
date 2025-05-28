@@ -11,13 +11,14 @@ import {
 } from 'react-social-login-buttons';
 import logo from '../../assets/images/logo.png'; // Adjust the path to your logo image
 import logo2 from '../../assets/images/logo2.png'; // Adjust the path to your logo image
-import { Signin } from '../../API/Api';
+import { GoogleSignin, Signin } from '../../API/Api';
 import toast from 'react-hot-toast';
 import { FaExclamationTriangle } from 'react-icons/fa';
 
 export default function SignIn() {
   const [theme, setTheme] = useState('light');
   const [errors, setErrors] = useState({});
+
 
   // const [workEmail, setWorkEmail] = useState('');
   // const [password, setPassword] = useState('');
@@ -54,6 +55,33 @@ export default function SignIn() {
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
+  };
+
+  const handleGoogleLogin = async (data) => {
+    try {
+      const payload = {
+        email: data.email,
+        name: data.name,
+        country: "", // optional, based on your data
+      };
+
+      const response = await GoogleSignin(payload);
+
+      if (response?.data) {
+        toast.success(`Login successful as ${response.role}`);
+        // Do something like store in context/localStorage and redirect
+        console.log("User Info:", response.data);
+      } else {
+        toast.error("Unexpected response from server.");
+      }
+
+    } catch (error) {
+      if (error.response?.status === 404) {
+        toast.error("User not found. Please sign up first.");
+      } else {
+        toast.error("Login failed. Please try again.");
+      }
+    }
   };
 
 
@@ -258,12 +286,38 @@ export default function SignIn() {
             client_id='1045466982465-p8irl41k8jnmuiukbkjc1jt04ed82aja.apps.googleusercontent.com'
             // onLoginStart={onLoginStart}
             // redirect_uri={REDIRECT_URI}
-            scope="openid profile email"
+            scope=" profile email"
             discoveryDocs="claims_supported"
-            access_type="offline"
-            onResolve={({ provider, data }) => {
+            access_type="online"
+            onResolve={async ({ provider, data }) => {
               setProvider(provider);
               setProfile(data);
+              try {
+                const payload = {
+                  email: data.email,
+                  name: data.name,
+                  country: "IN", // or dynamically detect later
+                };
+
+                const res = await GoogleSignin(payload);
+                console.log("Google Signin Response:", res.role);
+                // Call your API function
+                toast.success(res.message || "Google login success");
+
+                if (res.role === 'client') {
+                  toast.success("Login successful as Client");
+                  navigate("/ClientDashboard"); // Or wherever you want to send them
+
+                } else if (res.role === 'freelancer') {
+                  toast.success("Login successful as Freelancer");
+                  navigate("/FreelancerDashboard"); // Or wherever you want to send them
+
+                }
+
+              } catch (err) {
+                console.error("Google signup error:", err);
+                toast.error("Failed to save Google login");
+              }
             }}
             onReject={err => {
               console.log(err);
