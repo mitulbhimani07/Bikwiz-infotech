@@ -259,7 +259,7 @@ export default function VerifyOTP() {
           )} */}
 
           <div className="text-center mt-8">
-            <Link to="/verify-email" className="text-orange-500 font-medium hover:underline">
+            <Link to="/verifyemail" className="text-orange-500 font-medium hover:underline">
               Change Email
             </Link>
             <span className={`mx-2 ${theme === 'light' ? 'text-gray-400' : 'text-gray-600'}`}>•</span>

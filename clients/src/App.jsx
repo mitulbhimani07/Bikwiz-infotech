@@ -33,13 +33,13 @@ function App() {
     success: {
       iconTheme: {
         primary: 'green',
-        secondary: 'black',
+        secondary: 'white',
       },
     },
     error: {
       iconTheme: {
         primary: 'red',
-        secondary: 'black',
+        secondary: 'white',
       },
     },
     // Custom render to show close button

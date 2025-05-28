@@ -49,6 +49,7 @@ export default function VerifyEmail() {
       navigate('/verifyotp')
 
       toast.success("Email Verify Successfully!!!")
+      toast.success("Sent OTP in your Email!!")
 
     } catch (error) {
       console.log("Error submitting form:", error);

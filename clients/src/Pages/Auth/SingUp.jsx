@@ -77,7 +77,7 @@ export default function SignUp() {
     const [showFreelancerPassword, setShowFreelancerPassword] = useState(false);
 
    
-
+  
 
     const validateForm = () => {
         let valid = true;
@@ -201,6 +201,7 @@ export default function SignUp() {
             const res = await ClientSignup(client);
             console.log("Response:", res);
             toast.success("Sigup Successfully!!!")
+            navigate('/login')
         } catch (error) {
             console.log("Error submitting form:", error);
         }

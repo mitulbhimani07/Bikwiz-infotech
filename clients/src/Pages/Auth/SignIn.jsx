@@ -17,7 +17,7 @@ import { FaExclamationTriangle } from 'react-icons/fa';
 
 export default function SignIn() {
   const [theme, setTheme] = useState('light');
-    const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState({});
 
   // const [workEmail, setWorkEmail] = useState('');
   // const [password, setPassword] = useState('');
@@ -80,6 +80,7 @@ export default function SignIn() {
 
     } catch (error) {
       console.log("Error submitting form:", error);
+      toast.error("Invalid credentials!")
     }
     // Login logic would go here
   };
@@ -152,7 +153,7 @@ export default function SignIn() {
                 className={`appearance-none block w-full px-3 py-3 border ${errors.email ? "border-red-700 focus:ring-red-600 focus:border-red-700" : "border-gray-300"
                   } ${inputBorderColor} rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 ${inputBgColor} transition-colors duration-200`}
                 placeholder="john.doe@company.com"
-                
+
               />
               {errors.email && (
                 <div className="flex items-center mt-1 text-sm text-red-700">
@@ -176,16 +177,16 @@ export default function SignIn() {
                   name="password"
                   onChange={handleChange}
                   className={`appearance-none block w-full px-3 py-3 border ${errors.email ? "border-red-700 focus:ring-red-600 focus:border-red-700" : "border-gray-300"
-                  } ${inputBorderColor} rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 ${inputBgColor} transition-colors duration-200`}
+                    } ${inputBorderColor} rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 ${inputBgColor} transition-colors duration-200`}
                   placeholder="Min 8 character"
-                  
+
                 />
                 {errors.password && (
-                <div className="flex items-center mt-1 text-sm text-red-700">
-                  <FaExclamationTriangle className="w-4 h-4 mr-1" />
-                  <span>{errors.password}</span>
-                </div>
-              )}
+                  <div className="flex items-center mt-1 text-sm text-red-700">
+                    <FaExclamationTriangle className="w-4 h-4 mr-1" />
+                    <span>{errors.password}</span>
+                  </div>
+                )}
 
                 <button
                   type="button"
@@ -205,29 +206,36 @@ export default function SignIn() {
                   )}
                 </button>
               </div>
-              <a href="#" className="text-orange-500 flex justify-end my-2 text-xs hover:underline">
+              {/* <a href="#" className="text-orange-500 flex justify-end my-2 text-xs hover:underline">
                 <Link to="/verifyemail">
                   Forgot password?
                 </Link>
-              </a>
+              </a> */}
+            </div>
+            <div className="flex flex-col md:flex-row justify-between md:items-center gap-2 md:gap-0">
+              <div className="flex items-start">
+                <div className="flex items-center h-5">
+                  <input
+                    id="remember-me"
+                    type="checkbox"
+                    checked={rememberMe}
+                    onChange={(e) => setRememberMe(e.target.checked)}
+                    className="h-4 w-4 text-orange-500 focus:ring-orange-500 border-gray-300 rounded"
+                  />
+                </div>
+                <div className="ml-3 text-sm">
+                  <label htmlFor="remember-me" className={theme === 'light' ? 'text-gray-600' : 'text-gray-400'}>
+                    Remember me for 30 days
+                  </label>
+                </div>
+              </div>
+
+              <Link to="/verifyemail" className="text-orange-500 text-sm hover:underline mt-2 md:mt-0">
+                Forgot password?
+              </Link>
             </div>
 
-            <div className="flex items-start">
-              <div className="flex items-center h-5 mt-1">
-                <input
-                  id="remember-me"
-                  type="checkbox"
-                  checked={rememberMe}
-                  onChange={(e) => setRememberMe(e.target.checked)}
-                  className="h-4 w-4 text-orange-500 focus:ring-orange-500 border-gray-300 rounded"
-                />
-              </div>
-              <div className="ml-3 text-sm">
-                <label htmlFor="remember-me" className={theme === 'light' ? 'text-gray-600' : 'text-gray-400'}>
-                  Remember me for 30 days
-                </label>
-              </div>
-            </div>
+
 
             <div>
               <button
