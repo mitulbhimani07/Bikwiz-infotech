@@ -698,8 +698,8 @@ function FindTalent() {
                                         <button
                                             onClick={() => setViewMode('list')}
                                             className={`p-2 rounded-md transition ${viewMode === 'list'
-                                                    ? 'bg-orange-500 hover:bg-orange-600 text-white'
-                                                    : 'bg-orange-100 hover:bg-orange-200 text-orange-600'
+                                                ? 'bg-orange-500 hover:bg-orange-600 text-white'
+                                                : 'bg-orange-100 hover:bg-orange-200 text-orange-600'
                                                 }`}
                                         >
                                             <FaList />
@@ -707,8 +707,8 @@ function FindTalent() {
                                         <button
                                             onClick={() => setViewMode('grid')}
                                             className={`p-2 rounded-md transition ${viewMode === 'grid'
-                                                    ? 'bg-orange-500 hover:bg-orange-600 text-white'
-                                                    : 'bg-orange-100 hover:bg-orange-200 text-orange-600'
+                                                ? 'bg-orange-500 hover:bg-orange-600 text-white'
+                                                : 'bg-orange-100 hover:bg-orange-200 text-orange-600'
                                                 }`}
                                         >
                                             <IoGrid />
@@ -884,7 +884,7 @@ function FindTalent() {
                         {cardData.map((card, index) => (
                             <div
                                 key={index}
-                                className="text-center h-[450px] w-[550px] md:w-[400px] my-4 group  bg-[#fff5f5] p-8 rounded-[6px]"
+                                className="text-center h-[480px] w-[550px] md:w-[400px] my-4 group  bg-[#fff5f5] p-8 rounded-[6px]"
                             >
                                 <div className="relative">
                                     <div className="w-48 h-48 mx-auto flex items-center justify-center relative overflow-hidden">
@@ -896,7 +896,10 @@ function FindTalent() {
                                     </div>
                                 </div>
 
-                                <h2 className="text-xl font-bold text-gray-900 mb-4 ">{card.title}</h2>
+                                <h2 className="text-base sm:text-lg md:text-xl font-bold text-gray-900 mb-4">
+                                    {card.title}
+                                </h2>
+
                                 <p className="text-gray-600 mb-8 max-w-sm mx-auto leading-relaxed">
                                     {card.description}
                                 </p>
