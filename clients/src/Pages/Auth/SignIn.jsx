@@ -47,9 +47,10 @@ export default function SignIn() {
     // Password Validation
     if (!signin.password) {
       newErrors.password = "Password is required.";
-    } else if (signin.password.length < 8) {
-      newErrors.password = "Password must be at least 8 characters.";
-    }
+    } 
+    // else if (signin.password.length < 8) {
+    //   newErrors.password = "Password must be at least 8 characters.";
+    // }
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -177,7 +178,7 @@ export default function SignIn() {
                   onChange={handleChange}
                   className={`appearance-none block w-full px-3 py-3 border ${errors.email ? "border-red-700 focus:ring-red-600 focus:border-red-700" : "border-gray-300"
                   } ${inputBorderColor} rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 ${inputBgColor} transition-colors duration-200`}
-                  placeholder="Min 8 character"
+                  placeholder="password"
                   
                 />
                 {errors.password && (
