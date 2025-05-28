@@ -484,49 +484,50 @@ export default function AboutUs() {
           </p>
 
           {/* Custom Grid Layout */}
-          <div className="grid  gap-8">
-            {/* First row - 3 cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-3 gap-8">
-              {features.slice(0, 3).map((item, index) => (
-                <div
-                  key={index}
-                  className="bg-white relative p-6 rounded-lg shadow-md border border-gray-200 hover:shadow-xl transition duration-300 ease-in-out overflow-hidden"
-                >
-                  {/* Simple Background Shapes - Screenshot Style */}
-                  <div className="absolute top-0 right-0 w-16 h-16 bg-orange-100 rounded-bl-full opacity-40"></div>
-                  <div className="absolute bottom-0 left-0 w-16 h-16 bg-orange-100 rounded-tr-full opacity-40"></div>
+          <div className="grid gap-8">
+  {/* First row - 3 cards */}
+  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+    {features.slice(0, 3).map((item, index) => (
+      <div
+        key={index}
+        className="bg-white relative p-6 rounded-lg shadow-md border border-gray-200 hover:shadow-xl transition duration-300 ease-in-out overflow-hidden"
+      >
+        {/* Background shapes */}
+        <div className="absolute top-0 right-0 w-16 h-16 bg-orange-100 rounded-bl-full opacity-40"></div>
+        <div className="absolute bottom-0 left-0 w-16 h-16 bg-orange-100 rounded-tr-full opacity-40"></div>
 
-                  {/* Icon */}
-                  <div className="w-12 h-12 bg-orange-500 rounded-md flex items-center justify-center mx-auto mb-4 z-10 relative">
-                    {item.icon}
-                  </div>
-                  <h3 className="text-xl font-semibold mb-2 relative z-10">{item.title}</h3>
-                  <p className="text-gray-600 text-sm relative z-10">{item.desc}</p>
-                </div>
-              ))}
-            </div>
+        {/* Icon */}
+        <div className="w-12 h-12 bg-orange-500 rounded-md flex items-center justify-center mx-auto mb-4 z-10 relative">
+          {item.icon}
+        </div>
+        <h3 className="text-xl font-semibold mb-2 relative z-10">{item.title}</h3>
+        <p className="text-gray-600 text-sm relative z-10">{item.desc}</p>
+      </div>
+    ))}
+  </div>
 
-            {/* Second row - 2 cards centered */}
-            <div className="grid grid-cols-2 sm:grid-cols-2 gap-8 max-w-4xl mx-auto">
-              {features.slice(3, 5).map((item, index) => (
-                <div
-                  key={index + 3}
-                  className="bg-white relative p-6 rounded-lg shadow-md border border-gray-200 hover:shadow-xl transition duration-300 ease-in-out overflow-hidden"
-                >
-                  {/* Simple Background Shapes - Screenshot Style */}
-                  <div className="absolute top-0 right-0 w-16 h-16 bg-orange-100 rounded-bl-full opacity-40"></div>
-                  <div className="absolute bottom-0 left-0 w-16 h-16 bg-orange-100 rounded-tr-full opacity-40"></div>
+  {/* Second row - 2 cards centered */}
+  <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 max-w-4xl mx-auto justify-center">
+    {features.slice(3, 5).map((item, index) => (
+      <div
+        key={index + 3}
+        className="bg-white relative p-6 rounded-lg shadow-md border border-gray-200 hover:shadow-xl transition duration-300 ease-in-out overflow-hidden"
+      >
+        {/* Background shapes */}
+        <div className="absolute top-0 right-0 w-16 h-16 bg-orange-100 rounded-bl-full opacity-40"></div>
+        <div className="absolute bottom-0 left-0 w-16 h-16 bg-orange-100 rounded-tr-full opacity-40"></div>
 
-                  {/* Icon */}
-                  <div className="w-12 h-12 bg-orange-500 rounded-md flex items-center justify-center mx-auto mb-4 z-10 relative">
-                    {item.icon}
-                  </div>
-                  <h3 className="text-xl font-semibold mb-2 relative z-10">{item.title}</h3>
-                  <p className="text-gray-600 text-sm relative z-10">{item.desc}</p>
-                </div>
-              ))}
-            </div>
-          </div>
+        {/* Icon */}
+        <div className="w-12 h-12 bg-orange-500 rounded-md flex items-center justify-center mx-auto mb-4 z-10 relative">
+          {item.icon}
+        </div>
+        <h3 className="text-xl font-semibold mb-2 relative z-10">{item.title}</h3>
+        <p className="text-gray-600 text-sm relative z-10">{item.desc}</p>
+      </div>
+    ))}
+  </div>
+</div>
+
         </div>
       </section>
 

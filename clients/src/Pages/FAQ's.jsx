@@ -4,9 +4,40 @@ import Header from '../header-footer/Header'
 import Footer from '../header-footer/Footer'
 import banner from '../assets/images/faqs.png'
 import { FaFacebookF, FaTwitter, FaLinkedinIn, FaBehance, FaReact } from 'react-icons/fa';
+import { ContactUs } from '../API/Api'
+import toast from 'react-hot-toast'
 
 export default function FAQs() {
     const [openAccordion, setOpenAccordion] = useState(2); // Third item open by default
+    const [contact, setcontact] = useState({
+        fullname: '',
+        email: '',
+        subject: '',
+        message: ''
+    })
+
+    const handleChange = (e) => {
+        setcontact({ ...contact, [e.target.name]: e.target.value })
+    }
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const res = await ContactUs(contact);
+            console.log("res---------", res);
+            toast.success("Sent Message SuccessFully!!")
+            setcontact({
+                fullname: '',
+                email: '',
+                subject: '',
+                message: ''
+            })
+        } catch (error) {
+            console.log("Error submitting form:", error);
+            toast.error("Something Went Wrong!!")
+        }
+
+    }
 
     const faqs = [
         {
@@ -62,9 +93,8 @@ export default function FAQs() {
                         {faq.question}
                     </h3>
                     <div className="flex-shrink-0">
-                        <div className={`w-6 h-6 rounded-full flex items-center justify-center transition-all duration-300 ${
-                            isOpen ? 'bg-orange-500 rotate-180' : 'bg-transparent'
-                        }`}>
+                        <div className={`w-6 h-6 rounded-full flex items-center justify-center transition-all duration-300 ${isOpen ? 'bg-orange-500 rotate-180' : 'bg-transparent'
+                            }`}>
                             {isOpen ? (
                                 <Minus className="w-4 h-4 text-white transition-transform duration-300" />
                             ) : (
@@ -80,9 +110,8 @@ export default function FAQs() {
                     style={{ height: `${height}px` }}
                 >
                     <div ref={contentRef} className="px-6 pb-5">
-                        <div className={`text-gray-600 leading-relaxed pt-2 border-t border-gray-100 transition-opacity duration-300 ${
-                            isOpen ? 'opacity-100' : 'opacity-0'
-                        }`}>
+                        <div className={`text-gray-600 leading-relaxed pt-2 border-t border-gray-100 transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0'
+                            }`}>
                             {faq.answer}
                         </div>
                     </div>
@@ -109,7 +138,7 @@ export default function FAQs() {
                         FAQ'S
                     </h1>
                     <p className="text-white text-xl sm:text-lg mt-6 leading-relaxed max-w-[800px] mx-auto">
-                       Starting your freelance journey or hiring for your next big idea? Bikwiz makes it simple connecting skilled freelancers with clients who value quality and long-term success. 
+                        Starting your freelance journey or hiring for your next big idea? Bikwiz makes it simple connecting skilled freelancers with clients who value quality and long-term success.
                     </p>
                 </div>
             </section>
@@ -207,24 +236,37 @@ export default function FAQs() {
                                 Define your goals and identify areas where AI can add <br />
                                 value to your business
                             </p>
-                            <form className="space-y-4">
+                            <form className="space-y-4" onSubmit={handleSubmit}>
                                 <input
                                     type="text"
+                                    name='fullname'
+                                    value={contact.fullname}
+                                    onChange={handleChange}
+
                                     placeholder="Full name"
                                     className="w-full border-b border-gray-300 bg-transparent py-2 focus:outline-none"
                                 />
                                 <input
                                     type="email"
                                     placeholder="Email"
+                                    name='email'
+                                    value={contact.email}
+                                    onChange={handleChange}
                                     className="w-full border-b border-gray-300 bg-transparent py-2 focus:outline-none"
                                 />
                                 <input
                                     type="text"
                                     placeholder="Subject"
+                                    name='subject'
+                                    value={contact.subject}
+                                    onChange={handleChange}
                                     className="w-full border-b border-gray-300 bg-transparent py-2 focus:outline-none"
                                 />
                                 <textarea
                                     placeholder="Message"
+                                    name='message'
+                                    value={contact.message}
+                                    onChange={handleChange}
                                     rows={4}
                                     className="w-full border-b border-gray-300 bg-transparent py-2 resize-none focus:outline-none"
                                 />
