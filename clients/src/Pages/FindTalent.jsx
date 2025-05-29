@@ -629,22 +629,26 @@ function FindTalent() {
             <Header />
 
             {/* Banner section */}
-            <div className="bg-white py-16 px-6 md:px-12 lg:px-20 flex flex-col-reverse lg:flex-row items-center justify-between">
+            <div className="bg-white py-6 px-6 md:px-12 lg:px-20 flex flex-col-reverse lg:flex-row items-center justify-between">
                 <div className="text-center lg:text-left max-w-xl">
-                    <h1 className="text-3xl md:text-4xl font-bold text-black mb-4">
-                        We have <span className="text-black">6.368</span> professional<br />
-                        candidates!
-                    </h1>
-                    <p className="text-gray-700 mb-6">
-                        Bikwiz Infotech is a freelance platform connecting skilled professionals across India
+                   
+                  
+
+                     <h1 className="text-3xl sm:text-xl lg:text-5xl xl:text-5xl font-bold text-gray-900 leading-tight">
+                We have <span className="text-orange-500">6.368</span> professional candidates!
+              </h1>
+              
+              <p className="text-gray-700 text-base sm:text-lg lg:text-xl mt-4 max-w-md mx-auto lg:mx-0 leading-relaxed">
+               Bikwiz Infotech is a freelance platform connecting skilled professionals across India
                         with businesses for flexible, dignified, and future-ready work.
-                    </p>
-                    <button className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-3 rounded-full text-sm font-semibold">
-                        Get Started
-                    </button>
+              </p>
+              
+              <button className="bg-orange-500 hover:bg-orange-600 text-white font-semibold px-6 sm:px-6 py-3 sm:py-3 rounded-full text-base sm:text-lg duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all mt-7">
+                Get Started
+              </button>
                 </div>
                 <div className="w-full lg:w-1/2 mb-10 lg:mb-0 flex justify-center">
-                    <img src={BannerImage} height={500} width={600} alt="Banner" />
+                    <img src={BannerImage} height={300} width={500} alt="Banner" />
                 </div>
             </div>
 

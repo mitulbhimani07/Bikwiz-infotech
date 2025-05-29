@@ -12,6 +12,8 @@ app.use(express.json())
 app.use('/client', require('./routes/Authentication/ClinetAuthRoutes'));
 app.use('/freelancer', require('./routes/Authentication/FreelancerAuthRoutes'));
 app.use('/contact',require('./routes/ContactRoutes'))
+app.use('/category',require('./routes/Authentication/CategoryRoutes'))
+app.use('/blog',require('./routes/Authentication/BlogRoutes'));
 app.listen(PORT, () => {
   console.log(`Server is running on port http://localhost:${PORT}`);
 });
