@@ -57,32 +57,32 @@ export default function SignIn() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleGoogleLogin = async (data) => {
-    try {
-      const payload = {
-        email: data.email,
-        name: data.name,
-        country: "", // optional, based on your data
-      };
+  // const handleGoogleLogin = async (data) => {
+  //   try {
+  //     const payload = {
+  //       email: data.email,
+  //       name: data.name,
+  //       country: "", // optional, based on your data
+  //     };
 
-      const response = await GoogleSignin(payload);
+  //     const response = await GoogleSignin(payload);
 
-      if (response?.data) {
-        toast.success(`Login successful as ${response.role}`);
-        // Do something like store in context/localStorage and redirect
-        console.log("User Info:", response.data);
-      } else {
-        toast.error("Unexpected response from server.");
-      }
+  //     if (response?.data) {
+  //       toast.success(`Login successful as ${response.role}`);
+  //       // Do something like store in context/localStorage and redirect
+  //       console.log("User Info:", response.data);
+  //     } else {
+  //       toast.error("Unexpected response from server.");
+  //     }
 
-    } catch (error) {
-      if (error.response?.status === 404) {
-        toast.error("User not found. Please sign up first.");
-      } else {
-        toast.error("Login failed. Please try again.");
-      }
-    }
-  };
+  //   } catch (error) {
+  //     if (error.response?.status === 404) {
+  //       toast.error("User not found. Please sign up first.");
+  //     } else {
+  //       toast.error("Login failed. Please try again.");
+  //     }
+  //   }
+  // };
 
 
   const handleChange = (e) => {

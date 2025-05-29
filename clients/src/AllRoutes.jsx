@@ -18,6 +18,9 @@ import FindWork from './Pages/FindWork'
 import FindTalent from './Pages/FindTalent'
 import CompanyDetails from './Pages/CompanyDetails'
 import FreelancerProfile from './Pages/FreelancerProfile'
+import BlogForm from './Pages/Admin/BlogForm'
+import JobpostForm from './Pages/client/JobpostForm'
+import AddBlogCategoryForm from './Pages/Admin/AddBlogCategoryForm'
 function AllRoutes() {
   return (
     <div>
@@ -33,6 +36,9 @@ function AllRoutes() {
           <Route path='/findTalent' element={<FindTalent/>}/>
           <Route path="/companydetails/:id" element={<CompanyDetails/>}/>
           <Route path="/freelacerprofile/:id" element={<FreelancerProfile/>}/>
+          <Route path="/blogform" element={<BlogForm/>}/>
+          <Route path="/jobpostform" element={<JobpostForm/>}/>
+          <Route path='/addBlogCategoryForm' element={<AddBlogCategoryForm/>} />
           {/* signIng */}
           <Route path='/joinas' element={<Joinas/>}/>
           <Route path='/signup' element={<SignUp/>}/>

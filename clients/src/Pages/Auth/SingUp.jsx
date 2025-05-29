@@ -238,9 +238,6 @@ export default function SignUp() {
         // Freelancer form submission logic would go here
     };
 
-    const googlesignup = () => {
-        console.log("ftffgg")
-    }
 
     // Dynamic style based on theme
     const bgColor = theme === 'light' ? 'bg-white' : 'bg-gray-950';
