@@ -175,7 +175,7 @@ function FreelancerProfile() {
                 </div>
 
                 {/* Social Sharing */}
-                
+
               </div>
             </div>
 
@@ -209,8 +209,8 @@ function FreelancerProfile() {
                           <div className="flex mb-2">
                             <span
                               className={`flex items-center gap-1 px-3 py-1 rounded text-xs sm:text-sm font-medium ${type === "Full Time"
-                                  ? "bg-orange-100 text-orange-600"
-                                  : "bg-yellow-100 text-yellow-600"
+                                ? "bg-orange-100 text-orange-600"
+                                : "bg-yellow-100 text-yellow-600"
                                 }`}
                             >
                               <FaClock />

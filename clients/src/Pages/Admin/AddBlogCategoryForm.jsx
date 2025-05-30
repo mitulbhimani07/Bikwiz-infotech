@@ -1,34 +1,39 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import toast from 'react-hot-toast';
 import { FaExclamationTriangle, FaTag, FaPlus } from 'react-icons/fa';
 import logo from '../../assets/images/logo.png';
 import logo2 from '../../assets/images/logo2.png';
+import { AddBlogCategory } from '../../API/Api';
 
 export default function AddBlogCategoryForm() {
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
     const [theme, setTheme] = useState('light');
     const [errors, setErrors] = useState({
-        categoryName: ''
+        categoryname: ''
     });
 
+    // Initialize categoryData with default values
     const [categoryData, setCategoryData] = useState({
-        categoryName: ''
+        categoryname: ''
     });
 
     const validateForm = () => {
         let valid = true;
         const newErrors = {
-            categoryName: ''
+            categoryname: ''
         };
 
-        if (!categoryData.categoryName.trim()) {
-            newErrors.categoryName = 'Category name is required';
+        if (!categoryData.categoryname.trim()) {
+            newErrors.categoryname = 'Category name is required';
             valid = false;
-        } else if (categoryData.categoryName.length < 3) {
-            newErrors.categoryName = 'Category name must be at least 3 characters';
+        } else if (categoryData.categoryname.length < 3) {
+            newErrors.categoryname = 'Category name must be at least 3 characters';
             valid = false;
-        } else if (categoryData.categoryName.length > 50) {
-            newErrors.categoryName = 'Category name must be less than 50 characters';
+        } else if (categoryData.categoryname.length > 50) {
+            newErrors.categoryname = 'Category name must be less than 50 characters';
             valid = false;
         }
 
@@ -38,11 +43,19 @@ export default function AddBlogCategoryForm() {
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        setCategoryData({ ...categoryData, [name]: value });
         
+        // Update categoryData properly
+        setCategoryData(prevData => ({
+            ...prevData,
+            [name]: value
+        }));
+
         // Clear error when user starts typing
         if (errors[name]) {
-            setErrors({ ...errors, [name]: '' });
+            setErrors(prevErrors => ({ 
+                ...prevErrors, 
+                [name]: '' 
+            }));
         }
     };
 
@@ -53,17 +66,22 @@ export default function AddBlogCategoryForm() {
         }
 
         try {
-            // Replace with your API call
-            // const res = await CreateBlogCategory(categoryData);
+            // Make sure you have the email variable defined or get it from your state/context
+            // const email = "user@example.com"; // Replace with actual email
             
-            console.log("Category Data:", categoryData);
+            const res = await AddBlogCategory(categoryData, dispatch);
+            console.log("Response:", res);
+            
             toast.success("Blog category created successfully!");
-            
+
             // Reset form
             setCategoryData({
-                categoryName: ''
+                categoryname: ''
             });
-            
+
+            // Navigate to categories list or wherever appropriate
+            // navigate('/admin/categories');
+
         } catch (error) {
             console.log("Error creating category:", error);
             toast.error("Failed to create blog category");
@@ -128,30 +146,29 @@ export default function AddBlogCategoryForm() {
                     <form onSubmit={handleSubmit} className="space-y-6">
                         {/* Category Name Field */}
                         <div>
-                            <label htmlFor="categoryName" className="block text-sm font-medium mb-2">
+                            <label htmlFor="categoryname" className="block text-sm font-medium mb-2">
                                 <FaTag className="inline mr-2" />
                                 Category Name
                             </label>
                             <input
-                                id="categoryName"
+                                id="categoryname"
                                 type="text"
-                                name="categoryName"
-                                value={categoryData.categoryName}
+                                name="categoryname"
+                                value={categoryData.categoryname}
                                 onChange={handleInputChange}
-                                className={`appearance-none block w-full px-4 py-3 border ${
-                                    errors.categoryName ? "border-red-500" : inputBorderColor
-                                } rounded-md placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 ${inputBgColor} transition-colors duration-200 text-lg`}
+                                className={`appearance-none block w-full px-4 py-3 border ${errors.categoryname ? "border-red-500" : inputBorderColor
+                                    } rounded-md placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 ${inputBgColor} transition-colors duration-200 text-lg`}
                                 placeholder="Enter category name (e.g., Freelancers, News)"
                                 maxLength="50"
                             />
-                            {errors.categoryName && (
+                            {errors.categoryname && (
                                 <div className="flex items-center mt-2 text-sm text-red-600">
                                     <FaExclamationTriangle className="w-4 h-4 mr-1" />
-                                    <span>{errors.categoryName}</span>
+                                    <span>{errors.categoryname}</span>
                                 </div>
                             )}
                             <p className={`mt-2 text-sm ${theme === 'light' ? 'text-gray-500' : 'text-gray-400'}`}>
-                                {categoryData.categoryName.length}/50 characters
+                                {categoryData.categoryname.length}/50 characters
                             </p>
                         </div>
 
@@ -159,7 +176,7 @@ export default function AddBlogCategoryForm() {
                         <div className="pt-6">
                             <button
                                 type="submit"
-                                disabled={!categoryData.categoryName.trim()}
+                                disabled={!categoryData.categoryname.trim()}
                                 className="w-full flex justify-center items-center py-3 px-4 border border-transparent rounded-md text-sm font-medium text-white bg-orange-500 hover:bg-orange-600 disabled:bg-gray-400 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition-colors duration-200"
                             >
                                 <FaPlus className="w-4 h-4 mr-2" />
