@@ -13,6 +13,7 @@ import blog9 from '../assets/images/image-9.png'
 import Footer from '../header-footer/Footer'
 import toast from 'react-hot-toast'
 import { GetAllBlogs } from '../API/Api'
+import { Link } from 'react-router-dom'
 
 
 
@@ -147,31 +148,34 @@ export default function Blog() {
       </section>
 
       {/* Blog Grid */}
+     
       <section className="w-[80%] my-20 mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         {blogPosts.map((post) => (
+          <Link to="/singleBlog/post._id" className="no-underline text-black" key={post._id}>
           <div
-            key={post.id}
+            key={post._id}
             className="bg-white border p-3 border-orange-200 rounded-xl hover:shadow-md transition-shadow overflow-hidden"
           >
             <img
               className="w-full h-70 object-cover rounded-xl"
-              src={post.image}
+              src={post.img}
               alt="Blog post"
             />
             <div className="p-5">
               <span className="inline-block px-3 py-1 text-sm text-orange-500 bg-orange-50 rounded-full mb-3">
-                {post.category}
+                {post.category.categoryname}
               </span>
               <h2 className="mb-2 text-lg font-semibold text-gray-900">
                 {post.title}
               </h2>
               <div className="flex items-center mt-4 space-x-2">
-                <img className="w-8 h-8 rounded-full" src={post.avatar} alt="Author" />
-                <span className="text-sm text-gray-700">{post.author}</span>
-                <span className="text-sm text-gray-500">{post.date}</span>
+                <img className="w-8 h-8 rounded-full" src={post.profileImg} alt="Author" />
+                <span className="text-sm text-gray-700">{post.bloggername}</span>
+                <span className="text-sm text-gray-500">{post.publishDate}</span>
               </div>
             </div>
           </div>
+           </Link>
         ))}
       </section>
 
