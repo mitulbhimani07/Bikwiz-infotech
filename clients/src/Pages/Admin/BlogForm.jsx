@@ -6,31 +6,34 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import logo from '../../assets/images/logo.png';
 import logo2 from '../../assets/images/logo2.png';
+import { AddBlog } from '../../API/Api';
 
 export default function BlogForm() {
     const [theme, setTheme] = useState('light');
     const [errors, setErrors] = useState({
-        image: '',
+        img: '',
         category: '',
         title: '',
-        profileImage: '',
+        profileImg: '',
         bloggerName: '',
-        blogDate: '',
-        description: ''
+        publishDate: '',
+        content: ''
     });
 
     const [blogData, setBlogData] = useState({
-        image: null,
+        img: null,
         category: '',
         title: '',
-        profileImage: null,
+        profileImg: null,
         bloggerName: '',
-        blogDate: '',
-        description: ''
+        publishDate: '',
+        content: ''
     });
 
     const [imagePreview, setImagePreview] = useState(null);
     const [profileImagePreview, setProfileImagePreview] = useState(null);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    
 
     const categories = [
         'Technology',
@@ -58,10 +61,10 @@ export default function BlogForm() {
             [{ 'size': ['small', false, 'large', 'huge'] }],
             ['bold', 'italic', 'underline', 'strike'],
             [{ 'color': [] }, { 'background': [] }],
-            [{ 'script': 'sub'}, { 'script': 'super' }],
+            [{ 'script': 'sub' }, { 'script': 'super' }],
             ['blockquote', 'code-block'],
-            [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-            [{ 'indent': '-1'}, { 'indent': '+1' }],
+            [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+            [{ 'indent': '-1' }, { 'indent': '+1' }],
             [{ 'direction': 'rtl' }],
             [{ 'align': [] }],
             ['link', 'image', 'video'],
@@ -84,17 +87,17 @@ export default function BlogForm() {
     const validateForm = () => {
         let valid = true;
         const newErrors = {
-            image: '',
+            img: '',
             category: '',
             title: '',
-            profileImage: '',
+            profileImg: '',
             bloggerName: '',
-            blogDate: '',
-            description: ''
+            publishDate: '',
+            content: ''
         };
 
-        if (!blogData.image) {
-            newErrors.image = 'Blog image is required';
+        if (!blogData.img) {
+            newErrors.img = 'Blog image is required';
             valid = false;
         }
 
@@ -111,8 +114,8 @@ export default function BlogForm() {
             valid = false;
         }
 
-        if (!blogData.profileImage) {
-            newErrors.profileImage = 'Blogger profile image is required';
+        if (!blogData.profileImg) {
+            newErrors.profileImg = 'Blogger profile image is required';
             valid = false;
         }
 
@@ -121,18 +124,18 @@ export default function BlogForm() {
             valid = false;
         }
 
-        if (!blogData.blogDate) {
-            newErrors.blogDate = 'Blog date is required';
+        if (!blogData.publishDate) {
+            newErrors.publishDate = 'Blog date is required';
             valid = false;
         }
 
-        // Check if description is empty (React Quill returns '<p><br></p>' for empty content)
-        const strippedDescription = blogData.description.replace(/<[^>]*>/g, '').trim();
-        if (!strippedDescription || strippedDescription === '') {
-            newErrors.description = 'Blog description is required';
+        // Check if content is empty (React Quill returns '<p><br></p>' for empty content)
+        const strippedContent = blogData.content.replace(/<[^>]*>/g, '').trim();
+        if (!strippedContent || strippedContent === '') {
+            newErrors.content = 'Blog content is required';
             valid = false;
-        } else if (strippedDescription.length < 50) {
-            newErrors.description = 'Description must be at least 50 characters';
+        } else if (strippedContent.length < 50) {
+            newErrors.content = 'Content must be at least 50 characters';
             valid = false;
         }
 
@@ -143,86 +146,169 @@ export default function BlogForm() {
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setBlogData({ ...blogData, [name]: value });
+        
+        // Clear error when user starts typing
+        if (errors[name]) {
+            setErrors({ ...errors, [name]: '' });
+        }
     };
 
     // Handle React Quill content change
-    const handleDescriptionChange = (content) => {
-        setBlogData({ ...blogData, description: content });
+    const handleContentChange = (content) => {
+        setBlogData({ ...blogData, content: content });
+        
+        // Clear content error when user starts typing
+        if (errors.content) {
+            setErrors({ ...errors, content: '' });
+        }
     };
 
     const handleFileChange = (e, fieldName) => {
         const file = e.target.files[0];
         if (file) {
             setBlogData({ ...blogData, [fieldName]: file });
-            
+
             // Create preview
             const reader = new FileReader();
             reader.onloadend = () => {
-                if (fieldName === 'image') {
+                if (fieldName === 'img') {
                     setImagePreview(reader.result);
-                } else if (fieldName === 'profileImage') {
+                } else if (fieldName === 'profileImg') {
                     setProfileImagePreview(reader.result);
                 }
             };
             reader.readAsDataURL(file);
+            
+            // Clear error when file is selected
+            if (errors[fieldName]) {
+                setErrors({ ...errors, [fieldName]: '' });
+            }
         }
     };
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
-        if (!validateForm()) {
-            return;
+    e.preventDefault();
+    
+    if (!validateForm()) {
+        toast.error("Please fill in all required fields");
+        return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+        // Create FormData for file upload
+        const formData = new FormData();
+        
+        // Append files
+        if (blogData.img) {
+            formData.append('img', blogData.img);
         }
-
-        try {
-            // Create FormData for file upload
-            const formData = new FormData();
-            formData.append('image', blogData.image);
-            formData.append('profileImage', blogData.profileImage);
-            formData.append('category', blogData.category);
-            formData.append('title', blogData.title);
-            formData.append('bloggerName', blogData.bloggerName);
-            formData.append('blogDate', blogData.blogDate);
-            formData.append('description', blogData.description);
-
-            // Replace with your API call
-            // const res = await CreateBlog(formData);
-            
-            console.log("Blog Data:", blogData);
-            toast.success("Blog created successfully!");
-            
-            // Reset form
-            setBlogData({
-                image: null,
-                category: '',
-                title: '',
-                profileImage: null,
-                bloggerName: '',
-                blogDate: '',
-                description: ''
-            });
-            setImagePreview(null);
-            setProfileImagePreview(null);
-            
-        } catch (error) {
-            console.log("Error creating blog:", error);
-            toast.error("Failed to create blog");
+        if (blogData.profileImg) {
+            formData.append('profileImg', blogData.profileImg);
         }
-    };
+        
+        // Append other fields
+        formData.append('category', blogData.category);
+        formData.append('title', blogData.title);
+        formData.append('bloggerName', blogData.bloggerName);
+        formData.append('publishDate', blogData.publishDate);
+        formData.append('content', blogData.content);
 
-    const handleSaveAsDraft = () => {
-        try {
-            const draftData = {
-                ...blogData,
-                isDraft: true,
-                savedAt: new Date().toISOString()
-            };
+        // 🔍 DEBUGGING: Log all the data being sent
+        console.log("=== DEBUGGING FORM DATA ===");
+        console.log("Blog Data Object:", blogData);
+        console.log("FormData contents:");
+        for (let [key, value] of formData.entries()) {
+            if (key === 'img' || key === 'profileImg') {
+                console.log(key, "File:", value.name, "Size:", value.size, "Type:", value.type);
+            } else {
+                console.log(key, ":", value);
+            }
+        }
+        console.log("=== END DEBUGGING ===");
+        
+        // ✅ Pass FormData instead of blogData
+        const response = await AddBlog(formData);
+        
+        console.log("API Response:", response);
+        toast.success("Blog created successfully!");
+
+        // Reset form after successful submission
+        setBlogData({
+            img: null,
+            category: '',
+            title: '',
+            profileImg: null,
+            bloggerName: '',
+            publishDate: '',
+            content: ''
+        });
+        setImagePreview(null);
+        setProfileImagePreview(null);
+        setErrors({
+            img: '',
+            category: '',
+            title: '',
+            profileImg: '',
+            bloggerName: '',
+            publishDate: '',
+            content: ''
+        });
+
+    } catch (error) {
+        console.error("Error creating blog:", error);
+        
+        // Handle different types of errors
+        if (error.response) {
+            // Server responded with error status
+            const errorMessage = error.response.data?.message || 'Failed to create blog';
+            toast.error(errorMessage);
+            console.error("Server Error:", error.response.data);
             
-            console.log("Draft Data:", draftData);
+            // 🔍 DEBUGGING: Log server error details
+            console.log("=== SERVER ERROR DETAILS ===");
+            console.log("Status:", error.response.status);
+            console.log("Error Data:", error.response.data);
+            console.log("=== END SERVER ERROR ===");
+            
+        } else if (error.request) {
+            // Request was made but no response received
+            toast.error("Network error. Please check your connection.");
+            console.error("Network Error:", error.request);
+        } else {
+            // Something else happened
+            toast.error("An unexpected error occurred");
+            console.error("Error:", error.message);
+        }
+    } finally {
+        setIsSubmitting(false);
+    }
+};
+
+    const handleSaveAsDraft = async () => {
+        try {
+            const draftData = new FormData();
+            
+            if (blogData.img) draftData.append('img', blogData.img);
+            if (blogData.profileImg) draftData.append('profileImg', blogData.profileImg);
+            draftData.append('category', blogData.category);
+            draftData.append('title', blogData.title);
+            draftData.append('bloggerName', blogData.bloggerName);
+            draftData.append('publishDate', blogData.publishDate);
+            draftData.append('content', blogData.content);
+            draftData.append('isDraft', 'true');
+            draftData.append('savedAt', new Date().toISOString());
+
+            console.log("Saving draft data:", draftData);
+            
+            // You might want to create a separate API endpoint for drafts
+            // const response = await SaveDraft(draftData);
+            
             toast.success("Blog saved as draft!");
-            
+
         } catch (error) {
-            console.log("Error saving draft:", error);
+            console.error("Error saving draft:", error);
             toast.error("Failed to save draft");
         }
     };
@@ -239,14 +325,6 @@ export default function BlogForm() {
     const pageBgColor = theme === 'light' ? 'bg-white' : 'bg-gray-950';
     const borderColor = theme === 'light' ? 'border-gray-200' : 'border-gray-700';
     const headerBg = theme === 'light' ? 'bg-white' : 'bg-gray-950';
-
-    // Custom styles for React Quill based on theme
-    const quillStyles = {
-        backgroundColor: theme === 'light' ? '#ffffff' : '#1f2937',
-        color: theme === 'light' ? '#111827' : '#ffffff',
-        border: `1px solid ${theme === 'light' ? '#d1d5db' : '#374151'}`,
-        borderRadius: '0.375rem'
-    };
 
     return (
         <>
@@ -334,7 +412,7 @@ export default function BlogForm() {
                                 <FaImage className="inline mr-2" />
                                 Blog Featured Image
                             </label>
-                            <div className={`border-2 border-dashed ${inputBorderColor} rounded-lg p-6 text-center hover:border-orange-500 transition-colors duration-200`}>
+                            <div className={`border-2 border-dashed ${errors.img ? 'border-red-500' : inputBorderColor} rounded-lg p-6 text-center hover:border-orange-500 transition-colors duration-200`}>
                                 {imagePreview ? (
                                     <div className="relative">
                                         <img src={imagePreview} alt="Preview" className="mx-auto max-h-48 rounded-lg" />
@@ -342,7 +420,7 @@ export default function BlogForm() {
                                             type="button"
                                             onClick={() => {
                                                 setImagePreview(null);
-                                                setBlogData({ ...blogData, image: null });
+                                                setBlogData({ ...blogData, img: null });
                                             }}
                                             className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600"
                                         >
@@ -360,8 +438,9 @@ export default function BlogForm() {
                                                 <input
                                                     id="blogImage"
                                                     type="file"
+                                                    name='img'
                                                     accept="image/*"
-                                                    onChange={(e) => handleFileChange(e, 'image')}
+                                                    onChange={(e) => handleFileChange(e, 'img')}
                                                     className="hidden"
                                                 />
                                             </label>
@@ -370,10 +449,10 @@ export default function BlogForm() {
                                     </div>
                                 )}
                             </div>
-                            {errors.image && (
+                            {errors.img && (
                                 <div className="flex items-center mt-1 text-sm text-red-700">
                                     <FaExclamationTriangle className="w-4 h-4 mr-1" />
-                                    <span>{errors.image}</span>
+                                    <span>{errors.img}</span>
                                 </div>
                             )}
                         </div>
@@ -435,7 +514,7 @@ export default function BlogForm() {
                                     <FaUser className="inline mr-2" />
                                     Blogger Profile Image
                                 </label>
-                                <div className={`border-2 border-dashed ${inputBorderColor} rounded-lg p-4 text-center hover:border-orange-500 transition-colors duration-200`}>
+                                <div className={`border-2 border-dashed ${errors.profileImg ? 'border-red-500' : inputBorderColor} rounded-lg p-4 text-center hover:border-orange-500 transition-colors duration-200`}>
                                     {profileImagePreview ? (
                                         <div className="relative">
                                             <img src={profileImagePreview} alt="Profile Preview" className="mx-auto w-16 h-16 rounded-full object-cover" />
@@ -443,7 +522,7 @@ export default function BlogForm() {
                                                 type="button"
                                                 onClick={() => {
                                                     setProfileImagePreview(null);
-                                                    setBlogData({ ...blogData, profileImage: null });
+                                                    setBlogData({ ...blogData, profileImg: null });
                                                 }}
                                                 className="absolute -top-1 -right-1 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center hover:bg-red-600 text-xs"
                                             >
@@ -460,18 +539,19 @@ export default function BlogForm() {
                                                 <input
                                                     id="profileImage"
                                                     type="file"
+                                                    name="profileImg"
                                                     accept="image/*"
-                                                    onChange={(e) => handleFileChange(e, 'profileImage')}
+                                                    onChange={(e) => handleFileChange(e, 'profileImg')}
                                                     className="hidden"
                                                 />
                                             </label>
                                         </div>
                                     )}
                                 </div>
-                                {errors.profileImage && (
+                                {errors.profileImg && (
                                     <div className="flex items-center mt-1 text-sm text-red-700">
                                         <FaExclamationTriangle className="w-4 h-4 mr-1" />
-                                        <span>{errors.profileImage}</span>
+                                        <span>{errors.profileImg}</span>
                                     </div>
                                 )}
                             </div>
@@ -498,22 +578,22 @@ export default function BlogForm() {
                             </div>
 
                             <div>
-                                <label htmlFor="blogDate" className="block text-sm font-medium mb-2">
+                                <label htmlFor="publishDate" className="block text-sm font-medium mb-2">
                                     <FaCalendarAlt className="inline mr-2" />
                                     Publish Date
                                 </label>
                                 <input
-                                    id="blogDate"
+                                    id="publishDate"
                                     type="date"
-                                    name="blogDate"
-                                    value={blogData.blogDate}
+                                    name="publishDate"
+                                    value={blogData.publishDate}
                                     onChange={handleInputChange}
-                                    className={`appearance-none block w-full px-3 py-3 border ${errors.blogDate ? "border-red-700" : inputBorderColor} rounded-md placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 ${inputBgColor} transition-colors duration-200`}
+                                    className={`appearance-none block w-full px-3 py-3 border ${errors.publishDate ? "border-red-700" : inputBorderColor} rounded-md placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 ${inputBgColor} transition-colors duration-200`}
                                 />
-                                {errors.blogDate && (
+                                {errors.publishDate && (
                                     <div className="flex items-center mt-1 text-sm text-red-700">
                                         <FaExclamationTriangle className="w-4 h-4 mr-1" />
-                                        <span>{errors.blogDate}</span>
+                                        <span>{errors.publishDate}</span>
                                     </div>
                                 )}
                             </div>
@@ -524,23 +604,23 @@ export default function BlogForm() {
                             <label className="block text-sm font-medium mb-2">
                                 Blog Content
                             </label>
-                            
-                            <div className={`${errors.description ? 'border-2 border-red-500 rounded-md' : ''}`}>
+
+                            <div className={`${errors.content ? 'border-2 border-red-500 rounded-md' : ''}`}>
                                 <ReactQuill
                                     theme="snow"
-                                    value={blogData.description}
-                                    onChange={handleDescriptionChange}
+                                    value={blogData.content}
+                                    onChange={handleContentChange}
                                     modules={quillModules}
                                     formats={quillFormats}
                                     placeholder="Write your blog content here with rich text formatting..."
                                     style={{ minHeight: '250px' }}
                                 />
                             </div>
-                            
-                            {errors.description && (
+
+                            {errors.content && (
                                 <div className="flex items-center mt-2 text-sm text-red-700">
                                     <FaExclamationTriangle className="w-4 h-4 mr-1" />
-                                    <span>{errors.description}</span>
+                                    <span>{errors.content}</span>
                                 </div>
                             )}
                         </div>
@@ -550,9 +630,10 @@ export default function BlogForm() {
                             <div className="pt-6">
                                 <button
                                     type="submit"
-                                    className="w-full flex justify-center py-3 px-4 rounded-md text-sm font-medium text-white border-orange-500 border bg-orange-500 hover:bg-white hover:text-orange-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition-colors duration-200"
+                                    disabled={isSubmitting}
+                                    className={`w-full flex justify-center py-3 px-4 rounded-md text-sm font-medium text-white border-orange-500 border bg-orange-500 hover:bg-white hover:text-orange-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition-colors duration-200 ${isSubmitting ? 'opacity-50 cursor-not-allowed' : ''}`}
                                 >
-                                    Publish Blog Post
+                                    {isSubmitting ? 'Publishing...' : 'Publish Blog Post'}
                                 </button>
                             </div>
 
@@ -560,7 +641,8 @@ export default function BlogForm() {
                                 <button
                                     type="button"
                                     onClick={handleSaveAsDraft}
-                                    className={`w-full flex justify-center py-3 px-4 border ${inputBorderColor} rounded-md text-sm font-medium text-orange-500 border-orange-500 border ${inputBgColor} hover:bg-orange-500 dark:hover:bg-orange-500 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition-colors duration-200`}
+                                    disabled={isSubmitting}
+                                    className={`w-full flex justify-center py-3 px-4 border ${inputBorderColor} rounded-md text-sm font-medium text-orange-500 border-orange-500 border ${inputBgColor} hover:bg-orange-500 dark:hover:bg-orange-500 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition-colors duration-200 ${isSubmitting ? 'opacity-50 cursor-not-allowed' : ''}`}
                                 >
                                     Save as Draft
                                 </button>
