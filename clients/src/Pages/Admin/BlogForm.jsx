@@ -560,7 +560,7 @@ export default function BlogForm() {
                                 <button
                                     type="button"
                                     onClick={handleSaveAsDraft}
-                                    className={`w-full flex justify-center py-3 px-4 border ${inputBorderColor} rounded-md text-sm font-medium text-orange-500 border-orange-500 border ${inputBgColor} hover:bg-gray-50 dark:hover:bg-orange-500 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition-colors duration-200`}
+                                    className={`w-full flex justify-center py-3 px-4 border ${inputBorderColor} rounded-md text-sm font-medium text-orange-500 border-orange-500 border ${inputBgColor} hover:bg-orange-500 dark:hover:bg-orange-500 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition-colors duration-200`}
                                 >
                                     Save as Draft
                                 </button>

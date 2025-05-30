@@ -243,7 +243,7 @@ const JobpostForm = () => {
     const textColor = theme === 'light' ? 'text-gray-900' : 'text-white';
     const inputBgColor = theme === 'light' ? 'bg-white' : 'bg-gray-800';
     const inputBorderColor = theme === 'light' ? 'border-gray-300' : 'border-gray-700';
-    const pageBgColor = theme === 'light' ? 'bg-gray-50' : 'bg-gray-900';
+    const pageBgColor = theme === 'light' ? 'bg-white' : 'bg-gray-900';
     const borderColor = theme === 'light' ? 'border-gray-200' : 'border-gray-700';
     const headerBg = theme === 'light' ? 'bg-white' : 'bg-gray-950';
 
@@ -357,7 +357,7 @@ const JobpostForm = () => {
                     </div>
 
                     {/* Form Container */}
-                    <div className={`${bgColor} rounded-lg shadow-lg p-8 ${textColor} transition-colors duration-300`}>
+                    <div className={`${bgColor} rounded-lg  p-8 ${textColor} transition-colors duration-300`}>
                         <form onSubmit={handleSubmit}>
                             {/* Step 1: Job Details */}
                             {currentStep === 1 && (
