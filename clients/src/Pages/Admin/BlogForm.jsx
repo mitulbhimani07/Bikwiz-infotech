@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { FaExclamationTriangle, FaUpload, FaCalendarAlt, FaUser, FaImage } from 'react-icons/fa';
@@ -6,7 +6,7 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import logo from '../../assets/images/logo.png';
 import logo2 from '../../assets/images/logo2.png';
-import { AddBlog } from '../../API/Api';
+import { AddBlog, Getcategory } from '../../API/Api';
 
 export default function BlogForm() {
     const [theme, setTheme] = useState('light');
@@ -34,24 +34,40 @@ export default function BlogForm() {
     const [profileImagePreview, setProfileImagePreview] = useState(null);
     const [isSubmitting, setIsSubmitting] = useState(false);
     
+    const  [categories,setcategories]=useState([]);
 
-    const categories = [
-        'Technology',
-        'Business',
-        'Health & Fitness',
-        'Travel',
-        'Food & Cooking',
-        'Lifestyle',
-        'Fashion',
-        'Education',
-        'Entertainment',
-        'Sports',
-        'Finance',
-        'Marketing',
-        'Design',
-        'Photography',
-        'Personal Development'
-    ];
+    useEffect(() => {
+    const fetchCategories = async () => {
+        try {
+            const res = await Getcategory();
+            console.log('res--', res.data);
+            setcategories(res.data); // Make sure you actually set the state
+        } catch (error) {
+            toast.error("An unexpected error occurred");
+            console.error("Error:", error.message);
+        }
+    };
+
+    fetchCategories();
+}, []);
+
+    // const categories = [
+    //     'Technology',
+    //     'Business',
+    //     'Health & Fitness',
+    //     'Travel',
+    //     'Food & Cooking',
+    //     'Lifestyle',
+    //     'Fashion',
+    //     'Education',
+    //     'Entertainment',
+    //     'Sports',
+    //     'Finance',
+    //     'Marketing',
+    //     'Design',
+    //     'Photography',
+    //     'Personal Development'
+    // ];
 
     // React Quill modules configuration
     const quillModules = {
@@ -464,19 +480,20 @@ export default function BlogForm() {
                                     Category
                                 </label>
                                 <select
-                                    id="category"
-                                    name="category"
-                                    value={blogData.category}
-                                    onChange={handleInputChange}
-                                    className={`appearance-none block w-full px-3 py-3 border ${errors.category ? "border-red-700" : inputBorderColor} rounded-md placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 ${inputBgColor} transition-colors duration-200`}
-                                >
-                                    <option value="">Select a category</option>
-                                    {categories.map((category) => (
-                                        <option key={category} value={category}>
-                                            {category}
-                                        </option>
-                                    ))}
-                                </select>
+    id="category"
+    name="category"
+    value={blogData.category}
+    onChange={handleInputChange}
+    className={`appearance-none block w-full px-3 py-3 border ${errors.category ? "border-red-700" : inputBorderColor} rounded-md placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 ${inputBgColor} transition-colors duration-200`}
+>
+    <option value="">Select a category</option>
+    {categories.map((category) => (
+        <option key={category._id} value={category._id}>
+            {category.categoryname}
+        </option>
+    ))}
+</select>
+
                                 {errors.category && (
                                     <div className="flex items-center mt-1 text-sm text-red-700">
                                         <FaExclamationTriangle className="w-4 h-4 mr-1" />
