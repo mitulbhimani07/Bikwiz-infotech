@@ -92,16 +92,23 @@ module.exports.AddBlog = async (req, res) => {
 
 
 
-module.exports.GetBlog=async(req,res)=>{
-    try{
-        const data=await Blog.find().populate('category');
+module.exports.GetBlog = async (req, res) => {
+  try {
+    const blogs = await Blog.find().populate('category');
+    const baseUrl = `${process.env.imgurl}`;
 
-        res.status(200).json({
-            status:"Success",
-            data
-        })
-    }catch(error){
-        console.error("Error in Add Blog:", error);
+    const data = blogs.map(blog => ({
+      ...blog._doc,
+      img: blog.img.map(filename => `${baseUrl}/images/${filename}`),
+      profileImg: blog.profileImg ? `${baseUrl}/images/${blog.profileImg}` : null
+    }));
+
+    res.status(200).json({
+      status: "Success",
+      data
+    });
+  } catch (error) {
+    console.error("Error in GetBlog:", error);
     res.status(500).json({ message: "Internal server error" });
-    }
-}
+  }
+};
