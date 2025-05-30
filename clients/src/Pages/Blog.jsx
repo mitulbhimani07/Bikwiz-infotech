@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Header from '../header-footer/Header'
 import banner from '../assets/images/Blog.png'
 import blog1 from '../assets/images/image-1.jpg'
@@ -11,93 +11,119 @@ import blog7 from '../assets/images/image-7.png'
 import blog8 from '../assets/images/image-8.png'
 import blog9 from '../assets/images/image-9.png'
 import Footer from '../header-footer/Footer'
+import toast from 'react-hot-toast'
+import { GetAllBlogs } from '../API/Api'
 
-const blogPosts = [
-  {
-    id: 1,
-    category: 'Technology',
-    title: 'The Impact of Technology on the Workplace: How Technology is Changing',
-    author: 'Tracey Wilson',
-    date: 'August 20, 2022',
-    image: blog1,
-    avatar: 'https://randomuser.me/api/portraits/women/68.jpg',
-  },
-  {
-    id: 2,
-    category: 'Company',
-    title: 'The Impact of Technology on the Workplace: How Technology is Changing',
-    author: 'Jason Francisco',
-    date: 'August 20, 2022',
-    image: blog2,
-    avatar: 'https://randomuser.me/api/portraits/men/65.jpg',
-  },
-  {
-    id: 3,
-    category: 'Finance',
-    title: 'The Impact of Technology on the Workplace: How Technology is Changing',
-    author: 'Elizabeth Slavin',
-    date: 'August 20, 2022',
-    image: blog3,
-    avatar: 'https://randomuser.me/api/portraits/women/69.jpg',
-  },
-  {
-    id: 4,
-    category: 'Finance',
-    title: 'The Impact of Technology on the Workplace: How Technology is Changing',
-    author: 'Elizabeth Slavin',
-    date: 'August 20, 2022',
-    image: blog4,
-    avatar: 'https://randomuser.me/api/portraits/women/69.jpg',
-  },
-  {
-    id: 5,
-    category: 'Finance',
-    title: 'The Impact of Technology on the Workplace: How Technology is Changing',
-    author: 'Elizabeth Slavin',
-    date: 'August 20, 2022',
-    image: blog5,
-    avatar: 'https://randomuser.me/api/portraits/women/69.jpg',
-  },
-  {
-    id: 6,
-    category: 'Finance',
-    title: 'The Impact of Technology on the Workplace: How Technology is Changing',
-    author: 'Elizabeth Slavin',
-    date: 'August 20, 2022',
-    image: blog6,
-    avatar: 'https://randomuser.me/api/portraits/women/69.jpg',
-  },
-  {
-    id: 7,
-    category: 'Finance',
-    title: 'The Impact of Technology on the Workplace: How Technology is Changing',
-    author: 'Elizabeth Slavin',
-    date: 'August 20, 2022',
-    image: blog7,
-    avatar: 'https://randomuser.me/api/portraits/women/69.jpg',
-  },
-  {
-    id: 8,
-    category: 'Finance',
-    title: 'The Impact of Technology on the Workplace: How Technology is Changing',
-    author: 'Elizabeth Slavin',
-    date: 'August 20, 2022',
-    image: blog8,
-    avatar: 'https://randomuser.me/api/portraits/women/69.jpg',
-  },
-  {
-    id: 9,
-    category: 'Finance',
-    title: 'The Impact of Technology on the Workplace: How Technology is Changing',
-    author: 'Elizabeth Slavin',
-    date: 'August 20, 2022',
-    image: blog9,
-    avatar: 'https://randomuser.me/api/portraits/women/69.jpg',
-  },
-  // Add more posts...
-]
+
+
+// const blogPosts = [
+//   {
+//     id: 1,
+//     category: 'Technology',
+//     title: 'The Impact of Technology on the Workplace: How Technology is Changing',
+//     author: 'Tracey Wilson',
+//     date: 'August 20, 2022',
+//     image: blog1,
+//     avatar: 'https://randomuser.me/api/portraits/women/68.jpg',
+//   },
+//   {
+//     id: 2,
+//     category: 'Company',
+//     title: 'The Impact of Technology on the Workplace: How Technology is Changing',
+//     author: 'Jason Francisco',
+//     date: 'August 20, 2022',
+//     image: blog2,
+//     avatar: 'https://randomuser.me/api/portraits/men/65.jpg',
+//   },
+//   {
+//     id: 3,
+//     category: 'Finance',
+//     title: 'The Impact of Technology on the Workplace: How Technology is Changing',
+//     author: 'Elizabeth Slavin',
+//     date: 'August 20, 2022',
+//     image: blog3,
+//     avatar: 'https://randomuser.me/api/portraits/women/69.jpg',
+//   },
+//   {
+//     id: 4,
+//     category: 'Finance',
+//     title: 'The Impact of Technology on the Workplace: How Technology is Changing',
+//     author: 'Elizabeth Slavin',
+//     date: 'August 20, 2022',
+//     image: blog4,
+//     avatar: 'https://randomuser.me/api/portraits/women/69.jpg',
+//   },
+//   {
+//     id: 5,
+//     category: 'Finance',
+//     title: 'The Impact of Technology on the Workplace: How Technology is Changing',
+//     author: 'Elizabeth Slavin',
+//     date: 'August 20, 2022',
+//     image: blog5,
+//     avatar: 'https://randomuser.me/api/portraits/women/69.jpg',
+//   },
+//   {
+//     id: 6,
+//     category: 'Finance',
+//     title: 'The Impact of Technology on the Workplace: How Technology is Changing',
+//     author: 'Elizabeth Slavin',
+//     date: 'August 20, 2022',
+//     image: blog6,
+//     avatar: 'https://randomuser.me/api/portraits/women/69.jpg',
+//   },
+//   {
+//     id: 7,
+//     category: 'Finance',
+//     title: 'The Impact of Technology on the Workplace: How Technology is Changing',
+//     author: 'Elizabeth Slavin',
+//     date: 'August 20, 2022',
+//     image: blog7,
+//     avatar: 'https://randomuser.me/api/portraits/women/69.jpg',
+//   },
+//   {
+//     id: 8,
+//     category: 'Finance',
+//     title: 'The Impact of Technology on the Workplace: How Technology is Changing',
+//     author: 'Elizabeth Slavin',
+//     date: 'August 20, 2022',
+//     image: blog8,
+//     avatar: 'https://randomuser.me/api/portraits/women/69.jpg',
+//   },
+//   {
+//     id: 9,
+//     category: 'Finance',
+//     title: 'The Impact of Technology on the Workplace: How Technology is Changing',
+//     author: 'Elizabeth Slavin',
+//     date: 'August 20, 2022',
+//     image: blog9,
+//     avatar: 'https://randomuser.me/api/portraits/women/69.jpg',
+//   },
+//   // Add more posts...
+// ]
+
+
+
 
 export default function Blog() {
+  const [blogPosts, setBlogPosts] = useState([]);
+
+  useEffect(() =>{
+   const fetchBlogPosts=async () => {
+    try {
+        const response = await GetAllBlogs()
+        console.log("blogsssssssssssssss",response.data);
+        
+        setBlogPosts(response.data)
+    } catch (error) {
+        console.error("Error in GetAllBlogs API:", error);
+        throw error;
+    }
+   }
+   fetchBlogPosts();
+
+  },[] )
+
+
   return (
     <div>
       <Header />

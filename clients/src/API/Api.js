@@ -147,3 +147,13 @@ export const AddBlog = async (payload) => {
         throw new Error(error.response?.data?.message || error.message || "Failed to add blog");
     }
 }
+
+export const GetAllBlogs = async () => {
+    try {
+        const response = await axios.get("http://localhost:3000/blog/getblog")
+        return response.data
+    } catch (error) {
+        console.error("Error in GetAllBlogs API:", error);
+        throw error;
+    }
+}
