@@ -148,6 +148,22 @@ export const AddBlog = async (payload) => {
     }
 }
 
+export const Getcategory=async()=>{
+    try{
+        const response=await axios.get('http://localhost:3000/category/GetCategory');
+        return response.data;
+    }catch(error){
+        console.error("Error in Get Category API:", {
+            message: error.message,
+            status: error.response?.status,
+            data: error.response?.data
+        });
+        
+        // Throw a more manageable error
+        throw new Error(error.response?.data?.message || error.message || "Failed to add blog");
+    }
+}
+
 export const GetAllBlogs = async () => {
     try {
         const response = await axios.get("http://localhost:3000/blog/getblog")
