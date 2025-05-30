@@ -43,7 +43,7 @@ export default function AddBlogCategoryForm() {
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        
+
         // Update categoryData properly
         setCategoryData(prevData => ({
             ...prevData,
@@ -52,9 +52,9 @@ export default function AddBlogCategoryForm() {
 
         // Clear error when user starts typing
         if (errors[name]) {
-            setErrors(prevErrors => ({ 
-                ...prevErrors, 
-                [name]: '' 
+            setErrors(prevErrors => ({
+                ...prevErrors,
+                [name]: ''
             }));
         }
     };
@@ -68,10 +68,10 @@ export default function AddBlogCategoryForm() {
         try {
             // Make sure you have the email variable defined or get it from your state/context
             // const email = "user@example.com"; // Replace with actual email
-            
+
             const res = await AddBlogCategory(categoryData, dispatch);
             console.log("Response:", res);
-            
+
             toast.success("Blog category created successfully!");
 
             // Reset form
@@ -99,10 +99,12 @@ export default function AddBlogCategoryForm() {
     const inputBorderColor = theme === 'light' ? 'border-gray-300' : 'border-gray-700';
     const pageBgColor = theme === 'light' ? 'bg-white' : 'bg-gray-950';
     const headerBg = theme === 'light' ? 'bg-white' : 'bg-gray-950';
+    const borderColor = theme === 'light' ? 'border-gray-200' : 'border-gray-700';
+
 
     return (
         <>
-            <header className={`${headerBg} ${textColor} transition-colors duration-300`}>
+            <header className={`${headerBg} ${textColor} ${borderColor} transition-colors duration-300`}>
                 <div className="container mx-auto px-24 py-5 flex justify-between items-center">
                     <div className="flex items-center">
                         <Link to="/">

@@ -94,7 +94,7 @@ module.exports.AddBlog = async (req, res) => {
 
 module.exports.GetBlog=async(req,res)=>{
     try{
-        const data=await Blog.find();
+        const data=await Blog.find().populate('category');
 
         res.status(200).json({
             status:"Success",
