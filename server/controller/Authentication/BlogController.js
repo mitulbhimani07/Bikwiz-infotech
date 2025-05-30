@@ -99,8 +99,8 @@ module.exports.GetBlog = async (req, res) => {
 
     const data = blogs.map(blog => ({
       ...blog._doc,
-      img: blog.img.map(filename => `${baseUrl}/images/${filename}`),
-      profileImg: blog.profileImg ? `${baseUrl}/images/${blog.profileImg}` : null
+      img: blog.img.map(filename => `${baseUrl}/${filename}`),
+      profileImg: blog.profileImg ? `${baseUrl}/${blog.profileImg}` : null
     }));
 
     res.status(200).json({
