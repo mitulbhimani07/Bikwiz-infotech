@@ -22,5 +22,6 @@ const cpUpload = upload.fields([
 
 router.post('/AddBlog', cpUpload, blogController.AddBlog);
 router.get('/getblog',blogController.GetBlog)
+router.get("/GetSingleBlog/:id", blogController.GetSingleBlog);
 
 module.exports = router;

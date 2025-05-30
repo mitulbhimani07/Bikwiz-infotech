@@ -173,3 +173,13 @@ export const GetAllBlogs = async () => {
         throw error;
     }
 }
+
+export const GetSingleID=async (id) => {
+    try {
+        const response = await axios.get(`http://localhost:3000/blog/GetSingleBlog/${id}`)
+        return response.data
+    } catch (error) {
+        console.error("Error in GetSingleID API:", error);
+        throw error;
+    }
+}

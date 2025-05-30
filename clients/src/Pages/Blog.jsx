@@ -151,7 +151,7 @@ export default function Blog() {
      
       <section className="w-[80%] my-20 mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         {blogPosts.map((post) => (
-          <Link to="/singleBlog/post._id" className="no-underline text-black" key={post._id}>
+          <Link to={`/singleBlog/${post._id}`} className="no-underline text-black" key={post._id}>
           <div
             key={post._id}
             className="bg-white border p-3 border-orange-200 rounded-xl hover:shadow-md transition-shadow overflow-hidden"

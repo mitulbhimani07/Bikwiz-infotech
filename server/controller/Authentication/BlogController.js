@@ -112,3 +112,36 @@ module.exports.GetBlog = async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
+
+
+exports.GetSingleBlog = async (req, res) => {
+  try {
+    const SingleBlog = await Blog.findById(req.params.id).populate('category');
+
+    if (!SingleBlog) {
+      return res.status(404).json({ message: "Blog not found" });
+    }
+
+    const baseUrl = `${process.env.imgurl}`;
+
+    const data = {
+      ...SingleBlog._doc,
+      img: SingleBlog.img.map(filename => `${baseUrl}/${filename}`),
+      profileImg: SingleBlog.profileImg ? `${baseUrl}/${SingleBlog.profileImg}` : null
+    };
+
+    res.status(200).json({
+      message: "Blog data fetched successfully",
+      data
+    });
+
+  } catch (error) {
+    console.error("Error in GetSingleBlog:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+  
+
+
+  

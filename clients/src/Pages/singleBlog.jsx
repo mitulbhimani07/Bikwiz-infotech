@@ -3,8 +3,11 @@ import Header from '../header-footer/Header'
 import Footer from '../header-footer/Footer'
 import SingleBlog1 from '../assets/images/singleBlog-1.jpg'
 import SingleBlog2 from '../assets/images/singleBlog-2.jpg'
+import { useParams } from 'react-router-dom'
 
 export default function SingleBlog() {
+     const [blog, setBlog] = useState([])
+    const id=useParams()
     return (
         <>
             <Header />
