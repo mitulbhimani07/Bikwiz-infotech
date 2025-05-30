@@ -136,11 +136,14 @@ export const AddBlog = async (payload) => {
     try {
         const response = await axios.post("http://localhost:3000/blog/AddBlog", payload)
         return response.data
-
-
     } catch (error) {
-        console.error("Error in AddBlog API:", error);
-        throw error;
-
+        console.error("Error in AddBlog API:", {
+            message: error.message,
+            status: error.response?.status,
+            data: error.response?.data
+        });
+        
+        // Throw a more manageable error
+        throw new Error(error.response?.data?.message || error.message || "Failed to add blog");
     }
 }
