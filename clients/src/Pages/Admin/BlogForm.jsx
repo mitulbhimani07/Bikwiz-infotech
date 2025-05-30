@@ -2,12 +2,10 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { FaExclamationTriangle, FaUpload, FaCalendarAlt, FaUser, FaImage } from 'react-icons/fa';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 import logo from '../../assets/images/logo.png';
 import logo2 from '../../assets/images/logo2.png';
-
-// For rich text editor, you can install and import:
-// import ReactQuill from 'react-quill';
-// import 'react-quill/dist/quill.snow.css';
 
 export default function BlogForm() {
     const [theme, setTheme] = useState('light');
@@ -50,6 +48,37 @@ export default function BlogForm() {
         'Design',
         'Photography',
         'Personal Development'
+    ];
+
+    // React Quill modules configuration
+    const quillModules = {
+        toolbar: [
+            [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+            [{ 'font': [] }],
+            [{ 'size': ['small', false, 'large', 'huge'] }],
+            ['bold', 'italic', 'underline', 'strike'],
+            [{ 'color': [] }, { 'background': [] }],
+            [{ 'script': 'sub'}, { 'script': 'super' }],
+            ['blockquote', 'code-block'],
+            [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+            [{ 'indent': '-1'}, { 'indent': '+1' }],
+            [{ 'direction': 'rtl' }],
+            [{ 'align': [] }],
+            ['link', 'image', 'video'],
+            ['clean']
+        ],
+    };
+
+    // React Quill formats
+    const quillFormats = [
+        'header', 'font', 'size',
+        'bold', 'italic', 'underline', 'strike',
+        'color', 'background',
+        'script',
+        'blockquote', 'code-block',
+        'list', 'bullet', 'indent',
+        'direction', 'align',
+        'link', 'image', 'video'
     ];
 
     const validateForm = () => {
@@ -97,10 +126,12 @@ export default function BlogForm() {
             valid = false;
         }
 
-        if (!blogData.description.trim()) {
+        // Check if description is empty (React Quill returns '<p><br></p>' for empty content)
+        const strippedDescription = blogData.description.replace(/<[^>]*>/g, '').trim();
+        if (!strippedDescription || strippedDescription === '') {
             newErrors.description = 'Blog description is required';
             valid = false;
-        } else if (blogData.description.length < 50) {
+        } else if (strippedDescription.length < 50) {
             newErrors.description = 'Description must be at least 50 characters';
             valid = false;
         }
@@ -112,6 +143,11 @@ export default function BlogForm() {
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setBlogData({ ...blogData, [name]: value });
+    };
+
+    // Handle React Quill content change
+    const handleDescriptionChange = (content) => {
+        setBlogData({ ...blogData, description: content });
     };
 
     const handleFileChange = (e, fieldName) => {
@@ -174,6 +210,23 @@ export default function BlogForm() {
         }
     };
 
+    const handleSaveAsDraft = () => {
+        try {
+            const draftData = {
+                ...blogData,
+                isDraft: true,
+                savedAt: new Date().toISOString()
+            };
+            
+            console.log("Draft Data:", draftData);
+            toast.success("Blog saved as draft!");
+            
+        } catch (error) {
+            console.log("Error saving draft:", error);
+            toast.error("Failed to save draft");
+        }
+    };
+
     const toggleTheme = () => {
         setTheme(theme === 'light' ? 'dark' : 'light');
     };
@@ -183,13 +236,60 @@ export default function BlogForm() {
     const textColor = theme === 'light' ? 'text-gray-900' : 'text-white';
     const inputBgColor = theme === 'light' ? 'bg-white' : 'bg-gray-800';
     const inputBorderColor = theme === 'light' ? 'border-gray-300' : 'border-gray-700';
-    const pageBgColor = theme === 'light' ? 'bg-white-' : 'bg-gray-950';
+    const pageBgColor = theme === 'light' ? 'bg-white' : 'bg-gray-950';
     const borderColor = theme === 'light' ? 'border-gray-200' : 'border-gray-700';
     const headerBg = theme === 'light' ? 'bg-white' : 'bg-gray-950';
 
+    // Custom styles for React Quill based on theme
+    const quillStyles = {
+        backgroundColor: theme === 'light' ? '#ffffff' : '#1f2937',
+        color: theme === 'light' ? '#111827' : '#ffffff',
+        border: `1px solid ${theme === 'light' ? '#d1d5db' : '#374151'}`,
+        borderRadius: '0.375rem'
+    };
+
     return (
         <>
-            <header className={`${headerBg} ${textColor}  transition-colors duration-300 `}>
+            <style jsx>{`
+                .ql-toolbar {
+                    background-color: ${theme === 'light' ? '#f9fafb' : '#374151'} !important;
+                    border-color: ${theme === 'light' ? '#d1d5db' : '#4b5563'} !important;
+                    border-top-left-radius: 0.375rem;
+                    border-top-right-radius: 0.375rem;
+                }
+                .ql-container {
+                    background-color: ${theme === 'light' ? '#ffffff' : '#1f2937'} !important;
+                    color: ${theme === 'light' ? '#111827' : '#ffffff'} !important;
+                    border-color: ${theme === 'light' ? '#d1d5db' : '#4b5563'} !important;
+                    border-bottom-left-radius: 0.375rem;
+                    border-bottom-right-radius: 0.375rem;
+                }
+                .ql-editor {
+                    color: ${theme === 'light' ? '#111827' : '#ffffff'} !important;
+                    min-height: 200px;
+                }
+                .ql-stroke {
+                    stroke: ${theme === 'light' ? '#374151' : '#d1d5db'} !important;
+                }
+                .ql-fill {
+                    fill: ${theme === 'light' ? '#374151' : '#d1d5db'} !important;
+                }
+                .ql-picker-label {
+                    color: ${theme === 'light' ? '#374151' : '#d1d5db'} !important;
+                }
+                .ql-picker-options {
+                    background-color: ${theme === 'light' ? '#ffffff' : '#374151'} !important;
+                    border-color: ${theme === 'light' ? '#d1d5db' : '#4b5563'} !important;
+                }
+                .ql-picker-item {
+                    color: ${theme === 'light' ? '#374151' : '#d1d5db'} !important;
+                }
+                .ql-picker-item:hover {
+                    background-color: ${theme === 'light' ? '#f3f4f6' : '#4b5563'} !important;
+                }
+            `}</style>
+
+            <header className={`${headerBg} ${textColor} transition-colors duration-300`}>
                 <div className="container mx-auto px-24 py-5 flex justify-between items-center">
                     <div className="flex items-center">
                         <Link to="/">
@@ -219,7 +319,7 @@ export default function BlogForm() {
             </header>
 
             <div className={`min-h-screen ${pageBgColor} px-4 sm:px-6 lg:px-8 py-12 transition-colors duration-300`}>
-                <div className={`max-w-4xl mx-auto p-8 rounded-lg  ${bgColor} ${textColor} transition-colors duration-300`}>
+                <div className={`max-w-4xl mx-auto p-8 rounded-lg ${bgColor} ${textColor} transition-colors duration-300`}>
                     <div className="text-center mb-8">
                         <h2 className="text-3xl font-bold">Create New Blog Post</h2>
                         <p className={`mt-2 ${theme === 'light' ? 'text-gray-600' : 'text-gray-400'}`}>
@@ -419,86 +519,52 @@ export default function BlogForm() {
                             </div>
                         </div>
 
-                        {/* Description Field */}
+                        {/* Blog Content with React Quill */}
                         <div>
-                            <label htmlFor="description" className="block text-sm font-medium mb-2">
+                            <label className="block text-sm font-medium mb-2">
                                 Blog Content
                             </label>
                             
-                            {/* Basic Textarea - Replace with Rich Text Editor */}
-                            <textarea
-                                id="description"
-                                name="description"
-                                rows="8"
-                                value={blogData.description}
-                                onChange={handleInputChange}
-                                className={`appearance-none block w-full px-3 py-3 border ${errors.description ? "border-red-700" : inputBorderColor} rounded-md placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 ${inputBgColor} transition-colors duration-200 resize-vertical`}
-                                placeholder="Write your blog content here... (For rich text editing, consider integrating React Quill or similar)"
-                            />
-                            
-                            {/* Rich Text Editor Alternative - Uncomment if using React Quill */}
-                            {/*
-                            <ReactQuill
-                                theme="snow"
-                                value={blogData.description}
-                                onChange={(content) => setBlogData({ ...blogData, description: content })}
-                                modules={{
-                                    toolbar: [
-                                        [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-                                        ['bold', 'italic', 'underline', 'strike'],
-                                        [{ 'color': [] }, { 'background': [] }],
-                                        [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-                                        [{ 'indent': '-1'}, { 'indent': '+1' }],
-                                        ['link', 'image'],
-                                        ['clean']
-                                    ],
-                                }}
-                                formats={[
-                                    'header', 'bold', 'italic', 'underline', 'strike',
-                                    'color', 'background', 'list', 'bullet', 'indent',
-                                    'link', 'image'
-                                ]}
-                                className={`${inputBgColor} ${textColor}`}
-                                style={{ height: '200px', marginBottom: '50px' }}
-                            />
-                            */}
+                            <div className={`${errors.description ? 'border-2 border-red-500 rounded-md' : ''}`}>
+                                <ReactQuill
+                                    theme="snow"
+                                    value={blogData.description}
+                                    onChange={handleDescriptionChange}
+                                    modules={quillModules}
+                                    formats={quillFormats}
+                                    placeholder="Write your blog content here with rich text formatting..."
+                                    style={{ minHeight: '250px' }}
+                                />
+                            </div>
                             
                             {errors.description && (
-                                <div className="flex items-center mt-1 text-sm text-red-700">
+                                <div className="flex items-center mt-2 text-sm text-red-700">
                                     <FaExclamationTriangle className="w-4 h-4 mr-1" />
                                     <span>{errors.description}</span>
                                 </div>
                             )}
-                            
-                            <div className="mt-2 text-sm text-gray-500">
-                                <p>💡 For rich text editing with colors and formatting, consider adding:</p>
-                                <ul className="list-disc list-inside mt-1 space-y-1">
-                                    <li><strong>React Quill:</strong> npm install react-quill</li>
-                                    <li><strong>Draft.js:</strong> npm install draft-js</li>
-                                    <li><strong>TinyMCE:</strong> npm install @tinymce/tinymce-react</li>
-                                    <li><strong>Slate.js:</strong> npm install slate slate-react</li>
-                                </ul>
+                        </div>
+
+                        {/* Submit Buttons */}
+                        <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
+                            <div className="pt-6">
+                                <button
+                                    type="submit"
+                                    className="w-full flex justify-center py-3 px-4 rounded-md text-sm font-medium text-white border-orange-500 border bg-orange-500 hover:bg-white hover:text-orange-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition-colors duration-200"
+                                >
+                                    Publish Blog Post
+                                </button>
                             </div>
-                        </div>
 
-                        {/* Submit Button */}
-                        <div className="pt-6">
-                            <button
-                                type="submit"
-                                className="w-full flex justify-center py-3 px-4 border border-transparent rounded-md text-sm font-medium text-white bg-orange-500 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition-colors duration-200"
-                            >
-                                Publish Blog Post
-                            </button>
-                        </div>
-
-                        {/* Save as Draft Button */}
-                        <div>
-                            <button
-                                type="button"
-                                className={`w-full flex justify-center py-3 px-4 border ${inputBorderColor} rounded-md text-sm font-medium ${textColor} ${inputBgColor} hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition-colors duration-200`}
-                            >
-                                Save as Draft
-                            </button>
+                            <div className='pt-6'>
+                                <button
+                                    type="button"
+                                    onClick={handleSaveAsDraft}
+                                    className={`w-full flex justify-center py-3 px-4 border ${inputBorderColor} rounded-md text-sm font-medium text-orange-500 border-orange-500 border ${inputBgColor} hover:bg-gray-50 dark:hover:bg-orange-500 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition-colors duration-200`}
+                                >
+                                    Save as Draft
+                                </button>
+                            </div>
                         </div>
                     </form>
                 </div>
