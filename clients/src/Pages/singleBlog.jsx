@@ -4,6 +4,7 @@ import Footer from '../header-footer/Footer'
 import SingleBlog1 from '../assets/images/singleBlog-1.jpg'
 import SingleBlog2 from '../assets/images/singleBlog-2.jpg'
 import { useParams } from 'react-router-dom'
+import { BsCircleFill } from "react-icons/bs";
 
 export default function SingleBlog() {
      const [blog, setBlog] = useState([])
@@ -30,7 +31,7 @@ export default function SingleBlog() {
                         alt="Author"
                     />
                     <span className="text-gray-700">Tracey Wilson</span>
-                    <span>•</span>
+                    <span><BsCircleFill /></span>
                     <span>January 15, 2025</span>
                 </div>
 

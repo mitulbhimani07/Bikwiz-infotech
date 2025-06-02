@@ -166,25 +166,18 @@ export default function Blog() {
                 {post.category.categoryname}
               </span>
               <h2 className="mb-2 text-lg font-semibold text-gray-900">
-                {post.title}
+                {post.title.slice(0, 100)}...
               </h2>
               <div className="flex items-center mt-4 space-x-2">
                 <img className="w-8 h-8 rounded-full" src={post.profileImg} alt="Author" />
-                <span className="text-sm text-gray-700">{post.bloggername}</span>
-                <span className="text-sm text-gray-500">{post.publishDate}</span>
+                <span className="text-l text-gray-700">{post.bloggerName}</span>
+                <span className="text-l ps-10 text-gray-500">{post.publishDate.slice(0, 10)}</span>
               </div>
             </div>
           </div>
            </Link>
         ))}
       </section>
-
-      {/* Load More Button */}
-      <div className="w-full flex justify-center mt-8 mb-16">
-        <button className="px-6 py-2 text-orange-500 border border-orange-500 rounded-full hover:bg-orange-500 hover:text-white transition">
-          Load More
-        </button>
-      </div>
       {/* Footer */}
       <Footer />
     </div>
