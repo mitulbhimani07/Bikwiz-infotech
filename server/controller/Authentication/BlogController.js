@@ -1,10 +1,13 @@
 const Category = require('../../Model/Authentication/CategoryModel');
 const Blog = require('../../Model/Authentication/BlogModel');
+var path = require('path');
 
 module.exports.AddBlog = async (req, res) => {
   try {
     console.log("Request body:", req.body);
     console.log("Request files:", req.files);
+
+    const files = req.files;
 
     const { category, title, bloggerName, content, publishDate } = req.body;
 
@@ -42,8 +45,10 @@ module.exports.AddBlog = async (req, res) => {
       return res.status(400).json({ message: "Profile image is required" });
     }
 
-    const imageNames = blogImages.map(file => file.originalname);
-    const profileImage = profileImages[0]?.originalname || null;
+     const imageNames = files?.img?.map(file => `http://localhost:3000/images/${file.filename}`);
+    const profileImage = files?.profileImg?.[0]
+      ? `http://localhost:3000/images/${files.profileImg[0].filename}`
+      : null;
 
     // Create blog object
     const blogData = {
