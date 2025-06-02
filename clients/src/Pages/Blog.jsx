@@ -149,7 +149,7 @@ export default function Blog() {
 
       {/* Blog Grid */}
      
-      <section className="w-[80%] my-20 mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+      <section className="w-[80%] my-20 mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {blogPosts.map((post) => (
           <Link to={`/singleBlog/${post._id}`} className="no-underline text-black" key={post._id}>
           <div
