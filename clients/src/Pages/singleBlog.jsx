@@ -1,50 +1,82 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Header from '../header-footer/Header'
 import Footer from '../header-footer/Footer'
 import SingleBlog1 from '../assets/images/singleBlog-1.jpg'
 import SingleBlog2 from '../assets/images/singleBlog-2.jpg'
 import { useParams } from 'react-router-dom'
+import { GetSingleID } from '../API/Api'
+import DOMPurify from 'dompurify';
 
 export default function SingleBlog() {
-     const [blog, setBlog] = useState([])
-    const id=useParams()
+     const [blog, setBlog] = useState()
+    const {id}=useParams()
+
+    useEffect(() => {
+  const SingleBlogDetail = async () => {
+    try {
+      const res = await GetSingleID(id);
+      setBlog(res.data);
+    } catch (error) {
+      console.error("Error in GetAllBlogs API:", error);
+    }
+  };
+
+  SingleBlogDetail();
+}, [id]);
+
+if (!blog) {
+  return <div>Loading...</div>;
+}
+
     return (
         <>
             <Header />
             <div className="max-w-3xl mx-auto px-4 py-12">
                 {/* Category */}
-                <span className="text-sm font-medium text-orange-500 bg-orange-100 px-3 py-3 rounded-[7px]">
-                    Freelancing
-                </span>
+                {blog?.category?.categoryname && (
+  <span className="text-sm font-medium text-orange-500 bg-orange-100 px-3 py-3 rounded-[7px]">
+    {blog.category.categoryname}
+  </span>
+)}
+
 
                 {/* Title */}
                 <h1 className="mt-4 text-3xl sm:text-4xl font-bold text-gray-900 leading-snug">
-                    Freelance Skills in High Demand in India for the Year 2025
+                    {blog.title}
                 </h1>
 
                 {/* Author */}
                 <div className="flex items-center gap-3 mt-4 text-sm text-gray-500">
                     <img
                         className="w-8 h-8 rounded-full"
-                        src="https://randomuser.me/api/portraits/women/68.jpg"
+                        src={blog.profileImg}
                         alt="Author"
                     />
-                    <span className="text-gray-700">Tracey Wilson</span>
+                    <span className="text-gray-700">{blog.bloggerName}</span>
                     <span>•</span>
-                    <span>January 15, 2025</span>
+                    <span>{blog.publishDate.slice(0,10)}</span>
                 </div>
 
                 {/* Main Image */}
                 <div className="mt-6 rounded-xl overflow-hidden">
                     <img
-                        src={SingleBlog2}
+                        src={blog.img}
                         alt="Freelance skills in demand"
                         className="w-full h-auto object-cover"
                     />
                 </div>
 
                 {/* Content */}
-                <div className="mt-6 text-gray-700 space-y-6 leading-relaxed">
+                <div
+  className="mt-6 text-gray-700 space-y-6 leading-relaxed"
+  dangerouslySetInnerHTML={{__html: blog.content }}
+/>
+
+                {/* <div className="mt-6 text-gray-700 space-y-6 leading-relaxed">
+
+                    {blog.content}
+                </div> */}
+                {/* <div className="mt-6 text-gray-700 space-y-6 leading-relaxed">
                     <p>
                         India's freelance market is booming and set for even more growth, with more companies choosing flexible work and digital solutions. As a result, skilled freelancers are in high demand.
                     </p>
@@ -52,13 +84,13 @@ export default function SingleBlog() {
                         If you want to start freelancing or grow your freelance career in 2025, it's smart to focus on skills that clients are actually looking for. In this blog, we'll highlight the top freelance skills expected to be most sought-after in India next year so you can put your energy where the best opportunities are.
                     </p>
 
-                    {/* Section 1 */}
+                    
                     <h2 className="text-xl font-semibold text-gray-900 mt-8">Why Knowing In-Demand Skills Matters for Freelancers</h2>
                     <p>
                         Freelancing isn't just about being available to work; it's about offering skills that businesses need today and tomorrow. Understanding which skills are trending allows freelancers to remain relevant in a crowded market, win higher-value clients and projects, ensure a steady flow of work on freelance platforms, and plan your learning and career growth strategically.
                     </p>
 
-                    {/* Section 2 */}
+               
                     <h2 className="text-xl font-semibold text-gray-900 mt-8">Top High-Demand Freelance Skills for 2025</h2>
                     
                     <h3 className="text-lg font-medium text-gray-900 mt-6">1. Artificial Intelligence (AI) & Machine Learning</h3>
@@ -86,7 +118,7 @@ export default function SingleBlog() {
                         With online competition intensifying, skills in SEO, SEM, social media marketing, and email automation are essential. Specialists who can drive traffic and conversions are highly sought after.
                     </p>
 
-                    {/* Main Image */}
+                    
                     <div className="mt-6 rounded-xl overflow-hidden">
                         <img
                             src={SingleBlog1}
@@ -110,30 +142,30 @@ export default function SingleBlog() {
                         Visual storytelling is more important than ever. Freelancers skilled in video production, animation, and graphic design help brands stand out online and across social platforms.
                     </p>
 
-                    {/* Section 3 */}
+                 
                     <h2 className="text-xl font-semibold text-gray-900 mt-8">How to Prepare for These In-Demand Skills</h2>
                     <p>
                         Focus on a niche like AI or UX/UI to stand out. Learn remote work tools such as Slack and Notion. Stay updated with the latest tech to boost productivity. Explore new blockchain-based freelance platforms for secure connections.
                     </p>
 
-                    {/* Section 4 */}
+              
                     <h2 className="text-xl font-semibold text-gray-900 mt-8">Winning with Soft Skills</h2>
                     <p>
                         Beyond technical expertise, successful freelancers master essential soft skills including communication, time management, self-marketing, and adaptability. These skills help you build lasting client relationships and manage projects effectively.
                     </p>
 
-                    {/* Section 5 */}
+           
                     <h2 className="text-xl font-semibold text-gray-900 mt-8">Begin Your Freelance Journey</h2>
                     <p>
                         Start by identifying your skills and interests. Invest in learning in-demand skills through online courses. Build a strong portfolio showcasing your expertise. Join leading freelance platforms like Upwork, Fiverr, and Indian-focused marketplaces to connect with clients.
                     </p>
 
-                    {/* Conclusion */}
+                   
                     <h2 className="text-xl font-semibold text-gray-900 mt-8">Take Charge of Your Freelance Career in 2025</h2>
                     <p>
                         Freelancing offers great freedom, but success comes to those who stay skilled and adaptable. Focusing on these in-demand skills will help you secure more projects and grow your reputation as a reliable freelancer in India. The key is to continuously learn, adapt to market demands, and position yourself where the opportunities are strongest.
                     </p>
-                </div>
+                </div> */}
             </div>
             <Footer />
         </>
