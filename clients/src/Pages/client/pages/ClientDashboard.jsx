@@ -1,4 +1,5 @@
 import React from 'react'
+import ClientSidbar from '../navbar/ClientSidbar'
 import { LineChart, Line, XAxis, YAxis, ResponsiveContainer, CartesianGrid } from 'recharts';
 import { Users, Bookmark, Eye, Edit } from 'lucide-react';
 import ClientHeader from '../navbar/ClientHeader';
@@ -95,6 +96,8 @@ function ClientDashboard() {
 
   return (
     <div className=''>
+      <div className="flex">
+        <ClientSidbar />
       <ClientHeader />
 
 
@@ -172,6 +175,7 @@ function ClientDashboard() {
       <button className="px-4 py-2 bg-white text-orange-500 rounded-md text-sm font-medium ">Week</button>
       <button className="px-4 py-2 text-orange-400  rounded-md text-sm">Month</button>
       <button className="px-4 py-2 text-orange-400 rounded-md text-sm">Year</button>
+      </div>
     </div>
   </div>
 
