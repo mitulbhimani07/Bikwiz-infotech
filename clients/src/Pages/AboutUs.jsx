@@ -72,7 +72,7 @@ export default function AboutUs() {
       bgColor: "bg-green-600"
     },
         {
-      id: 6,
+      id: 6 ,
       name: "Michael Chen",
       role: "Full Stack Developer",
       description: "Technology enthusiast and problem solver",
