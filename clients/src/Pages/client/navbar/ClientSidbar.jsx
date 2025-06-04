@@ -9,7 +9,7 @@ import client from '../../../assets/images/client.png'; // Adjust the path as ne
 
 export default function ClientSidbar() {
   return (
-    <div className="w-64 bg-white shadow-sm flex flex-col justify-between h-screen">
+    <div className="w-64 bg-white shadow-sm flex flex-col justify-between ">
       {/* Top Section */}
       <div>
         {/* Logo */}
