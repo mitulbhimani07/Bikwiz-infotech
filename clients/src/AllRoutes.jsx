@@ -7,7 +7,7 @@ import SignIn from './Pages/Auth/SignIn'
 import VerifyEmail from './Pages/Auth/ForgotPassword/VerifyEmail'
 import VerifyOTP from './Pages/Auth/ForgotPassword/VerifyOTP'
 import ResetPassword from './Pages/Auth/ForgotPassword/ResetPassword'
-import ClientDashboard from './Pages/client/ClientDashboard'
+import ClientDashboard from './Pages/client/pages/ClientDashboard'
 import FreelancerDashboard from './Pages/freelancer/FreelancerDashboard'
 import GetInTouch from './Pages/GetInTouch'
 import AboutUs from './Pages/AboutUs'
@@ -19,7 +19,7 @@ import FindTalent from './Pages/FindTalent'
 import CompanyDetails from './Pages/CompanyDetails'
 import FreelancerProfile from './Pages/FreelancerProfile'
 import BlogForm from './Pages/Admin/BlogForm'
-import JobpostForm from './Pages/client/JobpostForm'
+import JobpostForm from './Pages/client/pages/JobpostForm'
 import AddBlogCategoryForm from './Pages/Admin/AddBlogCategoryForm'
 import toast, { ToastBar, Toaster } from 'react-hot-toast'
 import cross from './assets/images/icon-check.svg'
@@ -52,8 +52,11 @@ function AllRoutes() {
         <Route path='/verifyemail' element={<VerifyEmail />} />
         <Route path='/verifyotp' element={<VerifyOTP />} />
         <Route path='/resetpassword' element={<ResetPassword />} />
-        <Route path='/ClientDashboard' element={<ClientDashboard />} />
         <Route path='/FreelancerDashboard' element={<FreelancerDashboard />} />
+        {/* Client Dashbord */}
+        <Route path='/ClientDashboard' element={<ClientDashboard />} />
+        {/* <Route path='/' element={<ClientDashboard />} /> */}
+        {/* Freelancer Dashboard */}
 
       </Routes>
 

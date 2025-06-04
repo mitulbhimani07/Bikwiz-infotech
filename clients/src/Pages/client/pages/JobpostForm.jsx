@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FaExclamationTriangle, FaPlus, FaTimes } from 'react-icons/fa';
 import toast from 'react-hot-toast';
-import logo from '../../assets/images/logo.png' // Adjust the path to your logo image
-import logo2 from '../../assets/images/logo2.png' // Adjust the path to your logo ima
+import logo from '../../../assets/images/logo.png' // Adjust the path to your logo image
+import logo2 from '../../../assets/images/logo2.png' // Adjust the path to your logo ima
 
 const JobpostForm = () => {
     const [theme, setTheme] = useState('light');
