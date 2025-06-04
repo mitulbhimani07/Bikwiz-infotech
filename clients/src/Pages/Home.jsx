@@ -3,6 +3,7 @@ import '../assets/css/Home.css';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Autoplay, Pagination } from 'swiper/modules';
 import { TrendingUp, CreditCard, Globe, Zap, Wrench, Star } from "lucide-react";
+import { User, Settings } from 'lucide-react';
 
 // Install Swiper modules
 import 'swiper/css';
@@ -56,32 +57,59 @@ const MarketplaceBanner = () => {
   }, []);
 
 
+
   const steps = [
     {
-      number: "01",
+      number: "1",
       title: "Easy Sign Up",
-      icon: "cursor-pointer",
-      content: "Create your profile as a freelancer or client in just a few clicks."
+      description: "Create your profile as a freelancer or client in just a few clicks.",
+      icon: User,
     },
     {
-      number: "02",
+      number: "2", 
       title: "Post or Find Projects",
-      icon: "users",
-      content: "List your services or browse freelance jobs in India that match your skills."
+      description: "List your services or browse freelance jobs in India that match your skills.",
+      icon: Settings,
     },
     {
-      number: "03",
-      title: "Work Together Seamlessly",
-      icon: "document-text",
-      content: "Use our built-in chat to communicate, share files, and manage projects easily."
+      number: "3",
+      title: "Work Together Seamlessly", 
+      description: "Use our built-in chat to communicate, share files, and manage projects easily.",
+      icon: Zap
     },
     {
       number: "04",
       title: "Get Paid Instantly",
-      icon: "template",
-      content: "Enjoy hassle-free, instant payments with complete security."
+      icon: CreditCard,
+      description: "Enjoy hassle-free, instant payments with complete security."
     }
   ];
+  // const steps = [
+  //   {
+  //     number: "01",
+  //     title: "Easy Sign Up",
+  //     icon: "cursor-pointer",
+  //     content: "Create your profile as a freelancer or client in just a few clicks."
+  //   },
+  //   {
+  //     number: "02",
+  //     title: "Post or Find Projects",
+  //     icon: "users",
+  //     content: "List your services or browse freelance jobs in India that match your skills."
+  //   },
+  //   {
+  //     number: "03",
+  //     title: "Work Together Seamlessly",
+  //     icon: "document-text",
+  //     content: "Use our built-in chat to communicate, share files, and manage projects easily."
+  //   },
+  //   {
+  //     number: "04",
+  //     title: "Get Paid Instantly",
+  //     icon: "template",
+  //     content: "Enjoy hassle-free, instant payments with complete security."
+  //   }
+  // ];
 
 
 
@@ -305,137 +333,203 @@ const MarketplaceBanner = () => {
       </section>
 
 
-      <section ref={sectionRef} className="w-full py-20 relative">
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="mb-16">
-            <h2 className="text-5xl font-bold text-gray-900 text-center">
-              How <span className="text-amber-500">Our Freelancing</span>  Platform Works
-            </h2>
-          </div>
-
-          {/* Desktop horizontal progress bar */}
-          <div
-            ref={progressBarRef}
-            className="w-full transition-all duration-300 bg-white z-30 py-4 "
-          >
-            <div className="max-w-6xl mx-auto">
-              <div className="hidden md:block">
-                <div className="relative flex justify-between items-center">
-                  <div className="absolute top-1/2 transform -translate-y-1/2 left-0 right-0 h-1 bg-gray-200 z-0">
-                    <div
-                      className="h-full transition-all duration-300"
-                      style={{
-                        width: `${((hoveredStep - 1) / (steps.length - 1)) * 100}%`,
-                        backgroundColor: hoveredStep ? 'oklch(70.5% 0.213 47.604)' : 'transparent',
-                      }}
-                    ></div>
-                  </div>
-
-                  {steps.map((step, index) => {
-                    const isActive = hoveredStep > index;
-                    return (
-                      <div key={index} className="relative z-10">
-                        <button
-                          className={`w-16 h-16 rounded-lg flex items-center justify-center text-lg font-bold transition-all duration-300 ${isActive
-                            ? 'text-white'
-                            : 'bg-white text-gray-500 border-2 border-gray-200'
-                            }`}
-                          style={{
-                            backgroundColor: isActive ? 'oklch(70.5% 0.213 47.604)' : 'white',
-                          }}
-                          onMouseEnter={() => setHoveredStep(index + 1)}
-                          onMouseLeave={() => setHoveredStep(0)}
-                        >
-                          {isActive ? (
-                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                              <polyline points="20 6 9 17 4 12"></polyline>
-                            </svg>
-                          ) : (
-                            step.number
-                          )}
-                        </button>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
+       <section className="w-full py-20 bg-white">
+      <div className="max-w-7xl mx-auto px-6">
+        {/* Header */}
+        <div className="text-center mb-20">
+          {/* Dot pattern icon */}
+          <div className="flex justify-center mb-8">
+            <div className="grid grid-cols-3 gap-1">
+              {[...Array(9)].map((_, i) => (
+                <div 
+                  key={i} 
+                  className="w-1.5 h-1.5 bg-orange-500 rounded-full"
+                ></div>
+              ))}
             </div>
           </div>
+          
+          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+            Learn <span className='text-orange-500'>More About</span> Process
+          </h2>
+          
+          <p className="text-gray-500 text-lg max-w-2xl mx-auto leading-relaxed">
+            Was are delightful solicitude discovered collecting man<br />
+            day. Resolving neglected sir tolerably
+          </p>
+        </div>
 
-          {/* Spacer when sticky */}
-          {/* {isSticky && <div className="h-24 md:h-20"></div>} */}
-
-          {/* Mobile vertical progress bar (only when section is in view) */}
-          {sectionInView && (
-            <div className="md:hidden fixed right-3 top-1/2 transform -translate-y-1/2 z-40">
-              <div className="relative">
-                <div className="absolute top-0 bottom-0 left-4 w-1 bg-gray-200 z-0">
-                  <div
-                    className="w-full transition-all duration-300"
-                    style={{
-                      height: `${(hoveredStep / steps.length) * 100}%`,
-                      backgroundColor: hoveredStep ? 'oklch(70.5% 0.213 47.604)' : 'transparent',
-                    }}
-                  ></div>
+        {/* Process Steps */}
+        <div className="relative">
+          {/* Desktop Layout */}
+          <div className="hidden lg:block">
+            <div className="relative">
+              {/* Step numbers positioned above circles */}
+              <div className="flex justify-between items-start mb-12">
+                {steps.map((step, index) => (
+                  <div key={index} className="flex-1 flex justify-center">
+                    <span className="text-8xl font-light text-gray-200">{step.number.padStart(2, '0')}</span>
+                  </div>
+                ))}
+              </div>
+              
+              {/* Circles and connecting lines container */}
+              <div className="relative flex justify-between items-center mb-12">
+                {/* Connecting curved dotted lines - Fixed positioning */}
+                <div className="absolute inset-0 w-full h-full flex items-center">
+                  {/* SVG container for all curved lines */}
+                  <svg 
+                    width="100%" 
+                    height="160" 
+                    viewBox="0 0 1200 160" 
+                    className="absolute top-1/2 left-0 transform -translate-y-1/2"
+                    style={{ zIndex: 1 }}
+                  >
+                    {/* Line 1 to 2 - Curved upward */}
+                    <path
+                      d="M 140 80 Q 250 40 360 80"
+                      stroke="#d1d5db"
+                      strokeWidth="3"
+                      fill="none"
+                      strokeDasharray="8,8"
+                      strokeLinecap="round"
+                    />
+                    
+                    {/* Line 2 to 3 - Curved downward */}
+                    <path
+                      d="M 500 80 Q 590 120 700 80"
+                      stroke="#d1d5db"
+                      strokeWidth="3"
+                      fill="none"
+                      strokeDasharray="8,8"
+                      strokeLinecap="round"
+                    />
+                    
+                    {/* Line 3 to 4 - Curved upward */}
+                    <path
+                      d="M 820 80 Q 930 40 1040 80"
+                      stroke="#d1d5db"
+                      strokeWidth="3"
+                      fill="none"
+                      strokeDasharray="8,8"
+                      strokeLinecap="round"
+                    />
+                  </svg>
                 </div>
-
+                
+                {/* Circles */}
                 {steps.map((step, index) => {
-                  const isActive = hoveredStep > index;
+                  const IconComponent = step.icon;
                   return (
-                    <div
-                      key={index}
-                      className="flex items-start mb-6 relative z-10"
-                      onMouseEnter={() => setHoveredStep(index + 1)}
-                      onMouseLeave={() => setHoveredStep(0)}
-                    >
-                      <button
-                        className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all duration-300 ${isActive
-                          ? 'text-white'
-                          : 'bg-white text-gray-500 border-2 border-gray-200'
-                          }`}
-                        style={{
-                          backgroundColor: isActive ? 'oklch(70.5% 0.213 47.604)' : 'white',
-                        }}
-                      >
-                        {isActive ? (
-                          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                            <polyline points="20 6 9 17 4 12"></polyline>
-                          </svg>
-                        ) : (
-                          index + 1
-                        )}
-                      </button>
+                    <div key={index} className="relative flex flex-col items-center" style={{ zIndex: 10 }}>
+                      {/* Step Circle with dotted border */}
+                      <div className="relative">
+                        {/* Outer dotted circle */}
+                        <div className="w-28 h-28 rounded-full border-2 border-dotted border-gray-300 flex items-center justify-center bg-white">
+                          {/* Inner solid circle */}
+                          <div className="w-20 h-20 bg-orange-500 rounded-full flex items-center justify-center shadow-lg">
+                            <IconComponent className="w-10 h-10 text-white" strokeWidth={2} />
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   );
                 })}
               </div>
-            </div>
-          )}
-
-          {/* Step Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-16">
-            {steps.map((step, index) => (
-              <div
-                key={index}
-                className={`bg-white p-8 shadow-lg h-100 w-65 flex flex-col transition-all duration-300 ${sectionInView ? 'pr-10' : ''
-                  }`}
-                onMouseEnter={() => setHoveredStep(index + 1)}
-                onMouseLeave={() => setHoveredStep(0)}
-              >
-                <div className="mb-6">
-                  <div className="w-16 h-16 rounded-lg flex items-center justify-center" style={{ backgroundColor: 'oklch(90% 0.05 47.604)' }}>
-                    {/* Icons per step - you can add your SVGs here */}
-                    <span className="text-xl font-bold text-oklch(70.5% 0.213 47.604)">{step.number}</span>
+              
+              {/* Step Content */}
+              <div className="flex justify-between items-start">
+                {steps.map((step, index) => (
+                  <div key={index} className="flex-1 text-center px-4">
+                    <h3 className="text-xl font-bold text-gray-900 mb-4">
+                      {step.title}
+                    </h3>
+                    <p className="text-gray-600 text-sm leading-relaxed">
+                      {step.description}
+                    </p>
                   </div>
-                </div>
-                <div className="text-sm font-semibold uppercase text-gray-500 tracking-wide mb-2">STEP {index + 1}</div>
-                <h3 className="text-xl font-bold text-orange-500 mb-2">{step.title}</h3>
-                <p className="mt-3 text-lg text-gray-900 flex-grow leading-relaxed">{step.content}</p>
+                ))}
               </div>
-            ))}
+            </div>
+          </div>
+
+          {/* Tablet Layout */}
+          <div className="hidden md:block lg:hidden">
+            <div className="grid grid-cols-2 gap-16">
+              {steps.map((step, index) => {
+                const IconComponent = step.icon;
+                return (
+                  <div key={index} className="flex flex-col items-center text-center">
+                    {/* Step number */}
+                    <div className="mb-4">
+                      <span className="text-6xl font-light text-gray-200">{step.number.padStart(2, '0')}</span>
+                    </div>
+                    
+                    {/* Step Circle with dotted border */}
+                    <div className="relative mb-6">
+                      {/* Outer dotted circle */}
+                      <div className="w-24 h-24 rounded-full border-2 border-dotted border-gray-300 flex items-center justify-center bg-white">
+                        {/* Inner solid circle */}
+                        <div className="w-16 h-16 bg-orange-500 rounded-full flex items-center justify-center shadow-lg">
+                          <IconComponent className="w-8 h-8 text-white" strokeWidth={2} />
+                        </div>
+                      </div>
+                    </div>
+                    
+                    {/* Step Content */}
+                    <h3 className="text-lg font-semibold text-gray-900 mb-3">
+                      {step.title}
+                    </h3>
+                    <p className="text-gray-600 text-sm leading-relaxed px-4">
+                      {step.description}
+                    </p>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Mobile Layout */}
+          <div className="md:hidden space-y-12">
+            {steps.map((step, index) => {
+              const IconComponent = step.icon;
+              return (
+                <div key={index} className="flex flex-col items-center text-center">
+                  {/* Step number */}
+                  <div className="mb-4">
+                    <span className="text-6xl font-light text-gray-200">{step.number.padStart(2, '0')}</span>
+                  </div>
+                  
+                  {/* Step Circle with dotted border */}
+                  <div className="relative mb-6">
+                    {/* Outer dotted circle */}
+                    <div className="w-24 h-24 rounded-full border-2 border-dotted border-gray-300 flex items-center justify-center bg-white">
+                      {/* Inner solid circle */}
+                      <div className="w-16 h-16 bg-orange-500 rounded-full flex items-center justify-center shadow-lg">
+                        <IconComponent className="w-8 h-8 text-white" strokeWidth={2} />
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {/* Step Content */}
+                  <h3 className="text-lg font-semibold text-gray-900 mb-3">
+                    {step.title}
+                  </h3>
+                  <p className="text-gray-600 text-sm leading-relaxed px-8">
+                    {step.description}
+                  </p>
+                  
+                  {/* Connecting line for mobile (except last item) */}
+                  {index < steps.length - 1 && (
+                    <div className="w-px h-12 bg-gradient-to-b from-gray-300 to-transparent mt-8"></div>
+                  )}
+                </div>
+              );
+            })}
           </div>
         </div>
-      </section>
+      </div>
+    </section>
 
 
 
