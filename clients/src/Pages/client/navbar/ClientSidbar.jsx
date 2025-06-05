@@ -5,6 +5,7 @@ import {
 } from 'lucide-react';
 import logo from '../../../assets/images/logo.png'
 import client from '../../../assets/images/client.png'; // Adjust the path as needed
+import { Link } from 'react-router-dom';
 
 
 export default function ClientSidbar() {
@@ -37,7 +38,7 @@ export default function ClientSidbar() {
         <nav className="px-4 space-y-1 text-orange-500">
           <NavItem icon={LayoutDashboard} label="Dashboard" active />
           <NavItem icon={Building2} label="Company Profile" />
-          <NavItem icon={Users} label="All Applicants" />
+          <Link to="/clientAllApplications" className="no-underline"><NavItem icon={Users} label="All Applicants" /></Link>
           <NavItem icon={MessageSquare} label="Messages" />
           <NavItem icon={FileText} label="Job Listing" />
           <NavItem icon={Calendar} label="My Schedule" />
