@@ -1,5 +1,6 @@
 import React from 'react';
 import { Search, Globe } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 export default function ClientHeader() {
   return (
@@ -46,9 +47,12 @@ export default function ClientHeader() {
           </button>
 
           {/* Post a Job Button */}
+          <Link to='/jobpostform'>
           <button className="bg-orange-500 hover:bg-orange-600 text-white px-5 py-2 rounded-full font-medium text-sm transition-colors">
             Post a Job
           </button>
+          
+          </Link>
         </div>
       </div>
     </header>
