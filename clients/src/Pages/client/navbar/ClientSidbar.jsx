@@ -7,6 +7,7 @@ import logo from '../../../assets/images/logo.png'
 import client from '../../../assets/images/client.png'; // Adjust the path as needed
 
 
+
 export default function ClientSidbar() {
   return (
     <div className="w-64 bg-white shadow-sm flex flex-col justify-between h-screen">
