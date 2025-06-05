@@ -58,7 +58,7 @@ function AllRoutes() {
         <Route path='/FreelancerDashboard' element={<FreelancerDashboard />} />
         {/* Client Dashbord */}
         <Route path='/ClientDashboard' element={<ClientDashboard />} />
-        <Route path='/clientCompanyPRofile' element={<ClientCompanyProfile/>}/>
+        <Route path='/clientCompanyProfile' element={<ClientCompanyProfile/>}/>
         <Route path='/clientAllApplications' element={<ClientAllApplications/>}/>
         <Route path='/clientJobListing' element={<ClientJobListing/>} />
         {/* <Route path='/' element={<ClientDashboard />} /> */}
