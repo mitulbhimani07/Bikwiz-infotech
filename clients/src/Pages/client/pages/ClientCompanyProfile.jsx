@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { Mail, Phone, MapPin, Edit, Plus, X, Save, Globe, Calendar, Users, Briefcase } from 'lucide-react';
+import ClientSidbar from '../navbar/ClientSidbar';
+import ClientHeader from '../navbar/ClientHeader';
 
 function CompanyProfile() {
   const [isEditingProfile, setIsEditingProfile] = useState(false);
@@ -88,19 +90,28 @@ function CompanyProfile() {
   };
 
   return (
-    <div className="min-h-screen bg-orange-50 p-4 md:p-6 lg:p-8">
-      <div className="max-w-6xl mx-auto bg-white rounded-lg shadow-sm overflow-hidden">
-        {/* Header */}
-        <div className="bg-orange-500 text-white p-4">
-          <h1 className="text-2xl font-bold">Profile</h1>
+
+    <>
+    
+    <div className="flex  overflow-hidden bg-[#fff0e5]">
+    <ClientSidbar/>
+
+    <div className="flex flex-col flex-1 h-full overflow-hidden">
+        <div className="sticky top-0 z-10">
+          <ClientHeader/>
         </div>
 
+        <div className="min-h-screen bg-orange-50 p-4 md:p-6 lg:p-8">
+          <div className="text-orange-400 mb-4">
+          <h1 className="text-4xl font-bold">Profile</h1>
+        </div>
+      <div className="max-w-6xl mx-auto bg-white rounded-3xl  overflow-hidden">
+        {/* Header */}
+        
+
         <div className="p-6">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {/* Left Column */}
-            <div className="lg:col-span-2 space-y-8">
-              {/* Profile Section */}
-              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 pb-6 border-b border-gray-200">
+
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 pb-6 border-b border-gray-200">
                 <img 
                   src="https://images.unsplash.com/photo-1494790108755-2616b612b77c?w=150&h=150&fit=crop&crop=face" 
                   alt="Profile" 
@@ -138,6 +149,13 @@ function CompanyProfile() {
                   </button>
                 </div>
               </div>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {/* Left Column */}
+
+            
+            <div className="lg:col-span-2 space-y-8">
+              {/* Profile Section */}
+              
 
               {/* Company Profile */}
               <div className="pb-6 border-b border-gray-200">
@@ -383,6 +401,10 @@ function CompanyProfile() {
         </div>
       </div>
     </div>
+    </div>
+    </div>
+    </>
+    
   );
 }
 
