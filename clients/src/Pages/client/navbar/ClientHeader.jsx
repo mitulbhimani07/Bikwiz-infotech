@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 export default function ClientHeader() {
   return (
-    <header className="bg-[#fff0e5] border-b border-pink-100 px-6 py-3 w-full">
+    <header className="bg-[#fff0e5] px-6 py-3 ">
       <div className="flex items-center justify-between max-w-7xl mx-auto">
         {/* Left side - Navigation */}
         <div className="flex items-center space-x-8">

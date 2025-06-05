@@ -26,7 +26,7 @@ import cross from './assets/images/icon-check.svg'
 import check from './assets/images/icon-cross.svg'
 import { RxCross2 } from 'react-icons/rx'
 import ClientCompanyProfile from './Pages/client/pages/ClientCompanyProfile'
-import ClientAllApplicants from './Pages/client/pages/ClientAllApplicants'
+import ClientAllApplications from './Pages/client/pages/ClientAllApplications'
 
 function AllRoutes() {
   return (
@@ -58,7 +58,8 @@ function AllRoutes() {
         {/* Client Dashbord */}
         <Route path='/ClientDashboard' element={<ClientDashboard />} />
         <Route path='/clientCompanyProfile' element={<ClientCompanyProfile/>}/>
-        <Route path='/clientAllApplications' element={<ClientAllApplicants />} />
+        <Route path='/clientAllApplications' element={<ClientAllApplications/>}/>
+        {/* <Route path='/' element={<ClientDashboard />} /> */}
         {/* Freelancer Dashboard */}
 
       </Routes>
