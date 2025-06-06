@@ -39,12 +39,13 @@ export default function ClientSidbar() {
         <nav className="px-4 space-y-1 text-orange-500">
           <NavItem icon={LayoutDashboard} label="Dashboard" active />
           <NavItem icon={Building2} label="Company Profile" />
-          <Link to="/clientAllApplications" className="no-underline"><NavItem icon={Users} label="All Applicants" /></Link>
+          <Link to="/clientAllApplications" className="no-underline">
+          <NavItem icon={Users} label="All Applicants" /></Link>
           <NavItem icon={MessageSquare} label="Messages" />
           <NavItem to="/clientJobListing" icon={FileText} label="Job Listing" />
           <NavItem icon={Calendar} label="My Schedule" />
           <NavItem icon={Settings} label="Account Settings" />
-          <NavItem icon={HelpCircle} label="Help Center" />
+          <NavItem to="/clientSettings" icon={HelpCircle} label="Help Center" />
         </nav>
       </div>
 
