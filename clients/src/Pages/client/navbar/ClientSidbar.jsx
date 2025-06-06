@@ -8,6 +8,7 @@ import client from '../../../assets/images/client.png'; // Adjust the path as ne
 import { Link } from 'react-router-dom';
 
 
+
 export default function ClientSidbar() {
   return (
     <div className="w-64 bg-white shadow-sm flex flex-col justify-between ">
@@ -40,7 +41,7 @@ export default function ClientSidbar() {
           <NavItem icon={Building2} label="Company Profile" />
           <Link to="/clientAllApplications" className="no-underline"><NavItem icon={Users} label="All Applicants" /></Link>
           <NavItem icon={MessageSquare} label="Messages" />
-          <NavItem icon={FileText} label="Job Listing" />
+          <NavItem to="/clientJobListing" icon={FileText} label="Job Listing" />
           <NavItem icon={Calendar} label="My Schedule" />
           <NavItem icon={Settings} label="Account Settings" />
           <NavItem icon={HelpCircle} label="Help Center" />
