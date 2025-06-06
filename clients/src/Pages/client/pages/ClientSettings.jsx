@@ -2,9 +2,13 @@ import React, { useState } from 'react';
 import { Upload, Bold, Italic, Underline, List, Link } from 'lucide-react';
 import ClientSidbar from '../navbar/ClientSidbar';
 import ClientHeader from '../navbar/ClientHeader';
+import { Instagram, Linkedin, Grid3X3 } from 'lucide-react';
+
 
 function ClientSettings() {
     const [activeTab, setActiveTab] = useState('Overview');
+    const [viewMode, setViewMode] = useState('grid');
+
     const [formData, setFormData] = useState({
         companyName: 'Nutrient',
         website: 'https://www.bikwiz.com',
@@ -19,6 +23,58 @@ function ClientSettings() {
     });
 
     const tabs = ['Overview', 'Social Links', 'Team'];
+
+    const teamMembers = [
+        {
+            id: 1,
+            name: 'Célestin Gardinier',
+            role: 'CEO & Co-Founder',
+            image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face',
+            instagram: '#',
+            linkedin: '#'
+        },
+        {
+            id: 2,
+            name: 'Reynaud Colbert',
+            role: 'Co-Founder',
+            image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face',
+            instagram: '#',
+            linkedin: '#'
+        },
+        {
+            id: 3,
+            name: 'Arienne Lyon',
+            role: 'Managing Director',
+            image: 'https://images.unsplash.com/photo-1494790108755-2616b612b586?w=150&h=150&fit=crop&crop=face',
+            instagram: '#',
+            linkedin: '#'
+        },
+        {
+            id: 4,
+            name: 'Bernard Alexander',
+            role: 'Software Developer',
+            image: 'https://images.unsplash.com/photo-1519345182560-3f2917c472ef?w=150&h=150&fit=crop&crop=face',
+            instagram: '#',
+            linkedin: '#'
+        },
+        {
+            id: 5,
+            name: 'Christine Jhonson',
+            role: 'UI UX Designer',
+            image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face',
+            instagram: '#',
+            linkedin: '#'
+        },
+        {
+            id: 6,
+            name: 'Aaron Morgan',
+            role: 'Web Developer',
+            image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop&crop=face',
+            instagram: '#',
+            linkedin: '#'
+        }
+    ];
+
 
     const handleInputChange = (field, value) => {
         setFormData(prev => ({
@@ -304,105 +360,176 @@ function ClientSettings() {
                                 )}
 
                                 {activeTab === 'Social Links' && (
-                                    <div className="space-y-6">
+                                    <div className="space-y-6 flex justify-between">
                                         <div>
-                                            <h3 className="text-lg font-medium text-gray-900 mb-2">Social Links</h3>
-                                            <p className="text-sm text-gray-600 mb-6">Add your social media links to connect with your audience.</p>
+                                            <h3 className="text-lg font-extrabold text-gray-900 mb-2">Basic Information</h3>
+                                            <p className="text-[16px] text-gray-400 mb-6 max-w-[250px] ">Add elsewhere links to your company profile. You can add only username without full https links.</p>
                                         </div>
 
-                                        <div className="space-y-4 max-w-md">
+                                        <div className="space-y-4 w-full max-w-2xl">
                                             <div>
-                                                <label className="block text-sm font-medium text-gray-700 mb-1">LinkedIn</label>
-                                                <input
-                                                    type="url"
-                                                    placeholder="https://linkedin.com/company/yourcompany"
-                                                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
-                                                />
-                                            </div>
-
-                                            <div>
-                                                <label className="block text-sm font-medium text-gray-700 mb-1">Twitter</label>
-                                                <input
-                                                    type="url"
-                                                    placeholder="https://twitter.com/yourcompany"
-                                                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
-                                                />
-                                            </div>
-
-                                            <div>
-                                                <label className="block text-sm font-medium text-gray-700 mb-1">Facebook</label>
-                                                <input
-                                                    type="url"
-                                                    placeholder="https://facebook.com/yourcompany"
-                                                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
-                                                />
-                                            </div>
-
-                                            <div>
-                                                <label className="block text-sm font-medium text-gray-700 mb-1">Instagram</label>
+                                                <label className="block text-sm font-medium text-gray-400 mb-1">Instagram</label>
                                                 <input
                                                     type="url"
                                                     placeholder="https://instagram.com/yourcompany"
-                                                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+                                                    className="w-full px-3 py-2 border border-orange-400  focus:outline-none focus:ring-2 focus:ring-orange-500"
                                                 />
                                             </div>
-                                        </div>
+                                            <div>
+                                                <label className="block text-sm font-medium text-gray-400 mb-1">Twitter</label>
+                                                <input
+                                                    type="url"
+                                                    placeholder="https://twitter.com/yourcompany"
+                                                    className="w-full px-3 py-2 border border-orange-300  focus:outline-none focus:ring-2 focus:ring-orange-500"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label className="block text-sm font-medium text-gray-400 mb-1">Facebook</label>
+                                                <input
+                                                    type="url"
+                                                    placeholder="https://facebook.com/yourcompany"
+                                                    className="w-full px-3 py-2 border border-orange-300  focus:outline-none focus:ring-2 focus:ring-orange-500"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label className="block text-sm font-medium text-gray-400 mb-1">LinkedIn</label>
+                                                <input
+                                                    type="url"
+                                                    placeholder="https://linkedin.com/company/yourcompany"
+                                                    className="w-full px-3 py-2 border border-orange-300  focus:outline-none focus:ring-2 focus:ring-orange-500"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label className="block text-sm font-medium text-gray-400 mb-1">Youtube</label>
+                                                <input
+                                                    type="url"
+                                                    placeholder="https://youtube.com/company/yourcompany"
+                                                    className="w-full px-3 py-2 border border-orange-300  focus:outline-none focus:ring-2 focus:ring-orange-500"
+                                                />
+                                            </div>
 
-                                        <div className="flex justify-end">
-                                            <button className="bg-orange-500 text-white px-6 py-2 rounded-lg hover:bg-orange-600">
-                                                Save Changes
-                                            </button>
+                                            <div className="flex justify-end">
+                                                <button className="bg-orange-500 text-white px-6 py-3 rounded hover:bg-orange-600">
+                                                    Save Changes
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
                                 )}
 
                                 {activeTab === 'Team' && (
-                                    <div className="space-y-6">
-                                        <div>
-                                            <h3 className="text-lg font-medium text-gray-900 mb-2">Team Members</h3>
-                                            <p className="text-sm text-gray-600 mb-6">Manage your team members and their roles.</p>
+                                    <div className="max-w-7xl mx-auto p-4 sm:p-6">
+                                        {/* Header Section - Flexible Layout */}
+                                        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-6 sm:mb-8 gap-4 lg:gap-6">
+                                            {/* Left Side - Basic Information */}
+                                            <div className="flex-1 min-w-0">
+                                                <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-8">
+                                                    <div className="flex-shrink-0">
+                                                        <h1 className="text-xl sm:text-2xl font-bold text-gray-900">
+                                                            {teamMembers.length} Members
+                                                        </h1>
+                                                    </div>
+                                                    <div className="flex-1 min-w-0">
+                                                        <h2 className="text-base sm:text-lg font-semibold text-gray-800 mb-1">
+                                                            Basic Information
+                                                        </h2>
+                                                        <p className="text-xs sm:text-sm text-gray-600">
+                                                            Add team members of your company
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            {/* Right Side - Controls */}
+                                            <div className="flex items-center gap-3 flex-shrink-0">
+                                                <button className="bg-orange-500 hover:bg-orange-600 text-white px-3 sm:px-4 py-2 rounded-lg font-medium transition-colors duration-200 flex items-center gap-2 text-sm sm:text-base">
+                                                    <span className="text-lg">+</span>
+                                                    <span className="hidden xs:inline">Add Members</span>
+                                                    <span className="xs:hidden">Add</span>
+                                                </button>
+
+                                                <div className="flex bg-white border border-gray-200 rounded-lg overflow-hidden">
+                                                    <button
+                                                        onClick={() => setViewMode('grid')}
+                                                        className={`p-2 ${viewMode === 'grid'
+                                                            ? 'bg-orange-500 text-white'
+                                                            : 'text-gray-400 hover:text-gray-600'
+                                                            } transition-colors duration-200`}
+                                                    >
+                                                        <Grid3X3 size={18} />
+                                                    </button>
+                                                    <button
+                                                        onClick={() => setViewMode('list')}
+                                                        className={`p-2 ${viewMode === 'list'
+                                                            ? 'bg-orange-500 text-white'
+                                                            : 'text-gray-400 hover:text-gray-600'
+                                                            } transition-colors duration-200`}
+                                                    >
+                                                        <List size={18} />
+                                                    </button>
+                                                </div>
+                                            </div>
                                         </div>
 
-                                        <div className="bg-white border border-gray-200 rounded-lg">
-                                            <div className="p-4 border-b border-gray-200">
-                                                <button className="bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600">
-                                                    Add Team Member
-                                                </button>
-                                            </div>
-
-                                            <div className="p-4">
-                                                <div className="flex items-center justify-between py-3 border-b border-gray-100">
-                                                    <div className="flex items-center space-x-3">
-                                                        <div className="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center">
-                                                            <span className="text-orange-600 font-medium">AK</span>
-                                                        </div>
-                                                        <div>
-                                                            <p className="font-medium text-gray-900">Arushi Kumari</p>
-                                                            <p className="text-sm text-gray-500">arushi@bikwiz.com</p>
-                                                        </div>
+                                        {/* Team Members Grid/List */}
+                                        <div className={`grid gap-4 sm:gap-6 ${viewMode === 'grid'
+                                            ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3'
+                                            : 'grid-cols-1'
+                                            }`}>
+                                            {teamMembers.map((member) => (
+                                                <div
+                                                    key={member.id}
+                                                    className={`bg-white rounded-xl border border-gray-200 p-4 sm:p-6 hover:shadow-lg transition-all duration-300 hover:border-orange-200 ${viewMode === 'list'
+                                                        ? 'flex items-center gap-4 sm:gap-6'
+                                                        : 'text-center'
+                                                        }`}
+                                                >
+                                                    <div className={`${viewMode === 'list' ? 'flex-shrink-0' : 'mb-4'}`}>
+                                                        <img
+                                                            src={member.image}
+                                                            alt={member.name}
+                                                            className={`rounded-full object-cover border-4 border-gray-100 ${viewMode === 'list'
+                                                                ? 'w-16 h-16 sm:w-20 sm:h-20'
+                                                                : 'w-20 h-20 mx-auto'
+                                                                }`}
+                                                        />
                                                     </div>
-                                                    <div className="flex items-center space-x-2">
-                                                        <span className="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">Admin</span>
-                                                        <button className="text-gray-400 hover:text-gray-600">⋯</button>
+
+                                                    <div className={`${viewMode === 'list' ? 'flex-1 min-w-0' : ''}`}>
+                                                        <h3 className={`font-semibold text-gray-900 text-base sm:text-lg mb-1 ${viewMode === 'list' ? 'text-left' : ''
+                                                            }`}>
+                                                            {member.name}
+                                                        </h3>
+                                                        <p className={`text-gray-600 text-xs sm:text-sm mb-3 sm:mb-4 ${viewMode === 'list' ? 'text-left' : ''
+                                                            }`}>
+                                                            {member.role}
+                                                        </p>
+
+                                                        <div className={`flex gap-3 ${viewMode === 'list' ? 'justify-start' : 'justify-center'
+                                                            }`}>
+                                                            <a
+                                                                href={member.instagram}
+                                                                className="w-7 h-7 sm:w-8 sm:h-8 rounded-full border border-gray-300 flex items-center justify-center text-gray-500 hover:text-orange-500 hover:border-orange-300 transition-all duration-200"
+                                                            >
+                                                                <Instagram size={14} className="sm:w-4 sm:h-4" />
+                                                            </a>
+                                                            <a
+                                                                href={member.linkedin}
+                                                                className="w-7 h-7 sm:w-8 sm:h-8 rounded-full border border-gray-300 flex items-center justify-center text-gray-500 hover:text-orange-500 hover:border-orange-300 transition-all duration-200"
+                                                            >
+                                                                <Linkedin size={14} className="sm:w-4 sm:h-4" />
+                                                            </a>
+                                                        </div>
                                                     </div>
                                                 </div>
+                                            ))}
+                                        </div>
 
-                                                <div className="flex items-center justify-between py-3">
-                                                    <div className="flex items-center space-x-3">
-                                                        <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-                                                            <span className="text-blue-600 font-medium">JD</span>
-                                                        </div>
-                                                        <div>
-                                                            <p className="font-medium text-gray-900">John Doe</p>
-                                                            <p className="text-sm text-gray-500">john@bikwiz.com</p>
-                                                        </div>
-                                                    </div>
-                                                    <div className="flex items-center space-x-2">
-                                                        <span className="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">Member</span>
-                                                        <button className="text-gray-400 hover:text-gray-600">⋯</button>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                        {/* Save Changes Button */}
+                                        <div className="flex justify-end mt-6 sm:mt-8">
+                                            <button className="bg-orange-500 hover:bg-orange-600 text-white px-6 sm:px-8 py-2 sm:py-3 rounded-lg font-medium transition-colors duration-200 text-sm sm:text-base">
+                                                Save Changes
+                                            </button>
                                         </div>
                                     </div>
                                 )}
