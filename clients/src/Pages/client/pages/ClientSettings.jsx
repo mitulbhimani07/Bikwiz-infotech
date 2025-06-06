@@ -113,37 +113,46 @@ function ClientSettings() {
                                         </div>
 
                                         {/* Company Details */}
-                                        <div className="grid grid-cols-2 gap-6">
+                                        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 text-sm text-gray-800 px-6 py-10 max-w-6xl mx-auto">
+                                            {/* Left Sidebar */}
                                             <div>
-                                                <h4 className="font-medium text-gray-900 mb-4">Company Details</h4>
-                                                <p className="text-sm text-gray-600 mb-4">Introduce your company core info and uniquely to identify like company details</p>
+                                                <h4 className="font-semibold text-black mb-2">Company Details</h4>
+                                                <p className="text-gray-600 text-sm">
+                                                    Introduce your company core info quickly to users by fill up company details
+                                                </p>
+                                            </div>
 
-                                                <div className="space-y-4">
+                                            {/* Form Section */}
+                                            <div className="md:col-span-2">
+                                                <div className="grid grid-cols-1 gap-6">
+                                                    {/* Company Name */}
                                                     <div>
-                                                        <label className="block text-sm font-medium text-gray-700 mb-1">Company Name:</label>
+                                                        <label className="block mb-1 font-medium text-gray-700">Company Name</label>
                                                         <input
                                                             type="text"
                                                             value={formData.companyName}
                                                             onChange={(e) => handleInputChange('companyName', e.target.value)}
-                                                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+                                                            className="w-full border border-orange-300 rounded px-3 py-2 focus:outline-none focus:ring-1 focus:ring-orange-400"
                                                         />
                                                     </div>
 
+                                                    {/* Website */}
                                                     <div>
-                                                        <label className="block text-sm font-medium text-gray-700 mb-1">Website</label>
+                                                        <label className="block mb-1 font-medium text-gray-700">Website</label>
                                                         <input
                                                             type="url"
                                                             value={formData.website}
                                                             onChange={(e) => handleInputChange('website', e.target.value)}
-                                                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+                                                            className="w-full border border-orange-300 rounded px-3 py-2 focus:outline-none focus:ring-1 focus:ring-orange-400"
                                                         />
                                                     </div>
 
+                                                    {/* Location */}
                                                     <div>
-                                                        <label className="block text-sm font-medium text-gray-700 mb-1">Location</label>
-                                                        <div className="flex flex-wrap gap-2 p-2 border border-gray-300 rounded-lg">
+                                                        <label className="block mb-1 font-medium text-gray-700">Location</label>
+                                                        <div className="flex flex-wrap gap-2 border border-orange-300 rounded px-3 py-2">
                                                             {formData.location.map((loc, index) => (
-                                                                <span key={index} className="inline-flex items-center px-2 py-1 bg-orange-100 text-orange-800 text-sm rounded">
+                                                                <span key={index} className="inline-flex items-center bg-orange-100 text-orange-700 px-2 py-1 rounded text-sm">
                                                                     {loc}
                                                                     <button
                                                                         onClick={() => removeTag('location', loc)}
@@ -156,74 +165,76 @@ function ClientSettings() {
                                                         </div>
                                                     </div>
 
+                                                    {/* Employees + Industry */}
                                                     <div className="grid grid-cols-2 gap-4">
                                                         <div>
-                                                            <label className="block text-sm font-medium text-gray-700 mb-1">Employees</label>
+                                                            <label className="block mb-1 font-medium text-gray-700">Employee</label>
                                                             <select
                                                                 value={formData.employees}
                                                                 onChange={(e) => handleInputChange('employees', e.target.value)}
-                                                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+                                                                className="w-full border border-orange-300 rounded px-3 py-2 focus:outline-none focus:ring-1 focus:ring-orange-400"
                                                             >
-                                                                <option>1-50</option>
-                                                                <option>51-200</option>
-                                                                <option>201-1000</option>
+                                                                <option>1 - 50</option>
+                                                                <option>51 - 200</option>
+                                                                <option>201 - 1000</option>
                                                                 <option>1000+</option>
                                                             </select>
                                                         </div>
-
                                                         <div>
-                                                            <label className="block text-sm font-medium text-gray-700 mb-1">Industry</label>
+                                                            <label className="block mb-1 font-medium text-gray-700">Industry</label>
                                                             <select
                                                                 value={formData.industry}
                                                                 onChange={(e) => handleInputChange('industry', e.target.value)}
-                                                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+                                                                className="w-full border border-orange-300 rounded px-3 py-2 focus:outline-none focus:ring-1 focus:ring-orange-400"
                                                             >
                                                                 <option>Technology</option>
-                                                                <option>Healthcare</option>
                                                                 <option>Finance</option>
+                                                                <option>Healthcare</option>
                                                                 <option>Education</option>
                                                             </select>
                                                         </div>
                                                     </div>
 
+                                                    {/* Date Founded */}
                                                     <div>
-                                                        <label className="block text-sm font-medium text-gray-700 mb-1">Date Founded</label>
+                                                        <label className="block mb-1 font-medium text-gray-700">Date Founded</label>
                                                         <div className="grid grid-cols-3 gap-2">
                                                             <select
-                                                                value={formData.dateMonth}
-                                                                onChange={(e) => handleInputChange('dateMonth', e.target.value)}
-                                                                className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+                                                                value={formData.dateDay}
+                                                                onChange={(e) => handleInputChange('dateDay', e.target.value)}
+                                                                className="border border-orange-300 rounded px-3 py-2 focus:outline-none focus:ring-1 focus:ring-orange-400"
                                                             >
                                                                 <option>31</option>
                                                                 <option>1</option>
                                                                 <option>15</option>
                                                             </select>
                                                             <select
-                                                                value={formData.dateDay}
-                                                                onChange={(e) => handleInputChange('dateDay', e.target.value)}
-                                                                className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+                                                                value={formData.dateMonth}
+                                                                onChange={(e) => handleInputChange('dateMonth', e.target.value)}
+                                                                className="border border-orange-300 rounded px-3 py-2 focus:outline-none focus:ring-1 focus:ring-orange-400"
                                                             >
                                                                 <option>July</option>
                                                                 <option>January</option>
-                                                                <option>December</option>
+                                                                <option>March</option>
                                                             </select>
                                                             <select
                                                                 value={formData.dateYear}
                                                                 onChange={(e) => handleInputChange('dateYear', e.target.value)}
-                                                                className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+                                                                className="border border-orange-300 rounded px-3 py-2 focus:outline-none focus:ring-1 focus:ring-orange-400"
                                                             >
-                                                                <option>2024</option>
+                                                                <option>2021</option>
                                                                 <option>2023</option>
-                                                                <option>2022</option>
+                                                                <option>2024</option>
                                                             </select>
                                                         </div>
                                                     </div>
 
+                                                    {/* Tech Stack */}
                                                     <div>
-                                                        <label className="block text-sm font-medium text-gray-700 mb-1">Tech Stack</label>
-                                                        <div className="flex flex-wrap gap-2 p-2 border border-gray-300 rounded-lg">
+                                                        <label className="block mb-1 font-medium text-gray-700">Tech Stack</label>
+                                                        <div className="flex flex-wrap gap-2 border border-orange-300 rounded px-3 py-2">
                                                             {formData.techStack.map((tech, index) => (
-                                                                <span key={index} className="inline-flex items-center px-2 py-1 bg-orange-100 text-orange-800 text-sm rounded">
+                                                                <span key={index} className="inline-flex items-center bg-orange-100 text-orange-700 px-2 py-1 rounded text-sm">
                                                                     {tech}
                                                                     <button
                                                                         onClick={() => removeTag('techStack', tech)}
@@ -237,47 +248,46 @@ function ClientSettings() {
                                                     </div>
                                                 </div>
                                             </div>
+                                        </div>
+                                        <div>
+                                            <div className="space-y-4">
+                                                <div>
+                                                    <h4 className="font-medium text-gray-900 mb-2">About Company</h4>
+                                                    <p className="text-sm text-gray-600 mb-4">Brief description for your company. URLs are hyperlinked.</p>
+                                                </div>
 
-                                            <div>
-                                                <div className="space-y-4">
-                                                    <div>
-                                                        <h4 className="font-medium text-gray-900 mb-2">About Company</h4>
-                                                        <p className="text-sm text-gray-600 mb-4">Brief description for your company. URLs are hyperlinked.</p>
-                                                    </div>
-
-                                                    <div>
-                                                        <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
-                                                        <div className="border border-gray-300 rounded-lg">
-                                                            <div className="flex items-center space-x-2 p-2 border-b border-gray-200">
-                                                                <button className="p-1 hover:bg-gray-100 rounded">
-                                                                    <Bold className="w-4 h-4" />
-                                                                </button>
-                                                                <button className="p-1 hover:bg-gray-100 rounded">
-                                                                    <Italic className="w-4 h-4" />
-                                                                </button>
-                                                                <button className="p-1 hover:bg-gray-100 rounded">
-                                                                    <Underline className="w-4 h-4" />
-                                                                </button>
-                                                                <button className="p-1 hover:bg-gray-100 rounded">
-                                                                    <List className="w-4 h-4" />
-                                                                </button>
-                                                                <button className="p-1 hover:bg-gray-100 rounded">
-                                                                    <Link className="w-4 h-4" />
-                                                                </button>
-                                                            </div>
-                                                            <textarea
-                                                                value={formData.description}
-                                                                onChange={(e) => handleInputChange('description', e.target.value)}
-                                                                className="w-full p-3 resize-none focus:outline-none"
-                                                                rows="6"
-                                                                maxLength="500"
-                                                            />
-                                                            <div className="p-2 text-right text-sm text-gray-500 border-t border-gray-200">
-                                                                Maximum 500 characters
-                                                            </div>
-                                                            <div className="p-2 text-right text-sm text-gray-500">
-                                                                {formData.description.length}/500
-                                                            </div>
+                                                <div>
+                                                    <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                                                    <div className="border border-gray-300 rounded-lg">
+                                                        <div className="flex items-center space-x-2 p-2 border-b border-gray-200">
+                                                            <button className="p-1 hover:bg-gray-100 rounded">
+                                                                <Bold className="w-4 h-4" />
+                                                            </button>
+                                                            <button className="p-1 hover:bg-gray-100 rounded">
+                                                                <Italic className="w-4 h-4" />
+                                                            </button>
+                                                            <button className="p-1 hover:bg-gray-100 rounded">
+                                                                <Underline className="w-4 h-4" />
+                                                            </button>
+                                                            <button className="p-1 hover:bg-gray-100 rounded">
+                                                                <List className="w-4 h-4" />
+                                                            </button>
+                                                            <button className="p-1 hover:bg-gray-100 rounded">
+                                                                <Link className="w-4 h-4" />
+                                                            </button>
+                                                        </div>
+                                                        <textarea
+                                                            value={formData.description}
+                                                            onChange={(e) => handleInputChange('description', e.target.value)}
+                                                            className="w-full p-3 resize-none focus:outline-none"
+                                                            rows="6"
+                                                            maxLength="500"
+                                                        />
+                                                        <div className="p-2 text-right text-sm text-gray-500 border-t border-gray-200">
+                                                            Maximum 500 characters
+                                                        </div>
+                                                        <div className="p-2 text-right text-sm text-gray-500">
+                                                            {formData.description.length}/500
                                                         </div>
                                                     </div>
                                                 </div>

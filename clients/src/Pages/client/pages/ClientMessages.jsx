@@ -5,6 +5,7 @@ import ClientSidbar from '../navbar/ClientSidbar';
 import { AiOutlineDown } from "react-icons/ai";
 import { IoSend } from "react-icons/io5";
 import { GrEmoji } from "react-icons/gr";
+import { IoCloseCircle } from "react-icons/io5";
 
 // Mock data for messages
 const conversations = [
@@ -101,21 +102,34 @@ const chatMessages = [
 export default function ClientMessages() {
     const [selectedConversation, setSelectedConversation] = useState(conversations[0]);
     const [newMessage, setNewMessage] = useState('');
-
-    const handleSendMessage = () => {
-        if (newMessage.trim()) {
-            // Handle sending message logic here
-            setNewMessage('');
-        }
-    };
+    const [uploadedFiles, setUploadedFiles] = useState([]);
     const [showEmojiPicker, setShowEmojiPicker] = useState(false);
 
-    // File Upload Handler
+    const handleSendMessage = () => {
+        if (!newMessage.trim() && uploadedFiles.length === 0) return;
+
+        // You can send the message + files here
+        console.log("Message:", newMessage);
+        console.log("Files:", uploadedFiles);
+
+        setNewMessage("");
+        setUploadedFiles([]);
+    };
+
     const handleFileUpload = (event) => {
         const files = Array.from(event.target.files);
-        // You can add logic to preview files or send them
-        console.log("Uploaded files:", files);
+
+        const newFiles = files.map((file) => ({
+            file,
+            preview: file.type.startsWith("image/") ? URL.createObjectURL(file) : null,
+            name: file.name,
+            type: file.type,
+        }));
+
+        setUploadedFiles((prev) => [...prev, ...newFiles]);
+        event.target.value = ""; // Reset input
     };
+
 
     return (
         <div className="flex min-h-screen bg-[#fff0e5]">
@@ -280,8 +294,43 @@ export default function ClientMessages() {
 
                         {/* Message Input */}
                         <div className="bg-white border m-8 border-orange-500 p-3 rounded-xl">
-                            <div className="flex items-center space-x-2 relative">
+                            {/* Preview Section */}
+                            {uploadedFiles.length > 0 && (
+                                <div className="flex flex-wrap gap-3 mb-3">
+                                    {uploadedFiles.map((item, index) => (
+                                        <div
+                                            key={index}
+                                            className="relative w-24 h-24 border rounded shadow-sm bg-gray-50 p-1"
+                                        >
+                                            {item.preview ? (
+                                                <img
+                                                    src={item.preview}
+                                                    alt="preview"
+                                                    className="w-full h-full object-cover rounded"
+                                                />
+                                            ) : (
+                                                <div className="flex items-center justify-center text-xs text-gray-600 h-full text-center px-1">
+                                                    📄 {item.name}
+                                                </div>
+                                            )}
+                                            {/* Remove button */}
+                                            <button
+                                                className="absolute -top-3 -right-3 text-xl rounded-full bg-white shadow p-1 hover:bg-white"
+                                                onClick={() => {
+                                                    const copy = [...uploadedFiles];
+                                                    copy.splice(index, 1);
+                                                    setUploadedFiles(copy);
+                                                }}
+                                            >
+                                                <IoCloseCircle />
+                                            </button>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
 
+                            {/* Message Box */}
+                            <div className="flex items-center space-x-2 relative">
                                 {/* Upload File */}
                                 <label className="p-2 hover:bg-gray-100 rounded-full cursor-pointer">
                                     <Paperclip className="w-5 h-5 text-gray-500" />
@@ -293,10 +342,7 @@ export default function ClientMessages() {
                                     />
                                 </label>
 
-
-                                {/* Emoji Picker UI (simple inline version) */}
-
-                                {/* Message Input */}
+                                {/* Emoji Picker */}
                                 {showEmojiPicker && (
                                     <div className="absolute bottom-14 right-10 z-10 p-2 grid grid-cols-5 gap-1 bg-white rounded shadow-lg h-52 overflow-y-scroll">
                                         {[
@@ -322,26 +368,36 @@ export default function ClientMessages() {
                                     </div>
                                 )}
 
-                                <input
-                                    type="text"
+                                {/* Textarea Input */}
+                                <textarea
                                     value={newMessage}
                                     onChange={(e) => setNewMessage(e.target.value)}
                                     placeholder="Reply message"
-                                    className="flex-1 px-4 py-2 border border-transparent focus:outline-none text-base"
-                                    onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
+                                    rows={1}
+                                    className="flex-1 resize-none px-4 py-2 border border-transparent focus:outline-none text-base leading-relaxed overflow-auto max-h-40"
+                                    onKeyDown={(e) => {
+                                        if (e.key === "Enter" && !e.shiftKey) {
+                                            e.preventDefault();
+                                            handleSendMessage();
+                                        }
+                                    }}
                                 />
 
-                                {/* Emoji Picker Toggle */}
+
+                                {/* Emoji Toggle */}
                                 <button
                                     onClick={() => setShowEmojiPicker(!showEmojiPicker)}
                                     className="p-2 hover:bg-gray-100 rounded-full"
                                 >
-                                    <span className="text-xl"><GrEmoji /></span>
+                                    <span className="text-xl">
+                                        <GrEmoji />
+                                    </span>
                                 </button>
+
                                 {/* Send Button */}
                                 <button
                                     onClick={handleSendMessage}
-                                    className="bg-orange-500 hover:bg-orange-600 text-white p-2 rounded-full transition-colors"
+                                    className="bg-orange-500 hover:bg-orange-600 text-white px-5 py-2 transition-colors"
                                 >
                                     <IoSend className="w-5 h-5" />
                                 </button>
