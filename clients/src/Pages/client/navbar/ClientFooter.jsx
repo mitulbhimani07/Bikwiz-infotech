@@ -6,7 +6,7 @@ import { FaInstagram } from 'react-icons/fa';
 
 function ClientFooter() {
   return (
-    <footer className="bg-[#fff0e5] py-4 px-6">
+    <footer className="bg-[#fff0e5] py-4 px-6 ">
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         {/* Left side - Links */}
         <div className="flex items-center space-x-6">
