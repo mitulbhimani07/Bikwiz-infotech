@@ -30,6 +30,7 @@ import ClientAllApplications from './Pages/client/pages/ClientAllApplications'
 import ClientJobListing from './Pages/client/pages/ClientJobListing'
 import ClientHelpCenter from './Pages/client/pages/ClientHelpCenter'
 import ClientApplicationDetails from './Pages/client/pages/ClientApplicantDetails'
+import ClientSettings from './Pages/client/pages/ClientSettings'
 
 function AllRoutes() {
   return (
@@ -65,6 +66,7 @@ function AllRoutes() {
         <Route path='/clientJobListing' element={<ClientJobListing/>} />
         <Route path="/clientHelpCenter" element={<ClientHelpCenter/>} />
         <Route path='/clientApplicationDetails' element={<ClientApplicationDetails/>} />
+        <Route path='/clientSettings' element={<ClientSettings />} />
         {/* <Route path='/' element={<ClientDashboard />} /> */}
         {/* Freelancer Dashboard */}
 
