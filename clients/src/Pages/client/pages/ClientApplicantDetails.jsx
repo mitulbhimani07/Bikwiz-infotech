@@ -11,6 +11,7 @@ import { TbWorld } from "react-icons/tb";
 import { IoIosArrowDown } from "react-icons/io";
 import { FaPlus } from "react-icons/fa6";
 import { HiDotsHorizontal } from "react-icons/hi";
+import ClientFooter from '../navbar/ClientFooter';
 
 const ClientAllApplicants = () => {
     const [activeTab, setActiveTab] = useState('Applicant Profile');
@@ -26,6 +27,7 @@ const ClientAllApplicants = () => {
         }
     };
     return (
+        <>
         <div className="min-h-screen bg-[#fff0e5] flex">
             {/* Sidebar */}
             <ClientSidbar />
@@ -555,6 +557,8 @@ const ClientAllApplicants = () => {
                 </div>
             </div>
         </div>
+            <ClientFooter />
+        </>
     );
 };
 
