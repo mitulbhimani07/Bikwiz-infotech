@@ -442,8 +442,8 @@ function ClientSettings() {
                                                     <button
                                                         onClick={() => setViewMode('grid')}
                                                         className={`p-2 ${viewMode === 'grid'
-                                                                ? 'bg-orange-500 text-white'
-                                                                : 'text-gray-400 hover:text-gray-600'
+                                                            ? 'bg-orange-500 text-white'
+                                                            : 'text-gray-400 hover:text-gray-600'
                                                             } transition-colors duration-200`}
                                                     >
                                                         <Grid3X3 size={18} />
@@ -451,8 +451,8 @@ function ClientSettings() {
                                                     <button
                                                         onClick={() => setViewMode('list')}
                                                         className={`p-2 ${viewMode === 'list'
-                                                                ? 'bg-orange-500 text-white'
-                                                                : 'text-gray-400 hover:text-gray-600'
+                                                            ? 'bg-orange-500 text-white'
+                                                            : 'text-gray-400 hover:text-gray-600'
                                                             } transition-colors duration-200`}
                                                     >
                                                         <List size={18} />
@@ -463,15 +463,15 @@ function ClientSettings() {
 
                                         {/* Team Members Grid/List */}
                                         <div className={`grid gap-4 sm:gap-6 ${viewMode === 'grid'
-                                                ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3'
-                                                : 'grid-cols-1'
+                                            ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3'
+                                            : 'grid-cols-1'
                                             }`}>
                                             {teamMembers.map((member) => (
                                                 <div
                                                     key={member.id}
                                                     className={`bg-white rounded-xl border border-gray-200 p-4 sm:p-6 hover:shadow-lg transition-all duration-300 hover:border-orange-200 ${viewMode === 'list'
-                                                            ? 'flex items-center gap-4 sm:gap-6'
-                                                            : 'text-center'
+                                                        ? 'flex items-center gap-4 sm:gap-6'
+                                                        : 'text-center'
                                                         }`}
                                                 >
                                                     <div className={`${viewMode === 'list' ? 'flex-shrink-0' : 'mb-4'}`}>
@@ -479,8 +479,8 @@ function ClientSettings() {
                                                             src={member.image}
                                                             alt={member.name}
                                                             className={`rounded-full object-cover border-4 border-gray-100 ${viewMode === 'list'
-                                                                    ? 'w-16 h-16 sm:w-20 sm:h-20'
-                                                                    : 'w-20 h-20 mx-auto'
+                                                                ? 'w-16 h-16 sm:w-20 sm:h-20'
+                                                                : 'w-20 h-20 mx-auto'
                                                                 }`}
                                                         />
                                                     </div>
