@@ -28,6 +28,7 @@ import { RxCross2 } from 'react-icons/rx'
 import ClientCompanyProfile from './Pages/client/pages/ClientCompanyProfile'
 import ClientAllApplications from './Pages/client/pages/ClientAllApplications'
 import ClientJobListing from './Pages/client/pages/ClientJobListing'
+import ClientHelpCenter from './Pages/client/pages/ClientHelpCenter'
 
 function AllRoutes() {
   return (
@@ -61,6 +62,7 @@ function AllRoutes() {
         <Route path='/clientCompanyProfile' element={<ClientCompanyProfile/>}/>
         <Route path='/clientAllApplications' element={<ClientAllApplications/>}/>
         <Route path='/clientJobListing' element={<ClientJobListing/>} />
+        <Route path="/clientHelpCenter" element={<ClientHelpCenter/>} />
         {/* <Route path='/' element={<ClientDashboard />} /> */}
         {/* Freelancer Dashboard */}
 
