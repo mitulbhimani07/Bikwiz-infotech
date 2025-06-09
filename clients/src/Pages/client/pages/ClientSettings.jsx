@@ -3,12 +3,24 @@ import { Upload, Bold, Italic, Underline, List, Link } from 'lucide-react';
 import ClientSidbar from '../navbar/ClientSidbar';
 import ClientHeader from '../navbar/ClientHeader';
 import { Instagram, Linkedin, Grid3X3, Plus } from 'lucide-react';
-import ClientFooter from '../navbar/ClientFooter';
+import { IoImage } from "react-icons/io5";
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';import ClientFooter from '../navbar/ClientFooter';
 
 
 function ClientSettings() {
     const [activeTab, setActiveTab] = useState('Overview');
     const [viewMode, setViewMode] = useState('grid');
+    const [fileName, setFileName] = useState('');
+    const [imagePreview, setImagePreview] = useState(null);
+
+    const handleFileChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setFileName(file.name);
+            setImagePreview(URL.createObjectURL(file));
+        }
+    };
 
     const [formData, setFormData] = useState({
         companyName: 'Nutrient',
@@ -165,14 +177,33 @@ function ClientSettings() {
                                                 <h4 className="text-[20px] font-semibold text-gray-900 mb-2">Company Logo</h4>
                                                 <p className="text-[16px] text-gray-600 mb-4">This image will be shown publicly as your profile picture</p>
                                             </div>
-                                            <div className="flex  items-center space-x-6 pr-[100px]">
-                                                <div className="w-20 h-20 bg-orange-500 rounded-full flex items-center justify-center">
-                                                    <span className="text-white text-2xl font-bold">N</span>
+                                            <div className="flex items-center space-x-6 pr-[100px]">
+                                                <div className="w-20 h-20 bg-orange-500 rounded-full flex items-center justify-center overflow-hidden">
+                                                    {imagePreview ? (
+                                                        <img src={imagePreview} alt="Logo" className="w-full h-full object-cover" />
+                                                    ) : null}
                                                 </div>
-                                                <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
-                                                    <Upload className="w-8 h-8 text-gray-400 mx-auto mb-2" />
-                                                    <p className="text-orange-500 font-medium">Click to upload or drag and drop</p>
-                                                    <p className="text-sm text-gray-500">SVG, PNG, JPG or GIF (max. 800x400px)</p>
+
+                                                <div className="text-center bg-[#FFF0E5] rounded-lg">
+                                                    <label
+                                                        htmlFor="file-upload"
+                                                        className="cursor-pointer border-3 border-dashed border-orange-500 rounded-lg p-6 block"
+                                                    >
+                                                        <IoImage className="w-8 h-8 text-orange-500 mx-auto mb-2" />
+                                                        <p className="text-orange-500 font-medium">Click to upload or drag and drop</p>
+                                                        <p className="text-sm text-gray-500">SVG, PNG, JPG or GIF (max. 800x400px)</p>
+                                                        {fileName && (
+                                                            <p className="text-sm mt-2 text-green-600">Uploaded: {fileName}</p>
+                                                        )}
+                                                    </label>
+
+                                                    <input
+                                                        id="file-upload"
+                                                        type="file"
+                                                        accept=".svg,.png,.jpg,.jpeg,.gif"
+                                                        className="hidden"
+                                                        onChange={handleFileChange}
+                                                    />
                                                 </div>
                                             </div>
                                         </div>
@@ -314,50 +345,48 @@ function ClientSettings() {
                                                 </div>
                                             </div>
                                         </div>
+                                        <div className="border-1 border-orange-200"></div>
                                         <div>
-                                            <div className="space-y-4">
+                                            <div className="space-y-4 grid grid-cols-1 md:grid-cols-2">
                                                 <div>
-                                                    <h4 className="font-medium text-gray-900 mb-2">About Company</h4>
-                                                    <p className="text-sm text-gray-600 mb-4">Brief description for your company. URLs are hyperlinked.</p>
+                                                    <h4 className=" text-gray-900 mb-2 font-bold">About Company</h4>
+                                                    <p className="text-sm text-gray-600 max-w-[50%] mb-4">Brief description for your company. URLs are hyperlinked.</p>
                                                 </div>
 
-                                                <div>
-                                                    <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
-                                                    <div className="border border-gray-300 rounded-lg">
-                                                        <div className="flex items-center space-x-2 p-2 border-b border-gray-200">
-                                                            <button className="p-1 hover:bg-gray-100 rounded">
-                                                                <Bold className="w-4 h-4" />
-                                                            </button>
-                                                            <button className="p-1 hover:bg-gray-100 rounded">
-                                                                <Italic className="w-4 h-4" />
-                                                            </button>
-                                                            <button className="p-1 hover:bg-gray-100 rounded">
-                                                                <Underline className="w-4 h-4" />
-                                                            </button>
-                                                            <button className="p-1 hover:bg-gray-100 rounded">
-                                                                <List className="w-4 h-4" />
-                                                            </button>
-                                                            <button className="p-1 hover:bg-gray-100 rounded">
-                                                                <Link className="w-4 h-4" />
-                                                            </button>
-                                                        </div>
-                                                        <textarea
+                                                <div className="md:w-[100%]">
+                                                    <label className="block text-sm font-bold text-gray-900 mb-1 md:-ms-20">Description</label>
+                                                    <div className="border border-orange-500 overflow-hidden md:-ms-20">
+
+                                                        {/* Character Count */}
+                                                        {/* React Quill Editor */}
+                                                        <ReactQuill
+                                                            theme="snow"
                                                             value={formData.description}
-                                                            onChange={(e) => handleInputChange('description', e.target.value)}
-                                                            className="w-full p-3 resize-none focus:outline-none"
-                                                            rows="6"
-                                                            maxLength="500"
+                                                            onChange={(value) => handleInputChange('description', value)}
+                                                            modules={{
+                                                                toolbar: [
+                                                                    ['bold', 'italic', 'underline'],
+                                                                    [{ list: 'bullet' }],
+                                                                    ['link'],
+                                                                ],
+                                                            }}
+                                                            formats={['bold', 'italic', 'underline', 'list', 'bullet', 'link']}
+                                                            className="custom-quill-editor text-gray-500"
                                                         />
-                                                        <div className="p-2 text-right text-sm text-gray-500 border-t border-gray-200">
+
+                                                    </div>
+                                                    <div className='grid grid-cols-1 md:grid-cols-2 gap-4 '>
+                                                        <div className="p-2 text-right text-sm text-gray-500 md:text-left md:-ms-22">
                                                             Maximum 500 characters
                                                         </div>
                                                         <div className="p-2 text-right text-sm text-gray-500">
-                                                            {formData.description.length}/500
+                                                            {formData.description.replace(/<[^>]+>/g, '').length}/500
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
+                                        <div className="border-1 border-orange-200"></div>
 
                                         {/* Save Button */}
                                         <div className="flex justify-end">

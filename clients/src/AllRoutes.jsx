@@ -32,6 +32,7 @@ import ClientHelpCenter from './Pages/client/pages/ClientHelpCenter'
 import ClientApplicationDetails from './Pages/client/pages/ClientApplicantDetails'
 import ClientSettings from './Pages/client/pages/ClientSettings'
 import ClientMessages from './Pages/client/pages/ClientMessages'
+import ClientSchedule from './Pages/client/pages/ClientSchedule'
 
 function AllRoutes() {
   return (
@@ -64,6 +65,7 @@ function AllRoutes() {
         <Route path='/ClientDashboard' element={<ClientDashboard />} />
         <Route path='/clientCompanyProfile' element={<ClientCompanyProfile/>}/>
         <Route path='/clientAllApplications' element={<ClientAllApplications/>}/>
+        <Route path='/clientSchedule' element={<ClientSchedule/>}/>
         <Route path='/clientJobListing' element={<ClientJobListing/>} />
         <Route path="/clientHelpCenter" element={<ClientHelpCenter/>} />
         <Route path='/clientApplicationDetails' element={<ClientApplicationDetails/>} />
