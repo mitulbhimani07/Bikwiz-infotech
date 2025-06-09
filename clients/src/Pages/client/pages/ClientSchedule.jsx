@@ -188,7 +188,7 @@ function ClientSchedule() {
             <ClientHeader />
           </div>
 
-          <div className="min-h-screen bg-orange-50 p-6 ">
+          <div className="min-h-screen bg-[#fff0e5] p-6 ">
             <div className="text-orange-500 mb-6">
               <h1 className="text-3xl font-bold">My Schedule</h1>
             </div>
@@ -237,7 +237,7 @@ function ClientSchedule() {
                 </div>
               </div>
 
-              <div className="flex border border-orange-400 text-gray-800 overflow-hidden">
+              <div className="flex border border-orange-400 text-gray-800 overflow-hidden border-e-0">
                 <div className="w-[320px] border-r border-orange-200 px-4 py-6 space-y-6">
                   <button 
                     onClick={handleCreateEvent}

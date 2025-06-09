@@ -515,7 +515,7 @@ const ClientAllApplications = () => {
                 <main className="flex-1 overflow-y-auto p-6">
                     <h1 className="text-3xl font-bold text-orange-600 mb-4">Profile</h1>
 
-                    <div className="bg-white rounded-lg shadow p-10">
+                    <div className="bg-white rounded-3xl  p-10">
                         <div className="flex flex-wrap items-center justify-between p-4">
                             <h2 className="text-[16px] font-semibold text-[#2b2d42]">
                                 Total Applicants : {applicants.length}
