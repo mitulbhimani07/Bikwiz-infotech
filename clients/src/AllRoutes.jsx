@@ -27,6 +27,11 @@ import check from './assets/images/icon-cross.svg'
 import { RxCross2 } from 'react-icons/rx'
 import ClientCompanyProfile from './Pages/client/pages/ClientCompanyProfile'
 import ClientAllApplications from './Pages/client/pages/ClientAllApplications'
+import ClientJobListing from './Pages/client/pages/ClientJobListing'
+import ClientHelpCenter from './Pages/client/pages/ClientHelpCenter'
+import ClientApplicationDetails from './Pages/client/pages/ClientApplicantDetails'
+import ClientSettings from './Pages/client/pages/ClientSettings'
+import ClientMessages from './Pages/client/pages/ClientMessages'
 import ClientSchedule from './Pages/client/pages/ClientSchedule'
 
 function AllRoutes() {
@@ -61,6 +66,11 @@ function AllRoutes() {
         <Route path='/clientCompanyProfile' element={<ClientCompanyProfile/>}/>
         <Route path='/clientAllApplications' element={<ClientAllApplications/>}/>
         <Route path='/clientSchedule' element={<ClientSchedule/>}/>
+        <Route path='/clientJobListing' element={<ClientJobListing/>} />
+        <Route path="/clientHelpCenter" element={<ClientHelpCenter/>} />
+        <Route path='/clientApplicationDetails' element={<ClientApplicationDetails/>} />
+        <Route path='/clientSettings' element={<ClientSettings />} />
+        <Route path='/ClientMessages'element={<ClientMessages/>} />
         {/* <Route path='/' element={<ClientDashboard />} /> */}
         {/* Freelancer Dashboard */}
 
