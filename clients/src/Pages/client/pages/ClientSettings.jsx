@@ -3,6 +3,7 @@ import { Upload, Bold, Italic, Underline, List, Link } from 'lucide-react';
 import ClientSidbar from '../navbar/ClientSidbar';
 import ClientHeader from '../navbar/ClientHeader';
 import { Instagram, Linkedin, Grid3X3, Plus } from 'lucide-react';
+import ClientFooter from '../navbar/ClientFooter';
 
 
 function ClientSettings() {
@@ -100,27 +101,30 @@ function ClientSettings() {
     };
 
     return (
-        <div className="min-h-screen bg-[#fff0e5] flex">
-            {/* Sidebar */}
-            <ClientSidbar />
-
-            {/* Main Content */}
-            <div className="flex-1 flex flex-col">
-                {/* Header */}
-                <ClientHeader />
+        <div className="min-h-screen flex bg-[#fff0e5]">
+                <div className="sticky top-0 left-0  h-screen">
+        
+                  <ClientSidbar />
+                </div>
+        
+                <div className="flex flex-col flex-1 ">
+                  <div className="sticky top-0 z-10 ">
+        
+                    <ClientHeader />
+                  </div>
 
                 <div className="flex">
                     {/* Sidebar Space */}
 
                     {/* Main Content */}
-                    <div className="flex-1 p-8">
+                    <div className="flex-1 p-6">
                         {/* Page Header */}
-                        <div className="mb-8">
+                        <div className="mb-5">
                             <h1 className="text-2xl font-semibold text-orange-600 mb-2">Settings</h1>
                         </div>
 
                         {/* Settings Section */}
-                        <div className="bg-white rounded-lg shadow-sm pl-8 pr-12 ">
+                        <div className="bg-white rounded-3xl  pl-8 pr-12 ">
                             {/* Tabs */}
                             <div className="border-b border-orange-200 pt-6">
                                 <nav className="flex justify-start space-x-8 relative">
@@ -504,6 +508,8 @@ function ClientSettings() {
                         </div>
                     </div>
                 </div>
+                                        <ClientFooter />
+
             </div>
         </div>
     );

@@ -22,6 +22,7 @@ import location1 from '../../../../src/assets/images/england.png'
 import location2 from '../../../../src/assets/images/japan.png'
 import location3 from '../../../../src/assets/images/australia.png'
 import location4 from '../../../../src/assets/images/china.png'
+import ClientFooter from '../navbar/ClientFooter';
 
 function CompanyProfile() {
   const [isEditingProfile, setIsEditingProfile] = useState(false);
@@ -113,19 +114,23 @@ function CompanyProfile() {
 
     <>
 
-      <div className="flex  overflow-hidden bg-[#fff0e5]">
-        <ClientSidbar />
+      <div className="min-h-screen flex bg-[#fff0e5]">
+        <div className="sticky top-0 left-0  h-screen">
 
-        <div className="flex flex-col flex-1 h-full overflow-hidden">
-          <div className="sticky top-0 z-10">
+          <ClientSidbar />
+        </div>
+
+        <div className="flex flex-col flex-1 ">
+          <div className="sticky top-0 z-10 ">
+
             <ClientHeader />
           </div>
 
-          <div className="min-h-screen bg-orange-50 p-4 md:p-6 lg:p-8">
+          <div className=" bg-[#fff0e5] p-4 md:p-6 lg:p-6">
             <div className="text-orange-400 mb-4">
-              <h1 className="text-4xl font-bold">Profile</h1>
+              <p className="text-4xl font-bold">Profile</p>
             </div>
-            <div className="max-w-6xl mx-auto bg-white rounded-3xl  overflow-hidden">
+            <div className="max-w-7xl  bg-white rounded-3xl mx-0  overflow-hidden">
               {/* Header */}
 
 
@@ -506,6 +511,8 @@ function CompanyProfile() {
               </div>
             </div>
           </div>
+          <ClientFooter />
+
         </div>
       </div>
     </>

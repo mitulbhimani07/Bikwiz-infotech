@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Filter, MoreHorizontal, Calendar } from 'lucide-react';
 import ClientSidbar from '../navbar/ClientSidbar';
 import ClientHeader from '../navbar/ClientHeader';
+import ClientFooter from '../navbar/ClientFooter';
 
 function ClientJobListing() {
     const [jobs] = useState([
@@ -93,27 +94,30 @@ function ClientJobListing() {
     ]);
 
     return (
-        <div className="min-h-screen bg-[#fff0e5] flex">
-            {/* Sidebar */}
-            <ClientSidbar />
-
-            {/* Main Content */}
-            <div className="flex-1 flex flex-col">
-                {/* Header */}
-                <ClientHeader />
+        <div className="min-h-screen flex bg-[#fff0e5]">
+                <div className="sticky top-0 left-0  h-screen">
+        
+                  <ClientSidbar />
+                </div>
+        
+                <div className="flex flex-col flex-1 ">
+                  <div className="sticky top-0 z-10 ">
+        
+                    <ClientHeader />
+                  </div>
 
                 <div className="flex">
                     {/* Sidebar Space */}
 
                     {/* Main Content */}
-                    <div className="flex-1 p-8">
+                    <div className="flex-1 p-6">
                         {/* Page Header */}
-                        <div className="mb-8">
+                        <div className="mb-5">
                             <h1 className="text-2xl font-semibold text-orange-600 mb-2">Applicant Details</h1>
                         </div>
 
                         {/* Job Listing Section */}
-                        <div className="bg-white rounded-lg shadow-sm px-10">
+                        <div className="bg-white rounded-3xl px-6">
                             {/* Section Header */}
                             <div className="py-4">
                                 <div className="flex justify-between items-center">
@@ -258,6 +262,8 @@ function ClientJobListing() {
                         </div>
                     </div>
                 </div>
+                                        <ClientFooter/>
+
             </div>
         </div>
     );

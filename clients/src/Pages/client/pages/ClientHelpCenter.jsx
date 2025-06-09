@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Search, ThumbsUp, ThumbsDown, MoreHorizontal } from 'lucide-react';
 import ClientSidbar from '../navbar/ClientSidbar';
 import ClientHeader from '../navbar/ClientHeader';
+import ClientFooter from '../navbar/ClientFooter';
 
 function ClientHelpCenter() {
     const [searchTerm, setSearchTerm] = useState('');
@@ -54,17 +55,23 @@ function ClientHelpCenter() {
     );
 
     return (
-        <div className="min-h-screen bg-[#fff0e5] flex">
-            <ClientSidbar />
+        <div className="min-h-screen flex bg-[#fff0e5]">
+            <div className="sticky top-0 left-0  h-screen">
 
-            <div className="flex-1 flex flex-col">
-                <ClientHeader />
+                <ClientSidbar />
+            </div>
 
-                <div className="px-12 py-8">
+            <div className="flex flex-col flex-1 ">
+                <div className="sticky top-0 z-10 ">
+
+                    <ClientHeader />
+                </div>
+
+                <div className="p-6">
                     {/* Unified card for sidebar + content */}
-                    <h1 className="text-2xl font-semibold text-orange-500 mb-6">Help Center</h1>
+                    <h1 className="text-2xl font-semibold text-orange-500 mb-5">Help Center</h1>
 
-                    <div className="bg-white rounded-lg  px-6">
+                    <div className="bg-white rounded-3xl  px-6">
                         {/* Heading */}
 
                         {/* Main layout */}
@@ -160,6 +167,8 @@ function ClientHelpCenter() {
                         </div>
                     </div>
                 </div>
+                <ClientFooter />
+
             </div>
         </div>
     );

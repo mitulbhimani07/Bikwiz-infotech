@@ -41,14 +41,14 @@ function ClientDashboard() {
   ]
 
   return (
-    <div className="flex  overflow-hidden bg-[#fff0e5]">
-      {/* Sidebar */}
-      <ClientSidebar />
+    <div className="min-h-screen flex bg-[#fff0e5]">
+      <div className="sticky top-0 left-0  h-screen">
 
-      {/* Main Content Wrapper */}
-      <div className="flex flex-col flex-1 h-full overflow-hidden">
-        {/* Header */}
-        <div className="sticky top-0 z-10">
+        <ClientSidebar />      </div>
+
+      <div className="flex flex-col flex-1 ">
+        <div className="sticky top-0 z-10 ">
+
           <ClientHeader />
         </div>
 
@@ -144,7 +144,7 @@ function ClientDashboard() {
                       tickLine={false}
                       tick={{ fontSize: 12, fill: '#6B7280' }}
                       domain={[-10, 40]}
-                      ticks={[-10, -5,0,5, 10,15, 20,25, 30,35, 40]}
+                      ticks={[-10, -5, 0, 5, 10, 15, 20, 25, 30, 35, 40]}
                     />
                     <Line
                       type="monotone"
@@ -170,9 +170,9 @@ function ClientDashboard() {
           </div>
         </main>
 
-        <ClientFooter/>
+        <ClientFooter />
       </div>
-      
+
     </div>
   )
 }

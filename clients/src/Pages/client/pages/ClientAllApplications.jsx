@@ -7,6 +7,8 @@ import {
 import ClientHeader from '../navbar/ClientHeader';
 import ClientSidbar from '../navbar/ClientSidbar';
 import profile1 from "../../../assets/images/clientDashbord/allapplications/1.jpg"
+import { Link } from 'react-router-dom';
+import ClientFooter from '../navbar/ClientFooter';
 
 const ClientAllApplications = () => {
     const [currentPage, setCurrentPage] = useState(1);
@@ -192,125 +194,124 @@ const ClientAllApplications = () => {
     };
 
     const renderPipelineView = () => {
-    const stages = {
-        'Shortlisted': applicants.filter(a => a.hiringStage === 'Shortlisted'),
-        'Interview': applicants.filter(a => a.hiringStage === 'Interview'),
-        'Interviewed': applicants.filter(a => a.hiringStage === 'Interviewed'),
-        'Hired': applicants.filter(a => a.hiringStage === 'Hired'),
-        'Declined': applicants.filter(a => a.hiringStage === 'Declined')
-    };
+        const stages = {
+            'Shortlisted': applicants.filter(a => a.hiringStage === 'Shortlisted'),
+            'Interview': applicants.filter(a => a.hiringStage === 'Interview'),
+            'Interviewed': applicants.filter(a => a.hiringStage === 'Interviewed'),
+            'Hired': applicants.filter(a => a.hiringStage === 'Hired'),
+            'Declined': applicants.filter(a => a.hiringStage === 'Declined')
+        };
 
-    // Stage color mapping
-    const stageColors = {
-        'Shortlisted': 'bg-blue-50 border-blue-200',
-        'Interview': 'bg-purple-50 border-purple-200',
-        'Interviewed': 'bg-yellow-50 border-yellow-200',
-        'Hired': 'bg-green-50 border-green-200',
-        'Declined': 'bg-red-50 border-red-200'
-    };
+        // Stage color mapping
+        const stageColors = {
+            'Shortlisted': 'bg-blue-50 border-blue-200',
+            'Interview': 'bg-purple-50 border-purple-200',
+            'Interviewed': 'bg-yellow-50 border-yellow-200',
+            'Hired': 'bg-green-50 border-green-200',
+            'Declined': 'bg-red-50 border-red-200'
+        };
 
-    const stageHeaders = {
-        'Shortlisted': '👥 Shortlisted',
-        'Interview': '🗓️ Interview',
-        'Interviewed': '🎤 Interviewed',
-        'Hired': '🎉 Hired',
-        'Declined': '❌ Declined'
-    };
+        const stageHeaders = {
+            'Shortlisted': '👥 Shortlisted',
+            'Interview': '🗓️ Interview',
+            'Interviewed': '🎤 Interviewed',
+            'Hired': '🎉 Hired',
+            'Declined': '❌ Declined'
+        };
 
-    return (
-        <div className="p-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
-                {Object.entries(stages).map(([stage, stageApplicants]) => (
-                    <div 
-                        key={stage} 
-                        className={`rounded-xl shadow-sm border ${stageColors[stage]} transition-all duration-300 hover:shadow-md hover:translate-y-[-2px]`}
-                    >
-                        <div className="p-4">
-                            <div className="flex justify-between items-center mb-4">
-                                <h3 className="font-semibold text-gray-700 flex items-center gap-2">
-                                    {stageHeaders[stage]}
-                                </h3>
-                                <span className={`px-2.5 py-1 rounded-full text-xs font-semibold ${
-                                    stage === 'Hired' ? 'bg-green-100 text-green-800' :
-                                    stage === 'Declined' ? 'bg-red-100 text-red-800' :
-                                    'bg-blue-100 text-blue-800'
-                                }`}>
-                                    {stageApplicants.length} candidate{stageApplicants.length !== 1 ? 's' : ''}
-                                </span>
-                            </div>
-                            
-                            <div className="space-y-3">
-                                {stageApplicants.length === 0 ? (
-                                    <div className="text-center py-6">
-                                        <div className="text-gray-400 mb-1">No candidates</div>
-                                        <div className="text-xs text-gray-300">Drag candidates here</div>
-                                    </div>
-                                ) : (
-                                    stageApplicants.map(applicant => (
-                                        <div 
-                                            key={applicant.id} 
-                                            className="bg-white p-3 rounded-lg border border-gray-100 shadow-xs transition-all duration-200 hover:shadow-sm hover:border-gray-300 group"
-                                            draggable="true"
-                                        >
-                                            <div className="flex items-center justify-between mb-2">
-                                                <div className="flex items-center gap-3">
-                                                    <div className="relative">
-                                                        <img
-                                                            src={applicant.avatar}
-                                                            alt={applicant.name}
-                                                            className="w-9 h-9 rounded-full object-cover border-2 border-white shadow-xs"
-                                                            onError={(e) => {
-                                                                e.target.style.display = 'none';
-                                                                e.target.nextSibling.style.display = 'flex';
-                                                            }}
-                                                        />
-                                                        <div className={`w-9 h-9 ${getAvatarColor(applicant.id)} rounded-full items-center justify-center text-white text-sm font-medium hidden shadow-xs`}>
-                                                            {getInitials(applicant.name)}
-                                                        </div>
-                                                        {applicant.score > 7 && (
-                                                            <div className="absolute -bottom-1 -right-1 bg-yellow-400 rounded-full p-0.5">
-                                                                <Star className="w-3 h-3 text-white fill-white" />
-                                                            </div>
-                                                        )}
-                                                    </div>
-                                                    <div>
-                                                        <span className="font-medium text-sm block">{applicant.name}</span>
-                                                        <span className="text-xs text-gray-500">{applicant.jobRole}</span>
-                                                    </div>
-                                                </div>
-                                                <button className="text-gray-400 hover:text-gray-600 opacity-0 group-hover:opacity-100 transition-opacity">
-                                                    <MoreHorizontal className="w-4 h-4" />
-                                                </button>
-                                            </div>
-                                            
-                                            <div className="flex justify-between items-center mt-2">
-                                                <div className="flex gap-1">
-                                                    {renderStars(applicant.score)}
-                                                </div>
-                                                <span className="text-xs text-gray-400">
-                                                    {new Date(applicant.appliedDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
-                                                </span>
-                                            </div>
-                                            
-                                            <div className="grid grid-cols-2 gap-2 mt-3">
-                                                <button className="px-2 py-1.5 bg-gray-50 hover:bg-gray-100 text-gray-600 text-xs font-medium rounded-lg transition-colors">
-                                                    Profile
-                                                </button>
-                                                <button className="px-2 py-1.5 bg-orange-50 hover:bg-orange-100 text-orange-600 text-xs font-medium rounded-lg transition-colors">
-                                                    Application
-                                                </button>
-                                            </div>
+        return (
+            <div className="p-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+                    {Object.entries(stages).map(([stage, stageApplicants]) => (
+                        <div
+                            key={stage}
+                            className={`rounded-xl shadow-sm border ${stageColors[stage]} transition-all duration-300 hover:shadow-md hover:translate-y-[-2px]`}
+                        >
+                            <div className="p-4">
+                                <div className="flex justify-between items-center mb-4">
+                                    <h3 className="font-semibold text-gray-700 flex items-center gap-2">
+                                        {stageHeaders[stage]}
+                                    </h3>
+                                    <span className={`px-2.5 py-1 rounded-full text-xs font-semibold ${stage === 'Hired' ? 'bg-green-100 text-green-800' :
+                                        stage === 'Declined' ? 'bg-red-100 text-red-800' :
+                                            'bg-blue-100 text-blue-800'
+                                        }`}>
+                                        {stageApplicants.length} candidate{stageApplicants.length !== 1 ? 's' : ''}
+                                    </span>
+                                </div>
+
+                                <div className="space-y-3">
+                                    {stageApplicants.length === 0 ? (
+                                        <div className="text-center py-6">
+                                            <div className="text-gray-400 mb-1">No candidates</div>
+                                            <div className="text-xs text-gray-300">Drag candidates here</div>
                                         </div>
-                                    ))
-                                )}
+                                    ) : (
+                                        stageApplicants.map(applicant => (
+                                            <div
+                                                key={applicant.id}
+                                                className="bg-white p-3 rounded-lg border border-gray-100 shadow-xs transition-all duration-200 hover:shadow-sm hover:border-gray-300 group"
+                                                draggable="true"
+                                            >
+                                                <div className="flex items-center justify-between mb-2">
+                                                    <div className="flex items-center gap-3">
+                                                        <div className="relative">
+                                                            <img
+                                                                src={applicant.avatar}
+                                                                alt={applicant.name}
+                                                                className="w-9 h-9 rounded-full object-cover border-2 border-white shadow-xs"
+                                                                onError={(e) => {
+                                                                    e.target.style.display = 'none';
+                                                                    e.target.nextSibling.style.display = 'flex';
+                                                                }}
+                                                            />
+                                                            <div className={`w-9 h-9 ${getAvatarColor(applicant.id)} rounded-full items-center justify-center text-white text-sm font-medium hidden shadow-xs`}>
+                                                                {getInitials(applicant.name)}
+                                                            </div>
+                                                            {applicant.score > 7 && (
+                                                                <div className="absolute -bottom-1 -right-1 bg-yellow-400 rounded-full p-0.5">
+                                                                    <Star className="w-3 h-3 text-white fill-white" />
+                                                                </div>
+                                                            )}
+                                                        </div>
+                                                        <div>
+                                                            <span className="font-medium text-sm block">{applicant.name}</span>
+                                                            <span className="text-xs text-gray-500">{applicant.jobRole}</span>
+                                                        </div>
+                                                    </div>
+                                                    <button className="text-gray-400 hover:text-gray-600 opacity-0 group-hover:opacity-100 transition-opacity">
+                                                        <MoreHorizontal className="w-4 h-4" />
+                                                    </button>
+                                                </div>
+
+                                                <div className="flex justify-between items-center mt-2">
+                                                    <div className="flex gap-1">
+                                                        {renderStars(applicant.score)}
+                                                    </div>
+                                                    <span className="text-xs text-gray-400">
+                                                        {new Date(applicant.appliedDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                                                    </span>
+                                                </div>
+
+                                                <div className="grid grid-cols-2 gap-2 mt-3">
+                                                    <button className="px-2 py-1.5 bg-gray-50 hover:bg-gray-100 text-gray-600 text-xs font-medium rounded-lg transition-colors">
+                                                        Profile
+                                                    </button>
+                                                    <button className="px-2 py-1.5 bg-orange-50 hover:bg-orange-100 text-orange-600 text-xs font-medium rounded-lg transition-colors">
+                                                        Application
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        ))
+                                    )}
+                                </div>
                             </div>
                         </div>
-                    </div>
-                ))}
+                    ))}
+                </div>
             </div>
-        </div>
-    );
-};
+        );
+    };
 
     const renderCardView = () => {
         return (
@@ -349,9 +350,9 @@ const ClientAllApplications = () => {
                         <div className="text-xs text-gray-500 mb-3">
                             Applied: {applicant.appliedDate}
                         </div>
-                        <button className="w-full px-3 py-2 bg-orange-50 text-orange-600 text-sm font-medium rounded hover:bg-orange-100">
+                        <Link to="/clientApplicationDetails" className="w-full px-3 py-2 bg-orange-50 text-orange-600 text-sm font-medium rounded hover:bg-orange-100">
                             See Application
-                        </button>
+                        </Link>
                     </div>
                 ))}
             </div>
@@ -482,9 +483,9 @@ const ClientAllApplications = () => {
                                 <td className="p-4 text-gray-600">{applicant.jobRole}</td>
                                 <td className="p-4">
                                     <div className="flex items-center gap-2">
-                                        <button className="px-4 py-2.5 text-[14px] text-orange-600 bg-[#fff0e5] border font-extrabold border-orange-500 hover:bg-orange-100 transition-colors duration-200">
+                                        <Link to="/clientApplicationDetails" className="px-4 py-2.5 text-[14px] text-orange-600 bg-[#fff0e5] border font-extrabold border-orange-500 hover:bg-orange-100 transition-colors duration-200">
                                             See Application
-                                        </button>
+                                        </Link>
                                         <button className="p-2 rounded-md hover:bg-gray-100 transition-colors duration-200">
                                             <MoreHorizontal className="w-4 h-4 text-gray-500" />
                                         </button>
@@ -500,10 +501,16 @@ const ClientAllApplications = () => {
 
     return (
         <div className="min-h-screen flex bg-[#fff0e5]">
-            <ClientSidbar />
+            <div className="sticky top-0 left-0  h-screen">
+
+                <ClientSidbar />
+            </div>
 
             <div className="flex flex-col flex-1 ">
-                <ClientHeader />
+                <div className="sticky top-0 z-10 ">
+
+                    <ClientHeader />
+                </div>
 
                 <main className="flex-1 overflow-y-auto p-6">
                     <h1 className="text-2xl font-bold text-orange-600 mb-4">Profile</h1>
@@ -579,22 +586,22 @@ const ClientAllApplications = () => {
                                 Applicants per page
                             </div>
                             <div className="flex items-center gap-1">
-                                <button 
-                                    disabled={currentPage === 1} 
-                                    onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))} 
+                                <button
+                                    disabled={currentPage === 1}
+                                    onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
                                     className="p-2 text-gray-400 hover:text-gray-600 disabled:opacity-50"
                                 >
                                     <ChevronLeft />
                                 </button>
                                 <button className="px-3 py-1 bg-orange-600 text-white rounded">{currentPage}</button>
-                                <button 
-                                    className="px-3 py-1 hover:bg-gray-100 rounded" 
+                                <button
+                                    className="px-3 py-1 hover:bg-gray-100 rounded"
                                     onClick={() => setCurrentPage(prev => prev + 1)}
                                 >
                                     2
                                 </button>
-                                <button 
-                                    onClick={() => setCurrentPage(prev => prev + 1)} 
+                                <button
+                                    onClick={() => setCurrentPage(prev => prev + 1)}
                                     className="p-2 text-gray-400 hover:text-gray-600"
                                 >
                                     <ChevronRight />
@@ -603,6 +610,8 @@ const ClientAllApplications = () => {
                         </div>
                     </div>
                 </main>
+                        <ClientFooter />
+
             </div>
         </div>
     );
