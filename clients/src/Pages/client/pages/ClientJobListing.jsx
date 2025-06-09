@@ -113,7 +113,7 @@ function ClientJobListing() {
                     <div className="flex-1 p-6">
                         {/* Page Header */}
                         <div className="mb-5">
-                            <h1 className="text-2xl font-semibold text-orange-600 mb-2">Applicant Details</h1>
+                            <h1 className="text-3xl font-semibold text-orange-600 mb-2">Applicant Details</h1>
                         </div>
 
                         {/* Job Listing Section */}

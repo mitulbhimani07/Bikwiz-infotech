@@ -128,7 +128,7 @@ function CompanyProfile() {
 
           <div className=" bg-[#fff0e5] p-4 md:p-6 lg:p-6">
             <div className="text-orange-400 mb-4">
-              <p className="text-4xl font-bold">Profile</p>
+              <p className="text-3xl font-bold">Profile</p>
             </div>
             <div className="max-w-7xl  bg-white rounded-3xl mx-0  overflow-hidden">
               {/* Header */}

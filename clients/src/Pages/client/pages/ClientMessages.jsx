@@ -149,7 +149,7 @@ export default function ClientMessages() {
                 {/* Main content (messages) */}
                 <div className='p-6'>
                     <div className="mb-5">
-                        <h1 className="text-2xl font-bold  text-orange-500 ">Messages</h1>
+                        <h1 className="text-3xl font-bold  text-orange-500 ">Messages</h1>
                     </div>
                     <div className="flex flex-1  ">
                         {/* Left panel - conversation list */}
