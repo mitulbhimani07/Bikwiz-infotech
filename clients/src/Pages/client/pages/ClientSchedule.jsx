@@ -73,7 +73,7 @@ function ClientSchedule() {
   });
 
   const timeSlots = [
-    '1 AM', '2 AM', '3 AM', '4 AM', '5 AM', '6 AM', 
+    '1 AM', '2 AM', '3 AM', '4 AM', '5 AM', '6 AM',
     '7 AM', '8 AM', '9 AM', '10 AM', '11 AM', '12 PM',
     '1 PM', '2 PM', '3 PM', '4 PM', '5 PM', '6 PM',
     '7 PM', '8 PM', '9 PM', '10 PM', '11 PM', '12 AM'
@@ -128,8 +128,8 @@ function ClientSchedule() {
     setEvents((prev) => {
       const updated = { ...prev };
       if (!updated.month[day]) updated.month[day] = [];
-      updated.month[day].push({ 
-        title: item.name, 
+      updated.month[day].push({
+        title: item.name,
         color: item.color,
         description: '',
         startTime: '09:00',
@@ -147,8 +147,8 @@ function ClientSchedule() {
       const updated = { ...prev };
       if (!updated.week[dateKey]) updated.week[dateKey] = {};
       if (!updated.week[dateKey][timeSlot]) updated.week[dateKey][timeSlot] = [];
-      updated.week[dateKey][timeSlot].push({ 
-        title: item.name, 
+      updated.week[dateKey][timeSlot].push({
+        title: item.name,
         color: item.color,
         description: '',
         startTime: timeSlot.toLowerCase(),
@@ -166,8 +166,8 @@ function ClientSchedule() {
       const updated = { ...prev };
       if (!updated.day[dateKey]) updated.day[dateKey] = {};
       if (!updated.day[dateKey][timeSlot]) updated.day[dateKey][timeSlot] = [];
-      updated.day[dateKey][timeSlot].push({ 
-        title: item.name, 
+      updated.day[dateKey][timeSlot].push({
+        title: item.name,
         color: item.color,
         description: '',
         startTime: timeSlot.toLowerCase(),
@@ -181,8 +181,11 @@ function ClientSchedule() {
 
   return (
     <DndProvider backend={HTML5Backend}>
-      <div className="flex overflow-hidden bg-[#fff0e5]">
-        <ClientSidbar />
+      <div className="min-h-screen flex bg-[#fff0e5]">
+        <div className="sticky top-0 left-0  h-screen">
+
+          <ClientSidbar />
+        </div>
         <div className="flex flex-col flex-1 h-full overflow-hidden">
           <div className="sticky top-0 z-10">
             <ClientHeader />
@@ -211,7 +214,7 @@ function ClientSchedule() {
                 </div>
 
                 <div className="flex items-center space-x-4">
-                  <button 
+                  <button
                     onClick={() => navigateMonth('prev')}
                     className="p-2 text-orange-500 hover:bg-orange-50 rounded transition-colors"
                   >
@@ -220,7 +223,7 @@ function ClientSchedule() {
                   <h2 className="text-md font-semibold text-gray-800 uppercase tracking-wide">
                     {selectedDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
                   </h2>
-                  <button 
+                  <button
                     onClick={() => navigateMonth('next')}
                     className="p-2 text-orange-500 hover:bg-orange-50 rounded transition-colors"
                   >
@@ -239,7 +242,7 @@ function ClientSchedule() {
 
               <div className="flex border border-orange-400 text-gray-800 overflow-hidden border-e-0">
                 <div className="w-[320px] border-r border-orange-200 px-4 py-6 space-y-6">
-                  <button 
+                  <button
                     onClick={handleCreateEvent}
                     className="w-full text-orange-600 border border-orange-500 py-2 rounded font-medium hover:bg-orange-100 transition"
                   >
@@ -253,12 +256,12 @@ function ClientSchedule() {
                           {selectedDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
                         </h2>
                         <div className="flex space-x-1 text-orange-500">
-                          <ChevronLeft 
-                            className="w-7 h-7 cursor-pointer hover:bg-orange-50 rounded p-1" 
+                          <ChevronLeft
+                            className="w-7 h-7 cursor-pointer hover:bg-orange-50 rounded p-1"
                             onClick={() => navigateMonth('prev')}
                           />
-                          <ChevronRight 
-                            className="w-7 h-7 cursor-pointer hover:bg-orange-50 rounded p-1" 
+                          <ChevronRight
+                            className="w-7 h-7 cursor-pointer hover:bg-orange-50 rounded p-1"
                             onClick={() => navigateMonth('next')}
                           />
                         </div>
@@ -329,18 +332,18 @@ function ClientSchedule() {
                             {weekDates.map((date, dayIdx) => {
                               const dateKey = date.toDateString();
                               const timeSlotEvents = events.week[dateKey]?.[time] || [];
-                              
+
                               return (
-                                <WeekTimeSlot 
+                                <WeekTimeSlot
                                   key={`${dateKey}-${time}`}
                                   date={date}
                                   timeSlot={time}
                                   events={timeSlotEvents}
                                   onDrop={handleWeekDrop}
-                                  onEventClick={(event, index) => handleEventClick(event, index, { 
-                                    type: 'week', 
-                                    dateKey, 
-                                    timeSlot: time 
+                                  onEventClick={(event, index) => handleEventClick(event, index, {
+                                    type: 'week',
+                                    dateKey,
+                                    timeSlot: time
                                   })}
                                 />
                               );
@@ -365,14 +368,14 @@ function ClientSchedule() {
                       <div className="bg-white">
                         {(() => {
                           const dayTimeSlots = [
-                             '1 Am', '2 Am', '3 Am', '4 Am', '5 Am', '6 Am', '7 Am', '8 Am', 
+                            '1 Am', '2 Am', '3 Am', '4 Am', '5 Am', '6 Am', '7 Am', '8 Am',
                             '9 Am', '10 Am', '11 Am'
                           ];
-                          
+
                           return dayTimeSlots.map((time, i) => {
                             const dateKey = selectedDate.toDateString();
                             const timeSlotEvents = events.day[dateKey]?.[time] || [];
-                            
+
                             return (
                               <div key={i} className="flex border-b border-orange-400 ">
                                 <div className="w-16 flex-shrink-0 p-3 text-right border-r border-orange-400">
@@ -380,16 +383,16 @@ function ClientSchedule() {
                                     {time}
                                   </div>
                                 </div>
-                                
+
                                 <div className="flex-1 relative">
-                                  <DayTimeSlot 
+                                  <DayTimeSlot
                                     timeSlot={time}
                                     events={timeSlotEvents}
                                     onDrop={handleDayDrop}
-                                    onEventClick={(event, index) => handleEventClick(event, index, { 
-                                      type: 'day', 
-                                      dateKey, 
-                                      timeSlot: time 
+                                    onEventClick={(event, index) => handleEventClick(event, index, {
+                                      type: 'day',
+                                      dateKey,
+                                      timeSlot: time
                                     })}
                                   />
                                 </div>
@@ -430,14 +433,14 @@ function ClientSchedule() {
                             const key = date.toDateString();
 
                             days.push(
-                              <DayCell 
-                                key={key} 
-                                date={date} 
-                                events={events.month[d] || []} 
+                              <DayCell
+                                key={key}
+                                date={date}
+                                events={events.month[d] || []}
                                 onDrop={handleMonthDrop}
-                                onEventClick={(event, index) => handleEventClick(event, index, { 
-                                  type: 'month', 
-                                  day: d 
+                                onEventClick={(event, index) => handleEventClick(event, index, {
+                                  type: 'month',
+                                  day: d
                                 })}
                               />
                             );
@@ -465,7 +468,7 @@ function ClientSchedule() {
             </div>
           </div>
 
-          <ClientFooter/>
+          <ClientFooter />
         </div>
       </div>
 
@@ -717,14 +720,13 @@ function CategoryItem({ name, color, checked }) {
   }));
 
   return (
-    <div 
-      ref={drag} 
+    <div
+      ref={drag}
       className={`flex items-center space-x-3 cursor-move transition-opacity ${isDragging ? 'opacity-50' : 'opacity-100'}`}
     >
       <div
-        className={`w-5 h-5 flex items-center justify-center rounded border border-orange-400 ${
-          checked ? color : 'border-orange-400'
-        }`}
+        className={`w-5 h-5 flex items-center justify-center rounded border border-orange-400 ${checked ? color : 'border-orange-400'
+          }`}
       >
         {checked && <Check className="w-4 h-4 text-white" />}
       </div>
@@ -747,15 +749,14 @@ function DayCell({ date, events, onDrop, onEventClick }) {
   return (
     <div
       ref={drop}
-      className={`p-2 border border-orange-100 h-28 relative transition-colors ${
-        isOver ? 'bg-orange-100' : 'bg-white'
-      }`}
+      className={`p-2 border border-orange-100 h-28 relative transition-colors ${isOver ? 'bg-orange-100' : 'bg-white'
+        }`}
     >
       <div className="text-xs text-gray-700 font-semibold mb-1">{date.getDate()}</div>
       <div className="space-y-1">
         {events.map((ev, idx) => (
-          <div 
-            key={idx} 
+          <div
+            key={idx}
             onClick={() => onEventClick(ev, idx)}
             className={`text-[10px] text-white px-1 py-0.5 rounded cursor-pointer hover:opacity-80 transition-opacity ${ev.color}`}
           >
@@ -781,14 +782,13 @@ function WeekTimeSlot({ date, timeSlot, events, onDrop, onEventClick }) {
   return (
     <div
       ref={drop}
-      className={`border-r border-orange-400 border-b p-1 relative last:border-r-0 transition-colors ${
-        isOver ? 'bg-orange-50' : 'bg-white'
-      }`}
+      className={`border-r border-orange-400 border-b p-1 relative last:border-r-0 transition-colors ${isOver ? 'bg-orange-50' : 'bg-white'
+        }`}
     >
       {/* Dropped events */}
       {events.map((event, idx) => (
-        <div 
-          key={idx} 
+        <div
+          key={idx}
           onClick={() => onEventClick(event, idx)}
           className={`rounded-md text-white text-xs leading-tight shadow-sm p-1 mb-1 cursor-pointer hover:opacity-80 transition-opacity ${event.color}`}
         >
@@ -814,14 +814,13 @@ function DayTimeSlot({ timeSlot, events, onDrop, onEventClick }) {
   return (
     <div
       ref={drop}
-      className={`min-h-[50px] p-3 relative transition-colors ${
-        isOver ? 'bg-orange-50' : 'hover:bg-orange-50'
-      }`}
+      className={`min-h-[50px] p-3 relative transition-colors ${isOver ? 'bg-orange-50' : 'hover:bg-orange-50'
+        }`}
     >
       {/* Dropped events */}
       {events.map((event, idx) => (
-        <div 
-          key={idx} 
+        <div
+          key={idx}
           onClick={() => onEventClick(event, idx)}
           className={`rounded-lg text-white text-sm shadow-sm p-3 mb-2 cursor-pointer hover:opacity-80 transition-opacity ${event.color}`}
         >
@@ -829,7 +828,7 @@ function DayTimeSlot({ timeSlot, events, onDrop, onEventClick }) {
           <div className="text-xs opacity-90 mt-1">{timeSlot}</div>
         </div>
       ))}
-      
+
       {/* Drop zone indicator */}
       {isOver && (
         <div className="absolute inset-0 border-2 border-dashed border-orange-300 rounded-lg bg-orange-50 bg-opacity-50 flex items-center justify-center">
