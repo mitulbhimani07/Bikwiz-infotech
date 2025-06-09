@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Upload, Bold, Italic, Underline, List, Link } from 'lucide-react';
 import ClientSidbar from '../navbar/ClientSidbar';
 import ClientHeader from '../navbar/ClientHeader';
-import { Instagram, Linkedin, Grid3X3 } from 'lucide-react';
+import { Instagram, Linkedin, Grid3X3, Plus } from 'lucide-react';
 import { IoImage } from "react-icons/io5";
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
@@ -132,24 +132,29 @@ function ClientSettings() {
                         </div>
 
                         {/* Settings Section */}
-                        <div className="bg-white rounded-lg shadow-sm pl-12 pr-36 ">
+                        <div className="bg-white rounded-lg shadow-sm pl-8 pr-12 ">
                             {/* Tabs */}
-                            <div className="border-b-2 border-orange-200  pt-6">
-                                <nav className="flex space-x-8">
+                            <div className="border-b border-orange-200 pt-6">
+                                <nav className="flex justify-start space-x-8 relative">
                                     {tabs.map((tab) => (
                                         <button
                                             key={tab}
                                             onClick={() => setActiveTab(tab)}
-                                            className={`py-2  border-b-2 font-medium text-[16px] ${activeTab === tab
-                                                ? 'border-b-4 pt-2  border-orange-500 text-black font-semibold'
-                                                : 'border-transparent text-gray-400 hover:text-gray-700 hover:border-gray-300'
+                                            className={`relative pb-2 text-[16px] font-medium transition-all duration-300 ${activeTab === tab
+                                                    ? 'text-black font-semibold'
+                                                    : 'text-gray-400 hover:text-gray-600'
                                                 }`}
                                         >
                                             {tab}
+                                            {activeTab === tab && (
+                                                <span className="absolute -bottom-0 left-0 w-full h-1 rounded-t-full bg-orange-500" />
+                                            )}
                                         </button>
                                     ))}
                                 </nav>
                             </div>
+
+
 
                             {/* Tab Content */}
                             <div className=" py-8">
@@ -447,118 +452,80 @@ function ClientSettings() {
                                 )}
 
                                 {activeTab === 'Team' && (
-                                    <div className="max-w-7xl mx-auto p-4 sm:p-6">
-                                        {/* Header Section - Flexible Layout */}
-                                        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-6 sm:mb-8 gap-4 lg:gap-6">
-                                            {/* Left Side - Basic Information */}
-                                            <div className="flex-1 min-w-0">
-                                                <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-8">
-                                                    <div className="flex-shrink-0">
-                                                        <h1 className="text-xl sm:text-2xl font-bold text-gray-900">
-                                                            {teamMembers.length} Members
-                                                        </h1>
-                                                    </div>
-                                                    <div className="flex-1 min-w-0">
-                                                        <h2 className="text-base sm:text-lg font-semibold text-gray-800 mb-1">
-                                                            Basic Information
-                                                        </h2>
-                                                        <p className="text-xs sm:text-sm text-gray-600">
-                                                            Add team members of your company
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            {/* Right Side - Controls */}
-                                            <div className="flex items-center gap-3 flex-shrink-0">
-                                                <button className="bg-orange-500 hover:bg-orange-600 text-white px-3 sm:px-4 py-2 rounded-lg font-medium transition-colors duration-200 flex items-center gap-2 text-sm sm:text-base">
-                                                    <span className="text-lg">+</span>
-                                                    <span className="hidden xs:inline">Add Members</span>
-                                                    <span className="xs:hidden">Add</span>
-                                                </button>
-
-                                                <div className="flex bg-white border border-gray-200 rounded-lg overflow-hidden">
-                                                    <button
-                                                        onClick={() => setViewMode('grid')}
-                                                        className={`p-2 ${viewMode === 'grid'
-                                                            ? 'bg-orange-500 text-white'
-                                                            : 'text-gray-400 hover:text-gray-600'
-                                                            } transition-colors duration-200`}
-                                                    >
-                                                        <Grid3X3 size={18} />
-                                                    </button>
-                                                    <button
-                                                        onClick={() => setViewMode('list')}
-                                                        className={`p-2 ${viewMode === 'list'
-                                                            ? 'bg-orange-500 text-white'
-                                                            : 'text-gray-400 hover:text-gray-600'
-                                                            } transition-colors duration-200`}
-                                                    >
-                                                        <List size={18} />
-                                                    </button>
-                                                </div>
-                                            </div>
+                                    <div className="flex  min-h-screen">
+                                        {/* Left Sidebar Info */}
+                                        <div className="w-1/4 p-6  ">
+                                            <h2 className="font-semibold text-sm text-gray-800 mb-1">Basic Information</h2>
+                                            <p className="text-gray-500 text-sm">Add team members of your company</p>
                                         </div>
 
-                                        {/* Team Members Grid/List */}
-                                        <div className={`grid gap-4 sm:gap-6 ${viewMode === 'grid'
-                                            ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3'
-                                            : 'grid-cols-1'
-                                            }`}>
-                                            {teamMembers.map((member) => (
-                                                <div
-                                                    key={member.id}
-                                                    className={`bg-white rounded-xl border border-gray-200 p-4 sm:p-6 hover:shadow-lg transition-all duration-300 hover:border-orange-200 ${viewMode === 'list'
-                                                        ? 'flex items-center gap-4 sm:gap-6'
-                                                        : 'text-center'
-                                                        }`}
-                                                >
-                                                    <div className={`${viewMode === 'list' ? 'flex-shrink-0' : 'mb-4'}`}>
-                                                        <img
-                                                            src={member.image}
-                                                            alt={member.name}
-                                                            className={`rounded-full object-cover border-4 border-gray-100 ${viewMode === 'list'
-                                                                ? 'w-16 h-16 sm:w-20 sm:h-20'
-                                                                : 'w-20 h-20 mx-auto'
-                                                                }`}
-                                                        />
+                                        {/* Right Section */}
+                                        <div className="flex-1 p-6">
+                                            {/* Top Header */}
+                                            <div className="flex items-center justify-between mb-6">
+                                                <h2 className="text-xl font-semibold">50 Members</h2>
+                                                <div className="flex gap-3 items-center">
+                                                    <button className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 text-sm">
+                                                        <Plus size={18} /> Add Members
+                                                    </button>
+                                                    <div className="flex bg-white border border-gray-200 rounded-lg overflow-hidden">
+                                                        <button
+                                                            onClick={() => setViewMode("grid")}
+                                                            className={`p-2 ${viewMode === "grid" ? "bg-orange-500 text-white" : "text-gray-400 hover:text-gray-600"}`}
+                                                        >
+                                                            <Grid3X3 size={18} />
+                                                        </button>
+                                                        <button
+                                                            onClick={() => setViewMode("list")}
+                                                            className={`p-2 ${viewMode === "list" ? "bg-orange-500 text-white" : "text-gray-400 hover:text-gray-600"}`}
+                                                        >
+                                                            <List size={18} />
+                                                        </button>
                                                     </div>
+                                                </div>
+                                            </div>
 
-                                                    <div className={`${viewMode === 'list' ? 'flex-1 min-w-0' : ''}`}>
-                                                        <h3 className={`font-semibold text-gray-900 text-base sm:text-lg mb-1 ${viewMode === 'list' ? 'text-left' : ''
-                                                            }`}>
-                                                            {member.name}
-                                                        </h3>
-                                                        <p className={`text-gray-600 text-xs sm:text-sm mb-3 sm:mb-4 ${viewMode === 'list' ? 'text-left' : ''
-                                                            }`}>
-                                                            {member.role}
-                                                        </p>
+                                            {/* Team Cards */}
+                                            <div className={`grid gap-4 ${viewMode === "grid" ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3" : "grid-cols-1"}`}>
+                                                {teamMembers.map((member) => (
+                                                    <div
+                                                        key={member.id}
+                                                        className={`bg-white border-2 border-orange-200 rounded-md px-6 py-4 transition hover:shadow-lg hover:border-orange-300 ${viewMode === "list" ? "flex items-center gap-6" : "text-center"}`}
+                                                    >
+                                                        <div className={`${viewMode === "list" ? "flex-shrink-0" : "mb-4"}`}>
+                                                            <img
+                                                                src={member.image}
+                                                                alt={member.name}
+                                                                className={`w-20 h-20 object-cover rounded-full border-4 border-gray-100 ${viewMode === "grid" ? "mx-auto" : ""}`}
+                                                            />
+                                                        </div>
+                                                        <div className={`${viewMode === "list" ? "flex-1 min-w-0" : ""}`}>
+                                                            <h3 className={`text-gray-900 font-semibold mb-1 ${viewMode === "list" ? "text-left" : ""}`}>
+                                                                {member.name}
+                                                            </h3>
+                                                            <p className={`text-sm text-gray-400 mb-1 ${viewMode === "list" ? "text-left" : ""}`}>
+                                                                {member.role}
+                                                            </p>
+                                                            <div className={`flex  ${viewMode === "list" ? "justify-start" : "justify-center"}`}>
+                                                                <a href={member.linkedin} className="w-8 h-8 flex items-center justify-center  text-gray-400 hover:text-orange-500 hover:border-orange-300 transition">
+                                                                    <Linkedin size={16} />
+                                                                </a>
+                                                                <a href={member.instagram} className="w-8 h-8 flex items-center justify-center   text-gray-400 hover:text-orange-500 hover:border-orange-300 transition">
+                                                                    <Instagram size={16} />
+                                                                </a>
 
-                                                        <div className={`flex gap-3 ${viewMode === 'list' ? 'justify-start' : 'justify-center'
-                                                            }`}>
-                                                            <a
-                                                                href={member.instagram}
-                                                                className="w-7 h-7 sm:w-8 sm:h-8 rounded-full border border-gray-300 flex items-center justify-center text-gray-500 hover:text-orange-500 hover:border-orange-300 transition-all duration-200"
-                                                            >
-                                                                <Instagram size={14} className="sm:w-4 sm:h-4" />
-                                                            </a>
-                                                            <a
-                                                                href={member.linkedin}
-                                                                className="w-7 h-7 sm:w-8 sm:h-8 rounded-full border border-gray-300 flex items-center justify-center text-gray-500 hover:text-orange-500 hover:border-orange-300 transition-all duration-200"
-                                                            >
-                                                                <Linkedin size={14} className="sm:w-4 sm:h-4" />
-                                                            </a>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            ))}
-                                        </div>
+                                                ))}
+                                            </div>
 
-                                        {/* Save Changes Button */}
-                                        <div className="flex justify-end mt-6 sm:mt-8">
-                                            <button className="bg-orange-500 hover:bg-orange-600 text-white px-6 sm:px-8 py-2 sm:py-3 rounded-lg font-medium transition-colors duration-200 text-sm sm:text-base">
-                                                Save Changes
-                                            </button>
+                                            {/* Save Button */}
+                                            <div className="flex justify-end mt-8">
+                                                <button className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-3 rounded-lg font-medium transition">
+                                                    Save Changes
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
                                 )}
