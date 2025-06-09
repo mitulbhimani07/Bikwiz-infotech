@@ -21,3 +21,128 @@
   background-color: rgba(0, 0, 0, 0.6); /* Dark transparent overlay */
   z-index: 1;
 }
+
+
+/* calendar css */
+
+/* Custom React Calendar Styles */
+.react-calendar-container {
+  font-size: 14px;
+}
+
+.custom-calendar {
+  width: 100%;
+  border: none !important;
+  font-family: inherit;
+  background: transparent;
+}
+
+.custom-calendar .react-calendar__navigation {
+  display: none; /* Hide default navigation since we have custom one */
+}
+
+.custom-calendar .react-calendar__month-view__weekdays {
+  text-align: center;
+  font-weight: 500;
+  font-size: 14px;
+  color: #9ca3af;
+  text-transform: capitalize;
+}
+
+.custom-calendar .react-calendar__month-view__weekdays__weekday {
+  padding: 8px 0;
+  text-decoration: none;
+}
+
+.custom-calendar .react-calendar__month-view__days {
+  display: grid !important;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0;
+}
+
+.custom-calendar .react-calendar__month-view__days__day {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.custom-calendar .react-calendar__tile {
+  max-width: 100%;
+  height: 32px;
+  background: none;
+  border: none;
+  font-size: 14px;
+  color: #374151;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-radius: 50%;
+  margin: 2px;
+  position: relative;
+  margin-left:0 !important
+}
+
+.custom-calendar .react-calendar__tile:hover {
+  background-color: #fed7aa;
+  color: #ea580c;
+}
+
+.custom-calendar .react-calendar__tile--active,
+.custom-calendar .react-calendar__tile--selected {
+  background-color: #f97316 !important;
+  color: white !important;
+  font-weight: 600;
+}
+
+.custom-calendar .react-calendar__tile--now {
+  background-color: #fef3c7;
+  color: #92400e;
+  font-weight: 500;
+}
+
+.custom-calendar .react-calendar__tile--neighboringMonth {
+  color: #d1d5db;
+  background: transparent;
+}
+
+.custom-calendar .react-calendar__tile:enabled:hover,
+.custom-calendar .react-calendar__tile:enabled:focus {
+  background-color: #fed7aa;
+}
+
+.custom-calendar .react-calendar__tile--selected:hover {
+  background-color: #ea580c !important;
+}
+
+/* Remove default focus outline */
+.custom-calendar .react-calendar__tile:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px #f97316;
+}
+
+/* Custom styling for specific dates with events */
+.custom-calendar .react-calendar__tile--hasEvent::after {
+  content: '';
+  position: absolute;
+  bottom: 2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 4px;
+  background-color: #f97316;
+  border-radius: 50%;
+}
+
+/* Remove pointer and hover for disabled dates */
+.react-calendar__tile:disabled {
+  background: none !important;
+  color: #ccc !important;
+  cursor: default !important;
+  pointer-events: none;
+}
+
+.react-calendar__tile:disabled:hover {
+  background: none !important;
+}
