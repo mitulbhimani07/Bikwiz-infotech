@@ -55,7 +55,7 @@ function ClientDashboard() {
         {/* Main Scrollable Area */}
         <main className="flex-1 overflow-y-auto p-6">
           {/* Title */}
-          <h1 className="text-4xl font-bold text-orange-500 mb-6">Dashboard</h1>
+          <h1 className="text-3xl font-bold text-orange-500 mb-6">Dashboard</h1>
 
           {/* Stats Cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">

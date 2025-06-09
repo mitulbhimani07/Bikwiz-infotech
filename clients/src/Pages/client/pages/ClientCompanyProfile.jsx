@@ -123,7 +123,7 @@ function CompanyProfile() {
 
           <div className="min-h-screen bg-orange-50 p-4 md:p-6 lg:p-8">
             <div className="text-orange-400 mb-4">
-              <h1 className="text-4xl font-bold">Profile</h1>
+              <h1 className="text-3xl font-bold">Profile</h1>
             </div>
             <div className="max-w-6xl mx-auto bg-white rounded-3xl  overflow-hidden">
               {/* Header */}

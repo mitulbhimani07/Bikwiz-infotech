@@ -188,12 +188,12 @@ function ClientSchedule() {
             <ClientHeader />
           </div>
 
-          <div className="min-h-screen bg-orange-50 p-6">
+          <div className="min-h-screen bg-orange-50 p-6 ">
             <div className="text-orange-500 mb-6">
               <h1 className="text-3xl font-bold">My Schedule</h1>
             </div>
 
-            <div className='bg-white ps-8 pt-3 pb-5'>
+            <div className='bg-white ps-8 pt-3 pb-5 rounded-3xl'>
               <div className="rounded-lg flex items-center justify-between w-full mb-6">
                 <div className="flex space-x-1  rounded-lg p-1">
                   {['My Schedule', 'Today'].map((label) => (

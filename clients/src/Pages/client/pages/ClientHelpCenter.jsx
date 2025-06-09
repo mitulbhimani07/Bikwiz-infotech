@@ -62,7 +62,7 @@ function ClientHelpCenter() {
 
                 <div className="px-12 py-8">
                     {/* Unified card for sidebar + content */}
-                    <h1 className="text-2xl font-semibold text-orange-500 mb-6">Help Center</h1>
+                    <h1 className="text-3xl font-semibold text-orange-500 mb-6">Help Center</h1>
 
                     <div className="bg-white rounded-lg  px-6">
                         {/* Heading */}
