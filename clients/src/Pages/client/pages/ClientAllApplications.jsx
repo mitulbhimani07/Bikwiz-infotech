@@ -7,7 +7,7 @@ import {
 import ClientHeader from '../navbar/ClientHeader';
 import ClientSidbar from '../navbar/ClientSidbar';
 import profile1 from "../../../assets/images/clientDashbord/allapplications/1.jpg"
-import { Link } from 'react-router-dom';
+import { Link, Links } from 'react-router-dom';
 import ClientFooter from '../navbar/ClientFooter';
 
 const ClientAllApplications = () => {
@@ -294,9 +294,9 @@ const ClientAllApplications = () => {
                                             </div>
 
                                             <div className="mt-3">
-                                                <button className="w-full text-xs font-medium py-2 bg-orange-100 hover:bg-orange-200 rounded-lg text-orange-700 transition-colors">
+                                                <Link to="/clientApplicationDetails" className=" text-center w-full h-8 px-3 text-xs font-medium bg-orange-100 hover:bg-orange-200 rounded-lg text-orange-700 transition-colors flex items-center justify-center">
                                                     Application
-                                                </button>
+                                                </Link>
                                             </div>
                                         </div>
                                     ))
@@ -381,9 +381,9 @@ const ClientAllApplications = () => {
                                                 </div>
 
                                                 <div className="mt-3">
-                                                    <button className="w-full text-xs font-medium py-1.5 bg-orange-100 hover:bg-orange-200 rounded-lg text-orange-700 transition-colors">
+                                                    <Link to="/clientApplicationDetails" className=" w-full h-8 px-3 text-xs font-medium bg-orange-100 hover:bg-orange-200 rounded-lg text-orange-700 transition-colors flex items-center justify-center">
                                                         Application
-                                                    </button>
+                                                    </Link>
                                                 </div>
                                             </div>
                                         ))
@@ -469,9 +469,9 @@ const ClientAllApplications = () => {
                                                 </div>
 
                                                 <div className="mt-3 lg:mt-4">
-                                                    <button className="w-full text-xs font-medium py-1.5 bg-orange-100 hover:bg-orange-200 rounded-lg text-orange-700 transition-colors">
+                                                    <Link to="/clientApplicationDetails" className=" w-full h-8 px-3 text-xs font-medium bg-orange-100 hover:bg-orange-200 rounded-lg text-orange-700 transition-colors flex items-center justify-center">
                                                         Application
-                                                    </button>
+                                                    </Link>
                                                 </div>
                                             </div>
                                         ))
@@ -522,7 +522,7 @@ const ClientAllApplications = () => {
                         <div className="text-xs text-gray-500 mb-3 truncate">
                             Applied: {applicant.appliedDate}
                         </div>
-                        <Link to="/clientApplicationDetails" className="block w-full px-3 py-2 bg-orange-50 text-orange-600 text-xs sm:text-sm font-medium rounded hover:bg-orange-100 text-center">
+                        <Link to="/clientApplicationDetails" className="block w-full px-15 py-2 bg-orange-50 text-orange-600 text-xs sm:text-sm font-medium rounded hover:bg-orange-100 text-center">
                             See Application
                         </Link>
                     </div>
@@ -657,7 +657,7 @@ const ClientAllApplications = () => {
                                     <td className="p-4 text-gray-600 whitespace-nowrap">{applicant.jobRole}</td>
                                     <td className="p-4">
                                         <div className="flex items-center gap-2">
-                                            <Link to="/clientApplicationDetails" className="px-4 py-2.5 text-[14px] text-orange-600 bg-[#fff0e5] border font-extrabold border-orange-500 hover:bg-orange-100 transition-colors duration-200 rounded whitespace-nowrap">
+                                            <Link to="/clientApplicationDetails" className="px-15 py-2.5 text-[14px] text-orange-600 bg-[#fff0e5] border font-extrabold border-orange-500 hover:bg-orange-100 transition-colors duration-200 rounded whitespace-nowrap">
                                                 See Application
                                             </Link>
                                             <button className="p-2 rounded-md hover:bg-gray-100 transition-colors duration-200">
