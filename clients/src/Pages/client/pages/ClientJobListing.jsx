@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
-import { Filter, MoreHorizontal, Calendar } from 'lucide-react';
-import ClientSidbar from '../navbar/ClientSidbar';
+import {  MoreHorizontal, Calendar } from 'lucide-react';
+import ClientSidebar from '../navbar/ClientSidbar';
 import ClientHeader from '../navbar/ClientHeader';
 import ClientFooter from '../navbar/ClientFooter';
+import { TbMenu4 } from "react-icons/tb";
+import { BiChevronLeft , BiChevronRight  } from "react-icons/bi";
+
+// Mock components for demonstration
 
 function ClientJobListing() {
     const [jobs] = useState([
@@ -17,7 +21,6 @@ function ClientJobListing() {
             jobTypeColor: 'border-[#ff6800] text-[#ff6800]',
             applicants: 19,
             needs: 4
-
         },
         {
             id: 2,
@@ -63,7 +66,7 @@ function ClientJobListing() {
             datePosted: '12 May 2020',
             dueDate: '24 May 2020',
             jobType: 'Fulltime',
-            jobTypeColor: 'border-[ff6800] text-[#ff6800]',
+            jobTypeColor: 'border-[#ff6800] text-[#ff6800]',
             applicants: 12,
             needs: 20
         },
@@ -94,41 +97,38 @@ function ClientJobListing() {
     ]);
 
     return (
-        <div className="min-h-screen flex bg-[#fff0e5]">
-            <div className="sticky top-0 left-0  h-screen">
-
-                <ClientSidbar />
+        <div className="min-h-screen flex flex-col lg:flex-row bg-[#fff0e5]">
+            {/* Sidebar - Hidden on mobile, shown on desktop */}
+            <div className="hidden lg:block lg:sticky lg:top-0 lg:left-0 lg:h-screen">
+                <ClientSidebar />
             </div>
 
-            <div className="flex flex-col flex-1 ">
-                <div className="sticky top-0 z-10 ">
-
+            <div className="flex flex-col flex-1">
+                {/* Header - Sticky on all devices */}
+                <div className="sticky top-0 z-10">
                     <ClientHeader />
                 </div>
 
-                <div className="flex">
-                    {/* Sidebar Space */}
-
+                <div className="flex flex-1">
                     {/* Main Content */}
-                    <div className="flex-1 p-6">
+                    <div className="flex-1 p-3 sm:p-6">
                         {/* Page Header */}
                         <div className="mb-5">
-                            <h1 className="text-3xl font-semibold text-orange-600 mb-2">Applicant Details</h1>
+                            <h1 className="text-2xl sm:text-3xl font-semibold text-orange-600 mb-2">Job Listing</h1>
                         </div>
 
                         {/* Job Listing Section */}
-                        <div className="bg-white rounded-3xl px-6">
+                        <div className="bg-white rounded-2xl sm:rounded-3xl px-3 sm:px-6 py-5">
                             {/* Section Header */}
                             <div className="py-4">
-                                <div className="flex justify-between items-center">
+                                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
                                     <div>
-                                        <h2 className="text-[22px] font-bold text-gray-900">Job Listing</h2>
-                                        <p className="text-sm text-gray-400 mt-1 font-normal">
+                                        <h2 className="text-lg sm:text-[22px] font-bold text-gray-900">Job Listing</h2>
+                                        <p className="text-xs sm:text-sm text-gray-400 mt-1 font-normal">
                                             Here is your jobs listing status from July 19 - July 25.
                                         </p>
                                     </div>
-                                    <div className="flex items-center justify-center text-sm text-gray-500 border-1 border-gray-200  px-4 py-2">
-
+                                    <div className="flex items-center justify-center text-xs sm:text-sm text-gray-500 border-1 border-gray-200 px-3 sm:px-4 py-2 rounded">
                                         <span className='mr-2'>Jul 19 - Jul 25</span>
                                         <svg
                                             className="w-4 h-4 mr-1 mt-[-1px]"
@@ -150,21 +150,59 @@ function ClientJobListing() {
                             </div>
 
                             {/* Job List Header */}
-                            <div className="px-6 py-4 border-1 border-orange-500  ">
-                                <div className="flex justify-between items-center">
-                                    <h3 className="text-base font-medium text-gray-900">Job List</h3>
-                                    <button className="flex items-center px-3 py-2 text-sm text-gray-600 border border-gray-300 rounded-md hover:bg-gray-50">
-                                        <Filter className="w-4 h-4 mr-2" />
+                            <div className="px-3 sm:px-6 py-4 border-1 border-orange-500">
+                                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
+                                    <h3 className="text-sm sm:text-base font-medium text-gray-900">Job List</h3>
+                                    <button className="flex items-center px-3 py-2 text-xs sm:text-sm text-gray-900 border border-orange-500  hover:bg-gray-50 self-start sm:self-auto">
+                                        <TbMenu4 className="w-4 h-4 mr-2" />
                                         Filters
                                     </button>
                                 </div>
                             </div>
 
-                            {/* Table */}
-                            <div className="overflow-x-auto">
+                            {/* Mobile Card View (visible on small screens) */}
+                            <div className="block lg:hidden">
+                                {jobs.map((job, index) => (
+                                    <div key={job.id} className="border-b border-gray-200 p-4 space-y-3">
+                                        <div className="flex justify-between items-start">
+                                            <h4 className="font-medium text-gray-900 text-sm">{job.role}</h4>
+                                            <button className="text-gray-400">
+                                                <MoreHorizontal className="w-4 h-4" />
+                                            </button>
+                                        </div>
+                                        
+                                        <div className="flex flex-wrap gap-2">
+                                            <span className={`inline-flex px-2 py-1 items-center justify-center text-xs font-medium rounded-full border-1 ${job.statusColor}`}>
+                                                {job.status}
+                                            </span>
+                                            <span className={`inline-flex px-2 py-1 items-center justify-center text-xs font-medium rounded-full border ${job.jobTypeColor}`}>
+                                                {job.jobType}
+                                            </span>
+                                        </div>
+                                        
+                                        <div className="grid grid-cols-2 gap-2 text-xs text-gray-500">
+                                            <div>
+                                                <span className="font-medium">Posted:</span> {job.datePosted}
+                                            </div>
+                                            <div>
+                                                <span className="font-medium">Due:</span> {job.dueDate}
+                                            </div>
+                                            <div>
+                                                <span className="font-medium">Applicants:</span> {job.applicants.toLocaleString()}
+                                            </div>
+                                            <div>
+                                                <span className="font-medium">Needs:</span> {job.needs}
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+
+                            {/* Desktop Table View (hidden on small screens) */}
+                            <div className="hidden lg:block overflow-x-auto">
                                 <table className="w-full">
-                                    <thead className="">
-                                        <tr className=''>
+                                    <thead>
+                                        <tr>
                                             <th className="px-6 py-5 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                                 Roles
                                             </th>
@@ -191,14 +229,14 @@ function ClientJobListing() {
                                             </th>
                                         </tr>
                                     </thead>
-                                    <tbody className="bg-white divide-y border border-orange-500 odd:bg-rose-50 even:bg-white">
+                                    <tbody className="bg-white divide-y border border-orange-500">
                                         {jobs.map((job, index) => (
                                             <tr key={job.id} className="odd:bg-white even:bg-[#fff9f5] border-0">
                                                 <td className="px-6 py-6 whitespace-nowrap">
                                                     <div className="text-sm font-medium text-gray-900">{job.role}</div>
                                                 </td>
                                                 <td className="px-6 py-4 whitespace-nowrap">
-                                                    <span className={`inline-flex w-[70px] h-[30px] items-center justify-center text-xs font-medium rounded-full border-1 ${job.statusColor} border-${job.statusColor.replace('text-', '')}`}>
+                                                    <span className={`inline-flex w-[70px] h-[30px] items-center justify-center text-xs font-medium rounded-full border-1 ${job.statusColor}`}>
                                                         {job.status}
                                                     </span>
                                                 </td>
@@ -227,34 +265,33 @@ function ClientJobListing() {
                                             </tr>
                                         ))}
                                     </tbody>
-
                                 </table>
                             </div>
 
                             {/* Pagination */}
-                            <div className="px-6 py-4 border-t border-gray-200">
-                                <div className="flex items-center justify-between">
-                                    <div className="flex items-center text-sm text-gray-500">
+                            <div className="px-3 sm:px-6 py-4 border-1 lg:border-t-0 border-orange-500">
+                                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                                    <div className="flex items-center text-xs sm:text-sm text-gray-500">
                                         <span>View</span>
-                                        <select className="mx-2 border border-gray-300 rounded px-2 py-1 text-sm">
+                                        <select className="mx-2 border border-gray-300 rounded px-2 py-1 text-xs sm:text-sm">
                                             <option>10</option>
                                             <option>25</option>
                                             <option>50</option>
                                         </select>
                                         <span>Applicants per page</span>
                                     </div>
-                                    <div className="flex items-center space-x-2">
-                                        <button className="px-3 py-1 text-sm text-gray-400 hover:text-gray-600">
-                                            &lt;
+                                    <div className="flex items-center space-x-2 self-start sm:self-auto">
+                                        <button className="px-3 py-1 text-xs sm:text-sm text-gray-400 hover:text-gray-600">
+                                           <BiChevronLeft className='w-6 h-6'/>
                                         </button>
-                                        <button className="px-3 py-1 text-sm bg-orange-500 text-white rounded">
+                                        <button className="px-3 py-1 text-xs sm:text-sm bg-orange-500 text-white rounded">
                                             1
                                         </button>
-                                        <button className="px-3 py-1 text-sm text-gray-500 hover:text-gray-700">
+                                        <button className="px-3 py-1 text-xs sm:text-sm text-gray-500 hover:text-gray-700">
                                             2
                                         </button>
-                                        <button className="px-3 py-1 text-sm text-gray-400 hover:text-gray-600">
-                                            &gt;
+                                        <button className="px-3 py-1 text-xs sm:text-sm text-gray-400 hover:text-gray-600">
+                                            <BiChevronRight className='w-6 h-6'/>
                                         </button>
                                     </div>
                                 </div>
@@ -263,7 +300,6 @@ function ClientJobListing() {
                     </div>
                 </div>
                 <ClientFooter />
-
             </div>
         </div>
     );
