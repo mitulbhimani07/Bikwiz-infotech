@@ -146,3 +146,44 @@
 .react-calendar__tile:disabled:hover {
   background: none !important;
 }
+
+.custom-quill-editor .ql-container {
+  min-height: 180px; /* More space */
+  padding: 16px; /* More padding */
+  font-size: 15px;
+  border: none !important;
+  font-family: inherit;
+  color: #4B5563;
+  background: transparent;
+}
+
+.custom-quill-editor .ql-toolbar {
+  display: none !important; /* Hide top toolbar */
+}
+
+#toolbar-bottom {
+  background-color: #fff;
+}
+
+#toolbar-bottom button {
+  background: none;
+  border: none;
+  color: #4B5563;
+}
+
+#toolbar-bottom .ql-active {
+  color: #EA580C;
+}
+
+.custom-quill-editor .ql-editor::before {
+  color: #9CA3AF; /* Placeholder color */
+  font-style: normal;
+}
+.ql-toolbar.ql-snow{
+  border: none !important;
+  border-top: 1px solid #f97316 !important; /* Tailwind gray-200 */
+  box-shadow: none !important;
+  background-color: transparent !important;
+
+}
+

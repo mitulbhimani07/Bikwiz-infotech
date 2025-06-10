@@ -5,8 +5,9 @@ import ClientHeader from '../navbar/ClientHeader';
 import { Instagram, Linkedin, Grid3X3, Plus } from 'lucide-react';
 import { IoImage } from "react-icons/io5";
 import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';import ClientFooter from '../navbar/ClientFooter';
-
+import 'react-quill/dist/quill.snow.css';
+import ClientFooter from '../navbar/ClientFooter';
+import "../../../App.css"
 
 function ClientSettings() {
     const [activeTab, setActiveTab] = useState('Overview');
@@ -21,6 +22,8 @@ function ClientSettings() {
             setImagePreview(URL.createObjectURL(file));
         }
     };
+
+
 
     const [formData, setFormData] = useState({
         companyName: 'Nutrient',
@@ -88,7 +91,6 @@ function ClientSettings() {
         }
     ];
 
-
     const handleInputChange = (field, value) => {
         setFormData(prev => ({
             ...prev,
@@ -111,42 +113,43 @@ function ClientSettings() {
             }));
         }
     };
+    const maxChars = 500;
+    const plainText = formData.description.replace(/<[^>]+>/g, '');
+
 
     return (
         <div className="min-h-screen flex bg-[#fff0e5]">
-                <div className="sticky top-0 left-0  h-screen">
-        
-                  <ClientSidbar />
-                </div>
-        
-                <div className="flex flex-col flex-1 ">
-                  <div className="sticky top-0 z-10 ">
-        
+            {/* Sidebar - Hidden on mobile, shown on desktop */}
+            <div className="hidden lg:block sticky top-0 left-0 h-screen">
+                <ClientSidbar />
+            </div>
+
+            <div className="flex flex-col flex-1">
+                {/* Header - Sticky on all screens */}
+                <div className="sticky top-0 z-10">
                     <ClientHeader />
-                  </div>
+                </div>
 
-                <div className="flex">
-                    {/* Sidebar Space */}
-
+                <div className="flex flex-1">
                     {/* Main Content */}
-                    <div className="flex-1 p-6">
+                    <div className="flex-1 p-4 sm:p-6">
                         {/* Page Header */}
                         <div className="mb-5">
-                            <h1 className="text-3xl font-semibold text-orange-600 mb-2">Settings</h1>
+                            <h1 className="text-2xl sm:text-3xl font-semibold text-orange-600 mb-2">Settings</h1>
                         </div>
 
                         {/* Settings Section */}
-                        <div className="bg-white rounded-3xl  pl-8 pr-12 ">
+                        <div className="bg-white rounded-3xl px-4 sm:px-6 lg:pl-8 lg:pr-12">
                             {/* Tabs */}
                             <div className="border-b border-orange-200 pt-6">
-                                <nav className="flex justify-start space-x-8 relative">
+                                <nav className="flex justify-start space-x-4 sm:space-x-8 relative overflow-x-auto">
                                     {tabs.map((tab) => (
                                         <button
                                             key={tab}
                                             onClick={() => setActiveTab(tab)}
-                                            className={`relative pb-2 text-[16px] font-medium transition-all duration-300 ${activeTab === tab
-                                                    ? 'text-black font-semibold'
-                                                    : 'text-gray-400 hover:text-gray-600'
+                                            className={`relative pb-2 text-sm sm:text-[16px] font-medium transition-all duration-300 whitespace-nowrap ${activeTab === tab
+                                                ? 'text-black font-semibold'
+                                                : 'text-gray-400 hover:text-gray-600'
                                                 }`}
                                         >
                                             {tab}
@@ -158,42 +161,39 @@ function ClientSettings() {
                                 </nav>
                             </div>
 
-
-
                             {/* Tab Content */}
-                            <div className=" py-8">
+                            <div className="py-6 sm:py-8">
                                 {activeTab === 'Overview' && (
-                                    <div className="space-y-8">
+                                    <div className="space-y-6 sm:space-y-8">
                                         {/* Basic Information */}
                                         <div className='border-b-2 border-orange-200 pb-3 mb-6'>
-                                            <h3 className="text-[20px] font-semibold text-gray-900 mb-2">Basic Information</h3>
-                                            <p className="text-[16px] text-gray-600 mb-4">This is company information that you can update anytime.</p>
+                                            <h3 className="text-lg sm:text-[20px] font-semibold text-gray-900 mb-2">Basic Information</h3>
+                                            <p className="text-sm sm:text-[16px] text-gray-600 mb-4">This is company information that you can update anytime.</p>
                                         </div>
 
                                         {/* Company Logo */}
-                                        <div className='flex justify-between border-b-2 border-orange-200 pb-3 mb-8'>
-                                            <div>
-
-                                                <h4 className="text-[20px] font-semibold text-gray-900 mb-2">Company Logo</h4>
-                                                <p className="text-[16px] text-gray-600 mb-4">This image will be shown publicly as your profile picture</p>
+                                        <div className='flex flex-col lg:flex-row lg:justify-between border-b-2 border-orange-200 pb-6 mb-8 gap-6'>
+                                            <div className="flex-1">
+                                                <h4 className="text-lg sm:text-[20px] font-semibold text-gray-900 mb-2">Company Logo</h4>
+                                                <p className="text-sm sm:text-[16px] text-gray-600 mb-4">This image will be shown publicly as your profile picture</p>
                                             </div>
-                                            <div className="flex items-center space-x-6 pr-[100px]">
-                                                <div className="w-20 h-20 bg-orange-500 rounded-full flex items-center justify-center overflow-hidden">
+                                            <div className="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-6">
+                                                <div className="w-20 h-20 bg-orange-500 rounded-full flex items-center justify-center overflow-hidden flex-shrink-0">
                                                     {imagePreview ? (
                                                         <img src={imagePreview} alt="Logo" className="w-full h-full object-cover" />
                                                     ) : null}
                                                 </div>
 
-                                                <div className="text-center bg-[#FFF0E5] rounded-lg">
+                                                <div className="text-center bg-[#FFF0E5] rounded-lg w-full sm:w-auto">
                                                     <label
                                                         htmlFor="file-upload"
-                                                        className="cursor-pointer border-3 border-dashed border-orange-500 rounded-lg p-6 block"
+                                                        className="cursor-pointer border-3 border-dashed border-orange-500 rounded-lg p-4 sm:p-6 block"
                                                     >
-                                                        <IoImage className="w-8 h-8 text-orange-500 mx-auto mb-2" />
-                                                        <p className="text-orange-500 font-medium">Click to upload or drag and drop</p>
-                                                        <p className="text-sm text-gray-500">SVG, PNG, JPG or GIF (max. 800x400px)</p>
+                                                        <IoImage className="w-6 h-6 sm:w-8 sm:h-8 text-orange-500 mx-auto mb-2" />
+                                                        <p className="text-orange-500 font-medium text-sm sm:text-base">Click to upload or drag and drop</p>
+                                                        <p className="text-xs sm:text-sm text-gray-500">SVG, PNG, JPG or GIF (max. 800x400px)</p>
                                                         {fileName && (
-                                                            <p className="text-sm mt-2 text-green-600">Uploaded: {fileName}</p>
+                                                            <p className="text-xs sm:text-sm mt-2 text-green-600">Uploaded: {fileName}</p>
                                                         )}
                                                     </label>
 
@@ -209,9 +209,9 @@ function ClientSettings() {
                                         </div>
 
                                         {/* Company Details */}
-                                        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 text-sm text-gray-800 px-6 py-10 max-w-6xl mx-auto">
+                                        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-10 text-sm text-gray-800 px-0 sm:px-6 py-6 sm:py-10 max-w-6xl mx-auto">
                                             {/* Left Sidebar */}
-                                            <div>
+                                            <div className="lg:col-span-1">
                                                 <h4 className="font-semibold text-black mb-2">Company Details</h4>
                                                 <p className="text-gray-600 text-sm">
                                                     Introduce your company core info quickly to users by fill up company details
@@ -219,8 +219,8 @@ function ClientSettings() {
                                             </div>
 
                                             {/* Form Section */}
-                                            <div className="md:col-span-2">
-                                                <div className="grid grid-cols-1 gap-6">
+                                            <div className="lg:col-span-2">
+                                                <div className="grid grid-cols-1 gap-4 sm:gap-6">
                                                     {/* Company Name */}
                                                     <div>
                                                         <label className="block mb-1 font-medium text-gray-700">Company Name</label>
@@ -246,7 +246,7 @@ function ClientSettings() {
                                                     {/* Location */}
                                                     <div>
                                                         <label className="block mb-1 font-medium text-gray-700">Location</label>
-                                                        <div className="flex flex-wrap gap-2 border border-orange-300 rounded px-3 py-2">
+                                                        <div className="flex flex-wrap gap-2 border border-orange-300 rounded px-3 py-2 min-h-[42px]">
                                                             {formData.location.map((loc, index) => (
                                                                 <span key={index} className="inline-flex items-center bg-orange-100 text-orange-700 px-2 py-1 rounded text-sm">
                                                                     {loc}
@@ -262,7 +262,7 @@ function ClientSettings() {
                                                     </div>
 
                                                     {/* Employees + Industry */}
-                                                    <div className="grid grid-cols-2 gap-4">
+                                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                                         <div>
                                                             <label className="block mb-1 font-medium text-gray-700">Employee</label>
                                                             <select
@@ -298,7 +298,7 @@ function ClientSettings() {
                                                             <select
                                                                 value={formData.dateDay}
                                                                 onChange={(e) => handleInputChange('dateDay', e.target.value)}
-                                                                className="border border-orange-300 rounded px-3 py-2 focus:outline-none focus:ring-1 focus:ring-orange-400"
+                                                                className="border border-orange-300 rounded px-2 sm:px-3 py-2 focus:outline-none focus:ring-1 focus:ring-orange-400 text-sm"
                                                             >
                                                                 <option>31</option>
                                                                 <option>1</option>
@@ -307,7 +307,7 @@ function ClientSettings() {
                                                             <select
                                                                 value={formData.dateMonth}
                                                                 onChange={(e) => handleInputChange('dateMonth', e.target.value)}
-                                                                className="border border-orange-300 rounded px-3 py-2 focus:outline-none focus:ring-1 focus:ring-orange-400"
+                                                                className="border border-orange-300 rounded px-2 sm:px-3 py-2 focus:outline-none focus:ring-1 focus:ring-orange-400 text-sm"
                                                             >
                                                                 <option>July</option>
                                                                 <option>January</option>
@@ -316,7 +316,7 @@ function ClientSettings() {
                                                             <select
                                                                 value={formData.dateYear}
                                                                 onChange={(e) => handleInputChange('dateYear', e.target.value)}
-                                                                className="border border-orange-300 rounded px-3 py-2 focus:outline-none focus:ring-1 focus:ring-orange-400"
+                                                                className="border border-orange-300 rounded px-2 sm:px-3 py-2 focus:outline-none focus:ring-1 focus:ring-orange-400 text-sm"
                                                             >
                                                                 <option>2021</option>
                                                                 <option>2023</option>
@@ -328,7 +328,7 @@ function ClientSettings() {
                                                     {/* Tech Stack */}
                                                     <div>
                                                         <label className="block mb-1 font-medium text-gray-700">Tech Stack</label>
-                                                        <div className="flex flex-wrap gap-2 border border-orange-300 rounded px-3 py-2">
+                                                        <div className="flex flex-wrap gap-2 border border-orange-300 rounded px-3 py-2 min-h-[42px]">
                                                             {formData.techStack.map((tech, index) => (
                                                                 <span key={index} className="inline-flex items-center bg-orange-100 text-orange-700 px-2 py-1 rounded text-sm">
                                                                     {tech}
@@ -345,51 +345,54 @@ function ClientSettings() {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="border-1 border-orange-200"></div>
-                                        <div>
-                                            <div className="space-y-4 grid grid-cols-1 md:grid-cols-2">
-                                                <div>
-                                                    <h4 className=" text-gray-900 mb-2 font-bold">About Company</h4>
-                                                    <p className="text-sm text-gray-600 max-w-[50%] mb-4">Brief description for your company. URLs are hyperlinked.</p>
+
+                                        <div className="border-t border-orange-300 pt-6 border-b pb-6  ">
+                                            <div className="grid grid-cols-1 lg:grid-cols-10 gap-6 lg:gap-8">
+                                                <div className="lg:col-span-3">
+                                                    <h4 className="text-gray-900 mb-2 font-bold">About Company</h4>
+                                                    <p className="text-sm text-gray-600 mb-4">Brief description for your company. URLs are hyperlinked.</p>
                                                 </div>
 
-                                                <div className="md:w-[100%]">
-                                                    <label className="block text-sm font-bold text-gray-900 mb-1 md:-ms-20">Description</label>
-                                                    <div className="border border-orange-500 overflow-hidden md:-ms-20">
+                                                <div className="lg:col-span-7 w-[97%] pl-[42px]">
+                                                    <label className="block text-sm font-bold text-gray-900 mb-1">Description</label>
 
-                                                        {/* Character Count */}
-                                                        {/* React Quill Editor */}
+                                                    {/* Textarea with no border except orange outline */}
+                                                    <div className="relative border border-orange-500 rounded-sm">
                                                         <ReactQuill
                                                             theme="snow"
                                                             value={formData.description}
                                                             onChange={(value) => handleInputChange('description', value)}
                                                             modules={{
-                                                                toolbar: [
-                                                                    ['bold', 'italic', 'underline'],
-                                                                    [{ list: 'bullet' }],
-                                                                    ['link'],
-                                                                ],
+                                                                toolbar: {
+                                                                    container: '#toolbar-bottom',
+                                                                },
                                                             }}
                                                             formats={['bold', 'italic', 'underline', 'list', 'bullet', 'link']}
-                                                            className="custom-quill-editor text-gray-500"
+                                                            placeholder="Type your description..."
+                                                            className="custom-quill-editor"
                                                         />
 
+                                                        {/* Bottom toolbar */}
+                                                        <div id="toolbar-bottom" className="flex gap-3 px-3 py-2 border-t border-orange-200">
+                                                            <button className="ql-bold" />
+                                                            <button className="ql-italic" />
+                                                            <button className="ql-underline" />
+                                                            <button className="ql-list" value="bullet" />
+                                                            <button className="ql-link" />
+                                                        </div>
                                                     </div>
-                                                    <div className='grid grid-cols-1 md:grid-cols-2 gap-4 '>
-                                                        <div className="p-2 text-right text-sm text-gray-500 md:text-left md:-ms-22">
-                                                            Maximum 500 characters
-                                                        </div>
-                                                        <div className="p-2 text-right text-sm text-gray-500">
-                                                            {formData.description.replace(/<[^>]+>/g, '').length}/500
-                                                        </div>
+
+                                                    {/* Footer: character count */}
+                                                    <div className='flex justify-between items-center mt-2'>
+                                                        <div className="text-sm text-gray-500">Maximum 500 characters</div>
+                                                        <div className="text-sm text-gray-500">{plainText.length}/{maxChars}</div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="border-1 border-orange-200"></div>
 
                                         {/* Save Button */}
-                                        <div className="flex justify-end">
+                                        <div className="flex justify-end pt-6">
                                             <button className="bg-orange-500 text-white px-6 py-2 rounded-lg hover:bg-orange-600">
                                                 Save Changes
                                             </button>
@@ -398,19 +401,19 @@ function ClientSettings() {
                                 )}
 
                                 {activeTab === 'Social Links' && (
-                                    <div className="space-y-6 flex justify-between">
-                                        <div>
+                                    <div className="flex flex-col lg:flex-row gap-6 lg:gap-8">
+                                        <div className="lg:w-1/3">
                                             <h3 className="text-lg font-extrabold text-gray-900 mb-2">Basic Information</h3>
-                                            <p className="text-[16px] text-gray-400 mb-6 max-w-[250px] ">Add elsewhere links to your company profile. You can add only username without full https links.</p>
+                                            <p className="text-[16px] text-gray-400 mb-6">Add elsewhere links to your company profile. You can add only username without full https links.</p>
                                         </div>
 
-                                        <div className="space-y-4 w-full max-w-2xl">
+                                        <div className="flex-1 space-y-4 max-w-2xl">
                                             <div>
                                                 <label className="block text-sm font-medium text-gray-400 mb-1">Instagram</label>
                                                 <input
                                                     type="url"
                                                     placeholder="https://instagram.com/yourcompany"
-                                                    className="w-full px-3 py-2 border border-orange-400  focus:outline-none focus:ring-2 focus:ring-orange-500"
+                                                    className="w-full px-3 py-2 border border-orange-400 focus:outline-none focus:ring-2 focus:ring-orange-500"
                                                 />
                                             </div>
                                             <div>
@@ -418,7 +421,7 @@ function ClientSettings() {
                                                 <input
                                                     type="url"
                                                     placeholder="https://twitter.com/yourcompany"
-                                                    className="w-full px-3 py-2 border border-orange-300  focus:outline-none focus:ring-2 focus:ring-orange-500"
+                                                    className="w-full px-3 py-2 border border-orange-300 focus:outline-none focus:ring-2 focus:ring-orange-500"
                                                 />
                                             </div>
                                             <div>
@@ -426,7 +429,7 @@ function ClientSettings() {
                                                 <input
                                                     type="url"
                                                     placeholder="https://facebook.com/yourcompany"
-                                                    className="w-full px-3 py-2 border border-orange-300  focus:outline-none focus:ring-2 focus:ring-orange-500"
+                                                    className="w-full px-3 py-2 border border-orange-300 focus:outline-none focus:ring-2 focus:ring-orange-500"
                                                 />
                                             </div>
                                             <div>
@@ -434,7 +437,7 @@ function ClientSettings() {
                                                 <input
                                                     type="url"
                                                     placeholder="https://linkedin.com/company/yourcompany"
-                                                    className="w-full px-3 py-2 border border-orange-300  focus:outline-none focus:ring-2 focus:ring-orange-500"
+                                                    className="w-full px-3 py-2 border border-orange-300 focus:outline-none focus:ring-2 focus:ring-orange-500"
                                                 />
                                             </div>
                                             <div>
@@ -442,11 +445,11 @@ function ClientSettings() {
                                                 <input
                                                     type="url"
                                                     placeholder="https://youtube.com/company/yourcompany"
-                                                    className="w-full px-3 py-2 border border-orange-300  focus:outline-none focus:ring-2 focus:ring-orange-500"
+                                                    className="w-full px-3 py-2 border border-orange-300 focus:outline-none focus:ring-2 focus:ring-orange-500"
                                                 />
                                             </div>
 
-                                            <div className="flex justify-end">
+                                            <div className="flex justify-end pt-4">
                                                 <button className="bg-orange-500 text-white px-6 py-3 rounded hover:bg-orange-600">
                                                     Save Changes
                                                 </button>
@@ -456,23 +459,23 @@ function ClientSettings() {
                                 )}
 
                                 {activeTab === 'Team' && (
-                                    <div className="flex  min-h-screen">
+                                    <div className="flex flex-col lg:flex-row min-h-screen gap-6">
                                         {/* Left Sidebar Info */}
-                                        <div className="w-1/4 p-6  ">
+                                        <div className="lg:w-1/4 p-0 lg:p-6">
                                             <h2 className="font-semibold text-sm text-gray-800 mb-1">Basic Information</h2>
                                             <p className="text-gray-500 text-sm">Add team members of your company</p>
                                         </div>
 
                                         {/* Right Section */}
-                                        <div className="flex-1 p-6">
+                                        <div className="flex-1 p-0 lg:p-6">
                                             {/* Top Header */}
-                                            <div className="flex items-center justify-between mb-6">
+                                            <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 gap-4">
                                                 <h2 className="text-xl font-semibold">50 Members</h2>
-                                                <div className="flex gap-3 items-center">
-                                                    <button className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 text-sm">
+                                                <div className="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center">
+                                                    <button className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg flex items-center justify-center gap-2 text-sm">
                                                         <Plus size={18} /> Add Members
                                                     </button>
-                                                    <div className="flex bg-white border border-gray-200 rounded-lg overflow-hidden">
+                                                    <div className="flex bg-white border border-gray-200 rounded-lg overflow-hidden w-fit">
                                                         <button
                                                             onClick={() => setViewMode("grid")}
                                                             className={`p-2 ${viewMode === "grid" ? "bg-orange-500 text-white" : "text-gray-400 hover:text-gray-600"}`}
@@ -490,34 +493,33 @@ function ClientSettings() {
                                             </div>
 
                                             {/* Team Cards */}
-                                            <div className={`grid gap-4 ${viewMode === "grid" ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3" : "grid-cols-1"}`}>
+                                            <div className={`grid gap-4 ${viewMode === "grid" ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3" : "grid-cols-1"}`}>
                                                 {teamMembers.map((member) => (
                                                     <div
                                                         key={member.id}
-                                                        className={`bg-white border-2 border-orange-200 rounded-md px-6 py-4 transition hover:shadow-lg hover:border-orange-300 ${viewMode === "list" ? "flex items-center gap-6" : "text-center"}`}
+                                                        className={`bg-white border-2 border-orange-200 rounded-md px-4 sm:px-6 py-4 transition hover:shadow-lg hover:border-orange-300 ${viewMode === "list" ? "flex items-center gap-4 sm:gap-6" : "text-center"}`}
                                                     >
                                                         <div className={`${viewMode === "list" ? "flex-shrink-0" : "mb-4"}`}>
                                                             <img
                                                                 src={member.image}
                                                                 alt={member.name}
-                                                                className={`w-20 h-20 object-cover rounded-full border-4 border-gray-100 ${viewMode === "grid" ? "mx-auto" : ""}`}
+                                                                className={`w-16 h-16 sm:w-20 sm:h-20 object-cover rounded-full border-4 border-gray-100 ${viewMode === "grid" ? "mx-auto" : ""}`}
                                                             />
                                                         </div>
                                                         <div className={`${viewMode === "list" ? "flex-1 min-w-0" : ""}`}>
-                                                            <h3 className={`text-gray-900 font-semibold mb-1 ${viewMode === "list" ? "text-left" : ""}`}>
+                                                            <h3 className={`text-gray-900 font-semibold mb-1 text-sm sm:text-base ${viewMode === "list" ? "text-left" : ""}`}>
                                                                 {member.name}
                                                             </h3>
-                                                            <p className={`text-sm text-gray-400 mb-1 ${viewMode === "list" ? "text-left" : ""}`}>
+                                                            <p className={`text-xs sm:text-sm text-gray-400 mb-2 ${viewMode === "list" ? "text-left" : ""}`}>
                                                                 {member.role}
                                                             </p>
-                                                            <div className={`flex  ${viewMode === "list" ? "justify-start" : "justify-center"}`}>
-                                                                <a href={member.linkedin} className="w-8 h-8 flex items-center justify-center  text-gray-400 hover:text-orange-500 hover:border-orange-300 transition">
+                                                            <div className={`flex gap-1 ${viewMode === "list" ? "justify-start" : "justify-center"}`}>
+                                                                <a href={member.linkedin} className="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-orange-500 hover:border-orange-300 transition">
                                                                     <Linkedin size={16} />
                                                                 </a>
-                                                                <a href={member.instagram} className="w-8 h-8 flex items-center justify-center   text-gray-400 hover:text-orange-500 hover:border-orange-300 transition">
+                                                                <a href={member.instagram} className="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-orange-500 hover:border-orange-300 transition">
                                                                     <Instagram size={16} />
                                                                 </a>
-
                                                             </div>
                                                         </div>
                                                     </div>
@@ -526,7 +528,7 @@ function ClientSettings() {
 
                                             {/* Save Button */}
                                             <div className="flex justify-end mt-8">
-                                                <button className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-3 rounded-lg font-medium transition">
+                                                <button className="bg-orange-500 hover:bg-orange-600 text-white px-6 sm:px-8 py-3 rounded-lg font-medium transition">
                                                     Save Changes
                                                 </button>
                                             </div>
@@ -537,8 +539,7 @@ function ClientSettings() {
                         </div>
                     </div>
                 </div>
-                                        <ClientFooter />
-
+                <ClientFooter />
             </div>
         </div>
     );
