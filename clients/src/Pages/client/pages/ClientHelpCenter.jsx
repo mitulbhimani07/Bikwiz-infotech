@@ -142,12 +142,12 @@ function ClientHelpCenter() {
     });
 
     return (
-        <div className="min-h-screen flex bg-[#fff0e5]">
-            <div className="sticky top-0 left-0 h-screen hidden lg:block">
+        <div className="min-h-screen flex flex-col lg:flex-row bg-[#fff0e5]">
+            <div className="lg:block lg:sticky lg:top-0 lg:left-0 lg:h-screen lg:flex-shrink-0">
                 <ClientSidbar />
             </div>
 
-            <div className="flex flex-col flex-1">
+            <div className="flex flex-col flex-1 min-w-0">
                 <div className="sticky top-0 z-10">
                     <ClientHeader />
                 </div>
@@ -158,7 +158,7 @@ function ClientHelpCenter() {
                     <div className="bg-white rounded-3xl px-4 sm:px-6">
                         <div className="flex flex-col lg:flex-row gap-6 lg:gap-8">
                             {/* Sidebar */}
-                            <div className="w-full lg:w-72 lg:border-r border-orange-300 lg:pr-6 lg:pr-8 mb-6 lg:mb-0">
+                            <div className="w-full lg:w-72 lg:border-r border-orange-300  lg:pr-8 mb-6 lg:mb-0">
                                 <div className="mb-6">
                                     <div className='mt-6'>
                                         <span className='text-gray-600 text-sm sm:text-[16px] mt-6'>

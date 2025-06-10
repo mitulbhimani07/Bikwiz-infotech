@@ -30,12 +30,12 @@ const ClientAllApplicants = () => {
 
     return (
         <>
-            <div className="min-h-screen flex bg-[#fff0e5]">
-                <div className="sticky top-0 left-0 h-screen">
+            <div className="min-h-screen flex flex-col lg:flex-row bg-[#fff0e5]">
+                <div className=" lg:block lg:sticky lg:top-0 lg:left-0 lg:h-screen lg:flex-shrink-0">
                     <ClientSidbar />
                 </div>
 
-                <div className="flex flex-col flex-1 w-0"> {/* Changed to w-0 to allow flex-grow */}
+                <div className="flex flex-col flex-1 min-w-0"> {/* Changed to w-0 to allow flex-grow */}
                     <div className="sticky top-0 z-10">
                         <ClientHeader />
                     </div>

@@ -139,7 +139,7 @@ function CompanyProfile() {
     <>
       <div className="min-h-screen flex flex-col lg:flex-row bg-[#fff0e5]">
         {/* Sidebar - Hidden on mobile, visible on desktop */}
-        <div className="hidden lg:block lg:sticky lg:top-0 lg:left-0 lg:h-screen lg:flex-shrink-0">
+        <div className=" lg:block lg:sticky lg:top-0 lg:left-0 lg:h-screen lg:flex-shrink-0">
           <ClientSidbar />
         </div>
 

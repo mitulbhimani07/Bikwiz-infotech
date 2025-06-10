@@ -111,7 +111,7 @@ export default function ClientMessages() {
     // Filter conversations based on search query
     const filteredConversations = useMemo(() => {
         if (!searchQuery.trim()) return conversations;
-        
+
         return conversations.filter(conversation =>
             conversation.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
             conversation.message.toLowerCase().includes(searchQuery.toLowerCase())
@@ -143,46 +143,17 @@ export default function ClientMessages() {
     };
 
     return (
-        <div className="flex min-h-screen bg-[#fff0e5]">
+        <div className="min-h-screen flex flex-col lg:flex-row bg-[#fff0e5]">
             {/* Sidebar - Desktop */}
-            <div className="hidden lg:block sticky top-0 left-0 h-screen">
+            <div className="lg:block lg:sticky lg:top-0 lg:left-0 lg:h-screen lg:flex-shrink-0">
                 <ClientSidbar />
             </div>
 
-            {/* Mobile Sidebar Overlay */}
-            {isSidebarOpen && (
-                <div className="lg:hidden fixed inset-0 z-50">
-                    <div className="absolute inset-0 bg-black bg-opacity-50" onClick={() => setIsSidebarOpen(false)}></div>
-                    <div className="absolute left-0 top-0 h-full w-64 bg-white">
-                        <div className="p-4 border-b border-orange-500 flex justify-between items-center">
-                            <span className="text-orange-500 font-semibold">Menu</span>
-                            <button onClick={() => setIsSidebarOpen(false)}>
-                                <X className="w-6 h-6 text-gray-600" />
-                            </button>
-                        </div>
-                        <div className="h-full">
-                            <ClientSidbar />
-                        </div>
-                    </div>
-                </div>
-            )}
 
             {/* Main content with header and message area */}
-            <div className="flex-1 flex flex-col min-w-0">
-                {/* Header */}
+            <div className="flex flex-col flex-1 min-w-0">
                 <div className="sticky top-0 z-10">
-                    <div className="lg:hidden flex items-center p-4 bg-white border-b border-orange-500">
-                        <button 
-                            onClick={() => setIsSidebarOpen(true)}
-                            className="mr-4"
-                        >
-                            <Menu className="w-6 h-6 text-orange-500" />
-                        </button>
-                        <div className="text-orange-500 font-semibold">Messages</div>
-                    </div>
-                    <div className="hidden lg:block">
-                        <ClientHeader />
-                    </div>
+                    <ClientHeader />
                 </div>
 
                 {/* Main content (messages) */}
@@ -191,7 +162,7 @@ export default function ClientMessages() {
                         <div className="mb-5 hidden lg:block">
                             <h1 className="text-3xl font-bold text-orange-500">Messages</h1>
                         </div>
-                        
+
                         <div className="flex flex-1 h-[calc(100vh-200px)] lg:h-auto">
                             {/* Left panel - conversation list */}
                             <div className="w-full lg:w-[300px] bg-white rounded-l-3xl lg:rounded-s-3xl border-r border-b border-orange-500 flex flex-col lg:block hidden lg:flex">
@@ -264,7 +235,7 @@ export default function ClientMessages() {
                                             className="w-full pl-10 pr-4 py-2 border border-orange-500 focus:outline-none focus:ring-2 focus:ring-[#ffe1cc] focus:border-transparent rounded"
                                         />
                                     </div>
-                                    
+
                                     <div className="max-h-40 overflow-y-auto">
                                         {filteredConversations.length === 0 ? (
                                             <div className="p-4 text-center text-gray-500">
@@ -365,7 +336,7 @@ export default function ClientMessages() {
                                                         <div className={`px-3 lg:px-4 py-2 lg:py-3 rounded-2xl ${message.isMe
                                                             ? 'bg-[#ffe1cc] text-gray-950 rounded-br-sm'
                                                             : 'bg-white text-gray-900 rounded-bl-sm border border-orange-500'
-                                                        }`}>
+                                                            }`}>
                                                             <p className="text-xs lg:text-sm leading-relaxed">{message.message}</p>
                                                         </div>
                                                     </div>
@@ -491,12 +462,14 @@ export default function ClientMessages() {
                             </div>
                         </div>
                     </div>
-                    
+
                     {/* Footer */}
                     <div className="mt-auto">
-                        <ClientFooter />
+                        {/* <ClientFooter /> */}
                     </div>
                 </div>
+
+                <ClientFooter/>
             </div>
         </div>
     );
