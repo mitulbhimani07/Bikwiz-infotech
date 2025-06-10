@@ -202,7 +202,6 @@ const ClientAllApplications = () => {
             'Declined': applicants.filter(a => a.hiringStage === 'Declined')
         };
 
-        // Stage color mapping
         const stageColors = {
             'Shortlisted': 'bg-blue-50 border-blue-200',
             'Interview': 'bg-purple-50 border-purple-200',
@@ -220,91 +219,87 @@ const ClientAllApplications = () => {
         };
 
         return (
-            <div className="p-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+            <div className="px-2 sm:px-4 py-4 sm:py-6 overflow-x-auto">
+                <div className="flex gap-3 sm:gap-4 lg:gap-6 min-w-max lg:min-w-0 lg:grid lg:grid-cols-5">
                     {Object.entries(stages).map(([stage, stageApplicants]) => (
                         <div
                             key={stage}
-                            className={`rounded-xl shadow-sm border ${stageColors[stage]} transition-all duration-300 hover:shadow-md hover:translate-y-[-2px]`}
+                            className={`rounded-xl sm:rounded-2xl border ${stageColors[stage]} shadow-md flex flex-col w-64 sm:w-auto lg:w-auto max-h-[70vh] sm:max-h-[80vh]`}
                         >
-                            <div className="p-4">
-                                <div className="flex justify-between items-center mb-4">
-                                    <h3 className="font-semibold text-gray-700 flex items-center gap-2">
-                                        {stageHeaders[stage]}
-                                    </h3>
-                                    <span className={`px-2.5 py-1 rounded-full text-xs font-semibold ${stage === 'Hired' ? 'bg-green-100 text-green-800' :
-                                        stage === 'Declined' ? 'bg-red-100 text-red-800' :
-                                            'bg-blue-100 text-blue-800'
-                                        }`}>
-                                        {stageApplicants.length} candidate{stageApplicants.length !== 1 ? 's' : ''}
-                                    </span>
-                                </div>
+                            <div className="p-3 sm:p-4 border-b border-dashed border-gray-200 flex justify-between items-center">
+                                <h3 className="text-xs sm:text-sm font-semibold text-gray-700 truncate">
+                                    {stageHeaders[stage]}
+                                </h3>
+                                <span className={`text-xs font-bold px-2 sm:px-2.5 py-1 rounded-full
+                                    ${stage === 'Hired' ? 'bg-green-100 text-green-700' :
+                                        stage === 'Declined' ? 'bg-red-100 text-red-700' :
+                                            'bg-blue-100 text-blue-700'}
+                                `}>
+                                    {stageApplicants.length}
+                                </span>
+                            </div>
 
-                                <div className="space-y-3">
-                                    {stageApplicants.length === 0 ? (
-                                        <div className="text-center py-6">
-                                            <div className="text-gray-400 mb-1">No candidates</div>
-                                            <div className="text-xs text-gray-300">Drag candidates here</div>
-                                        </div>
-                                    ) : (
-                                        stageApplicants.map(applicant => (
-                                            <div
-                                                key={applicant.id}
-                                                className="bg-white p-3 rounded-lg border border-gray-100 shadow-xs transition-all duration-200 hover:shadow-sm hover:border-gray-300 group"
-                                                draggable="true"
-                                            >
-                                                <div className="flex items-center justify-between mb-2">
-                                                    <div className="flex items-center gap-3">
-                                                        <div className="relative">
-                                                            <img
-                                                                src={applicant.avatar}
-                                                                alt={applicant.name}
-                                                                className="w-9 h-9 rounded-full object-cover border-2 border-white shadow-xs"
-                                                                onError={(e) => {
-                                                                    e.target.style.display = 'none';
-                                                                    e.target.nextSibling.style.display = 'flex';
-                                                                }}
-                                                            />
-                                                            <div className={`w-9 h-9 ${getAvatarColor(applicant.id)} rounded-full items-center justify-center text-white text-sm font-medium hidden shadow-xs`}>
-                                                                {getInitials(applicant.name)}
+                            <div className="flex-1 overflow-y-auto p-3 sm:p-4 space-y-3 sm:space-y-4">
+                                {stageApplicants.length === 0 ? (
+                                    <div className="text-center text-gray-400 mt-6 sm:mt-8">
+                                        <p className="text-xs sm:text-sm">No candidates</p>
+                                        <p className="text-xs text-gray-300 hidden sm:block">Drag candidates here</p>
+                                    </div>
+                                ) : (
+                                    stageApplicants.map(applicant => (
+                                        <div
+                                            key={applicant.id}
+                                            className="bg-white p-3 sm:p-4 rounded-lg sm:rounded-xl shadow-sm border hover:shadow-md transition-all duration-200"
+                                            draggable="true"
+                                        >
+                                            <div className="flex items-center justify-between mb-2">
+                                                <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+                                                    <div className="relative flex-shrink-0">
+                                                        <img
+                                                            src={applicant.avatar}
+                                                            alt={applicant.name}
+                                                            className="w-8 h-8 sm:w-10 sm:h-10 rounded-full border-2 object-cover"
+                                                            onError={(e) => {
+                                                                e.target.style.display = 'none';
+                                                                e.target.nextSibling.style.display = 'flex';
+                                                            }}
+                                                        />
+                                                        <div className={`hidden w-8 h-8 sm:w-10 sm:h-10 ${getAvatarColor(applicant.id)} rounded-full text-white text-xs sm:text-sm font-semibold items-center justify-center`}>
+                                                            {getInitials(applicant.name)}
+                                                        </div>
+                                                        {applicant.score > 7 && (
+                                                            <div className="absolute -bottom-1 -right-1 bg-yellow-400 rounded-full p-0.5 sm:p-1">
+                                                                <Star className="w-2 h-2 sm:w-3 sm:h-3 text-white fill-white" />
                                                             </div>
-                                                            {applicant.score > 7 && (
-                                                                <div className="absolute -bottom-1 -right-1 bg-yellow-400 rounded-full p-0.5">
-                                                                    <Star className="w-3 h-3 text-white fill-white" />
-                                                                </div>
-                                                            )}
-                                                        </div>
-                                                        <div>
-                                                            <span className="font-medium text-sm block">{applicant.name}</span>
-                                                            <span className="text-xs text-gray-500">{applicant.jobRole}</span>
-                                                        </div>
+                                                        )}
                                                     </div>
-                                                    <button className="text-gray-400 hover:text-gray-600 opacity-0 group-hover:opacity-100 transition-opacity">
-                                                        <MoreHorizontal className="w-4 h-4" />
-                                                    </button>
-                                                </div>
-
-                                                <div className="flex justify-between items-center mt-2">
-                                                    <div className="flex gap-1">
-                                                        {renderStars(applicant.score)}
+                                                    <div className="min-w-0 flex-1">
+                                                        <div className="text-xs sm:text-sm font-medium truncate">{applicant.name}</div>
+                                                        <div className="text-xs text-gray-500 truncate">{applicant.jobRole}</div>
                                                     </div>
-                                                    <span className="text-xs text-gray-400">
-                                                        {new Date(applicant.appliedDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
-                                                    </span>
                                                 </div>
-
-                                                <div className="grid grid-cols-2 gap-2 mt-3">
-                                                    <button className="px-2 py-1.5 bg-gray-50 hover:bg-gray-100 text-gray-600 text-xs font-medium rounded-lg transition-colors">
-                                                        Profile
-                                                    </button>
-                                                    <button className="px-2 py-1.5 bg-orange-50 hover:bg-orange-100 text-orange-600 text-xs font-medium rounded-lg transition-colors">
-                                                        Application
-                                                    </button>
-                                                </div>
+                                                <button className="text-gray-400 hover:text-gray-600 flex-shrink-0">
+                                                    <MoreHorizontal className="w-3 h-3 sm:w-4 sm:h-4" />
+                                                </button>
                                             </div>
-                                        ))
-                                    )}
-                                </div>
+
+                                            <div className="flex justify-between items-center mt-2">
+                                                <div className="flex gap-1">{renderStars(applicant.score)}</div>
+                                                <span className="text-xs text-gray-400">
+                                                    {new Date(applicant.appliedDate).toLocaleDateString('en-US', {
+                                                        month: 'short', day: 'numeric'
+                                                    })}
+                                                </span>
+                                            </div>
+
+                                            <div className="grid gap-2 mt-3 sm:mt-4">
+                                                <button className="text-xs font-medium py-1.5 bg-orange-100 hover:bg-orange-200 rounded-lg text-orange-700">
+                                                    Application
+                                                </button>
+                                            </div>
+                                        </div>
+                                    ))
+                                )}
                             </div>
                         </div>
                     ))}
@@ -313,44 +308,44 @@ const ClientAllApplications = () => {
         );
     };
 
-    const renderCardView = () => {
+     const renderCardView = () => {
         return (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mt-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-3 sm:gap-4 mt-4 pb-4">
                 {applicants.map(applicant => (
-                    <div key={applicant.id} className="bg-white rounded-lg shadow p-4 border border-gray-200">
+                    <div key={applicant.id} className="bg-white rounded-lg shadow p-3 sm:p-4 border border-gray-200">
                         <div className="flex items-center justify-between mb-3">
-                            <div className="flex items-center gap-2">
+                            <div className="flex items-center gap-2 min-w-0 flex-1">
                                 <img
                                     src={applicant.avatar}
                                     alt={applicant.name}
-                                    className="w-10 h-10 rounded-full object-cover border-2 border-gray-100"
+                                    className="w-8 h-8 sm:w-10 sm:h-10 rounded-full object-cover border-2 border-gray-100 flex-shrink-0"
                                     onError={(e) => {
                                         e.target.style.display = 'none';
                                         e.target.nextSibling.style.display = 'flex';
                                     }}
                                 />
-                                <div className={`w-10 h-10 ${getAvatarColor(applicant.id)} rounded-full items-center justify-center text-white text-sm font-medium hidden`}>
+                                <div className={`w-8 h-8 sm:w-10 sm:h-10 ${getAvatarColor(applicant.id)} rounded-full items-center justify-center text-white text-xs sm:text-sm font-medium hidden flex-shrink-0`}>
                                     {getInitials(applicant.name)}
                                 </div>
-                                <div>
-                                    <h4 className="font-medium text-gray-900">{applicant.name}</h4>
-                                    <p className="text-xs text-gray-500">{applicant.jobRole}</p>
+                                <div className="min-w-0 flex-1">
+                                    <h4 className="font-medium text-gray-900 text-sm sm:text-base truncate">{applicant.name}</h4>
+                                    <p className="text-xs text-gray-500 truncate">{applicant.jobRole}</p>
                                 </div>
                             </div>
-                            <button className="text-gray-400 hover:text-gray-600">
+                            <button className="text-gray-400 hover:text-gray-600 flex-shrink-0">
                                 <MoreHorizontal className="w-4 h-4" />
                             </button>
                         </div>
                         <div className="flex justify-between items-center mb-3">
-                            <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStageColor(applicant.hiringStage)}`}>
+                            <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStageColor(applicant.hiringStage)} truncate max-w-[120px]`}>
                                 {applicant.hiringStage}
                             </span>
                             {renderStars(applicant.score)}
                         </div>
-                        <div className="text-xs text-gray-500 mb-3">
+                        <div className="text-xs text-gray-500 mb-3 truncate">
                             Applied: {applicant.appliedDate}
                         </div>
-                        <Link to="/clientApplicationDetails" className="w-full px-3 py-2 bg-orange-50 text-orange-600 text-sm font-medium rounded hover:bg-orange-100">
+                        <Link to="/clientApplicationDetails" className="block w-full px-3 py-2 bg-orange-50 text-orange-600 text-xs sm:text-sm font-medium rounded hover:bg-orange-100 text-center">
                             See Application
                         </Link>
                     </div>
@@ -359,9 +354,11 @@ const ClientAllApplications = () => {
         );
     };
 
-    const renderTableView = () => {
-        return (
-            <div className="overflow-x-auto mt-4">
+   const renderTableView = () => {
+    return (
+        <div className="mt-4">
+            {/* Desktop Table View */}
+            <div className="hidden lg:block overflow-x-auto">
                 <table className="w-full text-[13px] text-gray-700">
                     <thead className="text-gray-600 font-medium">
                         <tr className='border-2 border-gray-200'>
@@ -387,7 +384,7 @@ const ClientAllApplications = () => {
                                 </div>
                             </th>
                             <th className="p-4 text-left cursor-pointer hover:text-gray-800">
-                                <div className="flex items-center gap-2 text-gray-400 text-[14px] ">
+                                <div className="flex items-center gap-2 text-gray-400 text-[14px]">
                                     Score
                                     <div className="flex flex-col">
                                         <svg className="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
@@ -438,7 +435,7 @@ const ClientAllApplications = () => {
                                     </div>
                                 </div>
                             </th>
-                            <th className=" gap-2 text-gray-400 text-[14px]">Action</th>
+                            <th className="p-4 text-center text-gray-400 text-[14px]">Action</th>
                         </tr>
                     </thead>
 
@@ -446,7 +443,7 @@ const ClientAllApplications = () => {
                         {applicants.map((applicant, index) => (
                             <tr
                                 key={applicant.id}
-                                className={` ${index % 2 === 0 ? 'bg-[#fff9f5]' : 'bg-white'}`}
+                                className={`${index % 2 === 0 ? 'bg-[#fff9f5]' : 'bg-white'}`}
                             >
                                 <td className="p-4">
                                     <input
@@ -483,7 +480,7 @@ const ClientAllApplications = () => {
                                 <td className="p-4 text-gray-600">{applicant.jobRole}</td>
                                 <td className="p-4">
                                     <div className="flex items-center gap-2">
-                                        <Link to="/clientApplicationDetails" className="px-4 py-2.5 text-[14px] text-orange-600 bg-[#fff0e5] border font-extrabold border-orange-500 hover:bg-orange-100 transition-colors duration-200">
+                                        <Link to="/clientApplicationDetails" className="px-4 py-2.5 text-[14px] text-orange-600 bg-[#fff0e5] border font-extrabold border-orange-500 hover:bg-orange-100 transition-colors duration-200 rounded">
                                             See Application
                                         </Link>
                                         <button className="p-2 rounded-md hover:bg-gray-100 transition-colors duration-200">
@@ -496,124 +493,202 @@ const ClientAllApplications = () => {
                     </tbody>
                 </table>
             </div>
-        );
-    };
 
-    return (
-        <div className="min-h-screen flex bg-[#fff0e5]">
-            <div className="sticky top-0 left-0  h-screen">
-
-                <ClientSidbar />
-            </div>
-
-            <div className="flex flex-col flex-1 ">
-                <div className="sticky top-0 z-10 ">
-
-                    <ClientHeader />
-                </div>
-
-                <main className="flex-1 overflow-y-auto p-6">
-                    <h1 className="text-3xl font-bold text-orange-600 mb-4">Profile</h1>
-
-                    <div className="bg-white rounded-3xl  p-10">
-                        <div className="flex flex-wrap items-center justify-between p-4">
-                            <h2 className="text-[16px] font-semibold text-[#2b2d42]">
-                                Total Applicants : {applicants.length}
-                            </h2>
-
-                            <div className="flex items-center gap-3 flex-wrap">
-                                {/* Search Input */}
-                                <div className="relative">
-                                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
-                                    <input
-                                        type="text"
-                                        placeholder="Search Applicants"
-                                        value={searchTerm}
-                                        onChange={(e) => setSearchTerm(e.target.value)}
-                                        className="pl-10 pr-15 py-[10px] border-2 border-gray-100 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-orange-400"
-                                    />
+            {/* Mobile/Tablet Card View for Table Data */}
+            <div className="lg:hidden space-y-4">
+                {applicants.map((applicant, index) => (
+                    <div key={applicant.id} className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm">
+                        {/* Header with checkbox and name */}
+                        <div className="flex items-start justify-between mb-3">
+                            <div className="flex items-center gap-3 flex-1 min-w-0">
+                                <input
+                                    type="checkbox"
+                                    className="w-5 h-5 border-2 border-gray-300 rounded bg-white checked:bg-orange-500 checked:border-orange-500 focus:ring-orange-500 focus:ring-2 focus:ring-offset-0 appearance-none relative checked:after:content-['✓'] checked:after:absolute checked:after:text-white checked:after:text-xs checked:after:font-bold checked:after:left-0.5 checked:after:top-0 flex-shrink-0"
+                                    checked={selectedApplicants.has(applicant.id)}
+                                    onChange={() => handleSelectApplicant(applicant.id)}
+                                />
+                                <img
+                                    src={applicant.avatar}
+                                    alt={applicant.name}
+                                    className="w-10 h-10 rounded-full object-cover border-2 border-gray-100 flex-shrink-0"
+                                    onError={(e) => {
+                                        e.target.style.display = 'none';
+                                        e.target.nextSibling.style.display = 'flex';
+                                    }}
+                                />
+                                <div className={`w-10 h-10 ${getAvatarColor(applicant.id)} rounded-full items-center justify-center text-white text-xs font-medium hidden flex-shrink-0`}>
+                                    {getInitials(applicant.name)}
                                 </div>
-
-                                {/* Filter Button */}
-                                <button className="flex items-center gap-2 px-4 py-[10px] border-2 border-gray-100 text-sm text-[#2b2d42]">
-                                    <Filter className="w-4 h-4" /> Filter
-                                </button>
-
-                                {/* View Toggle Buttons */}
-                                <div className="flex bg-[#fff3e6] border-2 border-orange-200 overflow-hidden ">
-                                    <button
-                                        onClick={() => setViewMode('pipeline')}
-                                        className={`flex items-center gap-1 px-3 py-2 text-sm transition ${viewMode === 'pipeline' ? 'bg-white text-orange-600' : 'text-orange-600 hover:bg-orange-100'}`}
-                                    >
-                                        <List className="w-4 h-4" /> Pipeline
-                                    </button>
-                                    <button
-                                        onClick={() => setViewMode('card')}
-                                        className={`flex items-center gap-1 px-3 py-2 text-sm transition ${viewMode === 'card' ? 'bg-white text-orange-600' : 'text-orange-600 hover:bg-orange-100'}`}
-                                    >
-                                        <Grid className="w-4 h-4" /> Card
-                                    </button>
-                                    <button
-                                        onClick={() => setViewMode('table')}
-                                        className={`flex items-center gap-1 px-3 py-2 text-sm transition ${viewMode === 'table' ? 'bg-white text-orange-600' : 'text-orange-600 hover:bg-orange-100'}`}
-                                    >
-                                        <List className="w-4 h-4" /> Table
-                                    </button>
+                                <div className="min-w-0 flex-1">
+                                    <h3 className="font-medium text-gray-900 truncate">{applicant.name}</h3>
+                                    <p className="text-sm text-gray-600 truncate">{applicant.jobRole}</p>
                                 </div>
+                            </div>
+                            <button className="p-2 rounded-md hover:bg-gray-100 transition-colors duration-200 flex-shrink-0">
+                                <MoreHorizontal className="w-4 h-4 text-gray-500" />
+                            </button>
+                        </div>
+
+                        {/* Details Grid */}
+                        <div className="grid grid-cols-2 gap-4 mb-4">
+                            <div>
+                                <span className="text-xs text-gray-500 block">Score</span>
+                                <div className="mt-1">{renderStars(applicant.score)}</div>
+                            </div>
+                            <div>
+                                <span className="text-xs text-gray-500 block">Applied Date</span>  
+                                <span className="text-sm text-gray-900">{applicant.appliedDate}</span>
                             </div>
                         </div>
 
-                        {/* Render the appropriate view based on viewMode */}
-                        {viewMode === 'pipeline' && renderPipelineView()}
-                        {viewMode === 'card' && renderCardView()}
-                        {viewMode === 'table' && renderTableView()}
+                        {/* Hiring Stage */}
+                        <div className="mb-4">
+                            <span className="text-xs text-gray-500 block mb-1">Hiring Stage</span>
+                            <span className={`inline-block px-3 py-1 rounded-full text-xs font-medium border-2 ${getStageColor(applicant.hiringStage)}`}>
+                                {applicant.hiringStage}
+                            </span>
+                        </div>
 
-                        <div className="flex justify-between items-center p-4 border-t text-sm">
-                            <div className="flex items-center gap-2">
-                                View
-                                <div className="relative">
-                                    <select
-                                        value={itemsPerPage}
-                                        onChange={(e) => setItemsPerPage(Number(e.target.value))}
-                                        className="rounded px-2 py-1 appearance-none pr-6"
-                                    >
-                                        <option>10</option>
-                                        <option>25</option>
-                                        <option>50</option>
-                                    </select>
-                                    <ChevronDown className="absolute right-2 top-2 w-4 h-4 text-gray-400 pointer-events-none" />
-                                </div>
-                                Applicants per page
-                            </div>
-                            <div className="flex items-center gap-1">
-                                <button
-                                    disabled={currentPage === 1}
-                                    onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
-                                    className="p-2 text-gray-400 hover:text-gray-600 disabled:opacity-50"
-                                >
-                                    <ChevronLeft />
-                                </button>
-                                <button className="px-3 py-1 bg-orange-600 text-white rounded">{currentPage}</button>
-                                <button
-                                    className="px-3 py-1 hover:bg-gray-100 rounded"
-                                    onClick={() => setCurrentPage(prev => prev + 1)}
-                                >
-                                    2
-                                </button>
-                                <button
-                                    onClick={() => setCurrentPage(prev => prev + 1)}
-                                    className="p-2 text-gray-400 hover:text-gray-600"
-                                >
-                                    <ChevronRight />
-                                </button>
-                            </div>
+                        {/* Action Button */}
+                        <div className="pt-3 border-t border-gray-100">
+                            <Link 
+                                to="/clientApplicationDetails" 
+                                className="block w-full text-center px-4 py-2.5 text-sm text-orange-600 bg-[#fff0e5] border border-orange-500 hover:bg-orange-100 transition-colors duration-200 rounded font-medium"
+                            >
+                                See Application
+                            </Link>
                         </div>
                     </div>
-                </main>
-                        <ClientFooter />
-
+                ))}
             </div>
         </div>
+    );
+};
+
+    return (
+        <div className="min-h-screen flex flex-col lg:flex-row bg-[#fff0e5]">
+    {/* Sidebar - Hidden on mobile, shown on larger screens */}
+    <div className="hidden lg:block lg:sticky lg:top-0 lg:left-0 lg:h-screen">
+        <ClientSidbar />
+    </div>
+
+    <div className="flex flex-col flex-1 min-w-0">
+        {/* Header */}
+        <div className="sticky top-0 z-10">
+            <ClientHeader />
+        </div>
+
+        {/* Main Content */}
+        <main className="flex-1 overflow-y-auto p-3 sm:p-4 lg:p-6">
+            <h1 className="text-2xl sm:text-3xl font-bold text-orange-600 mb-4">Profile</h1>
+
+            <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-6 lg:p-10">
+                {/* Header Controls */}
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-2 sm:p-4">
+                    <h2 className="text-sm sm:text-base font-semibold text-[#2b2d42]">
+                        Total Applicants: {applicants.length}
+                    </h2>
+
+                    <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+                        {/* Search Input */}
+                        <div className="relative min-w-0 flex-1 sm:flex-initial sm:w-64">
+                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4 sm:w-5 sm:h-5" />
+                            <input
+                                type="text"
+                                placeholder="Search Applicants"
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                                className="w-full pl-8 sm:pl-10 pr-4 py-2 sm:py-[10px] border-2 border-gray-100 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-orange-400 rounded"
+                            />
+                        </div>
+
+                        {/* Filter Button */}
+                        <button className="flex items-center justify-center gap-2 px-4 py-2 sm:py-[10px] border-2 border-gray-100 text-sm text-[#2b2d42] rounded whitespace-nowrap">
+                            <Filter className="w-4 h-4" /> Filter
+                        </button>
+
+                        {/* View Toggle Buttons */}
+                        <div className="flex bg-[#fff3e6] border-2 border-orange-200 rounded overflow-hidden">
+                            <button
+                                onClick={() => setViewMode('pipeline')}
+                                className={`flex items-center gap-1 px-2 sm:px-3 py-2 text-xs sm:text-sm transition ${viewMode === 'pipeline' ? 'bg-white text-orange-600' : 'text-orange-600 hover:bg-orange-100'}`}
+                            >
+                                <List className="w-3 h-3 sm:w-4 sm:h-4" />
+                                <span className="hidden sm:inline">Pipeline</span>
+                            </button>
+                            <button
+                                onClick={() => setViewMode('card')}
+                                className={`flex items-center gap-1 px-2 sm:px-3 py-2 text-xs sm:text-sm transition ${viewMode === 'card' ? 'bg-white text-orange-600' : 'text-orange-600 hover:bg-orange-100'}`}
+                            >
+                                <Grid className="w-3 h-3 sm:w-4 sm:h-4" />
+                                <span className="hidden sm:inline">Card</span>
+                            </button>
+                            <button
+                                onClick={() => setViewMode('table')}
+                                className={`flex items-center gap-1 px-2 sm:px-3 py-2 text-xs sm:text-sm transition ${viewMode === 'table' ? 'bg-white text-orange-600' : 'text-orange-600 hover:bg-orange-100'}`}
+                            >
+                                <List className="w-3 h-3 sm:w-4 sm:h-4" />
+                                <span className="hidden sm:inline">Table</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Content Views */}
+                {viewMode === 'pipeline' && renderPipelineView()}
+                {viewMode === 'card' && renderCardView()}
+                {viewMode === 'table' && renderTableView()}
+
+                {/* Pagination Controls */}
+                <div className="flex flex-col sm:flex-row justify-between items-center gap-4 p-4 border-t text-sm">
+                    <div className="flex items-center gap-2 text-xs sm:text-sm">
+                        <span>View</span>
+                        <div className="relative">
+                            <select
+                                value={itemsPerPage}
+                                onChange={(e) => setItemsPerPage(Number(e.target.value))}
+                                className="rounded px-2 py-1 pr-6 border appearance-none text-xs sm:text-sm"
+                            >
+                                <option>10</option>
+                                <option>25</option>
+                                <option>50</option>
+                            </select>
+                            <ChevronDown className="absolute right-1 top-1/2 -translate-y-1/2 w-3 h-3 sm:w-4 sm:h-4 text-gray-400 pointer-events-none" />
+                        </div>
+                        <span className="whitespace-nowrap">per page</span>
+                    </div>
+                    
+                    <div className="flex items-center gap-1">
+                        <button
+                            disabled={currentPage === 1}
+                            onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+                            className="p-2 text-gray-400 hover:text-gray-600 disabled:opacity-50"
+                        >
+                            <ChevronLeft className="w-4 h-4" />
+                        </button>
+                        <button className="px-2 sm:px-3 py-1 bg-orange-600 text-white rounded text-xs sm:text-sm">
+                            {currentPage}
+                        </button>
+                        <button
+                            className="px-2 sm:px-3 py-1 hover:bg-gray-100 rounded text-xs sm:text-sm"
+                            onClick={() => setCurrentPage(prev => prev + 1)}
+                        >
+                            2
+                        </button>
+                        <button
+                            onClick={() => setCurrentPage(prev => prev + 1)}
+                            className="p-2 text-gray-400 hover:text-gray-600"
+                        >
+                            <ChevronRight className="w-4 h-4" />
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+        
+        <ClientFooter />
+    </div>
+</div>
     );
 };
 
