@@ -1,98 +1,45 @@
-import React, { useState, useEffect } from 'react';
-import { Search, Menu, X } from 'lucide-react';
-import { Link, useLocation } from 'react-router-dom';
-import { LuBell } from "react-icons/lu";
+import React, { useEffect } from 'react';
+import { Search, Bell } from 'lucide-react';
 
 export default function ClientHeader() {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const { pathname } = useLocation();
-
   useEffect(() => {
-    // Scroll to top when pathname changes
     window.scrollTo(0, 0);
-  }, [pathname]);
+  }, []);
 
   return (
-    <>
-      <header className="bg-[#fff0e5] px-6 py-3 sticky top-0 z-50">
-        <div className="flex items-center justify-between max-w-7xl mx-auto">
-          {/* Left side - Navigation (Desktop) */}
-          <div className="hidden lg:flex items-center space-x-8">
+    <header className="bg-[#fff0e5] px-4 sm:px-6 py-3 sticky top-0 z-999 shadow-sm">
+      <div className="flex items-center justify-between gap-3 max-w-7xl mx-auto">
+        
 
-          </div>
-
-          {/* Right side - Search, Language, and CTA */}
-          <div className="flex items-center space-x-4">
-            {/* Search Bar (Hidden on mobile) */}
-            <div className="relative hidden md:block">
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <Search className="h-4 w-4 text-gray-400" />
-              </div>
-              <input
-                type="text"
-                placeholder="Search List..."
-                className="pl-10 pr-4 py-2 bg-white border border-orange-200 rounded-full text-sm focus:outline-none focus:ring-1 focus:ring-orange-300 focus:border-orange-300 w-48 text-gray-600"
-              />
+        {/* Right Section - All items in one row */}
+        <div className="flex items-center gap-2 sm:gap-4 flex-1 justify-end">
+          {/* Search - Flexible width */}
+          <div className="relative flex-1 max-w-[160px] sm:max-w-[200px]">
+            <div className="absolute inset-y-0 left-0 pl-2 sm:pl-3 flex items-center pointer-events-none">
+              <Search className="h-3 w-3 sm:h-4 sm:w-4 text-gray-400" />
             </div>
-
-            {/* Language/Globe Icon (Hidden on mobile) */}
-            <div className="relative hidden md:block p-2 text-orange-500">
-              <LuBell className="h-5 w-5" />
-
-              {/* Red dot */}
-              <span className="absolute top-0 right-0 block h-2 w-2 rounded-full bg-red-600 ring-2 ring-white"></span>
-            </div>
-
-
-            {/* Post a Job Button */}
-            <Link to='/jobpostform'>
-              <button className="bg-orange-500 hover:bg-orange-600 text-white px-3 py-2 md:px-5 rounded-full font-medium text-xs md:text-sm transition-colors">
-                Post a Job
-              </button>
-            </Link>
-          </div>
-        </div>
-      </header>
-
-      {/* Mobile Sidebar Menu */}
-      <div
-        id="mobile-menu"
-        className={`fixed top-0 left-0 w-full h-full bg-white z-40 transform transition-transform duration-300 ease-in-out ${isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"
-          } lg:hidden`}
-      >
-        <div className="flex flex-col h-full pt-20 px-6">
-
-          {/* Mobile Search Bar */}
-          <div className="mt-8">
-            <div className="relative">
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <Search className="h-5 w-5 text-gray-400" />
-              </div>
-              <input
-                type="text"
-                placeholder="Search List..."
-                className="pl-10 pr-4 py-2 bg-white border border-orange-200 rounded-full text-sm focus:outline-none focus:ring-1 focus:ring-orange-300 focus:border-orange-300 w-full text-gray-600"
-              />
-            </div>
+            <input
+              type="text"
+              placeholder="Search..."
+              className="pl-7 sm:pl-10 pr-2 sm:pr-4 py-1.5 sm:py-2 bg-white border border-orange-200 rounded-full text-xs sm:text-sm focus:outline-none focus:ring-1 focus:ring-orange-300 focus:border-orange-300 w-full text-gray-600"
+            />
           </div>
 
-          {/* Mobile Language Button */}
-          <div className="mt-4">
-            <button className="flex items-center space-x-2 p-2 text-gray-600 hover:text-gray-800 bg-white rounded-full border border-orange-200 w-full justify-center">
-              <LuBell className="h-4 w-4" />
-              <span className="text-sm">Language</span>
-            </button>
+          {/* Notification Bell - Compact */}
+          <div className="relative text-orange-500 flex items-center justify-center flex-shrink-0 p-1">
+            <Bell className="h-4 w-4 sm:h-5 sm:w-5" />
+            <span className="absolute -top-0.5 -right-0.5 sm:top-0 sm:right-0 block h-1.5 w-1.5 sm:h-2 sm:w-2 rounded-full bg-red-600 ring-1 sm:ring-2 ring-white" />
           </div>
+
+          {/* CTA Button - Compact on mobile */}
+          <button 
+            onClick={() => console.log('Navigate to job post form')}
+            className="bg-orange-500 hover:bg-orange-600 text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-full font-medium text-xs sm:text-sm transition-colors whitespace-nowrap flex-shrink-0"
+          >
+            Post Job
+          </button>
         </div>
       </div>
-
-      {/* Overlay */}
-      {isMobileMenuOpen && (
-        <div
-          className="fixed inset-0 bg-black bg-opacity-50 z-30 lg:hidden"
-          onClick={toggleMobileMenu}
-        />
-      )}
-    </>
+    </header>
   );
 }
