@@ -146,7 +146,7 @@ function CompanyProfile() {
                     />
 
                     {/* Edit Icon */}
-                    <button className="absolute top-[-12px] left-[-10px] w-8 h-8 bg-white   border border-orange-400 flex items-center justify-center transition">
+                    <button className="absolute top-[-12px] left-[-10px] w-8 h-8 bg-white  border border-orange-400 flex items-center justify-center transition">
                       <Edit size={16} className="text-orange-400" />
                     </button>
                   </div>
