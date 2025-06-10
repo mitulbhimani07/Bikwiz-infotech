@@ -32,21 +32,22 @@ export default function ClientSidebar() {
     <>
       {/* Mobile Toggle Button */}
       <button
-  onClick={toggleMobileMenu}
-  className="lg:hidden fixed top-3 left-3 z-[1000] p-2.5 bg-white rounded-lg shadow-lg border border-gray-200 hover:bg-gray-50 transition-all duration-200"
-  aria-label="Toggle sidebar menu"
->
-  {isMobileMenuOpen ? (
-    <X className="w-5 h-5 text-gray-700" />
-  ) : (
-    <Menu className="w-5 h-5 text-gray-700" />
-  )}
-</button>
-
+        onClick={toggleMobileMenu}
+        className="lg:hidden fixed top-1 left-4 z-[1000] p-3 bg-orange-500 rounded-full shadow-md text-white
+             hover:bg-orange-600 
+             transition-colors duration-200 ease-in-out"
+        aria-label={isMobileMenuOpen ? "Close sidebar menu" : "Open sidebar menu"}
+      >
+        {isMobileMenuOpen ? (
+          <X className="w-5 h-5" />
+        ) : (
+          <Menu className="w-5 h-5" />
+        )}
+      </button>
       {/* Overlay for mobile */}
       {isMobileMenuOpen && (
         <div
-          className="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-[900]"
+          className="lg:hidden fixed inset-0 bg-[#00000037] bg-opacity-50 z-[900]"
           onClick={toggleMobileMenu}
         />
       )}
@@ -86,61 +87,61 @@ export default function ClientSidebar() {
 
           {/* Navigation Links */}
           <nav className="px-3 lg:px-4 space-y-1 text-orange-500">
-            <NavItem 
-              icon={LayoutDashboard} 
-              label="Dashboard" 
-              to="/ClientDashboard" 
-              active={isActive('/ClientDashboard')} 
-              onClick={handleNavClick} 
+            <NavItem
+              icon={LayoutDashboard}
+              label="Dashboard"
+              to="/ClientDashboard"
+              active={isActive('/ClientDashboard')}
+              onClick={handleNavClick}
             />
-            <NavItem 
-              icon={Building2} 
-              label="Company Profile" 
-              to="/clientCompanyProfile" 
-              active={isActive('/clientCompanyProfile')} 
-              onClick={handleNavClick} 
+            <NavItem
+              icon={Building2}
+              label="Company Profile"
+              to="/clientCompanyProfile"
+              active={isActive('/clientCompanyProfile')}
+              onClick={handleNavClick}
             />
-            <NavItem 
-              icon={Users} 
-              label="All Applicants" 
-              to="/clientAllApplications" 
-              active={isActive('/clientAllApplications')} 
-              onClick={handleNavClick} 
+            <NavItem
+              icon={Users}
+              label="All Applicants"
+              to="/clientAllApplications"
+              active={isActive('/clientAllApplications')}
+              onClick={handleNavClick}
             />
-            <NavItem 
-              icon={MessageSquare} 
-              label="Messages" 
-              to="/ClientMessages" 
-              active={isActive('/ClientMessages')} 
-              onClick={handleNavClick} 
+            <NavItem
+              icon={MessageSquare}
+              label="Messages"
+              to="/ClientMessages"
+              active={isActive('/ClientMessages')}
+              onClick={handleNavClick}
             />
-            <NavItem 
-              icon={FileText} 
-              label="Job Listing" 
-              to="/clientJobListing" 
-              active={isActive('/clientJobListing')} 
-              onClick={handleNavClick} 
+            <NavItem
+              icon={FileText}
+              label="Job Listing"
+              to="/clientJobListing"
+              active={isActive('/clientJobListing')}
+              onClick={handleNavClick}
             />
-            <NavItem 
-              icon={Calendar} 
-              label="My Schedule" 
-              to="/clientSchedule" 
-              active={isActive('/clientSchedule')} 
-              onClick={handleNavClick} 
+            <NavItem
+              icon={Calendar}
+              label="My Schedule"
+              to="/clientSchedule"
+              active={isActive('/clientSchedule')}
+              onClick={handleNavClick}
             />
-            <NavItem 
-              icon={Settings} 
-              label="Account Settings" 
-              to="/clientSettings" 
-              active={isActive('/clientSettings')} 
-              onClick={handleNavClick} 
+            <NavItem
+              icon={Settings}
+              label="Account Settings"
+              to="/clientSettings"
+              active={isActive('/clientSettings')}
+              onClick={handleNavClick}
             />
-            <NavItem 
-              icon={HelpCircle} 
-              label="Help Center" 
-              to="/clientHelpCenter" 
-              active={isActive('/clientHelpCenter')} 
-              onClick={handleNavClick} 
+            <NavItem
+              icon={HelpCircle}
+              label="Help Center"
+              to="/clientHelpCenter"
+              active={isActive('/clientHelpCenter')}
+              onClick={handleNavClick}
             />
           </nav>
         </div>
@@ -165,11 +166,10 @@ function NavItem({ icon: Icon, label, to, active = false, onClick }) {
     <Link
       to={to}
       onClick={onClick}
-      className={`flex items-center gap-3 w-full text-left px-3 lg:px-4 py-3 rounded-lg transition-colors text-sm lg:text-base no-underline ${
-        active
-          ? 'bg-orange-100 text-orange-500 font-medium'
-          : 'text-gray-600 hover:bg-gray-50 hover:text-gray-800'
-      }`}
+      className={`flex items-center gap-3 w-full text-left px-3 lg:px-4 py-3 rounded-lg transition-colors text-sm lg:text-base no-underline ${active
+        ? 'bg-orange-100 text-orange-500 font-medium'
+        : 'text-gray-600 hover:bg-gray-50 hover:text-gray-800'
+        }`}
     >
       <Icon className="w-4 h-4 lg:w-5 lg:h-5 flex-shrink-0" />
       <span className="truncate">{label}</span>
