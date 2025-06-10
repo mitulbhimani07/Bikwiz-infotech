@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { Search, Bell } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 export default function ClientHeader() {
   useEffect(() => {
@@ -7,7 +8,7 @@ export default function ClientHeader() {
   }, []);
 
   return (
-    <header className="bg-[#fff0e5] px-4 sm:px-6 py-3 sticky top-0 z-[100] shadow-sm">
+    <header className="bg-[#fff0e5] px-4 sm:px-6 py-3 sticky top-0 z-[100] ">
       <div className="flex items-center justify-between gap-2 sm:gap-4 max-w-7xl mx-auto">
         {/* Left spacing for mobile toggle button */}
         <div className="w-12 lg:w-0 flex-shrink-0"></div>
@@ -33,13 +34,14 @@ export default function ClientHeader() {
           </div>
 
           {/* CTA Button - More responsive */}
-          <button 
+          <Link 
+            to="/jobpostform" // Adjust the path as needed
             onClick={() => console.log('Navigate to job post form')}
             className="bg-orange-500 hover:bg-orange-600 text-white px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-full font-medium text-xs sm:text-sm transition-colors whitespace-nowrap flex-shrink-0 min-w-fit"
           >
-            <span className="hidden xs:inline">Post Job</span>
-            <span className="xs:hidden">Post</span>
-          </button>
+            <span className=" xs:inline">Post Job</span>
+            {/* <span className="xs:hidden">Post</span> */}
+          </Link>
         </div>
       </div>
     </header>
