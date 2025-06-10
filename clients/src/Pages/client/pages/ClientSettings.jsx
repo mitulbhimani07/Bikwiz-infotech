@@ -118,13 +118,13 @@ function ClientSettings() {
 
 
     return (
-        <div className="min-h-screen flex bg-[#fff0e5]">
+        <div className="min-h-screen flex flex-col lg:flex-row bg-[#fff0e5]">
             {/* Sidebar - Hidden on mobile, shown on desktop */}
-            <div className="hidden lg:block sticky top-0 left-0 h-screen">
+            <div className="  lg:block lg:sticky lg:top-0 lg:left-0 lg:h-screen lg:flex-shrink-0">
                 <ClientSidbar />
             </div>
 
-            <div className="flex flex-col flex-1">
+            <div className="flex flex-col flex-1 min-w-0">
                 {/* Header - Sticky on all screens */}
                 <div className="sticky top-0 z-10">
                     <ClientHeader />

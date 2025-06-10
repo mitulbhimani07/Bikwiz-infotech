@@ -43,12 +43,12 @@ function ClientDashboard() {
   return (
     <div className="min-h-screen flex flex-col lg:flex-row bg-[#fff0e5]">
       {/* Sidebar */}
-      <div className=" hidden lg:block sticky top-0 h-screen">
+      <div className="  lg:block lg:sticky lg:top-0 lg:left-0 lg:h-screen lg:flex-shrink-0">
         <ClientSidebar />
       </div>
 
       {/* Main content area */}
-      <div className="flex-1 flex flex-col">
+      <div className="flex flex-col flex-1 min-w-0">
         {/* Header */}
         <div className="sticky top-0 z-10">
           <ClientHeader />
