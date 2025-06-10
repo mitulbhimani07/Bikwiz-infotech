@@ -30,6 +30,8 @@ function CompanyProfile() {
   const [isEditingTechStack, setIsEditingTechStack] = useState(false);
   const [isEditingOffices, setIsEditingOffices] = useState(false);
 
+   
+
   const [profileData, setProfileData] = useState({
     name: "Anjali Kumar",
     img: client,
@@ -40,6 +42,29 @@ function CompanyProfile() {
     industry: "Social & Non-Profit",
     description: "Lorem Ipsum is simply dummy text of printing and type setting industry. Lorem Ipsum been industry standard dummy text ever since, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting,remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. Lorem Ipsum is simply dummy text of printing and type setting industry. Lorem Ipsum been industry standard dummy text ever since, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting."
   });
+
+   const items = [
+    {
+      icon: <VscFlame className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 text-orange-500" />,
+      label: "Founded",
+      value: profileData.founded,
+    },
+    {
+      icon: <FaUsers className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 text-orange-500" />,
+      label: "Employees",
+      value: profileData.employees,
+    },
+    {
+      icon: <MapPin className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 text-orange-500" />,
+      label: "Location",
+      value: profileData.countries,
+    },
+    {
+      icon: <LiaIndustrySolid className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 text-orange-500" />,
+      label: "Industry",
+      value: profileData.industry,
+    },
+  ];
 
   const [contactData, setContactData] = useState({
     email: "twitter.com/Anjali",
@@ -125,38 +150,40 @@ function CompanyProfile() {
           </div>
 
           {/* Main Content */}
-          <div className="bg-[#fff0e5] p-2 sm:p-4 md:p-6">
+          <div className="bg-[#fff0e5] p-2 sm:p-3 md:p-4 lg:p-6 xl:p-8">
             {/* Page Title */}
-            <div className="text-orange-400 mb-4 px-2">
-              <p className="text-2xl sm:text-3xl font-bold">Profile</p>
+            <div className="text-orange-400 mb-3 sm:mb-4 md:mb-6 px-1 sm:px-2">
+              <p className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold">Profile</p>
             </div>
 
             {/* Main Content Card */}
-            <div className="max-w-7xl bg-white rounded-2xl sm:rounded-3xl mx-auto overflow-hidden shadow-sm">
-              <div className="p-4 sm:p-6 lg:p-8">
+            <div className="max-w-none sm:max-w-6xl md:max-w-7xl xl:max-w-8xl 2xl:max-w-none bg-white rounded-xl sm:rounded-2xl md:rounded-3xl mx-auto overflow-hidden shadow-sm">
+              <div className="p-3 sm:p-4 md:p-6 lg:p-8 xl:p-10 2xl:p-12">
                 {/* Profile Header Section */}
-                <div className="flex flex-col xl:flex-row justify-between items-start gap-4 sm:gap-6 pb-6 border-b border-orange-400">
+                <div className="flex flex-col sm:flex-col md:flex-col lg:flex-col xl:flex-row justify-between items-center xl:items-start gap-4 sm:gap-5 md:gap-6 lg:gap-7 xl:gap-8 pb-4 sm:pb-5 md:pb-6 lg:pb-7 xl:pb-8 border-b border-orange-400">
                   {/* Profile Image */}
-                  <div className="flex-shrink-0 relative mx-auto xl:mx-0">
+                  <div className="flex-shrink-0 relative">
                     <img
                       src={profileData.img}
                       alt="Profile"
-                      className="w-24 h-24 sm:w-28 sm:h-28 md:w-30 md:h-30 object-cover "
+                      className="w-20 h-20 xs:w-24 xs:h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 lg:w-36 lg:h-36 xl:w-32 xl:h-32 2xl:w-40 2xl:h-40 object-cover "
                     />
-                    <button className="absolute -top-2 -left-2 sm:top-[-12px] sm:left-[-10px] w-6 h-6 sm:w-8 sm:h-8 bg-white border border-orange-400  flex items-center justify-center transition hover:bg-orange-50">
-                      <Edit size={12} className="sm:size-4 text-orange-400" />
+                    <button className="absolute -top-1 -left-1 xs:-top-2 xs:-left-2 sm:top-[-8px] sm:left-[-8px] md:top-[-10px] md:left-[-10px] w-5 h-5 xs:w-6 xs:h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 bg-white border border-orange-400 flex items-center justify-center transition hover:bg-orange-50">
+                      <Edit size={10} className="xs:w-3 xs:h-3 sm:w-4 sm:h-4 text-orange-400" />
                     </button>
                   </div>
 
                   {/* Profile Info */}
                   <div className="flex-1 w-full text-center xl:text-left">
                     {/* Name and Website */}
-                    <div className="flex flex-col xl:flex-row xl:items-center xl:justify-between mb-4">
-                      <div className="mb-3 xl:mb-0">
-                        <h2 className="text-xl sm:text-2xl md:text-3xl font-medium text-gray-800">{profileData.name}</h2>
+                    <div className="flex flex-col xl:flex-row xl:items-center xl:justify-between mb-3 sm:mb-4 md:mb-5 lg:mb-6">
+                      <div className="mb-2 sm:mb-3 xl:mb-0">
+                        <h2 className="text-lg xs:text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-3xl 2xl:text-4xl font-medium text-gray-800 break-words">
+                          {profileData.name}
+                        </h2>
                         <a
                           href={profileData.website}
-                          className="text-orange-500 text-sm hover:underline break-all"
+                          className="text-orange-500 text-xs xs:text-sm sm:text-base md:text-lg lg:text-xl xl:text-base 2xl:text-lg hover:underline break-all"
                           target="_blank"
                           rel="noopener noreferrer"
                         >
@@ -165,183 +192,164 @@ function CompanyProfile() {
                       </div>
 
                       {/* Action Buttons */}
-                      <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 justify-center xl:justify-end">
-                        <button className="flex items-center justify-center gap-1 text-orange-600 text-sm font-semibold hover:text-orange-700 transition px-3 py-2 rounded-lg hover:bg-orange-50">
-                          <IoEyeSharp size={16} className="text-orange-500" />
-                          <span className="hidden sm:inline">Public View</span>
-                          <span className="sm:hidden">View</span>
+                      <div className="flex flex-col xs:flex-row sm:flex-row gap-2 sm:gap-3 justify-center xl:justify-end">
+                        <button className="flex items-center justify-center gap-1 xs:gap-2 text-orange-600 text-xs xs:text-sm sm:text-base font-semibold hover:text-orange-700 transition px-2 xs:px-3 py-1.5 xs:py-2 rounded-lg hover:bg-orange-50">
+                          <IoEyeSharp size={14} className="xs:w-4 xs:h-4 sm:w-5 sm:h-5 text-orange-500" />
+                          <span className="whitespace-nowrap">Public View</span>
                         </button>
-                        <button className="flex items-center justify-center gap-2 border border-orange-500 px-3 py-2 rounded-lg text-orange-600 text-sm font-semibold hover:bg-orange-50 transition">
-                          <Settings size={16} className="text-orange-500" />
-                          <span className="hidden sm:inline">Profile Settings</span>
-                          <span className="sm:hidden">Settings</span>
+                        <button className="flex items-center justify-center gap-1 xs:gap-2 border border-orange-500 px-2 xs:px-3 py-1.5 xs:py-2 rounded-lg text-orange-600 text-xs xs:text-sm sm:text-base font-semibold hover:bg-orange-50 transition">
+                          <Settings size={14} className="xs:w-4 xs:h-4 sm:w-5 sm:h-5 text-orange-500" />
+                          <span className="whitespace-nowrap">Profile Settings</span>
                         </button>
                       </div>
                     </div>
 
                     {/* Company Info Grid */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 sm:gap-6 ">
-                      {[
-                        {
-                          icon: <VscFlame size={20} className="sm:size-6 text-orange-500" />,
-                          label: "Founded",
-                          value: profileData.founded,
-                        },
-                        {
-                          icon: <FaUsers size={20} className="sm:size-6 text-orange-500" />,
-                          label: "Employees",
-                          value: profileData.employees,
-                        },
-                        {
-                          icon: <MapPin size={20} className="sm:size-6 text-orange-500" />,
-                          label: "Location",
-                          value: profileData.countries,
-                        },
-                        {
-                          icon: <LiaIndustrySolid size={20} className="sm:size-6 text-orange-500" />,
-                          label: "Industry",
-                          value: profileData.industry,
-                        },
-                      ].map((item, idx) => (
-                        <div key={idx} className="flex items-center gap-3 justify-center xl:justify-start">
-                          <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full border border-orange-300 flex items-center justify-center flex-shrink-0">
-                            {item.icon}
-                          </div>
-                          <div className="text-left">
-                            <div className="text-xs sm:text-sm text-gray-500">{item.label}</div>
-                            <div className="font-semibold text-sm sm:text-base text-gray-800">{item.value}</div>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-8 w-full">
+  {items.map((item, idx) => (
+    <div
+      key={idx}
+      className="flex items-start gap-3"
+    >
+      <div className="w-10 h-10 rounded-full border border-orange-400 flex items-center justify-center flex-shrink-0">
+        {item.icon}
+      </div>
+      <div className="min-w-0 text-left">
+        <div className="text-gray-500 text-sm mb-1">{item.label}</div>
+        <div className="font-bold text-gray-900 text-base leading-tight truncate">{item.value}</div>
+      </div>
+    </div>
+  ))}
+</div>
+
                   </div>
                 </div>
 
                 {/* Main Content Grid */}
-                <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 lg:gap-8 mt-6 lg:mt-10">
+                <div className="grid grid-cols-1 xl:grid-cols-3 gap-4 sm:gap-6 md:gap-8 lg:gap-10 mt-4 sm:mt-6 md:mt-8 lg:mt-10">
                   {/* Left Column - Main Content */}
-                  <div className="xl:col-span-2 space-y-6 lg:space-y-8">
+                  <div className="xl:col-span-2 space-y-4 sm:space-y-6 md:space-y-8">
                     {/* Company Profile Section */}
-                    <div className="pb-6">
-                      <div className="flex items-center justify-between mb-4">
-                        <h3 className="text-xl sm:text-2xl font-normal text-orange-400">Company Profile</h3>
-                        <button className="w-8 h-8 bg-white border border-orange-400 rounded flex items-center justify-center transition hover:bg-orange-50">
-                          <Edit size={16} className="text-orange-400 cursor-pointer hover:text-orange-600" onClick={() => setIsEditingProfile(!isEditingProfile)} />
+                    <div className="pb-4 sm:pb-6">
+                      <div className="flex items-center justify-between mb-3 sm:mb-4">
+                        <h3 className="text-lg xs:text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-2xl 2xl:text-3xl font-normal text-orange-400">Company Profile</h3>
+                        <button className="w-6 h-6 xs:w-7 xs:h-7 sm:w-8 sm:h-8 bg-white border border-orange-400 rounded flex items-center justify-center transition hover:bg-orange-50">
+                          <Edit size={12} className="xs:w-4 xs:h-4 sm:w-5 sm:h-5 text-orange-400 cursor-pointer hover:text-orange-600" onClick={() => setIsEditingProfile(!isEditingProfile)} />
                         </button>
                       </div>
                       
                       {isEditingProfile ? (
-                        <div className="space-y-4">
+                        <div className="space-y-3 sm:space-y-4">
                           <textarea
                             value={profileData.description}
                             onChange={(e) => setProfileData({ ...profileData, description: e.target.value })}
-                            className="w-full p-3 border border-gray-300 rounded-lg text-sm resize-vertical min-h-[120px]"
+                            className="w-full p-2 xs:p-3 border border-gray-300 rounded-lg text-xs xs:text-sm sm:text-base resize-vertical min-h-[100px] xs:min-h-[120px] sm:min-h-[140px]"
                             rows="6"
                           />
-                          <div className="flex flex-col sm:flex-row gap-2">
+                          <div className="flex flex-col xs:flex-row gap-2">
                             <button
                               onClick={() => setIsEditingProfile(false)}
-                              className="flex items-center justify-center gap-1 px-4 py-2 bg-green-100 text-green-600 rounded-md text-sm hover:bg-green-200 transition"
+                              className="flex items-center justify-center gap-1 px-3 xs:px-4 py-1.5 xs:py-2 bg-green-100 text-green-600 rounded-md text-xs xs:text-sm hover:bg-green-200 transition"
                             >
-                              <Save size={14} />
+                              <Save size={12} className="xs:w-4 xs:h-4" />
                               Save
                             </button>
                             <button
                               onClick={() => setIsEditingProfile(false)}
-                              className="flex items-center justify-center gap-1 px-4 py-2 bg-gray-100 text-gray-600 rounded-md text-sm hover:bg-gray-200 transition"
+                              className="flex items-center justify-center gap-1 px-3 xs:px-4 py-1.5 xs:py-2 bg-gray-100 text-gray-600 rounded-md text-xs xs:text-sm hover:bg-gray-200 transition"
                             >
-                              <X size={14} />
+                              <X size={12} className="xs:w-4 xs:h-4" />
                               Cancel
                             </button>
                           </div>
                         </div>
                       ) : (
-                        <div className="text-gray-600 text-sm sm:text-base leading-relaxed">
+                        <div className="text-gray-600 text-xs xs:text-sm sm:text-base md:text-lg leading-relaxed">
                           {profileData.description}
                         </div>
                       )}
                     </div>
 
                     {/* Contact Section */}
-                    <div className="pb-6">
-                      <div className="flex items-center justify-between mb-4">
-                        <h3 className="text-xl sm:text-2xl font-medium text-orange-400">Contact</h3>
-                        <div className="flex gap-2">
-                          <button className="w-8 h-8 bg-white border border-orange-400 rounded flex items-center justify-center transition hover:bg-orange-50">
-                            <Plus size={16} className="text-orange-400 cursor-pointer hover:text-orange-600" />
+                    <div className="pb-4 sm:pb-6">
+                      <div className="flex items-center justify-between mb-3 sm:mb-4">
+                        <h3 className="text-lg xs:text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-2xl 2xl:text-3xl font-medium text-orange-400">Contact</h3>
+                        <div className="flex gap-1 xs:gap-2">
+                          <button className="w-6 h-6 xs:w-7 xs:h-7 sm:w-8 sm:h-8 bg-white border border-orange-400 rounded flex items-center justify-center transition hover:bg-orange-50">
+                            <Plus size={12} className="xs:w-4 xs:h-4 sm:w-5 sm:h-5 text-orange-400 cursor-pointer hover:text-orange-600" />
                           </button>
-                          <button className="w-8 h-8 bg-white border border-orange-400 rounded flex items-center justify-center transition hover:bg-orange-50">
-                            <Edit size={16} className="text-orange-400 cursor-pointer hover:text-orange-600" onClick={() => setIsEditingContact(!isEditingContact)} />
+                          <button className="w-6 h-6 xs:w-7 xs:h-7 sm:w-8 sm:h-8 bg-white border border-orange-400 rounded flex items-center justify-center transition hover:bg-orange-50">
+                            <Edit size={12} className="xs:w-4 xs:h-4 sm:w-5 sm:h-5 text-orange-400 cursor-pointer hover:text-orange-600" onClick={() => setIsEditingContact(!isEditingContact)} />
                           </button>
                         </div>
                       </div>
 
                       {isEditingContact ? (
-                        <div className="space-y-4">
-                          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                        <div className="space-y-3 sm:space-y-4">
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
                             <input
                               type="email"
                               value={contactData.email}
                               onChange={(e) => setContactData({ ...contactData, email: e.target.value })}
-                              className="p-3 border border-gray-300 rounded-lg text-sm w-full"
+                              className="p-2 xs:p-3 border border-gray-300 rounded-lg text-xs xs:text-sm sm:text-base w-full"
                               placeholder="Email"
                             />
                             <input
                               type="text"
                               value={contactData.facebook}
                               onChange={(e) => setContactData({ ...contactData, facebook: e.target.value })}
-                              className="p-3 border border-gray-300 rounded-lg text-sm w-full"
+                              className="p-2 xs:p-3 border border-gray-300 rounded-lg text-xs xs:text-sm sm:text-base w-full"
                               placeholder="Facebook"
                             />
                             <input
                               type="email"
                               value={contactData.info}
                               onChange={(e) => setContactData({ ...contactData, info: e.target.value })}
-                              className="p-3 border border-gray-300 rounded-lg text-sm w-full"
+                              className="p-2 xs:p-3 border border-gray-300 rounded-lg text-xs xs:text-sm sm:text-base w-full"
                               placeholder="LinkedIn"
                             />
                             <input
                               type="url"
                               value={contactData.website}
                               onChange={(e) => setContactData({ ...contactData, website: e.target.value })}
-                              className="p-3 border border-gray-300 rounded-lg text-sm w-full"
+                              className="p-2 xs:p-3 border border-gray-300 rounded-lg text-xs xs:text-sm sm:text-base w-full"
                               placeholder="Website"
                             />
                           </div>
-                          <div className="flex flex-col sm:flex-row gap-2">
+                          <div className="flex flex-col xs:flex-row gap-2">
                             <button
                               onClick={() => setIsEditingContact(false)}
-                              className="flex items-center justify-center gap-1 px-4 py-2 bg-green-100 text-green-600 rounded-md text-sm hover:bg-green-200 transition"
+                              className="flex items-center justify-center gap-1 px-3 xs:px-4 py-1.5 xs:py-2 bg-green-100 text-green-600 rounded-md text-xs xs:text-sm hover:bg-green-200 transition"
                             >
-                              <Save size={14} />
+                              <Save size={12} className="xs:w-4 xs:h-4" />
                               Save
                             </button>
                             <button
                               onClick={() => setIsEditingContact(false)}
-                              className="flex items-center justify-center gap-1 px-4 py-2 bg-gray-100 text-gray-600 rounded-md text-sm hover:bg-gray-200 transition"
+                              className="flex items-center justify-center gap-1 px-3 xs:px-4 py-1.5 xs:py-2 bg-gray-100 text-gray-600 rounded-md text-xs xs:text-sm hover:bg-gray-200 transition"
                             >
-                              <X size={14} />
+                              <X size={12} className="xs:w-4 xs:h-4" />
                               Cancel
                             </button>
                           </div>
                         </div>
                       ) : (
-                        <div className="space-y-4">
-                          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                            <div className="flex items-center gap-2 p-3 text-sm rounded-lg border-2 border-orange-400 min-w-0">
-                              <FaTwitter size={18} className="text-orange-500 flex-shrink-0" />
+                        <div className="space-y-3 sm:space-y-4">
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
+                            <div className="flex items-center gap-2 p-2 xs:p-3 text-xs xs:text-sm sm:text-base rounded-lg border-2 border-orange-400 min-w-0">
+                              <FaTwitter size={14} className="xs:w-4 xs:h-4 sm:w-5 sm:h-5 text-orange-500 flex-shrink-0" />
                               <span className="text-orange-400 font-bold truncate">{contactData.email}</span>
                             </div>
-                            <div className="flex items-center gap-2 p-3 text-sm rounded-lg border-2 border-orange-400 min-w-0">
-                              <FaFacebookF size={18} className="text-orange-500 flex-shrink-0" />
+                            <div className="flex items-center gap-2 p-2 xs:p-3 text-xs xs:text-sm sm:text-base rounded-lg border-2 border-orange-400 min-w-0">
+                              <FaFacebookF size={14} className="xs:w-4 xs:h-4 sm:w-5 sm:h-5 text-orange-500 flex-shrink-0" />
                               <span className="text-orange-400 font-bold truncate">{contactData.facebook}</span>
                             </div>
-                            <div className="flex items-center gap-2 p-3 text-sm rounded-lg border-2 border-orange-400 min-w-0">
-                              <FaLinkedin size={18} className="text-orange-500 flex-shrink-0" />
+                            <div className="flex items-center gap-2 p-2 xs:p-3 text-xs xs:text-sm sm:text-base rounded-lg border-2 border-orange-400 min-w-0">
+                              <FaLinkedin size={14} className="xs:w-4 xs:h-4 sm:w-5 sm:h-5 text-orange-500 flex-shrink-0" />
                               <span className="text-orange-400 font-bold truncate">{contactData.info}</span>
                             </div>
-                            <div className="flex items-center gap-2 p-3 text-sm rounded-lg border-2 border-orange-400 min-w-0">
-                              <FaRegEnvelope size={18} className="text-orange-500 flex-shrink-0" />
+                            <div className="flex items-center gap-2 p-2 xs:p-3 text-xs xs:text-sm sm:text-base rounded-lg border-2 border-orange-400 min-w-0">
+                              <FaRegEnvelope size={14} className="xs:w-4 xs:h-4 sm:w-5 sm:h-5 text-orange-500 flex-shrink-0" />
                               <span className="text-orange-400 font-bold truncate">{contactData.website}</span>
                             </div>
                           </div>
@@ -351,51 +359,51 @@ function CompanyProfile() {
 
                     {/* Gallery Section */}
                     <div>
-                      <div className="flex items-center justify-between mb-4">
-                        <h3 className="text-xl sm:text-2xl font-medium text-orange-400">Working at Bikwiz</h3>
-                        <div className="flex gap-2">
-                          <button className="w-8 h-8 bg-white border border-orange-400 rounded flex items-center justify-center transition hover:bg-orange-50">
-                            <Plus size={16} className="text-orange-400 cursor-pointer hover:text-orange-600" onClick={handleAddImage} />
+                      <div className="flex items-center justify-between mb-3 sm:mb-4">
+                        <h3 className="text-lg xs:text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-2xl 2xl:text-3xl font-medium text-orange-400">Working at Bikwiz</h3>
+                        <div className="flex gap-1 xs:gap-2">
+                          <button className="w-6 h-6 xs:w-7 xs:h-7 sm:w-8 sm:h-8 bg-white border border-orange-400 rounded flex items-center justify-center transition hover:bg-orange-50">
+                            <Plus size={12} className="xs:w-4 xs:h-4 sm:w-5 sm:h-5 text-orange-400 cursor-pointer hover:text-orange-600" onClick={handleAddImage} />
                           </button>
-                          <button className="w-8 h-8 bg-white border border-orange-400 rounded flex items-center justify-center transition hover:bg-orange-50">
-                            <Edit size={16} className="text-orange-400 cursor-pointer hover:text-orange-600" />
+                          <button className="w-6 h-6 xs:w-7 xs:h-7 sm:w-8 sm:h-8 bg-white border border-orange-400 rounded flex items-center justify-center transition hover:bg-orange-50">
+                            <Edit size={12} className="xs:w-4 xs:h-4 sm:w-5 sm:h-5 text-orange-400 cursor-pointer hover:text-orange-600" />
                           </button>
                         </div>
                       </div>
 
                       {/* Responsive Gallery Grid */}
-                      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                      <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 sm:gap-4">
                         {/* Main large image */}
                         <div className="lg:col-span-2">
                           <div className="relative group">
                             <img
                               src={galleryImages[0]}
                               alt="Gallery 1"
-                              className="w-full h-48 sm:h-64 lg:h-80 xl:h-96 object-cover rounded-lg"
+                              className="w-full h-40 xs:h-48 sm:h-56 md:h-64 lg:h-72 xl:h-80 2xl:h-96 object-cover rounded-lg"
                             />
                             <button
                               onClick={() => handleRemoveImage(0)}
-                              className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-2 opacity-0 group-hover:opacity-100 transition-opacity"
+                              className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-1 xs:p-2 opacity-0 group-hover:opacity-100 transition-opacity"
                             >
-                              <X size={14} />
+                              <X size={10} className="xs:w-4 xs:h-4" />
                             </button>
                           </div>
                         </div>
 
                         {/* Small images grid */}
-                        <div className="grid grid-cols-2 lg:grid-cols-1 gap-4">
+                        <div className="grid grid-cols-3 lg:grid-cols-1 gap-3 sm:gap-4">
                           {galleryImages.slice(1, 4).map((image, index) => (
                             <div key={index} className="relative group">
                               <img
                                 src={image}
                                 alt={`Gallery ${index + 2}`}
-                                className="w-full h-32 sm:h-40 lg:h-24 xl:h-32 object-cover rounded-lg"
+                                className="w-full h-20 xs:h-24 sm:h-32 md:h-40 lg:h-20 xl:h-24 2xl:h-32 object-cover rounded-lg"
                               />
                               <button
                                 onClick={() => handleRemoveImage(index + 1)}
-                                className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                                className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-0.5 xs:p-1 opacity-0 group-hover:opacity-100 transition-opacity"
                               >
-                                <X size={12} />
+                                <X size={8} className="xs:w-3 xs:h-3" />
                               </button>
                             </div>
                           ))}
@@ -405,88 +413,88 @@ function CompanyProfile() {
                   </div>
 
                   {/* Right Column - Sidebar Content */}
-                  <div className="space-y-6 lg:space-y-8">
+                  <div className="space-y-4 sm:space-y-6 md:space-y-8">
                     {/* Tech Stack Section */}
-                    <div className="pb-6 border-b border-orange-400">
-                      <div className="flex items-center justify-between mb-4">
-                        <h3 className="text-lg font-semibold text-gray-800">Tech Stack</h3>
-                        <div className="flex gap-2">
-                          <button className="w-8 h-8 bg-white border border-orange-400 rounded flex items-center justify-center transition hover:bg-orange-50">
-                            <Plus size={16} className="text-orange-400 cursor-pointer hover:text-orange-600" onClick={addTechStack} />
+                    <div className="pb-4 sm:pb-6 border-b border-orange-400">
+                      <div className="flex items-center justify-between mb-3 sm:mb-4">
+                        <h3 className="text-base xs:text-lg sm:text-xl md:text-2xl font-semibold text-gray-800">Tech Stack</h3>
+                        <div className="flex gap-1 xs:gap-2">
+                          <button className="w-6 h-6 xs:w-7 xs:h-7 sm:w-8 sm:h-8 bg-white border border-orange-400 rounded flex items-center justify-center transition hover:bg-orange-50">
+                            <Plus size={12} className="xs:w-4 xs:h-4 sm:w-5 sm:h-5 text-orange-400 cursor-pointer hover:text-orange-600" onClick={addTechStack} />
                           </button>
-                          <button className="w-8 h-8 bg-white border border-orange-400 rounded flex items-center justify-center transition hover:bg-orange-50">
-                            <Edit size={16} className="text-orange-400 cursor-pointer hover:text-orange-600" onClick={() => setIsEditingTechStack(!isEditingTechStack)} />
+                          <button className="w-6 h-6 xs:w-7 xs:h-7 sm:w-8 sm:h-8 bg-white border border-orange-400 rounded flex items-center justify-center transition hover:bg-orange-50">
+                            <Edit size={12} className="xs:w-4 xs:h-4 sm:w-5 sm:h-5 text-orange-400 cursor-pointer hover:text-orange-600" onClick={() => setIsEditingTechStack(!isEditingTechStack)} />
                           </button>
                         </div>
                       </div>
 
-                      <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-3 gap-4 mb-4">
+                      <div className="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-6 xl:grid-cols-3 2xl:grid-cols-3 gap-3 sm:gap-4 mb-3 sm:mb-4">
                         {techStack.map((tech, index) => (
                           <div key={index} className="text-center relative group">
-                            <div className="w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 rounded-lg flex items-center justify-center mx-auto mb-2">
-                              <img src={tech.img} alt={tech.name} className="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 object-contain" />
+                            <div className="w-10 h-10 xs:w-12 xs:h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 lg:w-18 lg:h-18 xl:w-14 xl:h-14 2xl:w-16 2xl:h-16 rounded-lg flex items-center justify-center mx-auto mb-1 xs:mb-2">
+                              <img src={tech.img} alt={tech.name} className="w-6 h-6 xs:w-8 xs:h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 lg:w-14 lg:h-14 xl:w-10 xl:h-10 2xl:w-12 2xl:h-12 object-contain" />
                             </div>
-                            <p className="text-xs sm:text-sm text-gray-600 truncate">{tech.name}</p>
+                            <p className="text-xs xs:text-sm sm:text-base md:text-lg xl:text-sm 2xl:text-base text-gray-600 truncate">{tech.name}</p>
                             {isEditingTechStack && (
                               <button
                                 onClick={() => removeTechStack(index)}
-                                className="absolute -top-1 -right-1 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                                className="absolute -top-1 -right-1 bg-red-500 text-white rounded-full p-0.5 xs:p-1 opacity-0 group-hover:opacity-100 transition-opacity"
                               >
-                                <X size={10} />
+                                <X size={8} className="xs:w-3 xs:h-3" />
                               </button>
                             )}
                           </div>
                         ))}
                       </div>
 
-                      <button className="text-orange-500 text-sm sm:text-base font-medium hover:text-orange-600 transition-colors w-full text-left">
+                      <button className="text-orange-500 text-xs xs:text-sm sm:text-base md:text-lg xl:text-sm 2xl:text-base font-medium hover:text-orange-600 transition-colors w-full text-left">
                         View tech stack →
                       </button>
                     </div>
 
                     {/* Office Locations Section */}
                     <div>
-                      <div className="flex items-center justify-between mb-4">
-                        <h3 className="text-xl sm:text-2xl font-medium text-orange-400">Office Locations</h3>
-                        <div className="flex gap-2">
-                          <button className="w-8 h-8 bg-white border border-orange-400 rounded flex items-center justify-center transition hover:bg-orange-50">
-                            <Plus size={16} className="text-orange-400 cursor-pointer hover:text-orange-600" onClick={addOffice} />
+                      <div className="flex items-center justify-between mb-3 sm:mb-4">
+                        <h3 className="text-lg xs:text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-xl 2xl:text-2xl font-medium text-orange-400">Office Locations</h3>
+                        <div className="flex gap-1 xs:gap-2">
+                          <button className="w-6 h-6 xs:w-7 xs:h-7 sm:w-8 sm:h-8 bg-white border border-orange-400 rounded flex items-center justify-center transition hover:bg-orange-50">
+                            <Plus size={12} className="xs:w-4 xs:h-4 sm:w-5 sm:h-5 text-orange-400 cursor-pointer hover:text-orange-600" onClick={addOffice} />
                           </button>
-                          <button className="w-8 h-8 bg-white border border-orange-400 rounded flex items-center justify-center transition hover:bg-orange-50">
-                            <Edit size={16} className="text-orange-400 cursor-pointer hover:text-orange-600" onClick={() => setIsEditingOffices(!isEditingOffices)} />
+                          <button className="w-6 h-6 xs:w-7 xs:h-7 sm:w-8 sm:h-8 bg-white border border-orange-400 rounded flex items-center justify-center transition hover:bg-orange-50">
+                            <Edit size={12} className="xs:w-4 xs:h-4 sm:w-5 sm:h-5 text-orange-400 cursor-pointer hover:text-orange-600" onClick={() => setIsEditingOffices(!isEditingOffices)} />
                           </button>
                         </div>
                       </div>
 
-                      <div className="space-y-3 mb-4">
+                      <div className="space-y-2 xs:space-y-3 mb-3 sm:mb-4">
                         {offices.map((office, index) => (
-                          <div key={index} className="flex items-center gap-3 group relative">
+                          <div key={index} className="flex items-center gap-2 xs:gap-3 group relative">
                             <img 
                               src={office.img} 
                               alt={office.country}
-                              className="w-6 h-6 sm:w-8 sm:h-8 rounded-full object-cover flex-shrink-0"
+                              className="w-5 h-5 xs:w-6 xs:h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 rounded-full object-cover flex-shrink-0"
                             />
-                            <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3 flex-1 min-w-0">
-                              <p className="text-sm sm:text-base font-medium text-gray-800 truncate">{office.country}</p>
+                            <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2 xs:gap-3 flex-1 min-w-0">
+                              <p className="text-xs xs:text-sm sm:text-base md:text-lg xl:text-sm 2xl:text-base font-medium text-gray-800 truncate">{office.country}</p>
                               {office.isHQ && (
-                                <span className="text-xs sm:text-sm font-semibold text-orange-600 bg-orange-50 px-2 py-1 rounded-full whitespace-nowrap">
-                                  HQ
+                                <span className="text-xs xs:text-sm sm:text-base xl:text-xs 2xl:text-sm font-semibold text-orange-600 bg-orange-50 px-1.5 xs:px-2 py-0.5 xs:py-1 rounded-full whitespace-nowrap self-start sm:self-center">
+                                  Head Quarters
                                 </span>
                               )}
                             </div>
                             {isEditingOffices && (
                               <button
                                 onClick={() => removeOffice(index)}
-                                className="bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0"
+                                className="bg-red-500 text-white rounded-full p-0.5 xs:p-1 opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0"
                               >
-                                <X size={10} />
+                                <X size={8} className="xs:w-3 xs:h-3" />
                               </button>
                             )}
                           </div>
                         ))}
                       </div>
 
-                      <button className="text-orange-500 text-sm sm:text-base font-medium hover:text-orange-600 transition-colors w-full text-left">
+                      <button className="text-orange-500 text-xs xs:text-sm sm:text-base md:text-lg xl:text-sm 2xl:text-base font-medium hover:text-orange-600 transition-colors w-full text-left">
                         View countries →
                       </button>
                     </div>
