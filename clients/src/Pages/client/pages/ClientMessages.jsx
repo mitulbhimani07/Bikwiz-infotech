@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
-import { Search, MoreHorizontal, Send, Paperclip } from 'lucide-react';
+import React, { useState, useMemo } from 'react';
+import { Search, MoreHorizontal, Send, Paperclip, Menu, X } from 'lucide-react';
 import ClientHeader from '../navbar/ClientHeader';
 import ClientSidbar from '../navbar/ClientSidbar';
+import ClientFooter from '../navbar/ClientFooter';
 import { AiOutlineDown } from "react-icons/ai";
 import { IoSend } from "react-icons/io5";
 import { GrEmoji } from "react-icons/gr";
 import { IoCloseCircle } from "react-icons/io5";
-import ClientFooter from '../navbar/ClientFooter';
 
 // Mock data for messages
 const conversations = [
@@ -105,11 +105,22 @@ export default function ClientMessages() {
     const [newMessage, setNewMessage] = useState('');
     const [uploadedFiles, setUploadedFiles] = useState([]);
     const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+    const [searchQuery, setSearchQuery] = useState('');
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+    // Filter conversations based on search query
+    const filteredConversations = useMemo(() => {
+        if (!searchQuery.trim()) return conversations;
+        
+        return conversations.filter(conversation =>
+            conversation.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            conversation.message.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+    }, [searchQuery]);
 
     const handleSendMessage = () => {
         if (!newMessage.trim() && uploadedFiles.length === 0) return;
 
-        // You can send the message + files here
         console.log("Message:", newMessage);
         console.log("Files:", uploadedFiles);
 
@@ -128,289 +139,364 @@ export default function ClientMessages() {
         }));
 
         setUploadedFiles((prev) => [...prev, ...newFiles]);
-        event.target.value = ""; // Reset input
+        event.target.value = "";
     };
-
 
     return (
         <div className="flex min-h-screen bg-[#fff0e5]">
-            {/* Sidebar */}
-            <div className="sticky top-0 left-0  h-screen">
+            {/* Sidebar - Desktop */}
+            <div className="hidden lg:block sticky top-0 left-0 h-screen">
                 <ClientSidbar />
             </div>
 
+            {/* Mobile Sidebar Overlay */}
+            {isSidebarOpen && (
+                <div className="lg:hidden fixed inset-0 z-50">
+                    <div className="absolute inset-0 bg-black bg-opacity-50" onClick={() => setIsSidebarOpen(false)}></div>
+                    <div className="absolute left-0 top-0 h-full w-64 bg-white">
+                        <div className="p-4 border-b border-orange-500 flex justify-between items-center">
+                            <span className="text-orange-500 font-semibold">Menu</span>
+                            <button onClick={() => setIsSidebarOpen(false)}>
+                                <X className="w-6 h-6 text-gray-600" />
+                            </button>
+                        </div>
+                        <div className="h-full">
+                            <ClientSidbar />
+                        </div>
+                    </div>
+                </div>
+            )}
+
             {/* Main content with header and message area */}
-            <div className="flex-1 flex flex-col">
+            <div className="flex-1 flex flex-col min-w-0">
                 {/* Header */}
-                <div className="sticky top-0 z-10 ">
-                    <ClientHeader />
+                <div className="sticky top-0 z-10">
+                    <div className="lg:hidden flex items-center p-4 bg-white border-b border-orange-500">
+                        <button 
+                            onClick={() => setIsSidebarOpen(true)}
+                            className="mr-4"
+                        >
+                            <Menu className="w-6 h-6 text-orange-500" />
+                        </button>
+                        <div className="text-orange-500 font-semibold">Messages</div>
+                    </div>
+                    <div className="hidden lg:block">
+                        <ClientHeader />
+                    </div>
                 </div>
 
                 {/* Main content (messages) */}
-                <div className='p-6'>
-                    <div className="mb-5">
-                        <h1 className="text-3xl font-bold  text-orange-500 ">Messages</h1>
-                    </div>
-                    <div className="flex flex-1  ">
-                        {/* Left panel - conversation list */}
-                        <div className="w-[300px] bg-white rounded-s-3xl border-e-1 border-b-1 border-orange-500 flex flex-col">
-                            {/* Messages heading + search */}
-                            <div className="p-6">
-                                <div className="relative">
-                                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-                                    <input
-                                        type="text"
-                                        placeholder="Search messages"
-                                        className="w-full pl-10 pr-4 py-2 border border-orange-500  focus:outline-none focus:ring-2 focus:ring-[#ffe1cc] focus:border-transparent"
-                                    />
-                                </div>
-                            </div>
-
-                            {/* Conversation List */}
-                            <div className="flex-1 overflow-y-auto m-5 ">
-                                {conversations.map((conversation) => (
-                                    <div
-                                        key={conversation.id}
-                                        onClick={() => setSelectedConversation(conversation)}
-                                        className={`flex items-center p-4 hover:bg-[#ffe1cc] cursor-pointer border-b border-orange-500 ${selectedConversation.id === conversation.id ? 'bg-[#ffe1cc]' : ''
-                                            }`}
-                                    >
-                                        <div className="relative">
-                                            <img
-                                                src={conversation.avatar}
-                                                alt={conversation.name}
-                                                className="w-12 h-12 rounded-full object-cover"
-                                            />
-                                            {conversation.unread && (
-                                                <div className="absolute -top-1 -right-1 w-3 h-3 bg-orange-500 rounded-full"></div>
-                                            )}
-                                        </div>
-                                        <div className="ml-3 flex-1 min-w-0">
-                                            <div className="flex items-center justify-between">
-                                                <h3 className={`text-sm font-medium truncate ${conversation.unread ? 'text-gray-900' : 'text-gray-700'
-                                                    }`}>
-                                                    {conversation.name}
-                                                    {conversation.unread && <span className="ml-1 text-orange-500">•</span>}
-                                                </h3>
-                                                <span className="text-xs text-gray-500">{conversation.time}</span>
-                                            </div>
-                                            <p className="text-sm text-gray-500 truncate mt-1">{conversation.message}</p>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
+                <div className='flex-1 flex flex-col'>
+                    <div className="p-4 lg:p-6">
+                        <div className="mb-5 hidden lg:block">
+                            <h1 className="text-3xl font-bold text-orange-500">Messages</h1>
                         </div>
-
-                        {/* Right panel - Chat Area */}
-                        <div className="flex-1 flex flex-col bg-[#FFF] rounded-e-3xl">
-                            {/* Chat Header */}
-                            <div className="bg-white border-b border-orange-500 p-4 flex items-center justify-between rounded-t-3xl">
-                                <div className="flex items-center">
-                                    <img
-                                        src={selectedConversation.avatar}
-                                        alt={selectedConversation.name}
-                                        className="w-10 h-10 rounded-full object-cover"
-                                    />
-                                    <div className="ml-3">
-                                        <h2 className="text-lg font-semibold text-gray-900">{selectedConversation.name}</h2>
-                                        <p className="text-sm text-gray-500">Designer candidate</p>
+                        
+                        <div className="flex flex-1 h-[calc(100vh-200px)] lg:h-auto">
+                            {/* Left panel - conversation list */}
+                            <div className="w-full lg:w-[300px] bg-white rounded-l-3xl lg:rounded-s-3xl border-r border-b border-orange-500 flex flex-col lg:block hidden lg:flex">
+                                {/* Messages heading + search */}
+                                <div className="p-4 lg:p-6">
+                                    <div className="relative">
+                                        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                                        <input
+                                            type="text"
+                                            placeholder="Search messages"
+                                            value={searchQuery}
+                                            onChange={(e) => setSearchQuery(e.target.value)}
+                                            className="w-full pl-10 pr-4 py-2 border border-orange-500 focus:outline-none focus:ring-2 focus:ring-[#ffe1cc] focus:border-transparent rounded"
+                                        />
                                     </div>
                                 </div>
-                                <div className="flex items-center space-x-2">
-                                    <button className="p-2 hover:bg-gray-100 rounded-full">
-                                        <MoreHorizontal className="w-5 h-5 text-gray-500" />
-                                    </button>
-                                    <button className="text-orange-500 text-sm font-medium hover:text-orange-600">
-                                        View Profile
-                                    </button>
+
+                                {/* Conversation List */}
+                                <div className="flex-1 overflow-y-auto mx-2 lg:m-5 max-h-[50vh] lg:max-h-none">
+                                    {filteredConversations.length === 0 ? (
+                                        <div className="p-4 text-center text-gray-500">
+                                            No conversations found
+                                        </div>
+                                    ) : (
+                                        filteredConversations.map((conversation) => (
+                                            <div
+                                                key={conversation.id}
+                                                onClick={() => {
+                                                    setSelectedConversation(conversation);
+                                                    setIsSidebarOpen(false);
+                                                }}
+                                                className={`flex items-center p-3 lg:p-4 hover:bg-[#ffe1cc] cursor-pointer border-b border-orange-500 ${selectedConversation.id === conversation.id ? 'bg-[#ffe1cc]' : ''}`}
+                                            >
+                                                <div className="relative">
+                                                    <img
+                                                        src={conversation.avatar}
+                                                        alt={conversation.name}
+                                                        className="w-10 h-10 lg:w-12 lg:h-12 rounded-full object-cover"
+                                                    />
+                                                    {conversation.unread && (
+                                                        <div className="absolute -top-1 -right-1 w-3 h-3 bg-orange-500 rounded-full"></div>
+                                                    )}
+                                                </div>
+                                                <div className="ml-3 flex-1 min-w-0">
+                                                    <div className="flex items-center justify-between">
+                                                        <h3 className={`text-xs lg:text-sm font-medium truncate ${conversation.unread ? 'text-gray-900' : 'text-gray-700'}`}>
+                                                            {conversation.name}
+                                                            {conversation.unread && <span className="ml-1 text-orange-500">•</span>}
+                                                        </h3>
+                                                        <span className="text-xs text-gray-500">{conversation.time}</span>
+                                                    </div>
+                                                    <p className="text-xs lg:text-sm text-gray-500 truncate mt-1">{conversation.message}</p>
+                                                </div>
+                                            </div>
+                                        ))
+                                    )}
                                 </div>
                             </div>
 
-                            {/* Chat Messages */}
-                            <div className="flex-1 overflow-y-auto p-6">
-                                <div className="max-w-2xl mx-auto">
-                                    {/* Profile section */}
-                                    <div className="text-center mb-6">
+                            {/* Mobile Conversation List Toggle */}
+                            <div className="lg:hidden w-full">
+                                <div className="mb-4 bg-white rounded-lg border border-orange-500 p-4">
+                                    <div className="relative mb-4">
+                                        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                                        <input
+                                            type="text"
+                                            placeholder="Search messages"
+                                            value={searchQuery}
+                                            onChange={(e) => setSearchQuery(e.target.value)}
+                                            className="w-full pl-10 pr-4 py-2 border border-orange-500 focus:outline-none focus:ring-2 focus:ring-[#ffe1cc] focus:border-transparent rounded"
+                                        />
+                                    </div>
+                                    
+                                    <div className="max-h-40 overflow-y-auto">
+                                        {filteredConversations.length === 0 ? (
+                                            <div className="p-4 text-center text-gray-500">
+                                                No conversations found
+                                            </div>
+                                        ) : (
+                                            filteredConversations.map((conversation) => (
+                                                <div
+                                                    key={conversation.id}
+                                                    onClick={() => setSelectedConversation(conversation)}
+                                                    className={`flex items-center p-3 hover:bg-[#ffe1cc] cursor-pointer border-b border-orange-500 ${selectedConversation.id === conversation.id ? 'bg-[#ffe1cc]' : ''}`}
+                                                >
+                                                    <div className="relative">
+                                                        <img
+                                                            src={conversation.avatar}
+                                                            alt={conversation.name}
+                                                            className="w-10 h-10 rounded-full object-cover"
+                                                        />
+                                                        {conversation.unread && (
+                                                            <div className="absolute -top-1 -right-1 w-3 h-3 bg-orange-500 rounded-full"></div>
+                                                        )}
+                                                    </div>
+                                                    <div className="ml-3 flex-1 min-w-0">
+                                                        <div className="flex items-center justify-between">
+                                                            <h3 className={`text-sm font-medium truncate ${conversation.unread ? 'text-gray-900' : 'text-gray-700'}`}>
+                                                                {conversation.name}
+                                                                {conversation.unread && <span className="ml-1 text-orange-500">•</span>}
+                                                            </h3>
+                                                            <span className="text-xs text-gray-500">{conversation.time}</span>
+                                                        </div>
+                                                        <p className="text-sm text-gray-500 truncate mt-1">{conversation.message}</p>
+                                                    </div>
+                                                </div>
+                                            ))
+                                        )}
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Right panel - Chat Area */}
+                            <div className="flex-1 flex flex-col bg-[#FFF] rounded-r-3xl lg:rounded-e-3xl min-w-0">
+                                {/* Chat Header */}
+                                <div className="bg-white border-b border-orange-500 p-3 lg:p-4 flex items-center justify-between rounded-t-3xl">
+                                    <div className="flex items-center min-w-0">
                                         <img
                                             src={selectedConversation.avatar}
                                             alt={selectedConversation.name}
-                                            className="w-16 h-16 rounded-full object-cover mx-auto mb-3"
+                                            className="w-8 h-8 lg:w-10 lg:h-10 rounded-full object-cover flex-shrink-0"
                                         />
-                                        <h3 className="text-lg font-semibold text-gray-900">{selectedConversation.name}</h3>
-                                        <p className="text-sm text-gray-500">Designer candidate</p>
+                                        <div className="ml-3 min-w-0">
+                                            <h2 className="text-sm lg:text-lg font-semibold text-gray-900 truncate">{selectedConversation.name}</h2>
+                                            <p className="text-xs lg:text-sm text-gray-500 truncate">Designer candidate</p>
+                                        </div>
                                     </div>
+                                    <div className="flex items-center space-x-2 flex-shrink-0">
+                                        <button className="p-2 hover:bg-gray-100 rounded-full">
+                                            <MoreHorizontal className="w-4 h-4 lg:w-5 lg:h-5 text-gray-500" />
+                                        </button>
+                                        <button className="text-orange-500 text-xs lg:text-sm font-medium hover:text-orange-600 hidden sm:block">
+                                            View Profile
+                                        </button>
+                                    </div>
+                                </div>
 
-                                    <div className="relative my-6 flex items-center">
-                                        {/* Horizontal line */}
-                                        <div className="flex-grow border-t border-orange-300"></div>
-
-                                        {/* Center label */}
-                                        <div className=" px-3 py-1 border border-orange-300 text-sm text-gray-900   bg-white flex items-center space-x-1">
-                                            <span className="text-l"><AiOutlineDown /></span>
-                                            <span>Today</span>
+                                {/* Chat Messages */}
+                                <div className="flex-1 overflow-y-auto p-3 lg:p-6">
+                                    <div className="max-w-2xl mx-auto">
+                                        {/* Profile section */}
+                                        <div className="text-center mb-6">
+                                            <img
+                                                src={selectedConversation.avatar}
+                                                alt={selectedConversation.name}
+                                                className="w-12 h-12 lg:w-16 lg:h-16 rounded-full object-cover mx-auto mb-3"
+                                            />
+                                            <h3 className="text-base lg:text-lg font-semibold text-gray-900">{selectedConversation.name}</h3>
+                                            <p className="text-xs lg:text-sm text-gray-500">Designer candidate</p>
                                         </div>
 
-                                        {/* Horizontal line */}
-                                        <div className="flex-grow border-t border-orange-300"></div>
-                                    </div>
+                                        <div className="relative my-6 flex items-center">
+                                            <div className="flex-grow border-t border-orange-300"></div>
+                                            <div className="px-3 py-1 border border-orange-300 text-xs lg:text-sm text-gray-900 bg-white flex items-center space-x-1">
+                                                <span className="text-l"><AiOutlineDown /></span>
+                                                <span>Today</span>
+                                            </div>
+                                            <div className="flex-grow border-t border-orange-300"></div>
+                                        </div>
 
-
-                                    {/* Messages */}
-                                    <div className="space-y-4">
-                                        {chatMessages.map((message) => (
-                                            <div key={message.id} className={`flex ${message.isMe ? 'justify-end' : 'justify-start'}`}>
-                                                <div className={`flex items-end space-x-2 max-w-md ${message.isMe ? 'flex-row-reverse space-x-reverse' : ''}`}>
-                                                    {!message.isMe && (
+                                        {/* Messages */}
+                                        <div className="space-y-4">
+                                            {chatMessages.map((message) => (
+                                                <div key={message.id} className={`flex ${message.isMe ? 'justify-end' : 'justify-start'}`}>
+                                                    <div className={`flex items-end space-x-2 max-w-xs lg:max-w-md ${message.isMe ? 'flex-row-reverse space-x-reverse' : ''}`}>
                                                         <img
                                                             src={selectedConversation.avatar}
                                                             alt={selectedConversation.name}
-                                                            className="w-8 h-8 rounded-full object-cover flex-shrink-0"
+                                                            className="w-6 h-6 lg:w-8 lg:h-8 rounded-full object-cover flex-shrink-0"
                                                         />
-                                                    )}
-                                                    {message.isMe && (
-                                                        <div className="">
-                                                            <img
-                                                                src={selectedConversation.avatar}
-                                                                alt={selectedConversation.name}
-                                                                className="w-8 h-8 rounded-full object-cover flex-shrink-0"
-                                                            />
-
-                                                        </div>
-                                                    )}
-                                                    <div className={`px-4 py-3 rounded-2xl ${message.isMe
-                                                        ? 'bg-[#ffe1cc] text-gray-950 rounded-br-sm'
-                                                        : 'bg-white text-gray-900 rounded-bl-sm border border-orange-500'
+                                                        <div className={`px-3 lg:px-4 py-2 lg:py-3 rounded-2xl ${message.isMe
+                                                            ? 'bg-[#ffe1cc] text-gray-950 rounded-br-sm'
+                                                            : 'bg-white text-gray-900 rounded-bl-sm border border-orange-500'
                                                         }`}>
-                                                        <p className="text-sm leading-relaxed">{message.message}</p>
+                                                            <p className="text-xs lg:text-sm leading-relaxed">{message.message}</p>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        ))}
-                                    </div>
+                                            ))}
+                                        </div>
 
-                                    <div className="text-right text-xs text-gray-500 mt-2">
-                                        12 mins ago
+                                        <div className="text-right text-xs text-gray-500 mt-2">
+                                            12 mins ago
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            {/* Message Input */}
-                            <div className="bg-white border m-8 border-orange-500 p-3 rounded-xl">
-                                {/* Preview Section */}
-                                {uploadedFiles.length > 0 && (
-                                    <div className="flex flex-wrap gap-3 mb-3">
-                                        {uploadedFiles.map((item, index) => (
-                                            <div
-                                                key={index}
-                                                className="relative w-24 h-24 border rounded shadow-sm bg-gray-50 p-1"
-                                            >
-                                                {item.preview ? (
-                                                    <img
-                                                        src={item.preview}
-                                                        alt="preview"
-                                                        className="w-full h-full object-cover rounded"
-                                                    />
-                                                ) : (
-                                                    <div className="flex items-center justify-center text-xs text-gray-600 h-full text-center px-1">
-                                                        📄 {item.name}
-                                                    </div>
-                                                )}
-                                                {/* Remove button */}
-                                                <button
-                                                    className="absolute -top-3 -right-3 text-xl rounded-full bg-white shadow p-1 hover:bg-white"
-                                                    onClick={() => {
-                                                        const copy = [...uploadedFiles];
-                                                        copy.splice(index, 1);
-                                                        setUploadedFiles(copy);
-                                                    }}
+                                {/* Message Input */}
+                                <div className="bg-white border m-4 lg:m-8 border-orange-500 p-2 lg:p-3 rounded-xl">
+                                    {/* Preview Section */}
+                                    {uploadedFiles.length > 0 && (
+                                        <div className="flex flex-wrap gap-2 lg:gap-3 mb-3">
+                                            {uploadedFiles.map((item, index) => (
+                                                <div
+                                                    key={index}
+                                                    className="relative w-16 h-16 lg:w-24 lg:h-24 border rounded shadow-sm bg-gray-50 p-1"
                                                 >
-                                                    <IoCloseCircle />
-                                                </button>
-                                            </div>
-                                        ))}
-                                    </div>
-                                )}
-
-                                {/* Message Box */}
-                                <div className="flex items-center space-x-2 relative">
-                                    {/* Upload File */}
-                                    <label className="p-2 hover:bg-gray-100 rounded-full cursor-pointer">
-                                        <Paperclip className="w-5 h-5 text-gray-500" />
-                                        <input
-                                            type="file"
-                                            multiple
-                                            className="hidden"
-                                            onChange={handleFileUpload}
-                                        />
-                                    </label>
-
-                                    {/* Emoji Picker */}
-                                    {showEmojiPicker && (
-                                        <div className="absolute bottom-14 right-10 z-10 p-2 grid grid-cols-5 gap-1 bg-white rounded shadow-lg h-52 overflow-y-scroll">
-                                            {[
-                                                '😀', '😃', '😄', '😁', '😆', '😅', '😂', '🤣', '😊', '😇',
-                                                '🙂', '🙃', '😉', '😌', '😍', '🥰', '😘', '😗', '😙', '😚',
-                                                '😋', '😛', '😜', '🤪', '😝', '🤑', '🤗', '🤭', '🤫', '🤔',
-                                                '🤐', '😐', '😑', '😶', '😏', '😒', '🙄', '😬', '🤥', '😌',
-                                                '😔', '😪', '🤤', '😴', '😷', '🤒', '🤕', '🤢', '🤮', '🤧',
-                                                '🥵', '🥶', '🥴', '😵', '🤯', '🤠', '🥳', '😎', '🤓', '🧐',
-                                                '😕', '😟', '🙁', '☹️', '😮', '😯', '😲', '😳', '🥺', '😦',
-                                                '😧', '😨', '😰', '😥', '😢', '😭', '😱', '😖', '😣', '😞',
-                                                '😓', '😩', '😫', '😤', '😡', '😠', '🤬', '😈', '👿', '💀',
-                                                '☠️', '💩', '🤡', '👻', '👽', '🤖', '💋', '💌', '💘', '💝'
-                                            ].map((emoji) => (
-                                                <button
-                                                    key={emoji}
-                                                    onClick={() => setNewMessage((prev) => prev + emoji)}
-                                                    className="text-xl hover:bg-gray-100 rounded p-1"
-                                                >
-                                                    {emoji}
-                                                </button>
+                                                    {item.preview ? (
+                                                        <img
+                                                            src={item.preview}
+                                                            alt="preview"
+                                                            className="w-full h-full object-cover rounded"
+                                                        />
+                                                    ) : (
+                                                        <div className="flex items-center justify-center text-xs text-gray-600 h-full text-center px-1">
+                                                            📄 {item.name}
+                                                        </div>
+                                                    )}
+                                                    <button
+                                                        className="absolute -top-2 -right-2 text-lg lg:text-xl rounded-full bg-white shadow p-1 hover:bg-white"
+                                                        onClick={() => {
+                                                            const copy = [...uploadedFiles];
+                                                            copy.splice(index, 1);
+                                                            setUploadedFiles(copy);
+                                                        }}
+                                                    >
+                                                        <IoCloseCircle />
+                                                    </button>
+                                                </div>
                                             ))}
                                         </div>
                                     )}
 
-                                    {/* Textarea Input */}
-                                    <textarea
-                                        value={newMessage}
-                                        onChange={(e) => setNewMessage(e.target.value)}
-                                        placeholder="Reply message"
-                                        rows={1}
-                                        className="flex-1 resize-none px-4 py-2 border border-transparent focus:outline-none text-base leading-relaxed overflow-auto max-h-40"
-                                        onKeyDown={(e) => {
-                                            if (e.key === "Enter" && !e.shiftKey) {
-                                                e.preventDefault();
-                                                handleSendMessage();
-                                            }
-                                        }}
-                                    />
+                                    {/* Message Box */}
+                                    <div className="flex items-center space-x-2 relative">
+                                        {/* Upload File */}
+                                        <label className="p-1 lg:p-2 hover:bg-gray-100 rounded-full cursor-pointer flex-shrink-0">
+                                            <Paperclip className="w-4 h-4 lg:w-5 lg:h-5 text-gray-500" />
+                                            <input
+                                                type="file"
+                                                multiple
+                                                className="hidden"
+                                                onChange={handleFileUpload}
+                                            />
+                                        </label>
 
+                                        {/* Emoji Picker */}
+                                        {showEmojiPicker && (
+                                            <div className="absolute bottom-12 lg:bottom-14 right-2 lg:right-10 z-10 p-2 grid grid-cols-5 gap-1 bg-white rounded shadow-lg h-40 lg:h-52 overflow-y-scroll w-48 lg:w-auto">
+                                                {[
+                                                    '😀', '😃', '😄', '😁', '😆', '😅', '😂', '🤣', '😊', '😇',
+                                                    '🙂', '🙃', '😉', '😌', '😍', '🥰', '😘', '😗', '😙', '😚',
+                                                    '😋', '😛', '😜', '🤪', '😝', '🤑', '🤗', '🤭', '🤫', '🤔',
+                                                    '🤐', '😐', '😑', '😶', '😏', '😒', '🙄', '😬', '🤥', '😌',
+                                                    '😔', '😪', '🤤', '😴', '😷', '🤒', '🤕', '🤢', '🤮', '🤧',
+                                                    '🥵', '🥶', '🥴', '😵', '🤯', '🤠', '🥳', '😎', '🤓', '🧐',
+                                                    '😕', '😟', '🙁', '☹️', '😮', '😯', '😲', '😳', '🥺', '😦',
+                                                    '😧', '😨', '😰', '😥', '😢', '😭', '😱', '😖', '😣', '😞',
+                                                    '😓', '😩', '😫', '😤', '😡', '😠', '🤬', '😈', '👿', '💀',
+                                                    '☠️', '💩', '🤡', '👻', '👽', '🤖', '💋', '💌', '💘', '💝'
+                                                ].map((emoji) => (
+                                                    <button
+                                                        key={emoji}
+                                                        onClick={() => setNewMessage((prev) => prev + emoji)}
+                                                        className="text-base lg:text-xl hover:bg-gray-100 rounded p-1"
+                                                    >
+                                                        {emoji}
+                                                    </button>
+                                                ))}
+                                            </div>
+                                        )}
 
-                                    {/* Emoji Toggle */}
-                                    <button
-                                        onClick={() => setShowEmojiPicker(!showEmojiPicker)}
-                                        className="p-2 hover:bg-gray-100 rounded-full"
-                                    >
-                                        <span className="text-xl">
-                                            <GrEmoji />
-                                        </span>
-                                    </button>
+                                        {/* Textarea Input */}
+                                        <textarea
+                                            value={newMessage}
+                                            onChange={(e) => setNewMessage(e.target.value)}
+                                            placeholder="Reply message"
+                                            rows={1}
+                                            className="flex-1 resize-none px-3 lg:px-4 py-2 border border-transparent focus:outline-none text-sm lg:text-base leading-relaxed overflow-auto max-h-32 lg:max-h-40"
+                                            onKeyDown={(e) => {
+                                                if (e.key === "Enter" && !e.shiftKey) {
+                                                    e.preventDefault();
+                                                    handleSendMessage();
+                                                }
+                                            }}
+                                        />
 
-                                    {/* Send Button */}
-                                    <button
-                                        onClick={handleSendMessage}
-                                        className="bg-orange-500 hover:bg-orange-600 text-white px-5 py-2 transition-colors"
-                                    >
-                                        <IoSend className="w-5 h-5" />
-                                    </button>
+                                        {/* Emoji Toggle */}
+                                        <button
+                                            onClick={() => setShowEmojiPicker(!showEmojiPicker)}
+                                            className="p-1 lg:p-2 hover:bg-gray-100 rounded-full flex-shrink-0"
+                                        >
+                                            <span className="text-lg lg:text-xl">
+                                                <GrEmoji />
+                                            </span>
+                                        </button>
+
+                                        {/* Send Button */}
+                                        <button
+                                            onClick={handleSendMessage}
+                                            className="bg-orange-500 hover:bg-orange-600 text-white px-3 lg:px-5 py-2 transition-colors flex-shrink-0"
+                                        >
+                                            <IoSend className="w-4 h-4 lg:w-5 lg:h-5" />
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
-
                         </div>
                     </div>
+                    
+                    {/* Footer */}
+                    <div className="mt-auto">
+                        <ClientFooter />
+                    </div>
                 </div>
-                <ClientFooter />
-
             </div>
         </div>
     );

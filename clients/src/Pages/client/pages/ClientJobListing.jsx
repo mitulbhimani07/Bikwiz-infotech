@@ -17,7 +17,7 @@ function ClientJobListing() {
             jobTypeColor: 'border-[#ff6800] text-[#ff6800]',
             applicants: 19,
             needs: 4
-            
+
         },
         {
             id: 2,
@@ -95,16 +95,16 @@ function ClientJobListing() {
 
     return (
         <div className="min-h-screen flex bg-[#fff0e5]">
-                <div className="sticky top-0 left-0  h-screen">
-        
-                  <ClientSidbar />
-                </div>
-        
-                <div className="flex flex-col flex-1 ">
-                  <div className="sticky top-0 z-10 ">
-        
+            <div className="sticky top-0 left-0  h-screen">
+
+                <ClientSidbar />
+            </div>
+
+            <div className="flex flex-col flex-1 ">
+                <div className="sticky top-0 z-10 ">
+
                     <ClientHeader />
-                  </div>
+                </div>
 
                 <div className="flex">
                     {/* Sidebar Space */}
@@ -262,7 +262,7 @@ function ClientJobListing() {
                         </div>
                     </div>
                 </div>
-                                        <ClientFooter/>
+                <ClientFooter />
 
             </div>
         </div>
