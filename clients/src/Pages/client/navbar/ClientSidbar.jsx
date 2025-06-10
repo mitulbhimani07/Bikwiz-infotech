@@ -1,159 +1,153 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
-  LayoutDashboard, Building2, Users, MessageSquare, 
-  FileText, Calendar, Settings, HelpCircle, LogOut, 
+  LayoutDashboard, Building2, Users, MessageSquare,
+  FileText, Calendar, Settings, HelpCircle, LogOut,
   Menu, X
 } from 'lucide-react';
-import logo from '../../../assets/images/logo.png'
-import client from '../../../assets/images/client.png'; // Adjust the path as needed
+import logo from '../../../assets/images/logo.png';
+import client from '../../../assets/images/client.png';
 import { Link, useLocation } from 'react-router-dom';
 
 export default function ClientSidebar() {
   const location = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  
-  // Function to check if current route is active
-  const isActive = (path) => {
-    return location.pathname === path;
-  };
 
-  // Toggle mobile menu
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
-  };
+  const isActive = (path) => location.pathname === path;
+  const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
+  const handleNavClick = () => setIsMobileMenuOpen(false);
 
-  // Close mobile menu when nav item is clicked
-  const handleNavClick = () => {
-    setIsMobileMenuOpen(false);
-  };
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, [isMobileMenuOpen]);
 
   return (
     <>
-      {/* Mobile Menu Button - Only visible on mobile */}
+      {/* Mobile Toggle Button */}
       <button
-        onClick={toggleMobileMenu}
-        className="lg:hidden fixed top-4 left-4 z-50 p-2 bg-white rounded-lg shadow-md border"
-      >
-        {isMobileMenuOpen ? (
-          <X className="w-6 h-6 text-gray-600" />
-        ) : (
-          <Menu className="w-6 h-6 text-gray-600" />
-        )}
-      </button>
+  onClick={toggleMobileMenu}
+  className="lg:hidden fixed top-3 left-3 z-[1000] p-2.5 bg-white rounded-lg shadow-lg border border-gray-200 hover:bg-gray-50 transition-all duration-200"
+  aria-label="Toggle sidebar menu"
+>
+  {isMobileMenuOpen ? (
+    <X className="w-5 h-5 text-gray-700" />
+  ) : (
+    <Menu className="w-5 h-5 text-gray-700" />
+  )}
+</button>
 
       {/* Overlay for mobile */}
       {isMobileMenuOpen && (
-        <div 
-          className="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-30"
+        <div
+          className="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-[900]"
           onClick={toggleMobileMenu}
         />
       )}
 
       {/* Sidebar */}
       <div className={`
-        fixed lg:static lg:translate-x-0 z-40
-        w-64 sm:w-72 lg:w-64 xl:w-72
-        h-full lg:h-screen
-        bg-white shadow-lg lg:shadow-sm
+        fixed lg:static z-[950]
+        top-0 left-0 h-full w-64 sm:w-72
+        bg-white shadow-xl lg:shadow-sm
         flex flex-col justify-between
         overflow-y-auto
-        scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100
         transition-transform duration-300 ease-in-out
+        scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100
         ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
       `}>
-        {/* Top Section */}
+        {/* Logo */}
         <div className="flex-1">
-          {/* Logo */}
           <div className="flex items-center justify-center pt-6 pb-6 lg:pb-8 px-4">
-            <div className="flex items-center gap-2">
-              <img 
-                src={logo} 
-                alt="Logo" 
-                className="w-32 sm:w-36 lg:w-40 xl:w-44 h-auto"
-              />
-            </div>
+            <img
+              src={logo}
+              alt="Logo"
+              className="w-32 sm:w-36 lg:w-40 xl:w-44 h-auto"
+            />
           </div>
 
           {/* Profile Section */}
           <div className="flex flex-col items-center mb-6 lg:mb-8 px-4">
             <div className="w-16 h-16 lg:w-20 lg:h-20 rounded-full mb-3 overflow-hidden">
-              <img 
+              <img
                 src={client}
-                alt="User Avatar" 
+                alt="User Avatar"
                 className="w-full h-full object-cover rounded-full"
               />
             </div>
-            <div className="text-center">
-              <p className="text-sm lg:text-base font-semibold text-orange-500 mb-1">
-                Anjali Kumar
-              </p>
-            </div>
+            <p className="text-sm lg:text-base font-semibold text-orange-500 mb-1">Anjali Kumar</p>
           </div>
 
-          {/* Navigation Menu */}
+          {/* Navigation Links */}
           <nav className="px-3 lg:px-4 space-y-1 text-orange-500">
             <NavItem 
               icon={LayoutDashboard} 
               label="Dashboard" 
-              to="/ClientDashboard"
-              active={isActive('/ClientDashboard')}
-              onClick={handleNavClick}
+              to="/ClientDashboard" 
+              active={isActive('/ClientDashboard')} 
+              onClick={handleNavClick} 
             />
             <NavItem 
               icon={Building2} 
               label="Company Profile" 
-              to="/clientCompanyProfile"
-              active={isActive('/clientCompanyProfile')}
-              onClick={handleNavClick}
+              to="/clientCompanyProfile" 
+              active={isActive('/clientCompanyProfile')} 
+              onClick={handleNavClick} 
             />
             <NavItem 
               icon={Users} 
               label="All Applicants" 
-              to="/clientAllApplications"
-              active={isActive('/clientAllApplications')}
-              onClick={handleNavClick}
+              to="/clientAllApplications" 
+              active={isActive('/clientAllApplications')} 
+              onClick={handleNavClick} 
             />
             <NavItem 
               icon={MessageSquare} 
               label="Messages" 
-              to="/ClientMessages"
-              active={isActive('/ClientMessages')}
-              onClick={handleNavClick}
+              to="/ClientMessages" 
+              active={isActive('/ClientMessages')} 
+              onClick={handleNavClick} 
             />
             <NavItem 
               icon={FileText} 
               label="Job Listing" 
-              to="/clientJobListing"
-              active={isActive('/clientJobListing')}
-              onClick={handleNavClick}
+              to="/clientJobListing" 
+              active={isActive('/clientJobListing')} 
+              onClick={handleNavClick} 
             />
             <NavItem 
               icon={Calendar} 
               label="My Schedule" 
-              to="/clientSchedule"
-              active={isActive('/clientSchedule')}
-              onClick={handleNavClick}
+              to="/clientSchedule" 
+              active={isActive('/clientSchedule')} 
+              onClick={handleNavClick} 
             />
             <NavItem 
               icon={Settings} 
               label="Account Settings" 
-              to="/clientSettings"
-              active={isActive('/clientSettings')}
-              onClick={handleNavClick}
+              to="/clientSettings" 
+              active={isActive('/clientSettings')} 
+              onClick={handleNavClick} 
             />
             <NavItem 
               icon={HelpCircle} 
               label="Help Center" 
-              to="/clientHelpCenter"
-              active={isActive('/clientHelpCenter')}
-              onClick={handleNavClick}
+              to="/clientHelpCenter" 
+              active={isActive('/clientHelpCenter')} 
+              onClick={handleNavClick} 
             />
           </nav>
         </div>
 
-        {/* Logout Section */}
+        {/* Logout Button */}
         <div className="px-3 lg:px-4 pb-4 lg:pb-6 mt-4">
-          <button 
+          <button
             className="flex items-center gap-3 w-full text-left px-3 lg:px-4 py-3 text-sm lg:text-base text-orange-500 hover:bg-orange-50 rounded-lg transition-colors"
             onClick={handleNavClick}
           >
@@ -168,12 +162,12 @@ export default function ClientSidebar() {
 
 function NavItem({ icon: Icon, label, to, active = false, onClick }) {
   return (
-    <Link 
+    <Link
       to={to}
       onClick={onClick}
       className={`flex items-center gap-3 w-full text-left px-3 lg:px-4 py-3 rounded-lg transition-colors text-sm lg:text-base no-underline ${
-        active 
-          ? 'bg-orange-100 text-orange-500 font-medium' 
+        active
+          ? 'bg-orange-100 text-orange-500 font-medium'
           : 'text-gray-600 hover:bg-gray-50 hover:text-gray-800'
       }`}
     >
