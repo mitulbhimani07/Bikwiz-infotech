@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   LayoutDashboard, Building2, Users, MessageSquare,
   FileText, Calendar, Settings, HelpCircle, LogOut,
@@ -16,40 +16,53 @@ export default function ClientSidebar() {
   const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
   const handleNavClick = () => setIsMobileMenuOpen(false);
 
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, [isMobileMenuOpen]);
+
   return (
     <>
       {/* Mobile Toggle Button */}
       <button
-        onClick={toggleMobileMenu}
-        className="lg:hidden fixed top-4 left-4 z-50 p-2 bg-white rounded-lg shadow-md border"
-      >
-        {isMobileMenuOpen ? (
-          <X className="w-6 h-6 text-gray-600" />
-        ) : (
-          <Menu className="w-6 h-6 text-gray-600" />
-        )}
-      </button>
+  onClick={toggleMobileMenu}
+  className="lg:hidden fixed top-3 left-3 z-[1000] p-2.5 bg-white rounded-lg shadow-lg border border-gray-200 hover:bg-gray-50 transition-all duration-200"
+  aria-label="Toggle sidebar menu"
+>
+  {isMobileMenuOpen ? (
+    <X className="w-5 h-5 text-gray-700" />
+  ) : (
+    <Menu className="w-5 h-5 text-gray-700" />
+  )}
+</button>
 
-      {/* Overlay */}
+      {/* Overlay for mobile */}
       {isMobileMenuOpen && (
         <div
-          className="lg:hidden fixed inset-0 bg-[#00000017] bg-opacity-100 z-30"
+          className="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-[900]"
           onClick={toggleMobileMenu}
         />
       )}
 
       {/* Sidebar */}
       <div className={`
-        fixed lg:static z-40
+        fixed lg:static z-[950]
         top-0 left-0 h-full w-64 sm:w-72
-        bg-white shadow-lg lg:shadow-sm
+        bg-white shadow-xl lg:shadow-sm
         flex flex-col justify-between
         overflow-y-auto
         transition-transform duration-300 ease-in-out
         scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100
         ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
       `}>
-        {/* Top Logo */}
+        {/* Logo */}
         <div className="flex-1">
           <div className="flex items-center justify-center pt-6 pb-6 lg:pb-8 px-4">
             <img
@@ -59,7 +72,7 @@ export default function ClientSidebar() {
             />
           </div>
 
-          {/* Profile */}
+          {/* Profile Section */}
           <div className="flex flex-col items-center mb-6 lg:mb-8 px-4">
             <div className="w-16 h-16 lg:w-20 lg:h-20 rounded-full mb-3 overflow-hidden">
               <img
@@ -71,20 +84,68 @@ export default function ClientSidebar() {
             <p className="text-sm lg:text-base font-semibold text-orange-500 mb-1">Anjali Kumar</p>
           </div>
 
-          {/* Navigation */}
+          {/* Navigation Links */}
           <nav className="px-3 lg:px-4 space-y-1 text-orange-500">
-            <NavItem icon={LayoutDashboard} label="Dashboard" to="/ClientDashboard" active={isActive('/ClientDashboard')} onClick={handleNavClick} />
-            <NavItem icon={Building2} label="Company Profile" to="/clientCompanyProfile" active={isActive('/clientCompanyProfile')} onClick={handleNavClick} />
-            <NavItem icon={Users} label="All Applicants" to="/clientAllApplications" active={isActive('/clientAllApplications')} onClick={handleNavClick} />
-            <NavItem icon={MessageSquare} label="Messages" to="/ClientMessages" active={isActive('/ClientMessages')} onClick={handleNavClick} />
-            <NavItem icon={FileText} label="Job Listing" to="/clientJobListing" active={isActive('/clientJobListing')} onClick={handleNavClick} />
-            <NavItem icon={Calendar} label="My Schedule" to="/clientSchedule" active={isActive('/clientSchedule')} onClick={handleNavClick} />
-            <NavItem icon={Settings} label="Account Settings" to="/clientSettings" active={isActive('/clientSettings')} onClick={handleNavClick} />
-            <NavItem icon={HelpCircle} label="Help Center" to="/clientHelpCenter" active={isActive('/clientHelpCenter')} onClick={handleNavClick} />
+            <NavItem 
+              icon={LayoutDashboard} 
+              label="Dashboard" 
+              to="/ClientDashboard" 
+              active={isActive('/ClientDashboard')} 
+              onClick={handleNavClick} 
+            />
+            <NavItem 
+              icon={Building2} 
+              label="Company Profile" 
+              to="/clientCompanyProfile" 
+              active={isActive('/clientCompanyProfile')} 
+              onClick={handleNavClick} 
+            />
+            <NavItem 
+              icon={Users} 
+              label="All Applicants" 
+              to="/clientAllApplications" 
+              active={isActive('/clientAllApplications')} 
+              onClick={handleNavClick} 
+            />
+            <NavItem 
+              icon={MessageSquare} 
+              label="Messages" 
+              to="/ClientMessages" 
+              active={isActive('/ClientMessages')} 
+              onClick={handleNavClick} 
+            />
+            <NavItem 
+              icon={FileText} 
+              label="Job Listing" 
+              to="/clientJobListing" 
+              active={isActive('/clientJobListing')} 
+              onClick={handleNavClick} 
+            />
+            <NavItem 
+              icon={Calendar} 
+              label="My Schedule" 
+              to="/clientSchedule" 
+              active={isActive('/clientSchedule')} 
+              onClick={handleNavClick} 
+            />
+            <NavItem 
+              icon={Settings} 
+              label="Account Settings" 
+              to="/clientSettings" 
+              active={isActive('/clientSettings')} 
+              onClick={handleNavClick} 
+            />
+            <NavItem 
+              icon={HelpCircle} 
+              label="Help Center" 
+              to="/clientHelpCenter" 
+              active={isActive('/clientHelpCenter')} 
+              onClick={handleNavClick} 
+            />
           </nav>
         </div>
 
-        {/* Logout */}
+        {/* Logout Button */}
         <div className="px-3 lg:px-4 pb-4 lg:pb-6 mt-4">
           <button
             className="flex items-center gap-3 w-full text-left px-3 lg:px-4 py-3 text-sm lg:text-base text-orange-500 hover:bg-orange-50 rounded-lg transition-colors"
