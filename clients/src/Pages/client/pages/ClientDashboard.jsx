@@ -41,36 +41,38 @@ function ClientDashboard() {
   ]
 
   return (
-    <div className="min-h-screen flex bg-[#fff0e5]">
-      <div className="sticky top-0 left-0  h-screen">
+    <div className="min-h-screen flex flex-col lg:flex-row bg-[#fff0e5]">
+      {/* Sidebar */}
+      <div className=" hidden lg:block sticky top-0 h-screen">
+        <ClientSidebar />
+      </div>
 
-        <ClientSidebar />      </div>
-
-      <div className="flex flex-col flex-1 ">
-        <div className="sticky top-0 z-10 ">
-
+      {/* Main content area */}
+      <div className="flex-1 flex flex-col">
+        {/* Header */}
+        <div className="sticky top-0 z-10">
           <ClientHeader />
         </div>
 
-        {/* Main Scrollable Area */}
-        <main className="flex-1 overflow-y-auto p-6">
-          {/* Title */}
-          <h1 className="text-3xl font-bold text-orange-500 mb-6">Dashboard</h1>
+        {/* Scrollable Content */}
+        <main className="flex-1 overflow-y-auto px-4 sm:px-6 py-6">
+          {/* Page Title */}
+          <h1 className="text-2xl sm:text-3xl font-bold text-orange-500 mb-6">Dashboard</h1>
 
-          {/* Stats Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+          {/* Stat Cards */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 mb-8">
             {stats.map((stat, index) => {
               const IconComponent = stat.icon
               return (
                 <div
                   key={index}
-                  className="bg-white rounded-2xl p-6 flex items-center space-x-4 justify-center shadow-sm"
+                  className="bg-white rounded-2xl p-4 sm:p-6 flex items-center space-x-4 shadow-sm"
                 >
-                  <div className="w-12 h-12 rounded-full bg-orange-100 flex items-center justify-center">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-orange-100 flex items-center justify-center">
                     <IconComponent className="text-orange-500" size={20} />
                   </div>
-                  <div className="ps-4">
-                    <h3 className="text-2xl font-bold text-orange-500">{stat.number}</h3>
+                  <div className="ps-2 sm:ps-4">
+                    <h3 className="text-xl sm:text-2xl font-bold text-orange-500">{stat.number}</h3>
                     <p className="text-sm text-gray-400">{stat.label}</p>
                   </div>
                 </div>
@@ -78,25 +80,27 @@ function ClientDashboard() {
             })}
           </div>
 
-          {/* Grid: Posted Jobs + Chart */}
+          {/* Jobs + Chart */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Posted Jobs */}
-            <div className="bg-white rounded-2xl p-6 shadow-sm">
-              <h2 className="text-2xl font-medium text-orange-400 mb-4">Posted Job</h2>
+            <div className="bg-white rounded-2xl p-4 sm:p-6 shadow-sm">
+              <h2 className="text-xl sm:text-2xl font-medium text-orange-400 mb-4">Posted Job</h2>
               <hr className="border-gray-200" />
               <div className="space-y-4 mt-4">
                 {postedJobs.map((job) => (
                   <div
                     key={job.id}
-                    className="flex items-center justify-between p-3 hover:bg-gray-50 rounded-lg transition-colors"
+                    className="flex items-center justify-between p-2 sm:p-3 hover:bg-gray-50 rounded-lg transition-colors"
                   >
                     <div className="flex items-center space-x-3">
                       <div className={`w-10 h-10 rounded-lg ${job.bgColor} flex items-center justify-center`}>
-                        <img src={job.logo} alt="" className="w-6 h-6" />
+                        <img src={job.logo} alt={job.title} className="w-6 h-6" />
                       </div>
-                      <div className="ps-3">
-                        <h3 className="font-medium text-orange-400 text-md mb-1">{job.title}</h3>
-                        <p className="text-sm text-gray-500">{job.company}</p>
+                      <div className="ps-2">
+                        <h3 className="font-medium text-orange-400 text-sm sm:text-md mb-1 truncate">
+                          {job.title}
+                        </h3>
+                        <p className="text-xs sm:text-sm text-gray-500">{job.company}</p>
                       </div>
                     </div>
                     <button className="text-gray-400 hover:text-gray-600">
@@ -111,40 +115,39 @@ function ClientDashboard() {
               </div>
             </div>
 
-            {/* Job Views Chart */}
-            <div className="bg-white rounded-2xl p-6 shadow-sm">
-              <h3 className="text-orange-400 text-2xl mb-4 font-medium">Job Views</h3>
+            {/* Chart Section */}
+            <div className="bg-white rounded-2xl p-4 sm:p-6 shadow-sm">
+              <h3 className="text-xl sm:text-2xl text-orange-400 mb-4 font-medium">Job Views</h3>
               <hr className="border-gray-200" />
-              <div className="flex items-center justify-between mb-6 ps-4 pe-4">
-                <div>
-                  <h2 className="text-xl font-semibold text-gray-800 mb-1 mt-4">Job Statistics</h2>
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 ps-2 pe-2">
+                <div className="mb-2">
+                  <h2 className="text-lg sm:text-xl font-semibold text-gray-800 mt-4">Job Statistics</h2>
                   <p className="text-sm text-gray-500">Showing Job Statistic May 19-25</p>
                 </div>
-                <div className="flex bg-orange-50 rounded-lg p-1">
-                  <button className="px-4 py-2 bg-white text-orange-500 rounded-md text-sm font-medium">Week</button>
-                  <button className="px-4 py-2 text-orange-400 rounded-md text-sm">Month</button>
-                  <button className="px-4 py-2 text-orange-400 rounded-md text-sm">Year</button>
+                <div className="flex bg-orange-50 rounded-lg p-1 mt-2 sm:mt-0">
+                  <button className="px-3 py-1 sm:px-4 sm:py-2 bg-white text-orange-500 rounded-md text-sm font-medium">Week</button>
+                  <button className="px-3 py-1 sm:px-4 sm:py-2 text-orange-400 rounded-md text-sm">Month</button>
+                  <button className="px-3 py-1 sm:px-4 sm:py-2 text-orange-400 rounded-md text-sm">Year</button>
                 </div>
               </div>
 
-              {/* Chart */}
-              <div className="h-64 lg:h-100">
+              {/* Line Chart */}
+              <div className="h-60 sm:h-64 lg:h-80">
                 <ResponsiveContainer width="100%" height="100%">
-                  <LineChart data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: 60 }}>
+                  <LineChart data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: 40 }}>
                     <CartesianGrid horizontal={true} vertical={false} stroke="#E5E7EB" strokeWidth={1} />
                     <XAxis
                       dataKey="name"
                       axisLine={false}
                       tickLine={true}
                       tick={{ fontSize: 12, fill: '#6B7280' }}
-                      height={30}
                     />
                     <YAxis
                       axisLine={false}
                       tickLine={false}
                       tick={{ fontSize: 12, fill: '#6B7280' }}
                       domain={[-10, 40]}
-                      ticks={[-10, -5, 0, 5, 10, 15, 20, 25, 30, 35, 40]}
+                      ticks={[-10, 0, 10, 20, 30, 40]}
                     />
                     <Line
                       type="monotone"
@@ -172,7 +175,6 @@ function ClientDashboard() {
 
         <ClientFooter />
       </div>
-
     </div>
   )
 }
