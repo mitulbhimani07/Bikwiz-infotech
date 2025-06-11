@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDrag, useDrop, DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import { Check, ChevronLeft, ChevronRight, X, Calendar as CalendarIcon, Clock, User, FileText, Tag } from 'lucide-react';
+import { Check, ChevronLeft, ChevronRight, X, Calendar as CalendarIcon, Clock, User, FileText, Tag, Plus } from 'lucide-react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import ClientSidbar from '../navbar/ClientSidbar';
@@ -181,75 +181,86 @@ function ClientSchedule() {
 
   return (
     <DndProvider backend={HTML5Backend}>
-      <div className="min-h-screen flex flex-col lg:flex-row bg-[#fff0e5]">
-        <div className="lg:block lg:sticky lg:top-0 lg:left-0 lg:h-screen lg:flex-shrink-0">
+  <div className="min-h-screen flex flex-col lg:flex-row bg-[#fff0e5]">
+    {/* Sidebar */}
+    <div className="lg:w-[300px] lg:block lg:sticky lg:top-0">
+      <ClientSidbar />
+    </div>
 
-          <ClientSidbar />
+    {/* Main Content */}
+    <div className="flex-1 flex flex-col min-w-0">
+      {/* Header */}
+      <div className="sticky top-0 z-10">
+        <ClientHeader />
+      </div>
+
+      {/* Body */}
+      <div className="flex-1 bg-[#fff0e5] p-4 md:p-6 overflow-auto">
+        <div className="text-orange-500 mb-6">
+          <h1 className="text-2xl md:text-3xl font-bold">My Schedule</h1>
         </div>
-        <div className="flex flex-col flex-1 min-w-0">
-          <div className="sticky top-0 z-10">
-            <ClientHeader />
-          </div>
 
-          <div className="min-h-screen bg-[#fff0e5] p-6 ">
-            <div className="text-orange-500 mb-6">
-              <h1 className="text-3xl font-bold">My Schedule</h1>
+        <div className="bg-white rounded-3xl px-4 py-5 sm:px-8">
+          {/* Top Buttons */}
+          <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
+            <div className="flex gap-2 flex-wrap">
+              {['My Schedule', 'Today'].map((label) => (
+                <button
+                  key={label}
+                  onClick={() => setView(label)}
+                  className={`px-4 py-2 rounded-md text-sm font-bold transition-colors border ${
+                    view === label
+                      ? 'text-orange-400 border-orange-400'
+                      : 'text-orange-400 border-transparent'
+                  }`}
+                >
+                  {label}
+                </button>
+              ))}
             </div>
 
-            <div className='bg-white ps-8 pt-3 pb-5 rounded-3xl'>
-              <div className="rounded-lg flex items-center justify-between w-full mb-6">
-                <div className="flex space-x-1  rounded-lg p-1">
-                  {['My Schedule', 'Today'].map((label) => (
-                    <button
-                      key={label}
-                      onClick={() => setView(label)}
-                      className={`px-4 py-2 rounded-md text-md font-bold transition-colors ${view === label
-                        ? ' text-orange-400 border border-orange-400'
-                        : 'text-orange-400'
-                        }`}
-                    >
-                      {label}
-                    </button>
-                  ))}
-                </div>
+            {/* Month Navigation */}
+            <div className="flex items-center gap-2">
+              <button onClick={() => navigateMonth('prev')} className="p-2 text-orange-500 hover:bg-orange-50 rounded">
+                <ChevronLeft className="w-5 h-5" />
+              </button>
+              <h2 className="text-sm md:text-md font-semibold text-gray-800 uppercase tracking-wide">
+                {selectedDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
+              </h2>
+              <button onClick={() => navigateMonth('next')} className="p-2 text-orange-500 hover:bg-orange-50 rounded">
+                <ChevronRight className="w-5 h-5" />
+              </button>
+            </div>
 
-                <div className="flex items-center space-x-4">
-                  <button
-                    onClick={() => navigateMonth('prev')}
-                    className="p-2 text-orange-500 hover:bg-orange-50 rounded transition-colors"
-                  >
-                    <ChevronLeft className="w-6 h-6" />
-                  </button>
-                  <h2 className="text-md font-semibold text-gray-800 uppercase tracking-wide">
-                    {selectedDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
-                  </h2>
-                  <button
-                    onClick={() => navigateMonth('next')}
-                    className="p-2 text-orange-500 hover:bg-orange-50 rounded transition-colors"
-                  >
-                    <ChevronRight className="w-6 h-6" />
-                  </button>
-                </div>
+            {/* View Type Switch */}
+            <div className="flex gap-2">
+              {['Day', 'Week', 'Month'].map((type) => (
+                <button
+                  key={type}
+                  onClick={() => setViewType(type)}
+                  className={`px-3 py-1 text-sm rounded-md ${
+                    viewType === type ? 'bg-orange-500 text-white' : 'bg-gray-100'
+                  }`}
+                >
+                  {type}
+                </button>
+              ))}
+            </div>
+          </div>
 
-                <div className="flex justify-between items-center p-4 ">
-                  <div className="flex items-center space-x-2">
-                    <button onClick={() => setViewType('Day')} className={`px-3 py-1 rounded-md text-sm ${viewType === 'Day' ? 'bg-orange-500 text-white' : 'bg-gray-100'}`}>Day</button>
-                    <button onClick={() => setViewType('Week')} className={`px-3 py-1 rounded-md text-sm ${viewType === 'Week' ? 'bg-orange-500 text-white' : 'bg-gray-100'}`}>Week</button>
-                    <button onClick={() => setViewType('Month')} className={`px-3 py-1 rounded-md text-sm ${viewType === 'Month' ? 'bg-orange-500 text-white' : 'bg-gray-100'}`}>Month</button>
-                  </div>
-                </div>
-              </div>
+          {/* Main Layout Grid */}
+          <div className="flex flex-col lg:flex-row border border-orange-400 overflow-hidden">
+            {/* Sidebar Panel */}
+            <div className="lg:w-[300px] border-r border-orange-200 p-4 space-y-6">
+              <button
+                onClick={handleCreateEvent}
+                className="w-full text-orange-600 border border-orange-500 py-2 rounded font-medium hover:bg-orange-100 transition"
+              >
+                + Create Event
+              </button>
 
-              <div className="flex border border-orange-400 text-gray-800 overflow-hidden border-e-0">
-                <div className="w-[320px] border-r border-orange-200 px-4 py-6 space-y-6">
-                  <button
-                    onClick={handleCreateEvent}
-                    className="w-full text-orange-600 border border-orange-500 py-2 rounded font-medium hover:bg-orange-100 transition"
-                  >
-                    + Create Event
-                  </button>
-
-                  <div className="-mx-4 border-b border-orange-400">
+              {/* Inline Calendar */}
+             <div className="-mx-4 border-b border-orange-400">
                     <div className="px-4 pb-4">
                       <div className="flex justify-between items-center mb-2">
                         <h2 className="text-lg font-semibold text-gray-700">
@@ -290,200 +301,212 @@ function ClientSchedule() {
                     </div>
                   </div>
 
-                  <div className="pt-4">
-                    <div className="flex justify-between items-center mb-4">
-                      <h3 className="text-md font-semibold text-gray-800">Categories</h3>
-                      <button className="text-orange-500 text-md font-bold hover:text-orange-600">
-                        + Add Category
-                      </button>
-                    </div>
-
-                    <div className="space-y-3 text-sm">
-                      {categories.map((cat, idx) => (
-                        <CategoryItem key={idx} name={cat.name} color={cat.color} checked={cat.checked} />
-                      ))}
-                    </div>
-                  </div>
+              {/* Categories */}
+              <div className="pt-4">
+                <div className="flex justify-between items-center mb-3">
+                  <h3 className="text-md font-semibold text-gray-800">Categories</h3>
+                  <button className="text-orange-500 text-md font-bold hover:text-orange-600">+ Add Category</button>
                 </div>
 
-                <div className="flex-1 p-4 rounded-lg overflow-hidden">
-                  {viewType === 'Week' && (
-                    <>
-                      <div className="grid grid-cols-8 bg-white border-b border-orange-400 text-md font-medium">
-                        <div className="p-2 text-left text-gray-500">GMT +07</div>
-                        {weekDates.map((date, idx) => (
-                          <div key={idx} className="p-2 text-center">
-                            <div className="text-md text-gray-500 uppercase">
-                              {date.toLocaleDateString('en-US', { weekday: 'short' })}
-                            </div>
-                            <div className={`w-7 h-7 mx-auto mt-1 flex items-center justify-center rounded-full ${date.toDateString() === selectedDate.toDateString() ? 'bg-orange-500 text-white font-semibold' : 'text-gray-800'}`}>
-                              {date.getDate()}
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-
-                      <div className="bg-white">
-                        {timeSlots.slice(0, 11).map((time, i) => (
-                          <div key={i} className="grid grid-cols-8 min-h-[50px] text-sm last:border-b-0">
-                            <div className="p-2 text-gray-500 border-r border-orange-400 text-sm text-right">
-                              {time}
-                            </div>
-                            {weekDates.map((date, dayIdx) => {
-                              const dateKey = date.toDateString();
-                              const timeSlotEvents = events.week[dateKey]?.[time] || [];
-
-                              return (
-                                <WeekTimeSlot
-                                  key={`${dateKey}-${time}`}
-                                  date={date}
-                                  timeSlot={time}
-                                  events={timeSlotEvents}
-                                  onDrop={handleWeekDrop}
-                                  onEventClick={(event, index) => handleEventClick(event, index, {
-                                    type: 'week',
-                                    dateKey,
-                                    timeSlot: time
-                                  })}
-                                />
-                              );
-                            })}
-                          </div>
-                        ))}
-                      </div>
-                    </>
-                  )}
-
-                  {viewType === 'Day' && (
-                    <div className="bg-white rounded-lg border border-orange-400 overflow-hidden">
-                      <div className=" border-b border-orange-400 p-4">
-                        <div className="flex items-center justify-between">
-                          <div className="text-md text-gray-500 uppercase tracking-wide">GMT +07</div>
-                          <div className="text-lg font-semibold text-gray-900">
-                            {selectedDate.toLocaleDateString('en-US', { weekday: 'long' })}
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="bg-white">
-                        {(() => {
-                          const dayTimeSlots = [
-                            '1 Am', '2 Am', '3 Am', '4 Am', '5 Am', '6 Am', '7 Am', '8 Am',
-                            '9 Am', '10 Am', '11 Am'
-                          ];
-
-                          return dayTimeSlots.map((time, i) => {
-                            const dateKey = selectedDate.toDateString();
-                            const timeSlotEvents = events.day[dateKey]?.[time] || [];
-
-                            return (
-                              <div key={i} className="flex border-b border-orange-400 ">
-                                <div className="w-16 flex-shrink-0 p-3 text-right border-r border-orange-400">
-                                  <div className="text-sm text-gray-500 font-medium">
-                                    {time}
-                                  </div>
-                                </div>
-
-                                <div className="flex-1 relative">
-                                  <DayTimeSlot
-                                    timeSlot={time}
-                                    events={timeSlotEvents}
-                                    onDrop={handleDayDrop}
-                                    onEventClick={(event, index) => handleEventClick(event, index, {
-                                      type: 'day',
-                                      dateKey,
-                                      timeSlot: time
-                                    })}
-                                  />
-                                </div>
-                              </div>
-                            );
-                          });
-                        })()}
-                      </div>
-                    </div>
-                  )}
-
-                  {viewType === 'Month' && (
-                    <div className="bg-white border border-orange-400 rounded-lg">
-                      <div className="grid grid-cols-7 text-sm text-gray-600 border-b border-orange-100 font-medium">
-                        {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((day) => (
-                          <div key={day} className="p-2 text-center border-r border-orange-100 last:border-r-0">
-                            {day}
-                          </div>
-                        ))}
-                      </div>
-                      <div className="grid grid-cols-7 text-sm">
-                        {(() => {
-                          const start = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1);
-                          const end = new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0);
-                          const days = [];
-
-                          for (let i = 0; i < start.getDay(); i++) {
-                            days.push(
-                              <div
-                                key={`empty-start-${i}`}
-                                className="p-3 border border-orange-400 bg-orange-50 h-28"
-                              ></div>
-                            );
-                          }
-
-                          for (let d = 1; d <= end.getDate(); d++) {
-                            const date = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), d);
-                            const key = date.toDateString();
-
-                            days.push(
-                              <DayCell
-                                key={key}
-                                date={date}
-                                events={events.month[d] || []}
-                                onDrop={handleMonthDrop}
-                                onEventClick={(event, index) => handleEventClick(event, index, {
-                                  type: 'month',
-                                  day: d
-                                })}
-                              />
-                            );
-                          }
-
-                          const remaining = (start.getDay() + end.getDate()) % 7;
-                          if (remaining !== 0) {
-                            for (let i = 0; i < 7 - remaining; i++) {
-                              days.push(
-                                <div
-                                  key={`empty-end-${i}`}
-                                  className="p-3 border border-orange-100 bg-orange-50 h-28"
-                                ></div>
-                              );
-                            }
-                          }
-
-                          return days;
-                        })()}
-                      </div>
-                    </div>
-                  )}
+                <div className="space-y-2">
+                  {categories.map((cat, idx) => (
+                    <CategoryItem key={idx} name={cat.name} color={cat.color} checked={cat.checked} />
+                  ))}
                 </div>
               </div>
             </div>
-          </div>
 
-          <ClientFooter />
+            {/* Calendar Content */}
+            <div className="flex-1 overflow-x-auto p-4">
+              {/* WEEK View */}
+              {viewType === 'Week' && (
+                <div className="w-full min-w-[800px]">
+                  {/* Week Header */}
+                  <div className="grid grid-cols-8 border-b border-orange-400 text-sm font-medium">
+                    <div className="p-2 text-left text-gray-500">GMT +07</div>
+                    {weekDates.map((date, idx) => (
+                      <div key={idx} className="p-2 text-center">
+                        <div className="text-gray-500 uppercase">
+                          {date.toLocaleDateString('en-US', { weekday: 'short' })}
+                        </div>
+                        <div
+                          className={`w-7 h-7 mx-auto mt-1 flex items-center justify-center rounded-full ${
+                            date.toDateString() === selectedDate.toDateString()
+                              ? 'bg-orange-500 text-white font-semibold'
+                              : 'text-gray-800'
+                          }`}
+                        >
+                          {date.getDate()}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Week Grid */}
+                  <div className="bg-white">
+                    {timeSlots.slice(0, 11).map((time, i) => (
+                      <div key={i} className="grid grid-cols-8 min-h-[50px] text-sm">
+                        <div className="p-2 text-right text-gray-500 border-r border-orange-400">{time}</div>
+                        {weekDates.map((date, dayIdx) => {
+                          const dateKey = date.toDateString();
+                          const timeSlotEvents = events.week[dateKey]?.[time] || [];
+
+                          return (
+                            <WeekTimeSlot
+                              key={`${dateKey}-${time}`}
+                              date={date}
+                              timeSlot={time}
+                              events={timeSlotEvents}
+                              onDrop={handleWeekDrop}
+                              onEventClick={(event, index) =>
+                                handleEventClick(event, index, {
+                                  type: 'week',
+                                  dateKey,
+                                  timeSlot: time,
+                                })
+                              }
+                            />
+                          );
+                        })}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* DAY View */}
+              {viewType === 'Day' && (
+                <div className="bg-white rounded-lg border border-orange-400">
+                  <div className="border-b border-orange-400 p-4 flex justify-between items-center">
+                    <div className="text-md text-gray-500 uppercase tracking-wide">GMT +07</div>
+                    <div className="text-lg font-semibold text-gray-900">
+                      {selectedDate.toLocaleDateString('en-US', { weekday: 'long' })}
+                    </div>
+                  </div>
+                  <div>
+                    {['1 Am', '2 Am', '3 Am', '4 Am', '5 Am', '6 Am', '7 Am', '8 Am', '9 Am', '10 Am', '11 Am'].map(
+                      (time, i) => {
+                        const dateKey = selectedDate.toDateString();
+                        const timeSlotEvents = events.day[dateKey]?.[time] || [];
+
+                        return (
+                          <div key={i} className="flex border-b border-orange-200">
+                            <div className="w-16 text-right p-3 border-r border-orange-200 text-sm text-gray-500">
+                              {time}
+                            </div>
+                            <div className="flex-1 relative">
+                              <DayTimeSlot
+                                timeSlot={time}
+                                events={timeSlotEvents}
+                                onDrop={handleDayDrop}
+                                onEventClick={(event, index) =>
+                                  handleEventClick(event, index, {
+                                    type: 'day',
+                                    dateKey,
+                                    timeSlot: time,
+                                  })
+                                }
+                              />
+                            </div>
+                          </div>
+                        );
+                      }
+                    )}
+                  </div>
+                </div>
+              )}
+
+              {/* MONTH View */}
+          {viewType === 'Month' && (
+  <div className=""> {/* ADD THIS WRAPPER */}
+    <div className="bg-white border border-orange-400 rounded-lg overflow-hidden min-w-full">
+      {/* Header with day names - MAKE IT STICKY */}
+      <div className="grid grid-cols-7 text-xs sm:text-sm md:text-base text-gray-600 border-b border-orange-100 font-medium sticky top-0 z-10 bg-white"> {/* ADD sticky top-0 z-10 bg-white */}
+        {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((day) => (
+          <div key={day} className="p-1 sm:p-2 text-center border-r border-orange-100 last:border-r-0">
+            {/* CHANGE THIS FOR MOBILE ABBREVIATION */}
+            <span className="block sm:hidden">{day.charAt(0)}</span> {/* Show single letter on mobile */}
+            <span className="hidden sm:block">{day}</span> {/* Show full name on larger screens */}
+          </div>
+        ))}
+      </div>
+      
+      {/* Calendar grid */}
+      <div className="grid grid-cols-7">
+        {(() => {
+          const start = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1);
+          const end = new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0);
+          const days = [];
+
+          // Empty cells at the beginning of the month
+          for (let i = 0; i < start.getDay(); i++) {
+            days.push(
+              <div 
+                key={`empty-start-${i}`} 
+                className="min-h-[60px] sm:min-h-[80px] md:min-h-[100px] lg:min-h-[120px] p-1 sm:p-2 md:p-3 border border-orange-100 bg-orange-50" /* CHANGE HEIGHTS FOR MOBILE */
+              />
+            );
+          }
+
+          // Days of the month
+          for (let d = 1; d <= end.getDate(); d++) {
+            const date = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), d);
+            const key = date.toDateString();
+            days.push(
+              <DayCell
+                key={key}
+                date={date}
+                events={events.month[d] || []}
+                onDrop={handleMonthDrop}
+                onEventClick={(event, index) =>
+                  handleEventClick(event, index, { type: 'month', day: d })
+                }
+              />
+            );
+          }
+
+          // Empty cells at the end of the month
+          const remaining = (start.getDay() + end.getDate()) % 7;
+          if (remaining !== 0) {
+            for (let i = 0; i < 7 - remaining; i++) {
+              days.push(
+                <div
+                  key={`empty-end-${i}`}
+                  className="min-h-[60px] sm:min-h-[80px] md:min-h-[100px] lg:min-h-[120px] p-1 sm:p-2 md:p-3 border border-orange-100 bg-orange-50" /* CHANGE HEIGHTS FOR MOBILE */
+                />
+              );
+            }
+          }
+
+          return days;
+        })()}
+      </div>
+    </div>
+  </div> 
+)}
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* Event Modal */}
-      {isModalOpen && (
-        <EventModal
-          isOpen={isModalOpen}
-          onClose={handleModalClose}
-          onSave={handleEventSave}
-          onDelete={modalMode === 'edit' ? handleEventDelete : null}
-          event={selectedEvent}
-          mode={modalMode}
-        />
-      )}
-    </DndProvider>
+      {/* Footer */}
+      <ClientFooter />
+    </div>
+
+    {/* Event Modal */}
+    {isModalOpen && (
+      <EventModal
+        isOpen={isModalOpen}
+        onClose={handleModalClose}
+        onSave={handleEventSave}
+        onDelete={modalMode === 'edit' ? handleEventDelete : null}
+        event={selectedEvent}
+        mode={modalMode}
+      />
+    )}
+  </div>
+</DndProvider>
+
   );
 }
 
@@ -521,193 +544,199 @@ function EventModal({ isOpen, onClose, onSave, onDelete, event, mode }) {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-white/30 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
-        {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-gray-200">
-          <h2 className="text-2xl font-bold text-gray-900">
-            {mode === 'create' ? 'Create New Event' : 'Edit Event'}
-          </h2>
-          <button
-            onClick={onClose}
-            className="p-2 hover:bg-gray-100 rounded-full transition-colors"
-          >
-            <X className="w-5 h-5 text-gray-500" />
-          </button>
+    <div className="fixed inset-0 bg-white/30 backdrop-blur-sm flex items-center justify-center z-50 p-4 sm:p-6">
+  <div className="bg-white rounded-xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+    
+    {/* Header */}
+    <div className="flex items-center justify-between p-4 sm:p-6 border-b border-gray-200">
+      <h2 className="text-xl sm:text-2xl font-bold text-gray-900">
+        {mode === 'create' ? 'Create New Event' : 'Edit Event'}
+      </h2>
+      <button
+        onClick={onClose}
+        className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+      >
+        <X className="w-5 h-5 text-gray-500" />
+      </button>
+    </div>
+
+    {/* Form */}
+    <form onSubmit={handleSubmit} className="p-4 sm:p-6 space-y-6 text-sm sm:text-base">
+      
+      {/* Event Title */}
+      <div>
+        <label className="flex items-center space-x-2 font-medium text-gray-700 mb-2">
+          <FileText className="w-4 h-4" />
+          <span>Event Title</span>
+        </label>
+        <input
+          type="text"
+          value={formData.title}
+          onChange={(e) => handleChange('title', e.target.value)}
+          className="w-full px-4 py-2.5 sm:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+          placeholder="Enter event title"
+          required
+        />
+      </div>
+
+      {/* Description */}
+      <div>
+        <label className="flex items-center space-x-2 font-medium text-gray-700 mb-2">
+          <FileText className="w-4 h-4" />
+          <span>Description</span>
+        </label>
+        <textarea
+          value={formData.description}
+          onChange={(e) => handleChange('description', e.target.value)}
+          rows={3}
+          className="w-full px-4 py-2.5 sm:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+          placeholder="Event description (optional)"
+        />
+      </div>
+
+      {/* Date and Time Row */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+        {/* Date */}
+        <div>
+          <label className="flex items-center space-x-2 font-medium text-gray-700 mb-2">
+            <CalendarIcon className="w-4 h-4" />
+            <span>Date</span>
+          </label>
+          <input
+            type="date"
+            value={formData.date}
+            onChange={(e) => handleChange('date', e.target.value)}
+            className="w-full px-4 py-2.5 sm:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+            required
+          />
         </div>
 
-        {/* Form */}
-        <form onSubmit={handleSubmit} className="p-6 space-y-6">
-          {/* Event Title */}
-          <div>
-            <label className="flex items-center space-x-2 text-sm font-medium text-gray-700 mb-2">
-              <FileText className="w-4 h-4" />
-              <span>Event Title</span>
-            </label>
-            <input
-              type="text"
-              value={formData.title}
-              onChange={(e) => handleChange('title', e.target.value)}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-              placeholder="Enter event title"
-              required
-            />
-          </div>
+        {/* Start Time */}
+        <div>
+          <label className="flex items-center space-x-2 font-medium text-gray-700 mb-2">
+            <Clock className="w-4 h-4" />
+            <span>Start Time</span>
+          </label>
+          <input
+            type="time"
+            value={formData.startTime}
+            onChange={(e) => handleChange('startTime', e.target.value)}
+            className="w-full px-4 py-2.5 sm:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+            required
+          />
+        </div>
 
-          {/* Description */}
-          <div>
-            <label className="flex items-center space-x-2 text-sm font-medium text-gray-700 mb-2">
-              <FileText className="w-4 h-4" />
-              <span>Description</span>
-            </label>
-            <textarea
-              value={formData.description}
-              onChange={(e) => handleChange('description', e.target.value)}
-              rows={3}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-              placeholder="Event description (optional)"
-            />
-          </div>
-
-          {/* Date and Time Row */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div>
-              <label className="flex items-center space-x-2 text-sm font-medium text-gray-700 mb-2">
-                <CalendarIcon className="w-4 h-4" />
-                <span>Date</span>
-              </label>
-              <input
-                type="date"
-                value={formData.date}
-                onChange={(e) => handleChange('date', e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-                required
-              />
-            </div>
-            <div>
-              <label className="flex items-center space-x-2 text-sm font-medium text-gray-700 mb-2">
-                <Clock className="w-4 h-4" />
-                <span>Start Time</span>
-              </label>
-              <input
-                type="time"
-                value={formData.startTime}
-                onChange={(e) => handleChange('startTime', e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-                required
-              />
-            </div>
-            <div>
-              <label className="flex items-center space-x-2 text-sm font-medium text-gray-700 mb-2">
-                <Clock className="w-4 h-4" />
-                <span>End Time</span>
-              </label>
-              <input
-                type="time"
-                value={formData.endTime}
-                onChange={(e) => handleChange('endTime', e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-                required
-              />
-            </div>
-          </div>
-
-          {/* Location */}
-          <div>
-            <label className="flex items-center space-x-2 text-sm font-medium text-gray-700 mb-2">
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-              </svg>
-              <span>Location</span>
-            </label>
-            <input
-              type="text"
-              value={formData.location}
-              onChange={(e) => handleChange('location', e.target.value)}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-              placeholder="Event location (optional)"
-            />
-          </div>
-
-          {/* Attendees */}
-          <div>
-            <label className="flex items-center space-x-2 text-sm font-medium text-gray-700 mb-2">
-              <User className="w-4 h-4" />
-              <span>Attendees</span>
-            </label>
-            <input
-              type="text"
-              value={formData.attendees}
-              onChange={(e) => handleChange('attendees', e.target.value)}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-              placeholder="Add attendees (comma separated)"
-            />
-          </div>
-
-          {/* Category */}
-          <div>
-            <label className="flex items-center space-x-2 text-sm font-medium text-gray-700 mb-2">
-              <Tag className="w-4 h-4" />
-              <span>Category</span>
-            </label>
-            <select
-              value={formData.category}
-              onChange={(e) => {
-                const selectedCategory = categories.find(cat => cat.name === e.target.value);
-                handleChange('category', e.target.value);
-                handleChange('color', selectedCategory?.color || 'bg-orange-500');
-              }}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-            >
-              {categories.map((category) => (
-                <option key={category.name} value={category.name}>
-                  {category.name}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          {/* Color Preview */}
-          <div>
-            <label className="text-sm font-medium text-gray-700 mb-2 block">Color Preview</label>
-            <div className={`w-full h-12 rounded-lg ${formData.color} flex items-center justify-center text-white font-medium`}>
-              {formData.title || 'Event Preview'}
-            </div>
-          </div>
-
-          {/* Action Buttons */}
-          <div className="flex justify-between pt-6 border-t border-gray-200">
-            <div>
-              {mode === 'edit' && onDelete && (
-                <button
-                  type="button"
-                  onClick={onDelete}
-                  className="px-6 py-3 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors font-medium"
-                >
-                  Delete Event
-                </button>
-              )}
-            </div>
-            <div className="flex space-x-3">
-              <button
-                type="button"
-                onClick={onClose}
-                className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors font-medium"
-              >
-                Cancel
-              </button>
-              <button
-                type="submit"
-                className="px-6 py-3 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors font-medium"
-              >
-                {mode === 'create' ? 'Create Event' : 'Save Changes'}
-              </button>
-            </div>
-          </div>
-        </form>
+        {/* End Time */}
+        <div>
+          <label className="flex items-center space-x-2 font-medium text-gray-700 mb-2">
+            <Clock className="w-4 h-4" />
+            <span>End Time</span>
+          </label>
+          <input
+            type="time"
+            value={formData.endTime}
+            onChange={(e) => handleChange('endTime', e.target.value)}
+            className="w-full px-4 py-2.5 sm:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+            required
+          />
+        </div>
       </div>
-    </div>
+
+      {/* Location */}
+      <div>
+        <label className="flex items-center space-x-2 font-medium text-gray-700 mb-2">
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+          </svg>
+          <span>Location</span>
+        </label>
+        <input
+          type="text"
+          value={formData.location}
+          onChange={(e) => handleChange('location', e.target.value)}
+          className="w-full px-4 py-2.5 sm:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+          placeholder="Event location (optional)"
+        />
+      </div>
+
+      {/* Attendees */}
+      <div>
+        <label className="flex items-center space-x-2 font-medium text-gray-700 mb-2">
+          <User className="w-4 h-4" />
+          <span>Attendees</span>
+        </label>
+        <input
+          type="text"
+          value={formData.attendees}
+          onChange={(e) => handleChange('attendees', e.target.value)}
+          className="w-full px-4 py-2.5 sm:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+          placeholder="Add attendees (comma separated)"
+        />
+      </div>
+
+      {/* Category */}
+      <div>
+        <label className="flex items-center space-x-2 font-medium text-gray-700 mb-2">
+          <Tag className="w-4 h-4" />
+          <span>Category</span>
+        </label>
+        <select
+          value={formData.category}
+          onChange={(e) => {
+            const selectedCategory = categories.find(cat => cat.name === e.target.value);
+            handleChange('category', e.target.value);
+            handleChange('color', selectedCategory?.color || 'bg-orange-500');
+          }}
+          className="w-full px-4 py-2.5 sm:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+        >
+          {categories.map((category) => (
+            <option key={category.name} value={category.name}>
+              {category.name}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      {/* Color Preview */}
+      <div>
+        <label className="font-medium text-gray-700 mb-2 block">Color Preview</label>
+        <div className={`w-full h-12 rounded-lg ${formData.color} flex items-center justify-center text-white font-medium`}>
+          {formData.title || 'Event Preview'}
+        </div>
+      </div>
+
+      {/* Buttons */}
+      <div className="flex flex-col-reverse sm:flex-row justify-between pt-6 border-t border-gray-200 space-y-3 sm:space-y-0 sm:space-x-3">
+        {mode === 'edit' && onDelete && (
+          <button
+            type="button"
+            onClick={onDelete}
+            className="px-4 py-1 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors font-medium mt-3"
+          >
+            Delete Event
+          </button>
+        )}
+        <div className="flex justify-end space-x-3 w-full sm:w-auto">
+          <button
+            type="button"
+            onClick={onClose}
+            className="px-4 py-1 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors font-medium w-full sm:w-auto"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            className="px-3 py-1 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors font-medium w-full sm:w-auto"
+          >
+            {mode === 'create' ? 'Create Event' : 'Save Changes'}
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
   );
 }
 
@@ -720,18 +749,18 @@ function CategoryItem({ name, color, checked }) {
   }));
 
   return (
-    <div
-      ref={drag}
-      className={`flex items-center space-x-3 cursor-move transition-opacity ${isDragging ? 'opacity-50' : 'opacity-100'}`}
-    >
-      <div
-        className={`w-5 h-5 flex items-center justify-center rounded border border-orange-400 ${checked ? color : 'border-orange-400'
-          }`}
-      >
-        {checked && <Check className="w-4 h-4 text-white" />}
-      </div>
-      <span className="text-gray-600">{name}</span>
-    </div>
+   <div
+  ref={drag}
+  className={`flex items-center flex-wrap sm:flex-nowrap gap-2 sm:gap-3 cursor-move transition-opacity ${isDragging ? 'opacity-50' : 'opacity-100'}`}
+>
+  <div
+    className={`w-5 h-5 flex items-center justify-center rounded border ${checked ? color : 'border-orange-400'}`}
+  >
+    {checked && <Check className="w-4 h-4 text-white" />}
+  </div>
+  <span className="text-sm sm:text-base text-gray-600 break-words">{name}</span>
+</div>
+
   );
 }
 
@@ -746,23 +775,62 @@ function DayCell({ date, events, onDrop, onEventClick }) {
     }),
   }));
 
+  // ADD STATE FOR SHOWING MORE EVENTS ON MOBILE
+  const [showAllEvents, setShowAllEvents] = useState(false);
+  const maxVisibleEvents = 2; // Maximum events to show on mobile
+  const visibleEvents = showAllEvents ? events : events.slice(0, maxVisibleEvents);
+  const hasMoreEvents = events.length > maxVisibleEvents;
+
   return (
     <div
       ref={drop}
-      className={`p-2 border border-orange-100 h-28 relative transition-colors ${isOver ? 'bg-orange-100' : 'bg-white'
-        }`}
+      className={`p-1 sm:p-2 border border-orange-100 min-h-[60px] sm:min-h-[80px] md:min-h-[100px] lg:min-h-[120px] relative transition-colors flex flex-col /* CHANGE HEIGHTS AND ADD FLEX */
+        ${isOver ? 'bg-orange-100' : 'bg-white'} 
+        w-full`} /* REMOVE min-w-[80px] as it can cause horizontal scroll */
     >
-      <div className="text-xs text-gray-700 font-semibold mb-1">{date.getDate()}</div>
-      <div className="space-y-1">
-        {events.map((ev, idx) => (
+      {/* DATE NUMBER */}
+      <div className="text-[10px] sm:text-xs md:text-sm text-gray-700 font-semibold mb-1 flex-shrink-0"> {/* ADD RESPONSIVE TEXT SIZE */}
+        {date.getDate()}
+      </div>
+      
+      {/* EVENTS CONTAINER */}
+      <div className="flex-1 space-y-1 overflow-hidden"> {/* ADD FLEX-1 AND OVERFLOW-HIDDEN */}
+        {visibleEvents.map((ev, idx) => (
           <div
             key={idx}
             onClick={() => onEventClick(ev, idx)}
-            className={`text-[10px] text-white px-1 py-0.5 rounded cursor-pointer hover:opacity-80 transition-opacity ${ev.color}`}
+            className={`text-[8px] sm:text-[10px] md:text-xs text-white px-1 py-0.5 rounded cursor-pointer hover:opacity-80 transition-opacity truncate ${ev.color}`} /* ADD TRUNCATE AND RESPONSIVE TEXT */
+            title={ev.title} /* ADD TITLE FOR FULL TEXT ON HOVER */
           >
-            {ev.title}
+            {/* SHOW ABBREVIATED TEXT ON MOBILE */}
+            <span className="block sm:hidden">
+              {ev.title.length > 8 ? ev.title.substring(0, 6) + '...' : ev.title}
+            </span>
+            <span className="hidden sm:block">
+              {ev.title}
+            </span>
           </div>
         ))}
+        
+        {/* SHOW MORE BUTTON FOR MOBILE */}
+        {hasMoreEvents && !showAllEvents && (
+          <button
+            onClick={() => setShowAllEvents(true)}
+            className="text-[8px] sm:text-[10px] text-orange-600 hover:text-orange-800 font-medium w-full text-center py-1 bg-orange-50 rounded"
+          >
+            +{events.length - maxVisibleEvents} more
+          </button>
+        )}
+        
+        {/* SHOW LESS BUTTON */}
+        {showAllEvents && hasMoreEvents && (
+          <button
+            onClick={() => setShowAllEvents(false)}
+            className="text-[8px] sm:text-[10px] text-orange-600 hover:text-orange-800 font-medium w-full text-center py-1 bg-orange-50 rounded"
+          >
+            Show less
+          </button>
+        )}
       </div>
     </div>
   );
@@ -781,22 +849,42 @@ function WeekTimeSlot({ date, timeSlot, events, onDrop, onEventClick }) {
 
   return (
     <div
-      ref={drop}
-      className={`border-r border-orange-400 border-b p-1 relative last:border-r-0 transition-colors ${isOver ? 'bg-orange-50' : 'bg-white'
-        }`}
+  ref={drop}
+  className={`
+    border-r border-orange-400 border-b 
+    p-1 sm:p-2 md:p-3 lg:p-4
+    relative last:border-r-0 
+    transition-colors 
+    min-h-[60px] sm:min-h-[60px] md:min-h-[60px] lg:min-h-[60px]
+    ${isOver ? 'bg-orange-50' : 'bg-white'}
+  `}
+>
+  {/* Dropped events */}
+  {events.map((event, idx) => (
+    <div
+      key={idx}
+      onClick={() => onEventClick(event, idx)}
+      className={`
+        rounded-md text-white 
+        text-xs sm:text-sm md:text-base
+        leading-tight shadow-sm 
+        p-1 sm:p-2 md:p-2.5
+        mb-1 sm:mb-1.5 md:mb-2
+        cursor-pointer hover:opacity-80 
+        transition-opacity
+        max-w-full
+        ${event.color}
+      `}
     >
-      {/* Dropped events */}
-      {events.map((event, idx) => (
-        <div
-          key={idx}
-          onClick={() => onEventClick(event, idx)}
-          className={`rounded-md text-white text-xs leading-tight shadow-sm p-1 mb-1 cursor-pointer hover:opacity-80 transition-opacity ${event.color}`}
-        >
-          <div className="font-medium truncate">{event.title}</div>
-          <div className="text-[10px] opacity-90">{timeSlot}</div>
-        </div>
-      ))}
+      <div className="font-medium truncate text-xs sm:text-sm md:text-base">
+        {event.title}
+      </div>
+      <div className="text-[8px] sm:text-[10px] md:text-xs opacity-90 truncate">
+        {timeSlot}
+      </div>
     </div>
+  ))}
+</div>
   );
 }
 
@@ -813,29 +901,59 @@ function DayTimeSlot({ timeSlot, events, onDrop, onEventClick }) {
 
   return (
     <div
-      ref={drop}
-      className={`min-h-[50px] p-3 relative transition-colors ${isOver ? 'bg-orange-50' : 'hover:bg-orange-50'
-        }`}
+  ref={drop}
+  className={`
+    min-h-[40px] sm:min-h-[50px] md:min-h-[60px] lg:min-h-[70px]
+    p-2 sm:p-3 md:p-4 lg:p-5
+    relative transition-colors 
+    ${isOver ? 'bg-orange-50' : 'hover:bg-orange-50'}
+  `}
+>
+  {/* Dropped events */}
+  {events.map((event, idx) => (
+    <div
+      key={idx}
+      onClick={() => onEventClick(event, idx)}
+      className={`
+        rounded-lg text-white 
+        text-xs sm:text-sm md:text-base
+        shadow-sm 
+        p-2 sm:p-3 md:p-4
+        mb-1 sm:mb-2 md:mb-3
+        cursor-pointer hover:opacity-80 
+        transition-opacity
+        max-w-full
+        ${event.color}
+      `}
     >
-      {/* Dropped events */}
-      {events.map((event, idx) => (
-        <div
-          key={idx}
-          onClick={() => onEventClick(event, idx)}
-          className={`rounded-lg text-white text-sm shadow-sm p-3 mb-2 cursor-pointer hover:opacity-80 transition-opacity ${event.color}`}
-        >
-          <div className="font-medium">{event.title}</div>
-          <div className="text-xs opacity-90 mt-1">{timeSlot}</div>
-        </div>
-      ))}
-
-      {/* Drop zone indicator */}
-      {isOver && (
-        <div className="absolute inset-0 border-2 border-dashed border-orange-300 rounded-lg bg-orange-50 bg-opacity-50 flex items-center justify-center">
-          <span className="text-orange-600 text-sm font-medium">Drop here</span>
-        </div>
-      )}
+      <div className="font-medium truncate text-xs sm:text-sm md:text-base lg:text-lg">
+        {event.title}
+      </div>
+      <div className="text-[10px] sm:text-xs md:text-sm opacity-90 mt-0.5 sm:mt-1 truncate">
+        {timeSlot}
+      </div>
     </div>
+  ))}
+
+  {/* Drop zone indicator */}
+  {isOver && (
+    <div className="
+      absolute inset-0 
+      border-2 border-dashed border-orange-300 
+      rounded-lg bg-orange-50 bg-opacity-50 
+      flex items-center justify-center
+      p-2 sm:p-4
+    ">
+      <span className="
+        text-orange-600 
+        text-xs sm:text-sm md:text-base lg:text-lg
+        font-medium text-center
+      ">
+        Drop here
+      </span>
+    </div>
+  )}
+</div>
   );
 }
 

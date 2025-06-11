@@ -99,11 +99,11 @@ function ClientJobListing() {
     return (
         <div className="min-h-screen flex flex-col lg:flex-row bg-[#fff0e5]">
             {/* Sidebar - Hidden on mobile, shown on desktop */}
-            <div className=" lg:block lg:sticky lg:top-0 lg:left-0 lg:h-screen">
+            <div className="lg:block lg:sticky lg:top-0 lg:left-0 lg:h-screen lg:flex-shrink-0">
                 <ClientSidebar />
             </div>
 
-            <div className="flex flex-col flex-1">
+            <div className="flex flex-col flex-1 min-w-0">
                 {/* Header - Sticky on all devices */}
                 <div className="sticky top-0 z-10">
                     <ClientHeader />
