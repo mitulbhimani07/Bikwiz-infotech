@@ -99,7 +99,7 @@ function ClientJobListing() {
     return (
         <div className="min-h-screen flex flex-col lg:flex-row bg-[#fff0e5]">
             {/* Sidebar - Hidden on mobile, shown on desktop */}
-            <div className="hidden lg:block lg:sticky lg:top-0 lg:left-0 lg:h-screen">
+            <div className=" lg:block lg:sticky lg:top-0 lg:left-0 lg:h-screen">
                 <ClientSidebar />
             </div>
 
