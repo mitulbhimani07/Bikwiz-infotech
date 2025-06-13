@@ -130,20 +130,20 @@ export default function BlogForm() {
             valid = false;
         }
 
-        if (!blogData.profileImg) {
-            newErrors.profileImg = 'Blogger profile image is required';
-            valid = false;
-        }
+        // if (!blogData.profileImg) {
+        //     newErrors.profileImg = 'Blogger profile image is required';
+        //     valid = false;
+        // }
 
-        if (!blogData.bloggerName.trim()) {
-            newErrors.bloggerName = 'Blogger name is required';
-            valid = false;
-        }
+        // if (!blogData.bloggerName.trim()) {
+        //     newErrors.bloggerName = 'Blogger name is required';
+        //     valid = false;
+        // }
 
-        if (!blogData.publishDate) {
-            newErrors.publishDate = 'Blog date is required';
-            valid = false;
-        }
+        // if (!blogData.publishDate) {
+        //     newErrors.publishDate = 'Blog date is required';
+        //     valid = false;
+        // }
 
         // Check if content is empty (React Quill returns '<p><br></p>' for empty content)
         const strippedContent = blogData.content.replace(/<[^>]*>/g, '').trim();

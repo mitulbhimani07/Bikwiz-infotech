@@ -33,6 +33,7 @@ import ClientApplicationDetails from './Pages/client/pages/ClientApplicantDetail
 import ClientSettings from './Pages/client/pages/ClientSettings'
 import ClientMessages from './Pages/client/pages/ClientMessages'
 import ClientSchedule from './Pages/client/pages/ClientSchedule'
+import FreelancerPublicProfile from './Pages/freelancer/Pages/FreelancerPublicProfile'
 
 function AllRoutes() {
   return (
@@ -73,6 +74,7 @@ function AllRoutes() {
         {/* <Route path='/' element={<ClientDashboard />} /> */}
         {/* Freelancer Dashboard */}
         <Route path='/FreelancerDashboard' element={<FreelancerDashboard />} />
+        <Route path='/freelancerPublicProfile' element={<FreelancerPublicProfile />} />
         
 
 
