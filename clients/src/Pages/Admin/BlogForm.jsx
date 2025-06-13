@@ -33,43 +33,23 @@ export default function BlogForm() {
     const [imagePreview, setImagePreview] = useState(null);
     const [profileImagePreview, setProfileImagePreview] = useState(null);
     const [isSubmitting, setIsSubmitting] = useState(false);
-    
-    const  [categories,setcategories]=useState([]);
+    const [categories, setCategories] = useState([]);
+    const [formKey, setFormKey] = useState(Date.now()); // Key to force form reset
 
     useEffect(() => {
-    const fetchCategories = async () => {
-        try {
-            const res = await Getcategory();
-            console.log('res--', res.data);
-            setcategories(res.data); // Make sure you actually set the state
-        } catch (error) {
-            toast.error("An unexpected error occurred");
-            console.error("Error:", error.message);
-        }
-    };
+        const fetchCategories = async () => {
+            try {
+                const res = await Getcategory();
+                setCategories(res.data);
+            } catch (error) {
+                toast.error("An unexpected error occurred");
+                console.error("Error:", error.message);
+            }
+        };
 
-    fetchCategories();
-}, []);
+        fetchCategories();
+    }, []);
 
-    // const categories = [
-    //     'Technology',
-    //     'Business',
-    //     'Health & Fitness',
-    //     'Travel',
-    //     'Food & Cooking',
-    //     'Lifestyle',
-    //     'Fashion',
-    //     'Education',
-    //     'Entertainment',
-    //     'Sports',
-    //     'Finance',
-    //     'Marketing',
-    //     'Design',
-    //     'Photography',
-    //     'Personal Development'
-    // ];
-
-    // React Quill modules configuration
     const quillModules = {
         toolbar: [
             [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
@@ -88,7 +68,6 @@ export default function BlogForm() {
         ],
     };
 
-    // React Quill formats
     const quillFormats = [
         'header', 'font', 'size',
         'bold', 'italic', 'underline', 'strike',
@@ -130,22 +109,6 @@ export default function BlogForm() {
             valid = false;
         }
 
-        // if (!blogData.profileImg) {
-        //     newErrors.profileImg = 'Blogger profile image is required';
-        //     valid = false;
-        // }
-
-        // if (!blogData.bloggerName.trim()) {
-        //     newErrors.bloggerName = 'Blogger name is required';
-        //     valid = false;
-        // }
-
-        // if (!blogData.publishDate) {
-        //     newErrors.publishDate = 'Blog date is required';
-        //     valid = false;
-        // }
-
-        // Check if content is empty (React Quill returns '<p><br></p>' for empty content)
         const strippedContent = blogData.content.replace(/<[^>]*>/g, '').trim();
         if (!strippedContent || strippedContent === '') {
             newErrors.content = 'Blog content is required';
@@ -163,17 +126,14 @@ export default function BlogForm() {
         const { name, value } = e.target;
         setBlogData({ ...blogData, [name]: value });
         
-        // Clear error when user starts typing
         if (errors[name]) {
             setErrors({ ...errors, [name]: '' });
         }
     };
 
-    // Handle React Quill content change
     const handleContentChange = (content) => {
         setBlogData({ ...blogData, content: content });
         
-        // Clear content error when user starts typing
         if (errors.content) {
             setErrors({ ...errors, content: '' });
         }
@@ -184,7 +144,6 @@ export default function BlogForm() {
         if (file) {
             setBlogData({ ...blogData, [fieldName]: file });
 
-            // Create preview
             const reader = new FileReader();
             reader.onloadend = () => {
                 if (fieldName === 'img') {
@@ -195,62 +154,13 @@ export default function BlogForm() {
             };
             reader.readAsDataURL(file);
             
-            // Clear error when file is selected
             if (errors[fieldName]) {
                 setErrors({ ...errors, [fieldName]: '' });
             }
         }
     };
 
-    const handleSubmit = async (e) => {
-    e.preventDefault();
-    
-    if (!validateForm()) {
-        toast.error("Please fill in all required fields");
-        return;
-    }
-
-    setIsSubmitting(true);
-
-    try {
-        // Create FormData for file upload
-        const formData = new FormData();
-        
-        // Append files
-        if (blogData.img) {
-            formData.append('img', blogData.img);
-        }
-        if (blogData.profileImg) {
-            formData.append('profileImg', blogData.profileImg);
-        }
-        
-        // Append other fields
-        formData.append('category', blogData.category);
-        formData.append('title', blogData.title);
-        formData.append('bloggerName', blogData.bloggerName);
-        formData.append('publishDate', blogData.publishDate);
-        formData.append('content', blogData.content);
-
-        // 🔍 DEBUGGING: Log all the data being sent
-        console.log("=== DEBUGGING FORM DATA ===");
-        console.log("Blog Data Object:", blogData);
-        console.log("FormData contents:");
-        for (let [key, value] of formData.entries()) {
-            if (key === 'img' || key === 'profileImg') {
-                console.log(key, "File:", value.name, "Size:", value.size, "Type:", value.type);
-            } else {
-                console.log(key, ":", value);
-            }
-        }
-        console.log("=== END DEBUGGING ===");
-        
-        // ✅ Pass FormData instead of blogData
-        const response = await AddBlog(formData);
-        
-        console.log("API Response:", response);
-        toast.success("Blog created successfully!");
-
-        // Reset form after successful submission
+    const resetForm = () => {
         setBlogData({
             img: null,
             category: '',
@@ -271,36 +181,48 @@ export default function BlogForm() {
             publishDate: '',
             content: ''
         });
+        setFormKey(Date.now()); // Update key to force re-render of file inputs
+    };
 
-    } catch (error) {
-        console.error("Error creating blog:", error);
+    const handleSubmit = async (e) => {
+        e.preventDefault();
         
-        // Handle different types of errors
-        if (error.response) {
-            // Server responded with error status
-            const errorMessage = error.response.data?.message || 'Failed to create blog';
-            toast.error(errorMessage);
-            console.error("Server Error:", error.response.data);
-            
-            // 🔍 DEBUGGING: Log server error details
-            console.log("=== SERVER ERROR DETAILS ===");
-            console.log("Status:", error.response.status);
-            console.log("Error Data:", error.response.data);
-            console.log("=== END SERVER ERROR ===");
-            
-        } else if (error.request) {
-            // Request was made but no response received
-            toast.error("Network error. Please check your connection.");
-            console.error("Network Error:", error.request);
-        } else {
-            // Something else happened
-            toast.error("An unexpected error occurred");
-            console.error("Error:", error.message);
+        if (!validateForm()) {
+            toast.error("Please fill in all required fields");
+            return;
         }
-    } finally {
-        setIsSubmitting(false);
-    }
-};
+
+        setIsSubmitting(true);
+
+        try {
+            const formData = new FormData();
+            
+            if (blogData.img) formData.append('img', blogData.img);
+            if (blogData.profileImg) formData.append('profileImg', blogData.profileImg);
+            formData.append('category', blogData.category);
+            formData.append('title', blogData.title);
+            formData.append('bloggerName', blogData.bloggerName);
+            formData.append('publishDate', blogData.publishDate);
+            formData.append('content', blogData.content);
+
+            const response = await AddBlog(formData);
+            
+            toast.success("Blog created successfully!");
+            resetForm();
+
+        } catch (error) {
+            console.error("Error creating blog:", error);
+            if (error.response) {
+                toast.error(error.response.data?.message || 'Failed to create blog');
+            } else if (error.request) {
+                toast.error("Network error. Please check your connection.");
+            } else {
+                toast.error("An unexpected error occurred");
+            }
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
 
     const handleSaveAsDraft = async () => {
         try {
@@ -316,12 +238,8 @@ export default function BlogForm() {
             draftData.append('isDraft', 'true');
             draftData.append('savedAt', new Date().toISOString());
 
-            console.log("Saving draft data:", draftData);
-            
-            // You might want to create a separate API endpoint for drafts
-            // const response = await SaveDraft(draftData);
-            
             toast.success("Blog saved as draft!");
+            resetForm();
 
         } catch (error) {
             console.error("Error saving draft:", error);
@@ -333,7 +251,6 @@ export default function BlogForm() {
         setTheme(theme === 'light' ? 'dark' : 'light');
     };
 
-    // Dynamic styles based on theme
     const bgColor = theme === 'light' ? 'bg-white' : 'bg-gray-950';
     const textColor = theme === 'light' ? 'text-gray-900' : 'text-white';
     const inputBgColor = theme === 'light' ? 'bg-white' : 'bg-gray-800';
@@ -413,7 +330,7 @@ export default function BlogForm() {
             </header>
 
             <div className={`min-h-screen ${pageBgColor} px-4 sm:px-6 lg:px-8 py-12 transition-colors duration-300`}>
-                <div className={`max-w-4xl mx-auto p-8 rounded-lg ${bgColor} ${textColor} transition-colors duration-300`}>
+                <div key={formKey} className={`max-w-4xl mx-auto p-8 rounded-lg ${bgColor} ${textColor} transition-colors duration-300`}>
                     <div className="text-center mb-8">
                         <h2 className="text-3xl font-bold">Create New Blog Post</h2>
                         <p className={`mt-2 ${theme === 'light' ? 'text-gray-600' : 'text-gray-400'}`}>
@@ -458,6 +375,7 @@ export default function BlogForm() {
                                                     accept="image/*"
                                                     onChange={(e) => handleFileChange(e, 'img')}
                                                     className="hidden"
+                                                    key={blogData.img ? blogData.img.name : 'default-img-key'}
                                                 />
                                             </label>
                                         </div>
@@ -480,20 +398,19 @@ export default function BlogForm() {
                                     Category
                                 </label>
                                 <select
-    id="category"
-    name="category"
-    value={blogData.category}
-    onChange={handleInputChange}
-    className={`appearance-none block w-full px-3 py-3 border ${errors.category ? "border-red-700" : inputBorderColor} rounded-md placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 ${inputBgColor} transition-colors duration-200`}
->
-    <option value="">Select a category</option>
-    {categories.map((category) => (
-        <option key={category._id} value={category._id}>
-            {category.categoryname}
-        </option>
-    ))}
-</select>
-
+                                    id="category"
+                                    name="category"
+                                    value={blogData.category}
+                                    onChange={handleInputChange}
+                                    className={`appearance-none block w-full px-3 py-3 border ${errors.category ? "border-red-700" : inputBorderColor} rounded-md placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 ${inputBgColor} transition-colors duration-200`}
+                                >
+                                    <option value="">Select a category</option>
+                                    {categories.map((category) => (
+                                        <option key={category._id} value={category._id}>
+                                            {category.categoryname}
+                                        </option>
+                                    ))}
+                                </select>
                                 {errors.category && (
                                     <div className="flex items-center mt-1 text-sm text-red-700">
                                         <FaExclamationTriangle className="w-4 h-4 mr-1" />
@@ -560,6 +477,7 @@ export default function BlogForm() {
                                                     accept="image/*"
                                                     onChange={(e) => handleFileChange(e, 'profileImg')}
                                                     className="hidden"
+                                                    key={blogData.profileImg ? blogData.profileImg.name : 'default-profile-key'}
                                                 />
                                             </label>
                                         </div>
