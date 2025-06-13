@@ -8,7 +8,7 @@ import logo from '../../../assets/images/logo.png';
 import client from '../../../assets/images/client.png';
 import { Link, useLocation } from 'react-router-dom';
 
-export default function ClientSidebar() {
+export default function FreelancerSidebar() {
   const location = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 

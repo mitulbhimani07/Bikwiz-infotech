@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { FiFacebook, FiTwitter, FiYoutube } from 'react-icons/fi';
 import { FaInstagram } from 'react-icons/fa';
 
-function ClientFooter() {
+function FreelancerFooter() {
   return (
     <footer className="bg-[#fff0e5] py-6 px-4">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0">
