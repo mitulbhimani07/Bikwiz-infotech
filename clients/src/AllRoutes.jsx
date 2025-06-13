@@ -60,19 +60,21 @@ function AllRoutes() {
         <Route path='/verifyemail' element={<VerifyEmail />} />
         <Route path='/verifyotp' element={<VerifyOTP />} />
         <Route path='/resetpassword' element={<ResetPassword />} />
-        <Route path='/FreelancerDashboard' element={<FreelancerDashboard />} />
         {/* Client Dashbord */}
         <Route path='/ClientDashboard' element={<ClientDashboard />} />
-        <Route path='/clientCompanyProfile' element={<ClientCompanyProfile/>}/>
-        <Route path='/clientAllApplications' element={<ClientAllApplications/>}/>
-        <Route path='/clientSchedule' element={<ClientSchedule/>}/>
-        <Route path='/clientJobListing' element={<ClientJobListing/>} />
-        <Route path="/clientHelpCenter" element={<ClientHelpCenter/>} />
-        <Route path='/clientApplicationDetails' element={<ClientApplicationDetails/>} />
+        <Route path='/clientCompanyProfile' element={<ClientCompanyProfile />} />
+        <Route path='/clientAllApplications' element={<ClientAllApplications />} />
+        <Route path='/clientSchedule' element={<ClientSchedule />} />
+        <Route path='/clientJobListing' element={<ClientJobListing />} />
+        <Route path="/clientHelpCenter" element={<ClientHelpCenter />} />
+        <Route path='/clientApplicationDetails' element={<ClientApplicationDetails />} />
         <Route path='/clientSettings' element={<ClientSettings />} />
-        <Route path='/ClientMessages'element={<ClientMessages/>} />
+        <Route path='/ClientMessages' element={<ClientMessages />} />
         {/* <Route path='/' element={<ClientDashboard />} /> */}
         {/* Freelancer Dashboard */}
+        <Route path='/FreelancerDashboard' element={<FreelancerDashboard />} />
+        
+
 
       </Routes>
 
