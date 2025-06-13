@@ -264,7 +264,7 @@ function CompanyProfile() {
                           </div>
                         </div>
                       ) : (
-                        <div className="text-gray-600 text-xs xs:text-sm sm:text-base md:text-lg leading-relaxed">
+                        <div className="text-gray-600 text-xs xs:text-sm sm:text-base md:text-md">
                           {profileData.description}
                         </div>
                       )}
