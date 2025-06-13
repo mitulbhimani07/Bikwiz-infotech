@@ -64,4 +64,4 @@ function FreelancerFooter() {
   );
 }
 
-export default ClientFooter;
+export default FreelancerFooter;
