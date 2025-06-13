@@ -134,7 +134,7 @@ export const AddBlogCategory = async (payload) => {
 
 export const AddBlog = async (payload) => {
     try {
-        const response = await axios.post("http://localhost:3000/blog/AddBlog", payload)
+        const response = await axios.post("https://bikwiz-infotech-ryep.vercel.app/", payload)
         return response.data
     } catch (error) {
         console.error("Error in AddBlog API:", {

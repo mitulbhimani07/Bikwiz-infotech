@@ -19,7 +19,9 @@ const mongoose = require('mongoose');
     .catch((err) => {
         console.log('Error connecting to the database:', err);
     });
-
+app.get('/', (req, res) => {
+  res.send('Server is Running is running...');
+});
 app.use('/client', require('./routes/Authentication/ClinetAuthRoutes'));
 app.use('/freelancer', require('./routes/Authentication/FreelancerAuthRoutes'));
 app.use('/contact',require('./routes/ContactRoutes'))
