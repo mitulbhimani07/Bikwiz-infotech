@@ -3,7 +3,7 @@ import { setEmails, setotp } from '../Redux/ReduxSlice';
 
 export const ClientSignup = async (payload) => {
     try {
-        const response = await axios.post("https://bikwiz-infotech-ryep.vercel.app//client/signup", payload);
+        const response = await axios.post("http://localhost:3000/client/signup", payload);
 
         console.log("clietsignup", response.data);
         return response.data;
@@ -15,7 +15,7 @@ export const ClientSignup = async (payload) => {
 
 export const FreelancerSignup = async (payload) => {
     try {
-        const response = await axios.post("https://bikwiz-infotech-ryep.vercel.app//freelancer/freelancersignup", payload);
+        const response = await axios.post("http://localhost:3000/freelancer/freelancersignup", payload);
 
         console.log("Freelancer", response.data);
         return response.data;
@@ -27,7 +27,7 @@ export const FreelancerSignup = async (payload) => {
 
 export const Signin = async (payload) => {
     try {
-        const response = await axios.post("https://bikwiz-infotech-ryep.vercel.app//client/signin", payload);
+        const response = await axios.post("http://localhost:3000/client/signin", payload);
 
         console.log("user", response.data);
         return response.data;
@@ -39,7 +39,7 @@ export const Signin = async (payload) => {
 
 export const verifyemail = async (payload, dispatch) => {
     try {
-        const response = await axios.post("https://bikwiz-infotech-ryep.vercel.app//client/verifyEmail", payload);
+        const response = await axios.post("http://localhost:3000/client/verifyEmail", payload);
 
         console.log("verifyemail", response.data.client.email);
         dispatch(setEmails(response.data.client.email))
@@ -52,7 +52,7 @@ export const verifyemail = async (payload, dispatch) => {
 
 export const verifyotp = async (payload, dispatch) => {
     try {
-        const response = await axios.post("https://bikwiz-infotech-ryep.vercel.app//client/verifyOtp", payload)
+        const response = await axios.post("http://localhost:3000/client/verifyOtp", payload)
 
         console.log("verifyOTP", response)
         dispatch(setotp(response.data.user.otp))
@@ -65,7 +65,7 @@ export const verifyotp = async (payload, dispatch) => {
 
 export const Resetpassword = async (payload) => {
     try {
-        const response = await axios.post("https://bikwiz-infotech-ryep.vercel.app//client/ResetPassword", payload)
+        const response = await axios.post("http://localhost:3000/client/ResetPassword", payload)
 
         console.log("resetpassword", response)
         return response.data
@@ -77,7 +77,7 @@ export const Resetpassword = async (payload) => {
 
 export const ContactUs = async (payload) => {
     try {
-        const response = await axios.post("https://bikwiz-infotech-ryep.vercel.app//contact/GetInTouch", payload)
+        const response = await axios.post("http://localhost:3000/contact/GetInTouch", payload)
 
         console.log("Contact Us", response);
         return response.data
@@ -89,7 +89,7 @@ export const ContactUs = async (payload) => {
 
 export const GoogleSignup = async (payload) => {
     try {
-        const response = await axios.post("https://bikwiz-infotech-ryep.vercel.app//client/googlesignup", payload)
+        const response = await axios.post("http://localhost:3000/client/googlesignup", payload)
 
         return response.data
     } catch (error) {
@@ -100,7 +100,7 @@ export const GoogleSignup = async (payload) => {
 
 export const Googlesignup = async (payload) => {
     try {
-        const response = await axios.post("https://bikwiz-infotech-ryep.vercel.app//freelancer/googlesignup", payload)
+        const response = await axios.post("http://localhost:3000/freelancer/googlesignup", payload)
 
         return response.data
     } catch (error) {
@@ -110,7 +110,7 @@ export const Googlesignup = async (payload) => {
 }
 export const GoogleSignin = async (payload) => {
     try {
-        const response = await axios.post("https://bikwiz-infotech-ryep.vercel.app//client/googlesignin", payload)
+        const response = await axios.post("http://localhost:3000/client/googlesignin", payload)
 
         return response.data
     } catch (error) {
@@ -121,7 +121,7 @@ export const GoogleSignin = async (payload) => {
 
 export const AddBlogCategory = async (payload) => {
     try {
-        const response = await axios.post("https://bikwiz-infotech-ryep.vercel.app//category/AddCategory", payload)
+        const response = await axios.post("http://localhost:3000/category/AddCategory", payload)
         return response.data
 
 
@@ -134,7 +134,7 @@ export const AddBlogCategory = async (payload) => {
 
 export const AddBlog = async (payload) => {
     try {
-        const response = await axios.post("https://bikwiz-infotech-ryep.vercel.app//blog/AddBlog", payload)
+        const response = await axios.post("http://localhost:3000/blog/AddBlog", payload)
         return response.data
     } catch (error) {
         console.error("Error in AddBlog API:", {
@@ -150,7 +150,7 @@ export const AddBlog = async (payload) => {
 
 export const Getcategory=async()=>{
     try{
-        const response=await axios.get('https://bikwiz-infotech-ryep.vercel.app//category/GetCategory');
+        const response=await axios.get('http://localhost:3000/category/GetCategory');
         return response.data;
     }catch(error){
         console.error("Error in Get Category API:", {
@@ -166,7 +166,7 @@ export const Getcategory=async()=>{
 
 export const GetAllBlogs = async () => {
     try {
-        const response = await axios.get("https://bikwiz-infotech-ryep.vercel.app//blog/getblog")
+        const response = await axios.get("https://bikwiz-infotech-ryep.vercel.app/blog/getblog")
         return response.data
     } catch (error) {
         console.error("Error in GetAllBlogs API:", error);
@@ -176,7 +176,7 @@ export const GetAllBlogs = async () => {
 
 export const GetSingleID=async (id) => {
     try {
-        const response = await axios.get(`https://bikwiz-infotech-ryep.vercel.app//blog/GetSingleBlog/${id}`)
+        const response = await axios.get(`http://localhost:3000/blog/GetSingleBlog/${id}`)
         return response.data
     } catch (error) {
         console.error("Error in GetSingleID API:", error);
