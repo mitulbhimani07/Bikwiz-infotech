@@ -166,7 +166,7 @@ export const Getcategory=async()=>{
 
 export const GetAllBlogs = async () => {
     try {
-        const response = await axios.get("http://localhost:3000/blog/getblog")
+        const response = await axios.get("https://bikwiz-infotech-ryep.vercel.app/blog/getblog")
         return response.data
     } catch (error) {
         console.error("Error in GetAllBlogs API:", error);

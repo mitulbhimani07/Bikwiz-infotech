@@ -191,7 +191,7 @@ function ClientSchedule() {
     <div className="flex-1 flex flex-col min-w-0">
       {/* Header */}
       <div className="sticky top-0 z-10">
-        <ClientHeaderx />
+        <ClientHeader />
       </div>
 
       {/* Body */}
