@@ -37,13 +37,16 @@ function ClientSchedule() {
     return week;
   };
 
-  const categories = [
-    { name: 'Interview Schedule', color: 'bg-orange-500', checked: true },
-    { name: 'Internal Meeting', color: 'bg-green-500', checked: true },
-    { name: 'Team Schedule', color: 'bg-blue-300', checked: false },
-    { name: 'My Task', color: 'bg-yellow-400', checked: false },
-    { name: 'Reminders', color: 'bg-purple-400', checked: false },
-  ];
+ const [categories, setCategories] = useState([
+  { name: 'Interview Schedule', color: 'bg-orange-500', checked: true },
+  { name: 'Internal Meeting', color: 'bg-green-500', checked: true },
+  { name: 'Team Schedule', color: 'bg-blue-300', checked: false },
+  { name: 'My Task', color: 'bg-yellow-400', checked: false },
+  { name: 'Reminders', color: 'bg-purple-400', checked: false },
+]);
+const [showCategoryForm, setShowCategoryForm] = useState(false);
+const [newCategory, setNewCategory] = useState({ name: '', color: 'bg-orange-500' });
+
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
@@ -305,13 +308,76 @@ function ClientSchedule() {
               <div className="pt-4">
                 <div className="flex justify-between items-center mb-3">
                   <h3 className="text-md font-semibold text-gray-800">Categories</h3>
-                  <button className="text-orange-500 text-md font-bold hover:text-orange-600">+ Add Category</button>
+                  <button
+  onClick={() => setShowCategoryForm(true)}
+  className="text-orange-500 text-md font-bold hover:text-orange-600"
+>
+  + Add Category
+</button>
+
                 </div>
+                {showCategoryForm && (
+  <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+    <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-md space-y-4">
+      <h2 className="text-lg font-bold text-gray-800">Add New Category</h2>
+      <input
+        type="text"
+        placeholder="Category Name"
+        value={newCategory.name}
+        onChange={(e) => setNewCategory({ ...newCategory, name: e.target.value })}
+        className="w-full px-4 py-2 border border-gray-300 rounded"
+      />
+      <div className="flex items-center justify-between gap-4">
+  <label className="text-gray-700 font-medium">Pick Color:</label>
+  <input
+    type="color"
+    value={newCategory.color}
+    onChange={(e) => setNewCategory({ ...newCategory, color: e.target.value })}
+    className="w-12 h-10 border border-gray-300 rounded cursor-pointer"
+  />
+  <div
+    className="flex-1 h-10 rounded text-white flex items-center justify-center text-sm font-semibold"
+    style={{ backgroundColor: newCategory.color }}
+  >
+    {newCategory.name || 'Preview'}
+  </div>
+</div>
+
+      <div className="flex justify-end space-x-3 pt-4 border-t">
+        <button onClick={() => setShowCategoryForm(false)} className="text-gray-600">Cancel</button>
+        <button
+          onClick={() => {
+            if (newCategory.name.trim()) {
+              setCategories([...categories, { ...newCategory, checked: true }]);
+              setNewCategory({ name: '', color: 'bg-orange-500' });
+              setShowCategoryForm(false);
+            }
+          }}
+          className="bg-orange-500 text-white px-4 py-1 rounded hover:bg-orange-600"
+        >
+          Add
+        </button>
+      </div>
+    </div>
+  </div>
+)}
+
 
                 <div className="space-y-2">
-                  {categories.map((cat, idx) => (
-                    <CategoryItem key={idx} name={cat.name} color={cat.color} checked={cat.checked} />
-                  ))}
+                 {categories.map((cat, idx) => (
+  <CategoryItem
+    key={idx}
+    name={cat.name}
+    color={cat.color}
+    checked={cat.checked}
+    onToggle={() => {
+      const updated = [...categories];
+      updated[idx].checked = !updated[idx].checked;
+      setCategories(updated);
+    }}
+  />
+))}
+
                 </div>
               </div>
             </div>
@@ -514,22 +580,20 @@ function ClientSchedule() {
 function EventModal({ isOpen, onClose, onSave, onDelete, event, mode }) {
   const [formData, setFormData] = useState({
     title: event?.title || '',
-    description: event?.description || '',
     date: event?.date || new Date().toISOString().split('T')[0],
     startTime: event?.startTime || '09:00',
     endTime: event?.endTime || '10:00',
     location: event?.location || '',
     attendees: event?.attendees || '',
-    category: event?.category || 'Interview Schedule',
     color: event?.color || 'bg-orange-500'
   });
 
   const categories = [
-    { name: 'Interview Schedule', color: 'bg-orange-500' },
-    { name: 'Internal Meeting', color: 'bg-green-500' },
-    { name: 'Team Schedule', color: 'bg-blue-300' },
-    { name: 'My Task', color: 'bg-yellow-400' },
-    { name: 'Reminders', color: 'bg-purple-400' },
+    { name: 'Orange', color: 'bg-orange-500' },
+    { name: 'Green', color: 'bg-green-500' },
+    { name: 'Blue', color: 'bg-blue-300' },
+    { name: 'Yellow', color: 'bg-yellow-400' },
+    { name: 'Purple', color: 'bg-purple-400' },
   ];
 
   const handleSubmit = (e) => {
@@ -579,20 +643,7 @@ function EventModal({ isOpen, onClose, onSave, onDelete, event, mode }) {
         />
       </div>
 
-      {/* Description */}
-      <div>
-        <label className="flex items-center space-x-2 font-medium text-gray-700 mb-2">
-          <FileText className="w-4 h-4" />
-          <span>Description</span>
-        </label>
-        <textarea
-          value={formData.description}
-          onChange={(e) => handleChange('description', e.target.value)}
-          rows={3}
-          className="w-full px-4 py-2.5 sm:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-          placeholder="Event description (optional)"
-        />
-      </div>
+     
 
       {/* Date and Time Row */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
@@ -664,14 +715,14 @@ function EventModal({ isOpen, onClose, onSave, onDelete, event, mode }) {
       <div>
         <label className="flex items-center space-x-2 font-medium text-gray-700 mb-2">
           <User className="w-4 h-4" />
-          <span>Attendees</span>
+          <span>Guest</span>
         </label>
         <input
           type="text"
           value={formData.attendees}
           onChange={(e) => handleChange('attendees', e.target.value)}
           className="w-full px-4 py-2.5 sm:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-          placeholder="Add attendees (comma separated)"
+          placeholder="Add Guest"
         />
       </div>
 
@@ -679,10 +730,10 @@ function EventModal({ isOpen, onClose, onSave, onDelete, event, mode }) {
       <div>
         <label className="flex items-center space-x-2 font-medium text-gray-700 mb-2">
           <Tag className="w-4 h-4" />
-          <span>Category</span>
+          <span>Color</span>
         </label>
         <select
-          value={formData.category}
+          value={formData.color}
           onChange={(e) => {
             const selectedCategory = categories.find(cat => cat.name === e.target.value);
             handleChange('category', e.target.value);
@@ -741,7 +792,7 @@ function EventModal({ isOpen, onClose, onSave, onDelete, event, mode }) {
 }
 
 // Draggable Category Item Component
-function CategoryItem({ name, color, checked }) {
+function CategoryItem({ name, color, checked, onToggle }) {
   const [{ isDragging }, drag] = useDrag(() => ({
     type: ItemTypes.CATEGORY,
     item: { name, color },
@@ -749,20 +800,19 @@ function CategoryItem({ name, color, checked }) {
   }));
 
   return (
-   <div
-  ref={drag}
-  className={`flex items-center flex-wrap sm:flex-nowrap gap-2 sm:gap-3 cursor-move transition-opacity ${isDragging ? 'opacity-50' : 'opacity-100'}`}
->
-  <div
-    className={`w-5 h-5 flex items-center justify-center rounded border ${checked ? color : 'border-orange-400'}`}
-  >
-    {checked && <Check className="w-4 h-4 text-white" />}
-  </div>
-  <span className="text-sm sm:text-base text-gray-600 break-words">{name}</span>
-</div>
-
+    <div
+      ref={drag}
+      className={`flex items-center flex-wrap sm:flex-nowrap gap-2 cursor-pointer transition-opacity ${isDragging ? 'opacity-50' : 'opacity-100'}`}
+      onClick={onToggle}
+    >
+      <div className={`w-5 h-5 flex items-center justify-center rounded border ${checked ? color : 'border-orange-400'}`}>
+        {checked && <Check className="w-4 h-4 text-white" />}
+      </div>
+      <span className="text-sm text-gray-600">{name}</span>
+    </div>
   );
 }
+
 
 // Drop Target Day Cell Component for Month View
 function DayCell({ date, events, onDrop, onEventClick }) {
