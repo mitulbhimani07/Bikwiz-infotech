@@ -2,7 +2,7 @@ const EventModel = require('../../Model/ClientDashboard/EventModel');
 module.exports.CreateEvent = async (req, res) => {
     try {
         // console.log("Creating event with data:", req.body);
-        const EventData = EventModel.create({
+        const EventData =await EventModel.create({
             title: req.body.title,
             startTime: req.body.startTime,
             endTime: req.body.endTime,
@@ -24,7 +24,10 @@ module.exports.CreateEvent = async (req, res) => {
             }
         });
         console.log("Event created successfully:", EventData);
-        res.status(201).json({ message: "Event created successfully", event: EventData });
+        res.status(201).json({
+             message: "Event created successfully", 
+              EventData
+             });
         
     } catch (error) {
         console.error("Error creating event:", error);
