@@ -37,9 +37,17 @@ module.exports.CreateEvent = async (req, res) => {
 }
 module.exports.GetAllEvents = async (req, res) => {
     try {
-        const Events = await EventModel.find({ clientId: req.user });
-        console.log("Fetched events:", Events);
-        res.status(200).json({ message: "Events fetched successfully", events: Events });
+       const clientId = req.params.id; // Assuming client ID is passed as a URL parameter
+        console.log("Fetching events for client ID:", clientId);
+        
+        const events = await EventModel.find({ clientId: clientId })ient ;
+        
+        if (!events || events.length === 0) {
+            return res.status(404).json({ message: "No events found for this client" });
+        }
+        
+        console.log("Events fetched successfully:", events);
+        res.status(200).json(events);
         
     } catch (error) {
         console.error("Error fetching events:", error);
