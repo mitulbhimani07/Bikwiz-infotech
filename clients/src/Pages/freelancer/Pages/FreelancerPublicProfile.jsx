@@ -11,16 +11,16 @@ function FreelancerPublicProfile() {
 
     return (
         <div className="min-h-screen flex flex-col lg:flex-row bg-[#fff0e5]">
-              <div className="  lg:block lg:sticky lg:top-0 lg:left-0 lg:h-screen lg:flex-shrink-0">
-                      <FreelancerSidebar />
-                    </div>
-        
-        
-                     <div className="flex flex-col flex-1 min-w-0">
-                            {/* Header */}
-                            <div className="sticky top-0 z-10">
-                              <FreelancerHeader />
-                            </div>
+            <div className="  lg:block lg:sticky lg:top-0 lg:left-0 lg:h-screen lg:flex-shrink-0">
+                <FreelancerSidebar />
+            </div>
+
+
+            <div className="flex flex-col flex-1 min-w-0">
+                {/* Header */}
+                <div className="sticky top-0 z-10">
+                    <FreelancerHeader />
+                </div>
 
                 <main className="flex-1 overflow-y-auto px-4 sm:px-6 py-6  ">
                     <div className="max-w-7xl mx-auto bg-white p-6 rounded-3xl">
@@ -31,37 +31,40 @@ function FreelancerPublicProfile() {
                                 <div className="bg-white  shadow-sm overflow-hidden">
                                     {/* Purple Gradient Header */}
                                     <div>
-                                    <img src={profilebg} className="h-32 w-[800px]" />
+                                        <img src={profilebg} className="h-32 w-[800px]" />
                                         <button className="absolute top-4 right-4 p-2 bg-white/20 rounded-lg hover:bg-white/30 transition-colors">
                                             <Edit className="w-4 h-4 text-white" />
                                         </button>
                                     </div>
-                                    
+
                                     {/* Profile Info */}
-                                    <div className="px-6 pb-6">
-                                        <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between -mt-16 relative ">
-                                            <div className="flex flex-col sm:flex-row sm:items-end space-y-4 sm:space-y-0 sm:space-x-4">
-                                                <div className="w-24 h-24 rounded-full bg-white p-1 shadow-lg">
-                                                    <img 
-                                                        src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face" 
-                                                        alt="Jake Gyll" 
+                                    <div className="px-4 pb-6">
+                                        <div className=" sm:flex-row sm:items-end sm:justify-between -mt-16 relative ">
+                                            <div className=" sm:flex-row sm:items-end space-y-4 sm:space-y-0 sm:space-x-4">
+                                                <div className="w-26 h-26 rounded-full bg-white p-1 shadow-lg">
+                                                    <img
+                                                        src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face"
+                                                        alt="Jake Gyll"
                                                         className="w-full h-full rounded-full object-cover"
                                                     />
                                                 </div>
-                                                <div className="text-center sm:text-left ">
-                                                    <h1 className="text-2xl font-bold text-gray-900">Jake Gyll</h1>
-                                                    <p className="text-gray-600">Product Designer at Twitter</p>
-                                                    <p className="text-gray-500 flex items-center justify-center sm:justify-start mt-1">
-                                                        <span className="w-2 h-2 bg-gray-400 rounded-full mr-2"></span>
-                                                        Manchester, UK
-                                                    </p>
+                                                <div className='flex justify-between items-center w-full sm:w-auto space-y-2 sm:space-y-0 sm:space-x-4'>
+                                                    <div className="text-center sm:text-left pl-[80px] ">
+                                                        <h1 className="text-2xl font-bold text-gray-900">Jake Gyll</h1>
+                                                        <p className="text-gray-600">Product Designer at Twitter</p>
+                                                        <p className="text-gray-500 flex items-center justify-center sm:justify-start mt-1">
+                                                            <span className="w-2 h-2 bg-gray-400 rounded-full mr-2"></span>
+                                                            Manchester, UK
+                                                        </p>
+                                                    </div>
+
+                                                    <button className="mt-4 sm:mt-0 px-6 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors font-medium">
+                                                        Edit Profile
+                                                    </button>
                                                 </div>
                                             </div>
-                                            <button className="mt-4 sm:mt-0 px-6 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors font-medium">
-                                                Edit Profile
-                                            </button>
                                         </div>
-                                        
+
                                         <div className="mt-6 flex justify-center sm:justify-start">
                                             <div className="bg-teal-50 text-teal-700 px-4 py-2 rounded-full text-sm font-medium flex items-center">
                                                 <div className="w-2 h-2 bg-teal-500 rounded-full mr-2"></div>
@@ -93,7 +96,7 @@ function FreelancerPublicProfile() {
                                             <Plus className="w-4 h-4" />
                                         </button>
                                     </div>
-                                    
+
                                     <div className="space-y-6">
                                         {/* Twitter Experience */}
                                         <div className="flex space-x-4">
@@ -140,7 +143,7 @@ function FreelancerPublicProfile() {
                                         </div>
                                     </div>
 
-                                    <button 
+                                    <button
                                         onClick={() => setShowAllExperiences(!showAllExperiences)}
                                         className="mt-6 text-orange-500 hover:text-orange-600 font-medium"
                                     >
@@ -156,7 +159,7 @@ function FreelancerPublicProfile() {
                                             <Plus className="w-4 h-4" />
                                         </button>
                                     </div>
-                                    
+
                                     <div className="space-y-6">
                                         {/* Harvard University */}
                                         <div className="flex space-x-4">
@@ -202,7 +205,7 @@ function FreelancerPublicProfile() {
                                         </div>
                                     </div>
 
-                                    <button 
+                                    <button
                                         onClick={() => setShowAllEducations(!showAllEducations)}
                                         className="mt-6 text-orange-500 hover:text-orange-600 font-medium"
                                     >
@@ -223,7 +226,7 @@ function FreelancerPublicProfile() {
                                             </button>
                                         </div>
                                     </div>
-                                    
+
                                     <div className="flex flex-wrap gap-3">
                                         <span className="px-4 py-2 bg-orange-100 text-orange-800 rounded-full text-sm font-medium">Communication</span>
                                         <span className="px-4 py-2 bg-orange-100 text-orange-800 rounded-full text-sm font-medium">Analytics</span>
@@ -241,7 +244,7 @@ function FreelancerPublicProfile() {
                                             <Plus className="w-4 h-4" />
                                         </button>
                                     </div>
-                                    
+
                                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                                         {/* Portfolio Item 1 */}
                                         <div className="group cursor-pointer">
@@ -326,7 +329,7 @@ function FreelancerPublicProfile() {
                                             <Edit className="w-4 h-4" />
                                         </button>
                                     </div>
-                                    
+
                                     <div className="space-y-4">
                                         <div className="flex items-center space-x-3">
                                             <Mail className="w-4 h-4 text-gray-400" />
@@ -335,7 +338,7 @@ function FreelancerPublicProfile() {
                                                 <p className="text-sm text-gray-900">jakegyll@email.com</p>
                                             </div>
                                         </div>
-                                        
+
                                         <div className="flex items-center space-x-3">
                                             <Phone className="w-4 h-4 text-gray-400" />
                                             <div>
@@ -343,7 +346,7 @@ function FreelancerPublicProfile() {
                                                 <p className="text-sm text-gray-900">+44 1245 572 135</p>
                                             </div>
                                         </div>
-                                        
+
                                         <div className="flex items-center space-x-3">
                                             <Globe className="w-4 h-4 text-gray-400" />
                                             <div>
@@ -362,7 +365,7 @@ function FreelancerPublicProfile() {
                                             <Edit className="w-4 h-4" />
                                         </button>
                                     </div>
-                                    
+
                                     <div className="space-y-4">
                                         <div className="flex items-center space-x-3">
                                             <Instagram className="w-4 h-4 text-gray-400" />
@@ -371,7 +374,7 @@ function FreelancerPublicProfile() {
                                                 <p className="text-sm text-orange-500">instagram.com/jakegyll</p>
                                             </div>
                                         </div>
-                                        
+
                                         <div className="flex items-center space-x-3">
                                             <Twitter className="w-4 h-4 text-gray-400" />
                                             <div>
@@ -379,7 +382,7 @@ function FreelancerPublicProfile() {
                                                 <p className="text-sm text-orange-500">twitter.com/jakegyll</p>
                                             </div>
                                         </div>
-                                        
+
                                         <div className="flex items-center space-x-3">
                                             <Globe className="w-4 h-4 text-gray-400" />
                                             <div>
@@ -395,7 +398,7 @@ function FreelancerPublicProfile() {
                 </main>
 
                 {/* Footer Placeholder */}
-                <FreelancerFooter/>
+                <FreelancerFooter />
             </div>
         </div>
     )
