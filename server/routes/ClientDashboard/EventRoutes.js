@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const eventController = require("../../controller/ClientDashboard/EventController");
-
-router.post("/create-event", eventController.CreateEvent);
-router.get("/get-all-events", eventController.GetAllEvents);
+const authenticateToken = require("../../MiddleWare/jwt");
+router.post("/create-event", authenticateToken , eventController.CreateEvent);
+router.get("/get-all-events", authenticateToken ,eventController.GetAllEvents);
 
 module.exports = router
