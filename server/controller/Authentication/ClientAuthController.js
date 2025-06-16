@@ -60,6 +60,7 @@ module.exports.Clientview = async (req, res) => {
 
 module.exports.SingleClientview = async (req, res) => {
     try {
+        
         const client = await ClientModel.findById(req.params.id).select('-password'); // Exclude password
         if (!client) {
             return res.status(404).json({ message: "Client not found" });

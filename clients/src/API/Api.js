@@ -142,23 +142,23 @@ export const AddBlog = async (payload) => {
             status: error.response?.status,
             data: error.response?.data
         });
-        
+
         // Throw a more manageable error
         throw new Error(error.response?.data?.message || error.message || "Failed to add blog");
     }
 }
 
-export const Getcategory=async()=>{
-    try{
-        const response=await axios.get('http://localhost:3000/category/GetCategory');
+export const Getcategory = async () => {
+    try {
+        const response = await axios.get('http://localhost:3000/category/GetCategory');
         return response.data;
-    }catch(error){
+    } catch (error) {
         console.error("Error in Get Category API:", {
             message: error.message,
             status: error.response?.status,
             data: error.response?.data
         });
-        
+
         // Throw a more manageable error
         throw new Error(error.response?.data?.message || error.message || "Failed to add blog");
     }
@@ -174,10 +174,28 @@ export const GetAllBlogs = async () => {
     }
 }
 
-export const GetSingleID=async (id) => {
+export const GetSingleID = async (id) => {
     try {
         const response = await axios.get(`http://localhost:3000/blog/GetSingleBlog/${id}`)
         return response.data
+    } catch (error) {
+        console.error("Error in GetSingleID API:", error);
+        throw error;
+    }
+}
+
+export const CreateEvent = async (payload) => {
+    const token = localStorage.getItem("token");
+    try {
+        const response = await axios.post("http://localhost:3000/clientdashboard/create-event", payload, {
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            }
+        });
+
+        return response.data;
+
     } catch (error) {
         console.error("Error in GetSingleID API:", error);
         throw error;
