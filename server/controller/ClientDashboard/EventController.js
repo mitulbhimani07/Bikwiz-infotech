@@ -40,7 +40,7 @@ module.exports.GetAllEvents = async (req, res) => {
        const clientId = req.params.id; // Assuming client ID is passed as a URL parameter
         console.log("Fetching events for client ID:", clientId);
         
-        const events = await EventModel.find({ clientId: clientId })ient ;
+        const events = await EventModel.find({ clientId: clientId });
         
         if (!events || events.length === 0) {
             return res.status(404).json({ message: "No events found for this client" });
