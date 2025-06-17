@@ -95,13 +95,14 @@ export default function SignIn() {
 
     try {
       const res = await Signin(signin);
-      console.log("Response:", res);
+      console.log("Response:", res.data._id);
+      localStorage.setItem('token', res.token);
       toast.success("SignIn Successfully!!!")
 
       const role = res.role;
 
       if (role == 'client') {
-        navigate('/ClientDashboard')
+        navigate("/ClientDashboard"); // Redirect to Client Dashboard with user ID
       } else {
         navigate('/FreelancerDashboard')
       }
