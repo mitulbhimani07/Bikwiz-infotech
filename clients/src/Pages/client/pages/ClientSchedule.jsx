@@ -9,6 +9,8 @@ import ClientHeader from '../navbar/ClientHeader';
 import ClientFooter from '../navbar/ClientFooter';
 import { AddEventCategory, GetEventCategory } from '../../../API/Api';
 import toast from 'react-hot-toast';
+import { CreateEvent, GetEvents } from '../../../API/Api';
+import { useAuth } from './Context/AuthContext';
 
 const ItemTypes = { CATEGORY: 'category' };
 
@@ -25,6 +27,33 @@ function ClientSchedule() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [modalMode, setModalMode] = useState('create'); // 'create' or 'edit'
+  const { clientId } = useAuth();
+  const [eventts, setEventts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+   useEffect(() => {
+    console.log("Client ID from context:", clientId);
+  }, [clientId]);
+
+  useEffect(() => {
+    const fetchEvents = async () => {
+      if (clientId) {
+      const Getevent=await GetEvents(clientId)
+        .then((data) => {
+          setEventts(data);
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.error("Failed to fetch events", error);
+          setLoading(false);
+        });
+    }
+    }
+    fetchEvents();
+
+    console.log("get events", eventts);
+    
+  }, [clientId]);
 
   const getCurrentWeekDates = () => {
     const currentDay = selectedDate.getDay();
