@@ -1,4 +1,4 @@
-import React, { useEffect, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDrag, useDrop, DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { Check, ChevronLeft, ChevronRight, X, Calendar as CalendarIcon, Clock, User, FileText, Tag, Plus } from 'lucide-react';
@@ -9,11 +9,8 @@ import ClientHeader from '../navbar/ClientHeader';
 import ClientFooter from '../navbar/ClientFooter';
 import { AddEventCategory, GetEventCategory } from '../../../API/Api';
 import toast from 'react-hot-toast';
-import { CreateEvent, GetEvents } from '../../../API/Api';
-import { useAuth } from './Context/AuthContext';
 
 const ItemTypes = { CATEGORY: 'category' };
-
 
 // Mock components for sidebar and header
 
@@ -28,36 +25,6 @@ function ClientSchedule() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [modalMode, setModalMode] = useState('create'); // 'create' or 'edit'
-  const { clientId } = useAuth();
-  const [eventts, setEventts] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-
-  useEffect(() => {
-    console.log("Client ID from context:", clientId);
-  }, [clientId]);
-
-  useEffect(() => {
-    const fetchEvents = async () => {
-      if (clientId) {
-      const Getevent=await GetEvents(clientId)
-        .then((data) => {
-          setEventts(data);
-          setLoading(false);
-        })
-        .catch((error) => {
-          console.error("Failed to fetch events", error);
-          setLoading(false);
-        });
-    }
-    }
-    fetchEvents();
-    
-
-    console.log("get events", eventts);
-    
-  }, [clientId]);
-
 
   const getCurrentWeekDates = () => {
     const currentDay = selectedDate.getDay();
@@ -72,16 +39,16 @@ function ClientSchedule() {
     return week;
   };
 
-  const [categories, setCategories] = useState(
-    // { name: 'Interview Schedule', color: 'bg-orange-500', checked: true },
-    // { name: 'Internal Meeting', color: 'bg-green-500', checked: true },
-    // { name: 'Team Schedule', color: 'bg-blue-300', checked: false },
-    // { name: 'My Task', color: 'bg-yellow-400', checked: false },
-    // { name: 'Reminders', color: 'bg-purple-400', checked: false },
-    { CategoryName: '', color: '' }
+ const [categories, setCategories] = useState(
+  // { name: 'Interview Schedule', color: 'bg-orange-500', checked: true },
+  // { name: 'Internal Meeting', color: 'bg-green-500', checked: true },
+  // { name: 'Team Schedule', color: 'bg-blue-300', checked: false },
+  // { name: 'My Task', color: 'bg-yellow-400', checked: false },
+  // { name: 'Reminders', color: 'bg-purple-400', checked: false },
+  { CategoryName: '', color: '' }
 );
-  const [showCategoryForm, setShowCategoryForm] = useState(false);
-//   const [newCategory, setNewCategory] = useState({ CategoryName: '', color: '' });
+const [showCategoryForm, setShowCategoryForm] = useState(false);
+// const [newCategory, setNewCategory] = useState({ CategoryName: '', color: '' });
 const [Allcategory,setAllcategory]=useState([])
 
 useEffect(() => {
@@ -356,11 +323,11 @@ function formatTimeSlot(timeSlot) {
 
  return (
     <DndProvider backend={HTML5Backend}>
-          <div className="min-h-screen flex flex-col lg:flex-row bg-[#fff0e5]">
-            {/* Sidebar */}
-            <div className="lg:w-[300px] lg:block lg:sticky lg:top-0">
-              <ClientSidbar />
-            </div>
+      <div className="min-h-screen flex flex-col lg:flex-row bg-[#fff0e5]">
+        {/* Sidebar */}
+        <div className="lg:w-[300px] lg:block lg:sticky lg:top-0">
+          <ClientSidbar />
+        </div>
 
         {/* Main Content */}
         <div className="flex-1 flex flex-col min-w-0">
@@ -406,18 +373,6 @@ function formatTimeSlot(timeSlot) {
                     <ChevronRight className="w-5 h-5" />
                   </button>
                 </div>
-                {/* Month Navigation */}
-                <div className="flex items-center gap-2">
-                  <button onClick={() => navigateMonth('prev')} className="p-2 text-orange-500 hover:bg-orange-50 rounded">
-                    <ChevronLeft className="w-5 h-5" />
-                  </button>
-                  <h2 className="text-sm md:text-md font-semibold text-gray-800 uppercase tracking-wide">
-                    {selectedDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
-                  </h2>
-                  <button onClick={() => navigateMonth('next')} className="p-2 text-orange-500 hover:bg-orange-50 rounded">
-                    <ChevronRight className="w-5 h-5" />
-                  </button>
-                </div>
 
                 {/* View Type Switch */}
                 <div className="flex gap-2">
@@ -435,16 +390,16 @@ function formatTimeSlot(timeSlot) {
                 </div>
               </div>
 
-                  {/* Main Layout Grid */}
-                  <div className="flex flex-col lg:flex-row border border-orange-400 overflow-hidden">
-                    {/* Sidebar Panel */}
-                    <div className="lg:w-[300px] border-r border-orange-200 p-4 space-y-6">
-                      <button
-                        onClick={handleCreateEvent}
-                        className="w-full text-orange-600 border border-orange-500 py-2 rounded font-medium hover:bg-orange-100 transition"
-                      >
-                        + Create Event
-                      </button>
+              {/* Main Layout Grid */}
+              <div className="flex flex-col lg:flex-row border border-orange-400 overflow-hidden">
+                {/* Sidebar Panel */}
+                <div className="lg:w-[300px] border-r border-orange-200 p-4 space-y-6">
+                  <button
+                    onClick={handleCreateEvent}
+                    className="w-full text-orange-600 border border-orange-500 py-2 rounded font-medium hover:bg-orange-100 transition"
+                  >
+                    + Create Event
+                  </button>
 
                   {/* Inline Calendar */}
                   <div className="-mx-4 border-b border-orange-400">
@@ -530,44 +485,6 @@ function formatTimeSlot(timeSlot) {
                                 {categories.CategoryName || 'Preview'}
                               </div>
                             </div>
-                  {/* Categories */}
-                  <div className="pt-4">
-                    <div className="flex justify-between items-center mb-3">
-                      <h3 className="text-md font-semibold text-gray-800">Categories</h3>
-                      <button
-                        onClick={() => setShowCategoryForm(true)}
-                        className="text-orange-500 text-md font-bold hover:text-orange-600"
-                      >
-                        + Add Category
-                      </button>
-
-                    </div>
-                    {showCategoryForm && (
-                      <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
-                        <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-md space-y-4">
-                          <h2 className="text-lg font-bold text-gray-800">Add New Category</h2>
-                          <input
-                            type="text"
-                            placeholder="Category Name"
-                            value={newCategory.name}
-                            onChange={(e) => setNewCategory({ ...newCategory, name: e.target.value })}
-                            className="w-full px-4 py-2 border border-gray-300 rounded"
-                          />
-                          <div className="flex items-center justify-between gap-4">
-                            <label className="text-gray-700 font-medium">Pick Color:</label>
-                            <input
-                              type="color"
-                              value={newCategory.color}
-                              onChange={(e) => setNewCategory({ ...newCategory, color: e.target.value })}
-                              className="w-12 h-10 border border-gray-300 rounded cursor-pointer"
-                            />
-                            <div
-                              className="flex-1 h-10 rounded text-white flex items-center justify-center text-sm font-semibold"
-                              style={{ backgroundColor: newCategory.color }}
-                            >
-                              {newCategory.name || 'Preview'}
-                            </div>
-                          </div>
 
                             <div className="flex justify-end space-x-3 pt-4 border-t">
                               <button 
@@ -633,14 +550,6 @@ function formatTimeSlot(timeSlot) {
                         ))}
                       </div>
 
-                      {/* Week Grid */}
-                      <div className="bg-white">
-                        {timeSlots.slice(0, 11).map((time, i) => (
-                          <div key={i} className="grid grid-cols-8 min-h-[50px] text-sm">
-                            <div className="p-2 text-right text-gray-500 border-r border-orange-400">{time}</div>
-                            {weekDates.map((date, dayIdx) => {
-                              const dateKey = date.toDateString();
-                              const timeSlotEvents = events.week[dateKey]?.[time] || [];
                       {/* Week Grid */}
                       <div className="bg-white">
                         {timeSlots.slice(0, 11).map((time, i) => (
@@ -761,22 +670,6 @@ function formatTimeSlot(timeSlot) {
                                 />
                               );
                             }
-                            // Days of the month
-                            for (let d = 1; d <= end.getDate(); d++) {
-                              const date = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), d);
-                              const key = date.toDateString();
-                              days.push(
-                                <DayCell
-                                  key={key}
-                                  date={date}
-                                  events={events.month[d] || []}
-                                  onDrop={handleMonthDrop}
-                                  onEventClick={(event, index) =>
-                                    handleEventClick(event, index, { type: 'month', day: d })
-                                  }
-                                />
-                              );
-                            }
 
                             // Empty cells at the end of the month
                             const remaining = (start.getDay() + end.getDate()) % 7;
@@ -830,12 +723,9 @@ function EventModal({ isOpen, onClose, onSave, onDelete, event, mode }) {
     startTime: event?.startTime || '09:00',
     endTime: event?.endTime || '10:00',
     location: event?.location || '',
-    guest: event?.guest || '',
-    category: event?.category || 'Orange',
-    color: event?.color || 'bg-orange-500',
+    attendees: event?.attendees || '',
+    color: event?.color || 'bg-orange-500'
   });
-
-  const [loading, setLoading] = useState(false);
 
   const categories = [
     { name: 'Orange', color: 'bg-orange-500' },
@@ -845,226 +735,197 @@ function EventModal({ isOpen, onClose, onSave, onDelete, event, mode }) {
     { name: 'Purple', color: 'bg-purple-400' },
   ];
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-  };
-
-  const handleCategoryChange = (e) => {
-    const selected = categories.find(cat => cat.name === e.target.value);
-    setFormData(prev => ({
-      ...prev,
-      category: selected.name,
-      color: selected.color,
-    }));
-  };
-
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    setLoading(true);
+    onSave(formData);
+  };
 
-    const payload = {
-      ...formData,
-      guest: formData.guest.split(',').map(g => g.trim()),
-      clientId: 'yourClientId',
-      notifications: {
-        twoDaysBefore: true,
-        dayOf: true,
-        oneHourBefore: true,
-      },
-      notified: {
-        twoDaysBefore: false,
-        dayOf: false,
-        oneHourBefore: false,
-      },
-    };
-
-    try {
-      const response = await CreateEvent(payload);
-      console.log("event", response);
-      console.log("Event created successfully", response);
-
-      onSave(response);
-      onClose();
-    } catch (error) {
-      console.error('Event creation failed', error);
-    } finally {
-      setLoading(false);
-    }
+  const handleChange = (field, value) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
   };
 
   if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 bg-white/30 backdrop-blur-sm flex items-center justify-center z-50 p-4 sm:p-6">
-      <div className="bg-white rounded-xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
-        {/* Header */}
-        <div className="flex items-center justify-between p-4 sm:p-6 border-b border-gray-200">
-          <h2 className="text-xl sm:text-2xl font-bold text-gray-900">
-            {mode === 'create' ? 'Create New Event' : 'Edit Event'}
-          </h2>
-          <button onClick={onClose} className="p-2 hover:bg-gray-100 rounded-full transition-colors">
-            <X className="w-5 h-5 text-gray-500" />
-          </button>
+  <div className="bg-white rounded-xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+    
+    {/* Header */}
+    <div className="flex items-center justify-between p-4 sm:p-6 border-b border-gray-200">
+      <h2 className="text-xl sm:text-2xl font-bold text-gray-900">
+        {mode === 'create' ? 'Create New Event' : 'Edit Event'}
+      </h2>
+      <button
+        onClick={onClose}
+        className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+      >
+        <X className="w-5 h-5 text-gray-500" />
+      </button>
+    </div>
+
+    {/* Form */}
+    <form onSubmit={handleSubmit} className="p-4 sm:p-6 space-y-6 text-sm sm:text-base">
+      
+      {/* Event Title */}
+      <div>
+        <label className="flex items-center space-x-2 font-medium text-gray-700 mb-2">
+          <FileText className="w-4 h-4" />
+          <span>Event Title</span>
+        </label>
+        <input
+          type="text"
+          value={formData.title}
+          onChange={(e) => handleChange('title', e.target.value)}
+          className="w-full px-4 py-2.5 sm:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+          placeholder="Enter event title"
+          required
+        />
+      </div>
+
+     
+
+      {/* Date and Time Row */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+        {/* Date */}
+        <div>
+          <label className="flex items-center space-x-2 font-medium text-gray-700 mb-2">
+            <CalendarIcon className="w-4 h-4" />
+            <span>Date</span>
+          </label>
+          <input
+            type="date"
+            value={formData.date}
+            onChange={(e) => handleChange('date', e.target.value)}
+            className="w-full px-4 py-2.5 sm:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+            required
+          />
         </div>
 
-        {/* Form */}
-        <form onSubmit={handleSubmit} className="p-4 sm:p-6 space-y-6 text-sm sm:text-base">
-          {/* Title */}
-          <div>
-            <label className="flex items-center space-x-2 font-medium text-gray-700 mb-2">
-              <FileText className="w-4 h-4" />
-              <span>Event Title</span>
-            </label>
-            <input
-              type="text"
-              name="title"
-              value={formData.title}
-              onChange={handleChange}
-              className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500"
-              placeholder="Enter event title"
-              required
-            />
-          </div>
+        {/* Start Time */}
+        <div>
+          <label className="flex items-center space-x-2 font-medium text-gray-700 mb-2">
+            <Clock className="w-4 h-4" />
+            <span>Start Time</span>
+          </label>
+          <input
+            type="time"
+            value={formData.startTime}
+            onChange={(e) => handleChange('startTime', e.target.value)}
+            className="w-full px-4 py-2.5 sm:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+            required
+          />
+        </div>
 
-          {/* Date and Time */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-            <div>
-              <label className="flex items-center space-x-2 font-medium text-gray-700 mb-2">
-                <CalendarIcon className="w-4 h-4" />
-                <span>Date</span>
-              </label>
-              <input
-                type="date"
-                name="date"
-                value={formData.date}
-                onChange={handleChange}
-                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500"
-                required
-              />
-            </div>
-            <div>
-              <label className="flex items-center space-x-2 font-medium text-gray-700 mb-2">
-                <Clock className="w-4 h-4" />
-                <span>Start Time</span>
-              </label>
-              <input
-                type="time"
-                name="startTime"
-                value={formData.startTime}
-                onChange={handleChange}
-                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500"
-                required
-              />
-            </div>
-            <div>
-              <label className="flex items-center space-x-2 font-medium text-gray-700 mb-2">
-                <Clock className="w-4 h-4" />
-                <span>End Time</span>
-              </label>
-              <input
-                type="time"
-                name="endTime"
-                value={formData.endTime}
-                onChange={handleChange}
-                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500"
-                required
-              />
-            </div>
-          </div>
-
-          {/* Location */}
-          <div>
-            <label className="flex items-center space-x-2 font-medium text-gray-700 mb-2">
-              📍<span>Location</span>
-            </label>
-            <input
-              type="text"
-              name="location"
-              value={formData.location}
-              onChange={handleChange}
-              className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500"
-              placeholder="Event location (optional)"
-            />
-          </div>
-
-          {/* Guest */}
-          <div>
-            <label className="flex items-center space-x-2 font-medium text-gray-700 mb-2">
-              <User className="w-4 h-4" />
-              <span>Guest</span>
-            </label>
-            <input
-              type="text"
-              name="guest"
-              value={formData.guest}
-              onChange={handleChange}
-              className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500"
-              placeholder="Comma-separated emails or names"
-            />
-          </div>
-
-          {/* Category */}
-          <div>
-            <label className="flex items-center space-x-2 font-medium text-gray-700 mb-2">
-              <Tag className="w-4 h-4" />
-              <span>Color</span>
-            </label>
-            <select
-              name="category"
-              value={formData.category}
-              onChange={handleCategoryChange}
-              className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500"
-            >
-              {categories.map((category) => (
-                <option key={category.name} value={category.name}>
-                  {category.name}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          {/* Color Preview */}
-          <div>
-            <label className="font-medium text-gray-700 mb-2 block">Color Preview</label>
-            <div
-              className={`w-full h-12 rounded-lg ${formData.color} flex items-center justify-center text-white font-medium`}
-            >
-              {formData.title || 'Event Preview'}
-            </div>
-          </div>
-
-          {/* Buttons */}
-          <div className="flex flex-col-reverse sm:flex-row justify-between pt-6 border-t border-gray-200 space-y-3 sm:space-y-0 sm:space-x-3">
-            {mode === 'edit' && onDelete && (
-              <button
-                type="button"
-                onClick={onDelete}
-                className="px-4 py-1 bg-red-500 text-white rounded-lg hover:bg-red-600 font-medium mt-3"
-              >
-                Delete Event
-              </button>
-            )}
-            <div className="flex justify-end space-x-3 w-full sm:w-auto">
-              <button
-                type="button"
-                onClick={onClose}
-                className="px-4 py-1 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 font-medium w-full sm:w-auto"
-              >
-                Cancel
-              </button>
-              <button
-                type="submit"
-                disabled={loading}
-                className="px-3 py-1 bg-orange-500 text-white rounded-lg hover:bg-orange-600 font-medium w-full sm:w-auto"
-              >
-                {loading ? 'Saving...' : mode === 'create' ? 'Create Event' : 'Save Changes'}
-              </button>
-            </div>
-          </div>
-        </form>
+        {/* End Time */}
+        <div>
+          <label className="flex items-center space-x-2 font-medium text-gray-700 mb-2">
+            <Clock className="w-4 h-4" />
+            <span>End Time</span>
+          </label>
+          <input
+            type="time"
+            value={formData.endTime}
+            onChange={(e) => handleChange('endTime', e.target.value)}
+            className="w-full px-4 py-2.5 sm:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+            required
+          />
+        </div>
       </div>
-    </div>
+
+      {/* Location */}
+      <div>
+        <label className="flex items-center space-x-2 font-medium text-gray-700 mb-2">
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+          </svg>
+          <span>Location</span>
+        </label>
+        <input
+          type="text"
+          value={formData.location}
+          onChange={(e) => handleChange('location', e.target.value)}
+          className="w-full px-4 py-2.5 sm:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+          placeholder="Event location (optional)"
+        />
+      </div>
+
+      {/* Attendees */}
+      <div>
+        <label className="flex items-center space-x-2 font-medium text-gray-700 mb-2">
+          <User className="w-4 h-4" />
+          <span>Guest</span>
+        </label>
+        <input
+          type="text"
+          value={formData.attendees}
+          onChange={(e) => handleChange('attendees', e.target.value)}
+          className="w-full px-4 py-2.5 sm:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+          placeholder="Add Guest"
+        />
+      </div>
+
+      {/* Category */}
+      <div>
+        <label className="flex items-center space-x-2 font-medium text-gray-700 mb-2">
+          <Tag className="w-4 h-4" />
+          <span>Color</span>
+        </label>
+        <select
+          value={formData.color}
+          onChange={(e) => {
+            const selectedCategory = categories.find(cat => cat.name === e.target.value);
+            handleChange('category', e.target.value);
+            handleChange('color', selectedCategory?.color || 'bg-orange-500');
+          }}
+          className="w-full px-4 py-2.5 sm:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+        >
+          {categories.map((category) => (
+            <option key={category.name} value={category.name}>
+              {category.name}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      {/* Color Preview */}
+      <div>
+        <label className="font-medium text-gray-700 mb-2 block">Color Preview</label>
+        <div className={`w-full h-12 rounded-lg ${formData.color} flex items-center justify-center text-white font-medium`}>
+          {formData.title || 'Event Preview'}
+        </div>
+      </div>
+
+      {/* Buttons */}
+      <div className="flex flex-col-reverse sm:flex-row justify-between pt-6 border-t border-gray-200 space-y-3 sm:space-y-0 sm:space-x-3">
+        {mode === 'edit' && onDelete && (
+          <button
+            type="button"
+            onClick={onDelete}
+            className="px-4 py-1 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors font-medium mt-3"
+          >
+            Delete Event
+          </button>
+        )}
+        <div className="flex justify-end space-x-3 w-full sm:w-auto">
+          <button
+            type="button"
+            onClick={onClose}
+            className="px-4 py-1 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors font-medium w-full sm:w-auto"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            className="px-3 py-1 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors font-medium w-full sm:w-auto"
+          >
+            {mode === 'create' ? 'Create Event' : 'Save Changes'}
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
 
   );
 }
@@ -1124,7 +985,7 @@ function DayCell({ date, events, onDrop, onEventClick }) {
       <div className="text-[10px] sm:text-xs md:text-sm text-gray-700 font-semibold mb-1 flex-shrink-0"> {/* ADD RESPONSIVE TEXT SIZE */}
         {date.getDate()}
       </div>
-
+      
       {/* EVENTS CONTAINER */}
       <div className="flex-1 space-y-1 overflow-hidden"> {/* ADD FLEX-1 AND OVERFLOW-HIDDEN */}
         {visibleEvents.map((ev, idx) => (
@@ -1155,7 +1016,7 @@ function DayCell({ date, events, onDrop, onEventClick }) {
             +{events.length - maxVisibleEvents} more
           </button>
         )}
-
+        
         {/* SHOW LESS BUTTON */}
         {showAllEvents && hasMoreEvents && (
           <button
@@ -1236,20 +1097,20 @@ function DayTimeSlot({ timeSlot, events, onDrop, onEventClick }) {
 
   return (
     <div
-      ref={drop}
-      className={`
+  ref={drop}
+  className={`
     min-h-[40px] sm:min-h-[50px] md:min-h-[60px] lg:min-h-[70px]
     p-2 sm:p-3 md:p-4 lg:p-5
     relative transition-colors 
     ${isOver ? 'bg-orange-50' : 'hover:bg-orange-50'}
   `}
-    >
-      {/* Dropped events */}
-      {events.map((event, idx) => (
-        <div
-          key={idx}
-          onClick={() => onEventClick(event, idx)}
-          className={`
+>
+  {/* Dropped events */}
+  {events.map((event, idx) => (
+    <div
+      key={idx}
+      onClick={() => onEventClick(event, idx)}
+      className={`
         rounded-lg text-white 
         text-xs sm:text-sm md:text-base
         shadow-sm 
@@ -1270,25 +1131,25 @@ function DayTimeSlot({ timeSlot, events, onDrop, onEventClick }) {
     </div>
   ))}
 
-      {/* Drop zone indicator */}
-      {isOver && (
-        <div className="
+  {/* Drop zone indicator */}
+  {isOver && (
+    <div className="
       absolute inset-0 
       border-2 border-dashed border-orange-300 
       rounded-lg bg-orange-50 bg-opacity-50 
       flex items-center justify-center
       p-2 sm:p-4
     ">
-          <span className="
+      <span className="
         text-orange-600 
         text-xs sm:text-sm md:text-base lg:text-lg
         font-medium text-center
       ">
-            Drop here
-          </span>
-        </div>
-      )}
+        Drop here
+      </span>
     </div>
+  )}
+</div>
   );
 }
 
