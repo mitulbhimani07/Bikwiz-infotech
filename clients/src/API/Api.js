@@ -197,7 +197,25 @@ export const CreateEvent = async (payload) => {
         return response.data;
 
     } catch (error) {
-        console.error("Error in GetSingleID API:", error);
+        console.error("Error in CreateEvent API:", error);
+        throw error;
+    }
+}
+
+export const GetEvents = async (id) => {
+    const token = localStorage.getItem("token");
+    try {
+        const response = await axios.get(`http://localhost:3000/clientdashboard/get-all-events/${id}`, {
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            }
+        });
+
+        return response.data;
+
+    } catch (error) {
+        console.error("Error in GetEvents API:", error);
         throw error;
     }
 }

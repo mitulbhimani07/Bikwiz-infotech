@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDrag, useDrop, DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { Check, ChevronLeft, ChevronRight, X, Calendar as CalendarIcon, Clock, User, FileText, Tag, Plus } from 'lucide-react';
@@ -7,9 +7,11 @@ import 'react-calendar/dist/Calendar.css';
 import ClientSidbar from '../navbar/ClientSidbar';
 import ClientHeader from '../navbar/ClientHeader';
 import ClientFooter from '../navbar/ClientFooter';
-import { CreateEvent } from '../../../API/Api';
+import { CreateEvent, GetEvents } from '../../../API/Api';
+import { useAuth } from './Context/AuthContext';
 
 const ItemTypes = { CATEGORY: 'category' };
+
 
 // Mock components for sidebar and header
 
@@ -24,6 +26,36 @@ function ClientSchedule() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [modalMode, setModalMode] = useState('create'); // 'create' or 'edit'
+  const { clientId } = useAuth();
+  const [eventts, setEventts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+
+  useEffect(() => {
+    console.log("Client ID from context:", clientId);
+  }, [clientId]);
+
+  useEffect(() => {
+    const fetchEvents = async () => {
+      if (clientId) {
+      const Getevent=await GetEvents(clientId)
+        .then((data) => {
+          setEventts(data);
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.error("Failed to fetch events", error);
+          setLoading(false);
+        });
+    }
+    }
+    fetchEvents();
+    
+
+    console.log("get events", eventts);
+    
+  }, [clientId]);
+
 
   const getCurrentWeekDates = () => {
     const currentDay = selectedDate.getDay();
@@ -549,6 +581,7 @@ function ClientSchedule() {
                     </div>
                   )}
                 </div>
+                
               </div>
             </div>
           </div>
@@ -576,7 +609,7 @@ function ClientSchedule() {
 
 // Event Modal Component
 function EventModal({ isOpen, onClose, onSave, onDelete, event, mode }) {
-   const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState({
     title: event?.title || '',
     date: event?.date || new Date().toISOString().split('T')[0],
     startTime: event?.startTime || '09:00',
@@ -610,11 +643,11 @@ function EventModal({ isOpen, onClose, onSave, onDelete, event, mode }) {
       color: selected.color,
     }));
   };
-  
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    
+
     const payload = {
       ...formData,
       guest: formData.guest.split(',').map(g => g.trim()),
@@ -635,7 +668,7 @@ function EventModal({ isOpen, onClose, onSave, onDelete, event, mode }) {
       const response = await CreateEvent(payload);
       console.log("event", response);
       console.log("Event created successfully", response);
-      
+
       onSave(response);
       onClose();
     } catch (error) {
