@@ -183,3 +183,23 @@ export const GetSingleID=async (id) => {
         throw error;
     }
 }
+
+export const AddEventCategory=async(payload)=>{
+    try{
+        const response=await axios.post('http://localhost:3000/Eventcategory/eventCategory',payload)
+        return response.data
+    }catch(error){
+         console.error("Error in AddEventCategory API:", error);
+        throw error;
+    }
+}
+
+export const GetEventCategory=async()=>{
+    try{
+        const response=await axios.get('http://localhost:3000/Eventcategory/Getevent')
+        return response.data
+    }catch(error){
+         console.error("Error in GeteventCategory API:", error);
+        throw error;
+    }
+}

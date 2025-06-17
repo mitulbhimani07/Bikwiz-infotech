@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDrag, useDrop, DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { Check, ChevronLeft, ChevronRight, X, Calendar as CalendarIcon, Clock, User, FileText, Tag, Plus } from 'lucide-react';
@@ -7,6 +7,8 @@ import 'react-calendar/dist/Calendar.css';
 import ClientSidbar from '../navbar/ClientSidbar';
 import ClientHeader from '../navbar/ClientHeader';
 import ClientFooter from '../navbar/ClientFooter';
+import { AddEventCategory, GetEventCategory } from '../../../API/Api';
+import toast from 'react-hot-toast';
 
 const ItemTypes = { CATEGORY: 'category' };
 
@@ -37,21 +39,81 @@ function ClientSchedule() {
     return week;
   };
 
- const [categories, setCategories] = useState([
-  { name: 'Interview Schedule', color: 'bg-orange-500', checked: true },
-  { name: 'Internal Meeting', color: 'bg-green-500', checked: true },
-  { name: 'Team Schedule', color: 'bg-blue-300', checked: false },
-  { name: 'My Task', color: 'bg-yellow-400', checked: false },
-  { name: 'Reminders', color: 'bg-purple-400', checked: false },
-]);
+ const [categories, setCategories] = useState(
+  // { name: 'Interview Schedule', color: 'bg-orange-500', checked: true },
+  // { name: 'Internal Meeting', color: 'bg-green-500', checked: true },
+  // { name: 'Team Schedule', color: 'bg-blue-300', checked: false },
+  // { name: 'My Task', color: 'bg-yellow-400', checked: false },
+  // { name: 'Reminders', color: 'bg-purple-400', checked: false },
+  { CategoryName: '', color: '' }
+);
 const [showCategoryForm, setShowCategoryForm] = useState(false);
-const [newCategory, setNewCategory] = useState({ name: '', color: 'bg-orange-500' });
+// const [newCategory, setNewCategory] = useState({ CategoryName: '', color: '' });
+const [Allcategory,setAllcategory]=useState([])
+
+useEffect(() => {
+  const FetchEventCategory = async () => {
+    try {
+      const response = await GetEventCategory();
+      const withCheck = response.data.map((cat) => ({
+        ...cat,
+        checked: cat.checked !== undefined ? cat.checked : true, // default to true if undefined
+      }));
+      setAllcategory(withCheck);
+    } catch (error) {
+      console.error('Error in GetEventCategory API:', error);
+      toast.error('Failed to load categories');
+    }
+  };
+  FetchEventCategory();
+}, []);
 
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
   };
+const handleAddCategory=(e)=>{
+  setCategories({ ...categories, [e.target.name]: e.target.value });
+}
 
+const handleCategoryToggle = (index) => {
+    setAllcategory(prevCategories => {
+      const updatedCategories = [...prevCategories];
+      updatedCategories[index] = {
+        ...updatedCategories[index],
+        checked: !updatedCategories[index].checked
+      };
+      return updatedCategories;
+    });
+  };
+
+const handleCategorySubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await AddEventCategory(categories);
+      console.log("Response:", res);
+      toast.success("Add Category Successfully!!!");
+      
+      // Add new category to local state with checked: true
+      const newCategory = {
+        ...categories,
+        checked: true,
+        id: res.data?.id || Date.now() // Use API response ID or fallback
+      };
+      setAllcategory(prev => [...prev, newCategory]);
+      
+      setCategories({
+        CategoryName: '', 
+        color: '' 
+      });
+      setShowCategoryForm(false);
+    } catch (error) {
+      console.log("Error submitting form:", error);
+      toast.error("Failed to add category");
+    }
+  }
+
+  
   const navigateMonth = (direction) => {
     const newDate = new Date(selectedDate);
     if (direction === 'prev') {
@@ -126,144 +188,221 @@ const [newCategory, setNewCategory] = useState({ name: '', color: 'bg-orange-500
     setSelectedEvent(null);
   };
 
-  const handleMonthDrop = (date, item) => {
-    const day = date.getDate();
-    setEvents((prev) => {
-      const updated = { ...prev };
-      if (!updated.month[day]) updated.month[day] = [];
-      updated.month[day].push({
-        title: item.name,
-        color: item.color,
-        description: '',
-        startTime: '09:00',
-        endTime: '10:00',
-        attendees: '',
-        location: ''
-      });
-      return updated;
-    });
+const handleMonthDrop = (date, item) => {
+  const day = date.getDate();
+  const dateKey = date.toDateString();
+  const defaultTimeSlot = '9 AM';
+
+  const newEvent = {
+    title: item.name,
+    color: item.color,
+    description: '',
+    startTime: defaultTimeSlot,
+    endTime: defaultTimeSlot,
+    attendees: '',
+    location: ''
   };
 
-  const handleWeekDrop = (date, timeSlot, item) => {
-    const dateKey = date.toDateString();
-    setEvents((prev) => {
-      const updated = { ...prev };
-      if (!updated.week[dateKey]) updated.week[dateKey] = {};
-      if (!updated.week[dateKey][timeSlot]) updated.week[dateKey][timeSlot] = [];
-      updated.week[dateKey][timeSlot].push({
-        title: item.name,
-        color: item.color,
-        description: '',
-        startTime: timeSlot.toLowerCase(),
-        endTime: timeSlot.toLowerCase(),
-        attendees: '',
-        location: ''
-      });
-      return updated;
-    });
+  setEvents(prev => {
+    const updated = { ...prev };
+
+    if (!updated.month[day]) updated.month[day] = [];
+    updated.month[day].push(newEvent);
+
+    if (!updated.week[dateKey]) updated.week[dateKey] = {};
+    if (!updated.week[dateKey][defaultTimeSlot]) updated.week[dateKey][defaultTimeSlot] = [];
+    updated.week[dateKey][defaultTimeSlot].push(newEvent);
+
+    if (!updated.day[dateKey]) updated.day[dateKey] = {};
+    if (!updated.day[dateKey][defaultTimeSlot]) updated.day[dateKey][defaultTimeSlot] = [];
+    updated.day[dateKey][defaultTimeSlot].push(newEvent);
+
+    return updated;
+  });
+};
+
+
+
+
+
+const handleWeekDrop = (date, timeSlot, item) => {
+  const dateKey = date.toDateString();
+  const day = date.getDate();
+  const slotLabel = formatTimeSlot(timeSlot);
+
+  const newEvent = {
+    title: item.name,
+    color: item.color,
+    description: '',
+    startTime: slotLabel,
+    endTime: slotLabel,
+    attendees: '',
+    location: ''
   };
 
-  const handleDayDrop = (timeSlot, item) => {
-    const dateKey = selectedDate.toDateString();
-    setEvents((prev) => {
-      const updated = { ...prev };
-      if (!updated.day[dateKey]) updated.day[dateKey] = {};
-      if (!updated.day[dateKey][timeSlot]) updated.day[dateKey][timeSlot] = [];
-      updated.day[dateKey][timeSlot].push({
-        title: item.name,
-        color: item.color,
-        description: '',
-        startTime: timeSlot.toLowerCase(),
-        endTime: timeSlot.toLowerCase(),
-        attendees: '',
-        location: ''
-      });
-      return updated;
-    });
+  setEvents(prev => {
+    const updated = { ...prev };
+
+    // Week
+    if (!updated.week[dateKey]) updated.week[dateKey] = {};
+    if (!updated.week[dateKey][slotLabel]) updated.week[dateKey][slotLabel] = [];
+    updated.week[dateKey][slotLabel].push(newEvent);
+
+    // Day
+    if (!updated.day[dateKey]) updated.day[dateKey] = {};
+    if (!updated.day[dateKey][slotLabel]) updated.day[dateKey][slotLabel] = [];
+    updated.day[dateKey][slotLabel].push(newEvent);
+
+    // Month
+    if (!updated.month[day]) updated.month[day] = [];
+    updated.month[day].push(newEvent);
+
+    return updated;
+  });
+};
+
+
+function formatTimeSlot(timeSlot) {
+  const match = timeSlot.match(/^(\d{1,2})\s*(am|pm)$/i);
+  if (!match) return timeSlot;
+
+  let hour = parseInt(match[1]);
+  let suffix = match[2].toUpperCase();
+
+  if (hour === 12) hour = 12;
+  else if (suffix === 'PM') hour += 12;
+
+  // Return 12-hour format label: "9 AM"
+  const formattedHour = (hour % 12) === 0 ? 12 : (hour % 12);
+  const formattedSuffix = hour >= 12 ? 'PM' : 'AM';
+
+  return `${formattedHour} ${formattedSuffix}`;
+}
+
+
+ const handleDayDrop = (timeSlot, item) => {
+  const date = new Date(selectedDate);
+  const dateKey = date.toDateString();
+  const day = date.getDate();
+  const slotLabel = formatTimeSlot(timeSlot); // formatted time like '9 AM'
+
+  const newEvent = {
+    title: item.name,
+    color: item.color,
+    description: '',
+    startTime: slotLabel,
+    endTime: slotLabel,
+    attendees: '',
+    location: ''
   };
 
-  return (
+  setEvents((prev) => {
+    const updated = { ...prev };
+
+    // Day view
+    if (!updated.day[dateKey]) updated.day[dateKey] = {};
+    if (!updated.day[dateKey][slotLabel]) updated.day[dateKey][slotLabel] = [];
+    updated.day[dateKey][slotLabel].push(newEvent);
+
+    // Week view
+    if (!updated.week[dateKey]) updated.week[dateKey] = {};
+    if (!updated.week[dateKey][slotLabel]) updated.week[dateKey][slotLabel] = [];
+    updated.week[dateKey][slotLabel].push(newEvent);
+
+    // Month view
+    if (!updated.month[day]) updated.month[day] = [];
+    updated.month[day].push(newEvent);
+
+    return updated;
+  });
+};
+
+
+
+
+
+ return (
     <DndProvider backend={HTML5Backend}>
-  <div className="min-h-screen flex flex-col lg:flex-row bg-[#fff0e5]">
-    {/* Sidebar */}
-    <div className="lg:w-[300px] lg:block lg:sticky lg:top-0">
-      <ClientSidbar />
-    </div>
-
-    {/* Main Content */}
-    <div className="flex-1 flex flex-col min-w-0">
-      {/* Header */}
-      <div className="sticky top-0 z-10">
-        <ClientHeader />
-      </div>
-
-      {/* Body */}
-      <div className="flex-1 bg-[#fff0e5] p-4 md:p-6 overflow-auto">
-        <div className="text-orange-500 mb-6">
-          <h1 className="text-2xl md:text-3xl font-bold">My Schedule</h1>
+      <div className="min-h-screen flex flex-col lg:flex-row bg-[#fff0e5]">
+        {/* Sidebar */}
+        <div className="lg:w-[300px] lg:block lg:sticky lg:top-0">
+          <ClientSidbar />
         </div>
 
-        <div className="bg-white rounded-3xl px-4 py-5 sm:px-8">
-          {/* Top Buttons */}
-          <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
-            <div className="flex gap-2 flex-wrap">
-              {['My Schedule', 'Today'].map((label) => (
-                <button
-                  key={label}
-                  onClick={() => setView(label)}
-                  className={`px-4 py-2 rounded-md text-sm font-bold transition-colors border ${
-                    view === label
-                      ? 'text-orange-400 border-orange-400'
-                      : 'text-orange-400 border-transparent'
-                  }`}
-                >
-                  {label}
-                </button>
-              ))}
-            </div>
-
-            {/* Month Navigation */}
-            <div className="flex items-center gap-2">
-              <button onClick={() => navigateMonth('prev')} className="p-2 text-orange-500 hover:bg-orange-50 rounded">
-                <ChevronLeft className="w-5 h-5" />
-              </button>
-              <h2 className="text-sm md:text-md font-semibold text-gray-800 uppercase tracking-wide">
-                {selectedDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
-              </h2>
-              <button onClick={() => navigateMonth('next')} className="p-2 text-orange-500 hover:bg-orange-50 rounded">
-                <ChevronRight className="w-5 h-5" />
-              </button>
-            </div>
-
-            {/* View Type Switch */}
-            <div className="flex gap-2">
-              {['Day', 'Week', 'Month'].map((type) => (
-                <button
-                  key={type}
-                  onClick={() => setViewType(type)}
-                  className={`px-3 py-1 text-sm rounded-md ${
-                    viewType === type ? 'bg-orange-500 text-white' : 'bg-gray-100'
-                  }`}
-                >
-                  {type}
-                </button>
-              ))}
-            </div>
+        {/* Main Content */}
+        <div className="flex-1 flex flex-col min-w-0">
+          {/* Header */}
+          <div className="sticky top-0 z-10">
+            <ClientHeader />
           </div>
 
-          {/* Main Layout Grid */}
-          <div className="flex flex-col lg:flex-row border border-orange-400 overflow-hidden">
-            {/* Sidebar Panel */}
-            <div className="lg:w-[300px] border-r border-orange-200 p-4 space-y-6">
-              <button
-                onClick={handleCreateEvent}
-                className="w-full text-orange-600 border border-orange-500 py-2 rounded font-medium hover:bg-orange-100 transition"
-              >
-                + Create Event
-              </button>
+          {/* Body */}
+          <div className="flex-1 bg-[#fff0e5] p-4 md:p-6 overflow-auto">
+            <div className="text-orange-500 mb-6">
+              <h1 className="text-2xl md:text-3xl font-bold">My Schedule</h1>
+            </div>
 
-              {/* Inline Calendar */}
-             <div className="-mx-4 border-b border-orange-400">
+            <div className="bg-white rounded-3xl px-4 py-5 sm:px-8">
+              {/* Top Buttons */}
+              <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
+                <div className="flex gap-2 flex-wrap">
+                  {['My Schedule', 'Today'].map((label) => (
+                    <button
+                      key={label}
+                      onClick={() => setView(label)}
+                      className={`px-4 py-2 rounded-md text-sm font-bold transition-colors border ${
+                        view === label
+                          ? 'text-orange-400 border-orange-400'
+                          : 'text-orange-400 border-transparent'
+                      }`}
+                    >
+                      {label}
+                    </button>
+                  ))}
+                </div>
+
+                {/* Month Navigation */}
+                <div className="flex items-center gap-2">
+                  <button onClick={() => navigateMonth('prev')} className="p-2 text-orange-500 hover:bg-orange-50 rounded">
+                    <ChevronLeft className="w-5 h-5" />
+                  </button>
+                  <h2 className="text-sm md:text-md font-semibold text-gray-800 uppercase tracking-wide">
+                    {selectedDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
+                  </h2>
+                  <button onClick={() => navigateMonth('next')} className="p-2 text-orange-500 hover:bg-orange-50 rounded">
+                    <ChevronRight className="w-5 h-5" />
+                  </button>
+                </div>
+
+                {/* View Type Switch */}
+                <div className="flex gap-2">
+                  {['Day', 'Week', 'Month'].map((type) => (
+                    <button
+                      key={type}
+                      onClick={() => setViewType(type)}
+                      className={`px-3 py-1 text-sm rounded-md ${
+                        viewType === type ? 'bg-orange-500 text-white' : 'bg-gray-100'
+                      }`}
+                    >
+                      {type}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Main Layout Grid */}
+              <div className="flex flex-col lg:flex-row border border-orange-400 overflow-hidden">
+                {/* Sidebar Panel */}
+                <div className="lg:w-[300px] border-r border-orange-200 p-4 space-y-6">
+                  <button
+                    onClick={handleCreateEvent}
+                    className="w-full text-orange-600 border border-orange-500 py-2 rounded font-medium hover:bg-orange-100 transition"
+                  >
+                    + Create Event
+                  </button>
+
+                  {/* Inline Calendar */}
+                  <div className="-mx-4 border-b border-orange-400">
                     <div className="px-4 pb-4">
                       <div className="flex justify-between items-center mb-2">
                         <h2 className="text-lg font-semibold text-gray-700">
@@ -304,275 +443,275 @@ const [newCategory, setNewCategory] = useState({ name: '', color: 'bg-orange-500
                     </div>
                   </div>
 
-              {/* Categories */}
-              <div className="pt-4">
-                <div className="flex justify-between items-center mb-3">
-                  <h3 className="text-md font-semibold text-gray-800">Categories</h3>
-                  <button
-  onClick={() => setShowCategoryForm(true)}
-  className="text-orange-500 text-md font-bold hover:text-orange-600"
->
-  + Add Category
-</button>
+                  {/* Categories */}
+                  <div className="pt-4">
+                    <div className="flex justify-between items-center mb-3">
+                      <h3 className="text-md font-semibold text-gray-800">Categories</h3>
+                      <button
+                        onClick={() => setShowCategoryForm(true)}
+                        className="text-orange-500 text-md font-bold hover:text-orange-600"
+                      >
+                        + Add Category
+                      </button>
+                    </div>
 
+                    {showCategoryForm && (
+                      <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+                        <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-md space-y-4">
+                          <h2 className="text-lg font-bold text-gray-800">Add New Category</h2>
+                          <form onSubmit={handleCategorySubmit}>
+                            <input
+                              type="text"
+                              placeholder="Category Name"
+                              value={categories.CategoryName}
+                              name='CategoryName'
+                              onChange={handleAddCategory}
+                              className="w-full px-4 py-2 border border-gray-300 rounded mb-4"
+                              required
+                            />
+                            <div className="flex items-center justify-between gap-4 mb-4">
+                              <label className="text-gray-700 font-medium">Pick Color:</label>
+                              <input
+                                type="color"
+                                value={categories.color}
+                                name='color'
+                                onChange={handleAddCategory}
+                                className="w-12 h-10 border border-gray-300 rounded cursor-pointer"
+                              />
+                              <div
+                                className="flex-1 h-10 rounded text-white flex items-center justify-center text-sm font-semibold"
+                                style={{ backgroundColor: categories.color }}
+                              >
+                                {categories.CategoryName || 'Preview'}
+                              </div>
+                            </div>
+
+                            <div className="flex justify-end space-x-3 pt-4 border-t">
+                              <button 
+                                type="button"
+                                onClick={() => setShowCategoryForm(false)} 
+                                className="text-gray-600 px-4 py-1 rounded hover:bg-gray-100"
+                              >
+                                Cancel
+                              </button>
+                              <button 
+                                type='submit'
+                                className="bg-orange-500 text-white px-4 py-1 rounded hover:bg-orange-600"
+                              >
+                                Add
+                              </button>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                    )}
+
+                    <div className="space-y-2">
+                      {Allcategory.map((cat, idx) => (
+                        <CategoryItem
+                          key={idx}
+                          name={cat.CategoryName}
+                          color={cat.color}
+                          checked={cat.checked}
+                         onToggle={() => {
+    const updated = [...Allcategory];
+    updated[idx] = { ...updated[idx], checked: !updated[idx].checked };
+    setAllcategory(updated);
+  }}
+                        />
+                      ))}
+                    </div>
+                  </div>
                 </div>
-                {showCategoryForm && (
-  <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
-    <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-md space-y-4">
-      <h2 className="text-lg font-bold text-gray-800">Add New Category</h2>
-      <input
-        type="text"
-        placeholder="Category Name"
-        value={newCategory.name}
-        onChange={(e) => setNewCategory({ ...newCategory, name: e.target.value })}
-        className="w-full px-4 py-2 border border-gray-300 rounded"
-      />
-      <div className="flex items-center justify-between gap-4">
-  <label className="text-gray-700 font-medium">Pick Color:</label>
-  <input
-    type="color"
-    value={newCategory.color}
-    onChange={(e) => setNewCategory({ ...newCategory, color: e.target.value })}
-    className="w-12 h-10 border border-gray-300 rounded cursor-pointer"
-  />
-  <div
-    className="flex-1 h-10 rounded text-white flex items-center justify-center text-sm font-semibold"
-    style={{ backgroundColor: newCategory.color }}
-  >
-    {newCategory.name || 'Preview'}
-  </div>
-</div>
 
-      <div className="flex justify-end space-x-3 pt-4 border-t">
-        <button onClick={() => setShowCategoryForm(false)} className="text-gray-600">Cancel</button>
-        <button
-          onClick={() => {
-            if (newCategory.name.trim()) {
-              setCategories([...categories, { ...newCategory, checked: true }]);
-              setNewCategory({ name: '', color: 'bg-orange-500' });
-              setShowCategoryForm(false);
-            }
-          }}
-          className="bg-orange-500 text-white px-4 py-1 rounded hover:bg-orange-600"
-        >
-          Add
-        </button>
+                {/* Calendar Content */}
+                <div className="flex-1 overflow-x-auto p-4">
+                  {/* WEEK View */}
+                  {viewType === 'Week' && (
+                    <div className="w-full min-w-[800px]">
+                      {/* Week Header */}
+                      <div className="grid grid-cols-8 border-b border-orange-400 text-sm font-medium">
+                        <div className="p-2 text-left text-gray-500">GMT +07</div>
+                        {weekDates.map((date, idx) => (
+                          <div key={idx} className="p-2 text-center">
+                            <div className="text-gray-500 uppercase">
+                              {date.toLocaleDateString('en-US', { weekday: 'short' })}
+                            </div>
+                            <div
+                              className={`w-7 h-7 mx-auto mt-1 flex items-center justify-center rounded-full ${
+                                date.toDateString() === selectedDate.toDateString()
+                                  ? 'bg-orange-500 text-white font-semibold'
+                                  : 'text-gray-800'
+                              }`}
+                            >
+                              {date.getDate()}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+
+                      {/* Week Grid */}
+                      <div className="bg-white">
+                        {timeSlots.slice(0, 11).map((time, i) => (
+                          <div key={i} className="grid grid-cols-8 min-h-[50px] text-sm">
+                            <div className="p-2 text-right text-gray-500 border-r border-orange-400">{time}</div>
+                            {weekDates.map((date, dayIdx) => {
+                              const dateKey = date.toDateString();
+                              const timeSlotEvents = events.week[dateKey]?.[time] || [];
+
+                              return (
+                                <WeekTimeSlot
+                                  key={`${dateKey}-${time}`}
+                                  date={date}
+                                  timeSlot={time}
+                                  events={timeSlotEvents}
+                                  onDrop={handleWeekDrop}
+                                  onEventClick={(event, index) =>
+                                    handleEventClick(event, index, {
+                                      type: 'week',
+                                      dateKey,
+                                      timeSlot: time,
+                                    })
+                                  }
+                                />
+                              );
+                            })}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* DAY View */}
+                  {viewType === 'Day' && (
+  <div className="bg-white rounded-lg border border-orange-400">
+    <div className="border-b border-orange-400 p-4 flex justify-between items-center">
+      <div className="text-md text-gray-500 uppercase tracking-wide">GMT +07</div>
+      <div className="text-lg font-semibold text-gray-900">
+        {selectedDate.toLocaleDateString('en-US', { weekday: 'long' })}
       </div>
+    </div>
+    <div>
+      {timeSlots.slice(0, 11).map((time, i) => {
+        const dateKey = selectedDate.toDateString();
+        const timeSlotEvents = events.day[dateKey]?.[time] || [];
+
+        return (
+          <div key={i} className="flex border-b border-orange-200">
+            <div className="w-16 text-right p-3 border-r border-orange-200 text-sm text-gray-500">
+              {time}
+            </div>
+            <div className="flex-1 relative">
+              <DayTimeSlot
+                timeSlot={time}
+                events={timeSlotEvents}
+                onDrop={handleDayDrop}
+                onEventClick={(event, index) =>
+                  handleEventClick(event, index, {
+                    type: 'day',
+                    dateKey,
+                    timeSlot: time,
+                  })
+                }
+              />
+            </div>
+          </div>
+        );
+      })}
     </div>
   </div>
 )}
 
 
-                <div className="space-y-2">
-                 {categories.map((cat, idx) => (
-  <CategoryItem
-    key={idx}
-    name={cat.name}
-    color={cat.color}
-    checked={cat.checked}
-    onToggle={() => {
-      const updated = [...categories];
-      updated[idx].checked = !updated[idx].checked;
-      setCategories(updated);
-    }}
-  />
-))}
+                  {/* MONTH View */}
+                  {viewType === 'Month' && (
+                    <div className="">
+                      <div className="bg-white border border-orange-400 rounded-lg overflow-hidden min-w-full">
+                        {/* Header with day names */}
+                        <div className="grid grid-cols-7 text-xs sm:text-sm md:text-base text-gray-600 border-b border-orange-100 font-medium sticky top-0 z-10 bg-white">
+                          {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((day) => (
+                            <div key={day} className="p-1 sm:p-2 text-center border-r border-orange-100 last:border-r-0">
+                              <span className="block sm:hidden">{day.charAt(0)}</span>
+                              <span className="hidden sm:block">{day}</span>
+                            </div>
+                          ))}
+                        </div>
+                        
+                        {/* Calendar grid */}
+                        <div className="grid grid-cols-7">
+                          {(() => {
+                            const start = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1);
+                            const end = new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0);
+                            const days = [];
 
+                            // Empty cells at the beginning of the month
+                            for (let i = 0; i < start.getDay(); i++) {
+                              days.push(
+                                <div 
+                                  key={`empty-start-${i}`} 
+                                  className="min-h-[60px] sm:min-h-[80px] md:min-h-[100px] lg:min-h-[120px] p-1 sm:p-2 md:p-3 border border-orange-100 bg-orange-50"
+                                />
+                              );
+                            }
+
+                            // Days of the month
+                            for (let d = 1; d <= end.getDate(); d++) {
+                              const date = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), d);
+                              const key = date.toDateString();
+                              days.push(
+                                <DayCell
+                                  key={key}
+                                  date={date}
+                                  events={events.month[d] || []}
+                                  onDrop={handleMonthDrop}
+                                  onEventClick={(event, index) =>
+                                    handleEventClick(event, index, { type: 'month', day: d })
+                                  }
+                                />
+                              );
+                            }
+
+                            // Empty cells at the end of the month
+                            const remaining = (start.getDay() + end.getDate()) % 7;
+                            if (remaining !== 0) {
+                              for (let i = 0; i < 7 - remaining; i++) {
+                                days.push(
+                                  <div
+                                    key={`empty-end-${i}`}
+                                    className="min-h-[60px] sm:min-h-[80px] md:min-h-[100px] lg:min-h-[120px] p-1 sm:p-2 md:p-3 border border-orange-100 bg-orange-50"
+                                  />
+                                );
+                              }
+                            }
+
+                            return days;
+                          })()}
+                        </div>
+                      </div>
+                    </div> 
+                  )}
                 </div>
               </div>
             </div>
-
-            {/* Calendar Content */}
-            <div className="flex-1 overflow-x-auto p-4">
-              {/* WEEK View */}
-              {viewType === 'Week' && (
-                <div className="w-full min-w-[800px]">
-                  {/* Week Header */}
-                  <div className="grid grid-cols-8 border-b border-orange-400 text-sm font-medium">
-                    <div className="p-2 text-left text-gray-500">GMT +07</div>
-                    {weekDates.map((date, idx) => (
-                      <div key={idx} className="p-2 text-center">
-                        <div className="text-gray-500 uppercase">
-                          {date.toLocaleDateString('en-US', { weekday: 'short' })}
-                        </div>
-                        <div
-                          className={`w-7 h-7 mx-auto mt-1 flex items-center justify-center rounded-full ${
-                            date.toDateString() === selectedDate.toDateString()
-                              ? 'bg-orange-500 text-white font-semibold'
-                              : 'text-gray-800'
-                          }`}
-                        >
-                          {date.getDate()}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-
-                  {/* Week Grid */}
-                  <div className="bg-white">
-                    {timeSlots.slice(0, 11).map((time, i) => (
-                      <div key={i} className="grid grid-cols-8 min-h-[50px] text-sm">
-                        <div className="p-2 text-right text-gray-500 border-r border-orange-400">{time}</div>
-                        {weekDates.map((date, dayIdx) => {
-                          const dateKey = date.toDateString();
-                          const timeSlotEvents = events.week[dateKey]?.[time] || [];
-
-                          return (
-                            <WeekTimeSlot
-                              key={`${dateKey}-${time}`}
-                              date={date}
-                              timeSlot={time}
-                              events={timeSlotEvents}
-                              onDrop={handleWeekDrop}
-                              onEventClick={(event, index) =>
-                                handleEventClick(event, index, {
-                                  type: 'week',
-                                  dateKey,
-                                  timeSlot: time,
-                                })
-                              }
-                            />
-                          );
-                        })}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* DAY View */}
-              {viewType === 'Day' && (
-                <div className="bg-white rounded-lg border border-orange-400">
-                  <div className="border-b border-orange-400 p-4 flex justify-between items-center">
-                    <div className="text-md text-gray-500 uppercase tracking-wide">GMT +07</div>
-                    <div className="text-lg font-semibold text-gray-900">
-                      {selectedDate.toLocaleDateString('en-US', { weekday: 'long' })}
-                    </div>
-                  </div>
-                  <div>
-                    {['1 Am', '2 Am', '3 Am', '4 Am', '5 Am', '6 Am', '7 Am', '8 Am', '9 Am', '10 Am', '11 Am'].map(
-                      (time, i) => {
-                        const dateKey = selectedDate.toDateString();
-                        const timeSlotEvents = events.day[dateKey]?.[time] || [];
-
-                        return (
-                          <div key={i} className="flex border-b border-orange-200">
-                            <div className="w-16 text-right p-3 border-r border-orange-200 text-sm text-gray-500">
-                              {time}
-                            </div>
-                            <div className="flex-1 relative">
-                              <DayTimeSlot
-                                timeSlot={time}
-                                events={timeSlotEvents}
-                                onDrop={handleDayDrop}
-                                onEventClick={(event, index) =>
-                                  handleEventClick(event, index, {
-                                    type: 'day',
-                                    dateKey,
-                                    timeSlot: time,
-                                  })
-                                }
-                              />
-                            </div>
-                          </div>
-                        );
-                      }
-                    )}
-                  </div>
-                </div>
-              )}
-
-              {/* MONTH View */}
-          {viewType === 'Month' && (
-  <div className=""> {/* ADD THIS WRAPPER */}
-    <div className="bg-white border border-orange-400 rounded-lg overflow-hidden min-w-full">
-      {/* Header with day names - MAKE IT STICKY */}
-      <div className="grid grid-cols-7 text-xs sm:text-sm md:text-base text-gray-600 border-b border-orange-100 font-medium sticky top-0 z-10 bg-white"> {/* ADD sticky top-0 z-10 bg-white */}
-        {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((day) => (
-          <div key={day} className="p-1 sm:p-2 text-center border-r border-orange-100 last:border-r-0">
-            {/* CHANGE THIS FOR MOBILE ABBREVIATION */}
-            <span className="block sm:hidden">{day.charAt(0)}</span> {/* Show single letter on mobile */}
-            <span className="hidden sm:block">{day}</span> {/* Show full name on larger screens */}
           </div>
-        ))}
-      </div>
-      
-      {/* Calendar grid */}
-      <div className="grid grid-cols-7">
-        {(() => {
-          const start = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1);
-          const end = new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0);
-          const days = [];
 
-          // Empty cells at the beginning of the month
-          for (let i = 0; i < start.getDay(); i++) {
-            days.push(
-              <div 
-                key={`empty-start-${i}`} 
-                className="min-h-[60px] sm:min-h-[80px] md:min-h-[100px] lg:min-h-[120px] p-1 sm:p-2 md:p-3 border border-orange-100 bg-orange-50" /* CHANGE HEIGHTS FOR MOBILE */
-              />
-            );
-          }
-
-          // Days of the month
-          for (let d = 1; d <= end.getDate(); d++) {
-            const date = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), d);
-            const key = date.toDateString();
-            days.push(
-              <DayCell
-                key={key}
-                date={date}
-                events={events.month[d] || []}
-                onDrop={handleMonthDrop}
-                onEventClick={(event, index) =>
-                  handleEventClick(event, index, { type: 'month', day: d })
-                }
-              />
-            );
-          }
-
-          // Empty cells at the end of the month
-          const remaining = (start.getDay() + end.getDate()) % 7;
-          if (remaining !== 0) {
-            for (let i = 0; i < 7 - remaining; i++) {
-              days.push(
-                <div
-                  key={`empty-end-${i}`}
-                  className="min-h-[60px] sm:min-h-[80px] md:min-h-[100px] lg:min-h-[120px] p-1 sm:p-2 md:p-3 border border-orange-100 bg-orange-50" /* CHANGE HEIGHTS FOR MOBILE */
-                />
-              );
-            }
-          }
-
-          return days;
-        })()}
-      </div>
-    </div>
-  </div> 
-)}
-            </div>
-          </div>
+          {/* Footer */}
+          <ClientFooter />
         </div>
+
+        {/* Event Modal */}
+        {isModalOpen && (
+          <EventModal
+            isOpen={isModalOpen}
+            onClose={handleModalClose}
+            onSave={handleEventSave}
+            onDelete={modalMode === 'edit' ? handleEventDelete : null}
+            event={selectedEvent}
+            mode={modalMode}
+          />
+        )}
       </div>
-
-      {/* Footer */}
-      <ClientFooter />
-    </div>
-
-    {/* Event Modal */}
-    {isModalOpen && (
-      <EventModal
-        isOpen={isModalOpen}
-        onClose={handleModalClose}
-        onSave={handleEventSave}
-        onDelete={modalMode === 'edit' ? handleEventDelete : null}
-        event={selectedEvent}
-        mode={modalMode}
-      />
-    )}
-  </div>
-</DndProvider>
-
+    </DndProvider>
   );
 }
 
@@ -805,9 +944,13 @@ function CategoryItem({ name, color, checked, onToggle }) {
       className={`flex items-center flex-wrap sm:flex-nowrap gap-2 cursor-pointer transition-opacity ${isDragging ? 'opacity-50' : 'opacity-100'}`}
       onClick={onToggle}
     >
-      <div className={`w-5 h-5 flex items-center justify-center rounded border ${checked ? color : 'border-orange-400'}`}>
-        {checked && <Check className="w-4 h-4 text-white" />}
-      </div>
+      <div
+  className={`w-5 h-5 flex items-center justify-center rounded border border-orange-400`}
+  style={{ backgroundColor: checked ? color : 'transparent' }}
+>
+  {checked && <Check className="w-4 h-4 text-white" />}
+</div>
+
       <span className="text-sm text-gray-600">{name}</span>
     </div>
   );
@@ -846,21 +989,23 @@ function DayCell({ date, events, onDrop, onEventClick }) {
       {/* EVENTS CONTAINER */}
       <div className="flex-1 space-y-1 overflow-hidden"> {/* ADD FLEX-1 AND OVERFLOW-HIDDEN */}
         {visibleEvents.map((ev, idx) => (
-          <div
-            key={idx}
-            onClick={() => onEventClick(ev, idx)}
-            className={`text-[8px] sm:text-[10px] md:text-xs text-white px-1 py-0.5 rounded cursor-pointer hover:opacity-80 transition-opacity truncate ${ev.color}`} /* ADD TRUNCATE AND RESPONSIVE TEXT */
-            title={ev.title} /* ADD TITLE FOR FULL TEXT ON HOVER */
-          >
-            {/* SHOW ABBREVIATED TEXT ON MOBILE */}
-            <span className="block sm:hidden">
-              {ev.title.length > 8 ? ev.title.substring(0, 6) + '...' : ev.title}
-            </span>
-            <span className="hidden sm:block">
-              {ev.title}
-            </span>
-          </div>
-        ))}
+  <div
+    key={idx}
+    onClick={() => onEventClick(ev, idx)}
+    className={`
+      text-[8px] sm:text-[10px] md:text-xs text-white px-1 py-0.5 
+      rounded cursor-pointer hover:opacity-80 transition-opacity truncate
+    `}
+    style={{ backgroundColor: ev.color || '#ff9900' }}
+    title={ev.title}
+  >
+    <span className="block sm:hidden">
+      {ev.title.length > 8 ? ev.title.substring(0, 6) + '...' : ev.title}
+    </span>
+    <span className="hidden sm:block">{ev.title}</span>
+  </div>
+))}
+
         
         {/* SHOW MORE BUTTON FOR MOBILE */}
         {hasMoreEvents && !showAllEvents && (
@@ -890,7 +1035,7 @@ function DayCell({ date, events, onDrop, onEventClick }) {
 function WeekTimeSlot({ date, timeSlot, events, onDrop, onEventClick }) {
   const [{ canDrop, isOver }, drop] = useDrop(() => ({
     accept: ItemTypes.CATEGORY,
-    drop: (item) => onDrop(date, timeSlot, item),
+    drop: (item) => onDrop(date, timeSlot, item), // Pass category info (name, color)
     collect: (monitor) => ({
       isOver: monitor.isOver(),
       canDrop: monitor.canDrop(),
@@ -899,44 +1044,45 @@ function WeekTimeSlot({ date, timeSlot, events, onDrop, onEventClick }) {
 
   return (
     <div
-  ref={drop}
-  className={`
-    border-r border-orange-400 border-b 
-    p-1 sm:p-2 md:p-3 lg:p-4
-    relative last:border-r-0 
-    transition-colors 
-    min-h-[60px] sm:min-h-[60px] md:min-h-[60px] lg:min-h-[60px]
-    ${isOver ? 'bg-orange-50' : 'bg-white'}
-  `}
->
-  {/* Dropped events */}
-  {events.map((event, idx) => (
-    <div
-      key={idx}
-      onClick={() => onEventClick(event, idx)}
+      ref={drop}
       className={`
-        rounded-md text-white 
-        text-xs sm:text-sm md:text-base
-        leading-tight shadow-sm 
-        p-1 sm:p-2 md:p-2.5
-        mb-1 sm:mb-1.5 md:mb-2
-        cursor-pointer hover:opacity-80 
-        transition-opacity
-        max-w-full
-        ${event.color}
+        border-r border-orange-400 border-b 
+        p-1 sm:p-2 md:p-3 lg:p-4
+        relative last:border-r-0 
+        transition-colors 
+        min-h-[60px] sm:min-h-[60px] md:min-h-[60px] lg:min-h-[60px]
+        ${isOver ? 'bg-orange-50' : 'bg-white'}
       `}
     >
-      <div className="font-medium truncate text-xs sm:text-sm md:text-base">
-        {event.title}
-      </div>
-      <div className="text-[8px] sm:text-[10px] md:text-xs opacity-90 truncate">
-        {timeSlot}
-      </div>
+      {/* Dropped events */}
+      {events.map((event, idx) => (
+        <div
+          key={idx}
+          onClick={() => onEventClick(event, idx)}
+          className={`
+            rounded-md text-white 
+            text-xs sm:text-sm md:text-base
+            leading-tight shadow-sm 
+            p-1 sm:p-2 md:p-2.5
+            mb-1 sm:mb-1.5 md:mb-2
+            cursor-pointer hover:opacity-80 
+            transition-opacity
+            max-w-full
+          `}
+          style={{ backgroundColor: event.color || '#f3f3f3' }}
+        >
+          <div className="font-medium truncate text-xs sm:text-sm md:text-base">
+            {event.title}
+          </div>
+          <div className="text-[8px] sm:text-[10px] md:text-xs opacity-90 truncate">
+            {timeSlot}
+          </div>
+        </div>
+      ))}
     </div>
-  ))}
-</div>
   );
 }
+
 
 // Drop Target Time Slot Component for Day View
 function DayTimeSlot({ timeSlot, events, onDrop, onEventClick }) {
@@ -973,8 +1119,8 @@ function DayTimeSlot({ timeSlot, events, onDrop, onEventClick }) {
         cursor-pointer hover:opacity-80 
         transition-opacity
         max-w-full
-        ${event.color}
       `}
+      style={{ backgroundColor: event.color || '#f3f3f3' }}
     >
       <div className="font-medium truncate text-xs sm:text-sm md:text-base lg:text-lg">
         {event.title}

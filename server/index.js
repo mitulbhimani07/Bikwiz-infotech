@@ -34,6 +34,7 @@ app.use('/blog',require('./routes/Authentication/BlogRoutes'));
 
 // Client Dashboard routes
 app.use('/clientdashboard', require('./routes/ClientDashboard/EventRoutes'));
+app.use('/Eventcategory',require('./routes/ClientDashboard/EventCategoryRoutes'))
 
 //conecting server backend to Bikwiz-Infotech
 app.listen(PORT, () => {
