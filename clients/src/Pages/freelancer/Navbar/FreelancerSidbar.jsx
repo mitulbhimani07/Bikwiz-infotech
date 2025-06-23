@@ -185,29 +185,29 @@ export default function FreelancerSidebar() {
             <NavItem
               icon={LayoutDashboard}
               label="Dashboard"
-              to="/ClientDashboard"
-              active={isActive('/ClientDashboard')}
+              to="/FreelancerDashboard"
+              active={isActive('/FreelancerDashboard')}
               onClick={handleNavClick}
             />
             <NavItem
               icon={Building2}
               label="Company Profile"
-              to="/clientCompanyProfile"
-              active={isActive('/clientCompanyProfile')}
+              to="/freelancerPublicProfile"
+              active={isActive('/freelancerPublicProfile')}
               onClick={handleNavClick}
             />
             <NavItem
               icon={Users}
               label="All Applicants"
-              to="/clientAllApplications"
-              active={isActive('/clientAllApplications')}
+              to="/FreelancerAllAplication"
+              active={isActive('/FreelancerAllAplication')}
               onClick={handleNavClick}
             />
             <NavItem
               icon={MessageSquare}
               label="Messages"
-              to="/ClientMessages"
-              active={isActive('/ClientMessages')}
+              to="/FreelancerMessages"
+              active={isActive('/FreelancerMessages')}
               onClick={handleNavClick}
             />
             <NavItem
@@ -234,8 +234,8 @@ export default function FreelancerSidebar() {
             <NavItem
               icon={HelpCircle}
               label="Help Center"
-              to="/clientHelpCenter"
-              active={isActive('/clientHelpCenter')}
+              to="/FreelancerHelpCenter"
+              active={isActive('/FreelancerHelpCenter')}
               onClick={handleNavClick}
             />
           </nav>
