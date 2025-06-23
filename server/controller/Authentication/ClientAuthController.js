@@ -475,7 +475,7 @@ module.exports.ClientLogin = async (req, res) => {
                 role: role, // Include role in token
             },
             process.env.JWT_SECRET, // Make sure this is defined in your .env
-            { expiresIn: '1h' }
+            { expiresIn: '8h' }
         );
 
         res.status(200).json({

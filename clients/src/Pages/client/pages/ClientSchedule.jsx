@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDrag, useDrop, DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { Check, ChevronLeft, ChevronRight, X, Calendar as CalendarIcon, Clock, User, FileText, Tag, Plus } from 'lucide-react';
@@ -7,7 +7,10 @@ import 'react-calendar/dist/Calendar.css';
 import ClientSidbar from '../navbar/ClientSidbar';
 import ClientHeader from '../navbar/ClientHeader';
 import ClientFooter from '../navbar/ClientFooter';
-import { CreateEvent } from '../../../API/Api';
+import { AddEventCategory, GetEventCategory } from '../../../API/Api';
+import toast from 'react-hot-toast';
+import { CreateEvent, GetEvents } from '../../../API/Api';
+import { useAuth } from './Context/AuthContext';
 
 const ItemTypes = { CATEGORY: 'category' };
 
@@ -24,6 +27,33 @@ function ClientSchedule() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [modalMode, setModalMode] = useState('create'); // 'create' or 'edit'
+  const { clientId } = useAuth();
+  const [eventts, setEventts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+   useEffect(() => {
+    console.log("Client ID from context:", clientId);
+  }, [clientId]);
+
+  useEffect(() => {
+    const fetchEvents = async () => {
+      if (clientId) {
+      const Getevent=await GetEvents(clientId)
+        .then((data) => {
+          setEventts(data);
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.error("Failed to fetch events", error);
+          setLoading(false);
+        });
+    }
+    }
+    fetchEvents();
+
+    console.log("get events", eventts);
+    
+  }, [clientId]);
 
   const getCurrentWeekDates = () => {
     const currentDay = selectedDate.getDay();
@@ -38,20 +68,80 @@ function ClientSchedule() {
     return week;
   };
 
-  const [categories, setCategories] = useState([
-    { name: 'Interview Schedule', color: 'bg-orange-500', checked: true },
-    { name: 'Internal Meeting', color: 'bg-green-500', checked: true },
-    { name: 'Team Schedule', color: 'bg-blue-300', checked: false },
-    { name: 'My Task', color: 'bg-yellow-400', checked: false },
-    { name: 'Reminders', color: 'bg-purple-400', checked: false },
-  ]);
+  const [categories, setCategories] = useState(
+    // { name: 'Interview Schedule', color: 'bg-orange-500', checked: true },
+    // { name: 'Internal Meeting', color: 'bg-green-500', checked: true },
+    // { name: 'Team Schedule', color: 'bg-blue-300', checked: false },
+    // { name: 'My Task', color: 'bg-yellow-400', checked: false },
+    // { name: 'Reminders', color: 'bg-purple-400', checked: false },
+    { CategoryName: '', color: '' }
+  );
   const [showCategoryForm, setShowCategoryForm] = useState(false);
-  const [newCategory, setNewCategory] = useState({ name: '', color: 'bg-orange-500' });
+  // const [newCategory, setNewCategory] = useState({ CategoryName: '', color: '' });
+  const [Allcategory, setAllcategory] = useState([])
+
+  useEffect(() => {
+    const FetchEventCategory = async () => {
+      try {
+        const response = await GetEventCategory();
+        const withCheck = response.data.map((cat) => ({
+          ...cat,
+          checked: cat.checked !== undefined ? cat.checked : true, // default to true if undefined
+        }));
+        setAllcategory(withCheck);
+      } catch (error) {
+        console.error('Error in GetEventCategory API:', error);
+        toast.error('Failed to load categories');
+      }
+    };
+    FetchEventCategory();
+  }, []);
 
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
   };
+  const handleAddCategory = (e) => {
+    setCategories({ ...categories, [e.target.name]: e.target.value });
+  }
+
+  const handleCategoryToggle = (index) => {
+    setAllcategory(prevCategories => {
+      const updatedCategories = [...prevCategories];
+      updatedCategories[index] = {
+        ...updatedCategories[index],
+        checked: !updatedCategories[index].checked
+      };
+      return updatedCategories;
+    });
+  };
+
+  const handleCategorySubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await AddEventCategory(categories);
+      console.log("Response:", res);
+      toast.success("Add Category Successfully!!!");
+
+      // Add new category to local state with checked: true
+      const newCategory = {
+        ...categories,
+        checked: true,
+        id: res.data?.id || Date.now() // Use API response ID or fallback
+      };
+      setAllcategory(prev => [...prev, newCategory]);
+
+      setCategories({
+        CategoryName: '',
+        color: ''
+      });
+      setShowCategoryForm(false);
+    } catch (error) {
+      console.log("Error submitting form:", error);
+      toast.error("Failed to add category");
+    }
+  }
+
 
   const navigateMonth = (direction) => {
     const newDate = new Date(selectedDate);
@@ -129,59 +219,136 @@ function ClientSchedule() {
 
   const handleMonthDrop = (date, item) => {
     const day = date.getDate();
-    setEvents((prev) => {
+    const dateKey = date.toDateString();
+    const defaultTimeSlot = '9 AM';
+
+    const newEvent = {
+      title: item.name,
+      color: item.color,
+      description: '',
+      startTime: defaultTimeSlot,
+      endTime: defaultTimeSlot,
+      attendees: '',
+      location: ''
+    };
+
+    setEvents(prev => {
       const updated = { ...prev };
+
       if (!updated.month[day]) updated.month[day] = [];
-      updated.month[day].push({
-        title: item.name,
-        color: item.color,
-        description: '',
-        startTime: '09:00',
-        endTime: '10:00',
-        attendees: '',
-        location: ''
-      });
+      updated.month[day].push(newEvent);
+
+      if (!updated.week[dateKey]) updated.week[dateKey] = {};
+      if (!updated.week[dateKey][defaultTimeSlot]) updated.week[dateKey][defaultTimeSlot] = [];
+      updated.week[dateKey][defaultTimeSlot].push(newEvent);
+
+      if (!updated.day[dateKey]) updated.day[dateKey] = {};
+      if (!updated.day[dateKey][defaultTimeSlot]) updated.day[dateKey][defaultTimeSlot] = [];
+      updated.day[dateKey][defaultTimeSlot].push(newEvent);
+
       return updated;
     });
   };
+
+
+
+
 
   const handleWeekDrop = (date, timeSlot, item) => {
     const dateKey = date.toDateString();
-    setEvents((prev) => {
+    const day = date.getDate();
+    const slotLabel = formatTimeSlot(timeSlot);
+
+    const newEvent = {
+      title: item.name,
+      color: item.color,
+      description: '',
+      startTime: slotLabel,
+      endTime: slotLabel,
+      attendees: '',
+      location: ''
+    };
+
+    setEvents(prev => {
       const updated = { ...prev };
+
+      // Week
       if (!updated.week[dateKey]) updated.week[dateKey] = {};
-      if (!updated.week[dateKey][timeSlot]) updated.week[dateKey][timeSlot] = [];
-      updated.week[dateKey][timeSlot].push({
-        title: item.name,
-        color: item.color,
-        description: '',
-        startTime: timeSlot.toLowerCase(),
-        endTime: timeSlot.toLowerCase(),
-        attendees: '',
-        location: ''
-      });
+      if (!updated.week[dateKey][slotLabel]) updated.week[dateKey][slotLabel] = [];
+      updated.week[dateKey][slotLabel].push(newEvent);
+
+      // Day
+      if (!updated.day[dateKey]) updated.day[dateKey] = {};
+      if (!updated.day[dateKey][slotLabel]) updated.day[dateKey][slotLabel] = [];
+      updated.day[dateKey][slotLabel].push(newEvent);
+
+      // Month
+      if (!updated.month[day]) updated.month[day] = [];
+      updated.month[day].push(newEvent);
+
       return updated;
     });
   };
 
+
+  function formatTimeSlot(timeSlot) {
+    const match = timeSlot.match(/^(\d{1,2})\s*(am|pm)$/i);
+    if (!match) return timeSlot;
+
+    let hour = parseInt(match[1]);
+    let suffix = match[2].toUpperCase();
+
+    if (hour === 12) hour = 12;
+    else if (suffix === 'PM') hour += 12;
+
+    // Return 12-hour format label: "9 AM"
+    const formattedHour = (hour % 12) === 0 ? 12 : (hour % 12);
+    const formattedSuffix = hour >= 12 ? 'PM' : 'AM';
+
+    return `${formattedHour} ${formattedSuffix}`;
+  }
+
+
   const handleDayDrop = (timeSlot, item) => {
-    const dateKey = selectedDate.toDateString();
+    const date = new Date(selectedDate);
+    const dateKey = date.toDateString();
+    const day = date.getDate();
+    const slotLabel = formatTimeSlot(timeSlot); // formatted time like '9 AM'
+
+    const newEvent = {
+      title: item.name,
+      color: item.color,
+      description: '',
+      startTime: slotLabel,
+      endTime: slotLabel,
+      attendees: '',
+      location: ''
+    };
+
     setEvents((prev) => {
       const updated = { ...prev };
+
+      // Day view
       if (!updated.day[dateKey]) updated.day[dateKey] = {};
-      if (!updated.day[dateKey][timeSlot]) updated.day[dateKey][timeSlot] = [];
-      updated.day[dateKey][timeSlot].push({
-        title: item.name,
-        color: item.color,
-        description: '',
-        startTime: timeSlot.toLowerCase(),
-        endTime: timeSlot.toLowerCase(),
-        attendees: '',
-        location: ''
-      });
+      if (!updated.day[dateKey][slotLabel]) updated.day[dateKey][slotLabel] = [];
+      updated.day[dateKey][slotLabel].push(newEvent);
+
+      // Week view
+      if (!updated.week[dateKey]) updated.week[dateKey] = {};
+      if (!updated.week[dateKey][slotLabel]) updated.week[dateKey][slotLabel] = [];
+      updated.week[dateKey][slotLabel].push(newEvent);
+
+      // Month view
+      if (!updated.month[day]) updated.month[day] = [];
+      updated.month[day].push(newEvent);
+
       return updated;
     });
   };
+
+
+
+
 
   return (
     <DndProvider backend={HTML5Backend}>
@@ -213,8 +380,8 @@ function ClientSchedule() {
                       key={label}
                       onClick={() => setView(label)}
                       className={`px-4 py-2 rounded-md text-sm font-bold transition-colors border ${view === label
-                        ? 'text-orange-400 border-orange-400'
-                        : 'text-orange-400 border-transparent'
+                          ? 'text-orange-400 border-orange-400'
+                          : 'text-orange-400 border-transparent'
                         }`}
                     >
                       {label}
@@ -313,70 +480,73 @@ function ClientSchedule() {
                       >
                         + Add Category
                       </button>
-
                     </div>
+
                     {showCategoryForm && (
                       <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
                         <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-md space-y-4">
                           <h2 className="text-lg font-bold text-gray-800">Add New Category</h2>
-                          <input
-                            type="text"
-                            placeholder="Category Name"
-                            value={newCategory.name}
-                            onChange={(e) => setNewCategory({ ...newCategory, name: e.target.value })}
-                            className="w-full px-4 py-2 border border-gray-300 rounded"
-                          />
-                          <div className="flex items-center justify-between gap-4">
-                            <label className="text-gray-700 font-medium">Pick Color:</label>
+                          <form onSubmit={handleCategorySubmit}>
                             <input
-                              type="color"
-                              value={newCategory.color}
-                              onChange={(e) => setNewCategory({ ...newCategory, color: e.target.value })}
-                              className="w-12 h-10 border border-gray-300 rounded cursor-pointer"
+                              type="text"
+                              placeholder="Category Name"
+                              value={categories.CategoryName}
+                              name='CategoryName'
+                              onChange={handleAddCategory}
+                              className="w-full px-4 py-2 border border-gray-300 rounded mb-4"
+                              required
                             />
-                            <div
-                              className="flex-1 h-10 rounded text-white flex items-center justify-center text-sm font-semibold"
-                              style={{ backgroundColor: newCategory.color }}
-                            >
-                              {newCategory.name || 'Preview'}
+                            <div className="flex items-center justify-between gap-4 mb-4">
+                              <label className="text-gray-700 font-medium">Pick Color:</label>
+                              <input
+                                type="color"
+                                value={categories.color}
+                                name='color'
+                                onChange={handleAddCategory}
+                                className="w-12 h-10 border border-gray-300 rounded cursor-pointer"
+                              />
+                              <div
+                                className="flex-1 h-10 rounded text-white flex items-center justify-center text-sm font-semibold"
+                                style={{ backgroundColor: categories.color }}
+                              >
+                                {categories.CategoryName || 'Preview'}
+                              </div>
                             </div>
-                          </div>
 
-                          <div className="flex justify-end space-x-3 pt-4 border-t">
-                            <button onClick={() => setShowCategoryForm(false)} className="text-gray-600">Cancel</button>
-                            <button
-                              onClick={() => {
-                                if (newCategory.name.trim()) {
-                                  setCategories([...categories, { ...newCategory, checked: true }]);
-                                  setNewCategory({ name: '', color: 'bg-orange-500' });
-                                  setShowCategoryForm(false);
-                                }
-                              }}
-                              className="bg-orange-500 text-white px-4 py-1 rounded hover:bg-orange-600"
-                            >
-                              Add
-                            </button>
-                          </div>
+                            <div className="flex justify-end space-x-3 pt-4 border-t">
+                              <button
+                                type="button"
+                                onClick={() => setShowCategoryForm(false)}
+                                className="text-gray-600 px-4 py-1 rounded hover:bg-gray-100"
+                              >
+                                Cancel
+                              </button>
+                              <button
+                                type='submit'
+                                className="bg-orange-500 text-white px-4 py-1 rounded hover:bg-orange-600"
+                              >
+                                Add
+                              </button>
+                            </div>
+                          </form>
                         </div>
                       </div>
                     )}
 
-
                     <div className="space-y-2">
-                      {categories.map((cat, idx) => (
+                      {Allcategory.map((cat, idx) => (
                         <CategoryItem
                           key={idx}
-                          name={cat.name}
+                          name={cat.CategoryName}
                           color={cat.color}
                           checked={cat.checked}
                           onToggle={() => {
-                            const updated = [...categories];
-                            updated[idx].checked = !updated[idx].checked;
-                            setCategories(updated);
+                            const updated = [...Allcategory];
+                            updated[idx] = { ...updated[idx], checked: !updated[idx].checked };
+                            setAllcategory(updated);
                           }}
                         />
                       ))}
-
                     </div>
                   </div>
                 </div>
@@ -396,8 +566,8 @@ function ClientSchedule() {
                             </div>
                             <div
                               className={`w-7 h-7 mx-auto mt-1 flex items-center justify-center rounded-full ${date.toDateString() === selectedDate.toDateString()
-                                ? 'bg-orange-500 text-white font-semibold'
-                                : 'text-gray-800'
+                                  ? 'bg-orange-500 text-white font-semibold'
+                                  : 'text-gray-800'
                                 }`}
                             >
                               {date.getDate()}
@@ -448,49 +618,47 @@ function ClientSchedule() {
                         </div>
                       </div>
                       <div>
-                        {['1 Am', '2 Am', '3 Am', '4 Am', '5 Am', '6 Am', '7 Am', '8 Am', '9 Am', '10 Am', '11 Am'].map(
-                          (time, i) => {
-                            const dateKey = selectedDate.toDateString();
-                            const timeSlotEvents = events.day[dateKey]?.[time] || [];
+                        {timeSlots.slice(0, 11).map((time, i) => {
+                          const dateKey = selectedDate.toDateString();
+                          const timeSlotEvents = events.day[dateKey]?.[time] || [];
 
-                            return (
-                              <div key={i} className="flex border-b border-orange-200">
-                                <div className="w-16 text-right p-3 border-r border-orange-200 text-sm text-gray-500">
-                                  {time}
-                                </div>
-                                <div className="flex-1 relative">
-                                  <DayTimeSlot
-                                    timeSlot={time}
-                                    events={timeSlotEvents}
-                                    onDrop={handleDayDrop}
-                                    onEventClick={(event, index) =>
-                                      handleEventClick(event, index, {
-                                        type: 'day',
-                                        dateKey,
-                                        timeSlot: time,
-                                      })
-                                    }
-                                  />
-                                </div>
+                          return (
+                            <div key={i} className="flex border-b border-orange-200">
+                              <div className="w-16 text-right p-3 border-r border-orange-200 text-sm text-gray-500">
+                                {time}
                               </div>
-                            );
-                          }
-                        )}
+                              <div className="flex-1 relative">
+                                <DayTimeSlot
+                                  timeSlot={time}
+                                  events={timeSlotEvents}
+                                  onDrop={handleDayDrop}
+                                  onEventClick={(event, index) =>
+                                    handleEventClick(event, index, {
+                                      type: 'day',
+                                      dateKey,
+                                      timeSlot: time,
+                                    })
+                                  }
+                                />
+                              </div>
+                            </div>
+                          );
+                        })}
                       </div>
                     </div>
                   )}
 
+
                   {/* MONTH View */}
                   {viewType === 'Month' && (
-                    <div className=""> {/* ADD THIS WRAPPER */}
+                    <div className="">
                       <div className="bg-white border border-orange-400 rounded-lg overflow-hidden min-w-full">
-                        {/* Header with day names - MAKE IT STICKY */}
-                        <div className="grid grid-cols-7 text-xs sm:text-sm md:text-base text-gray-600 border-b border-orange-100 font-medium sticky top-0 z-10 bg-white"> {/* ADD sticky top-0 z-10 bg-white */}
+                        {/* Header with day names */}
+                        <div className="grid grid-cols-7 text-xs sm:text-sm md:text-base text-gray-600 border-b border-orange-100 font-medium sticky top-0 z-10 bg-white">
                           {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((day) => (
                             <div key={day} className="p-1 sm:p-2 text-center border-r border-orange-100 last:border-r-0">
-                              {/* CHANGE THIS FOR MOBILE ABBREVIATION */}
-                              <span className="block sm:hidden">{day.charAt(0)}</span> {/* Show single letter on mobile */}
-                              <span className="hidden sm:block">{day}</span> {/* Show full name on larger screens */}
+                              <span className="block sm:hidden">{day.charAt(0)}</span>
+                              <span className="hidden sm:block">{day}</span>
                             </div>
                           ))}
                         </div>
@@ -507,7 +675,7 @@ function ClientSchedule() {
                               days.push(
                                 <div
                                   key={`empty-start-${i}`}
-                                  className="min-h-[60px] sm:min-h-[80px] md:min-h-[100px] lg:min-h-[120px] p-1 sm:p-2 md:p-3 border border-orange-100 bg-orange-50" /* CHANGE HEIGHTS FOR MOBILE */
+                                  className="min-h-[60px] sm:min-h-[80px] md:min-h-[100px] lg:min-h-[120px] p-1 sm:p-2 md:p-3 border border-orange-100 bg-orange-50"
                                 />
                               );
                             }
@@ -536,7 +704,7 @@ function ClientSchedule() {
                                 days.push(
                                   <div
                                     key={`empty-end-${i}`}
-                                    className="min-h-[60px] sm:min-h-[80px] md:min-h-[100px] lg:min-h-[120px] p-1 sm:p-2 md:p-3 border border-orange-100 bg-orange-50" /* CHANGE HEIGHTS FOR MOBILE */
+                                    className="min-h-[60px] sm:min-h-[80px] md:min-h-[100px] lg:min-h-[120px] p-1 sm:p-2 md:p-3 border border-orange-100 bg-orange-50"
                                   />
                                 );
                               }
@@ -570,7 +738,6 @@ function ClientSchedule() {
         )}
       </div>
     </DndProvider>
-
   );
 }
 
@@ -835,9 +1002,13 @@ function CategoryItem({ name, color, checked, onToggle }) {
       className={`flex items-center flex-wrap sm:flex-nowrap gap-2 cursor-pointer transition-opacity ${isDragging ? 'opacity-50' : 'opacity-100'}`}
       onClick={onToggle}
     >
-      <div className={`w-5 h-5 flex items-center justify-center rounded border ${checked ? color : 'border-orange-400'}`}>
+      <div
+        className={`w-5 h-5 flex items-center justify-center rounded border border-orange-400`}
+        style={{ backgroundColor: checked ? color : 'transparent' }}
+      >
         {checked && <Check className="w-4 h-4 text-white" />}
       </div>
+
       <span className="text-sm text-gray-600">{name}</span>
     </div>
   );
@@ -879,18 +1050,20 @@ function DayCell({ date, events, onDrop, onEventClick }) {
           <div
             key={idx}
             onClick={() => onEventClick(ev, idx)}
-            className={`text-[8px] sm:text-[10px] md:text-xs text-white px-1 py-0.5 rounded cursor-pointer hover:opacity-80 transition-opacity truncate ${ev.color}`} /* ADD TRUNCATE AND RESPONSIVE TEXT */
-            title={ev.title} /* ADD TITLE FOR FULL TEXT ON HOVER */
+            className={`
+      text-[8px] sm:text-[10px] md:text-xs text-white px-1 py-0.5 
+      rounded cursor-pointer hover:opacity-80 transition-opacity truncate
+    `}
+            style={{ backgroundColor: ev.color || '#ff9900' }}
+            title={ev.title}
           >
-            {/* SHOW ABBREVIATED TEXT ON MOBILE */}
             <span className="block sm:hidden">
               {ev.title.length > 8 ? ev.title.substring(0, 6) + '...' : ev.title}
             </span>
-            <span className="hidden sm:block">
-              {ev.title}
-            </span>
+            <span className="hidden sm:block">{ev.title}</span>
           </div>
         ))}
+
 
         {/* SHOW MORE BUTTON FOR MOBILE */}
         {hasMoreEvents && !showAllEvents && (
@@ -920,7 +1093,7 @@ function DayCell({ date, events, onDrop, onEventClick }) {
 function WeekTimeSlot({ date, timeSlot, events, onDrop, onEventClick }) {
   const [{ canDrop, isOver }, drop] = useDrop(() => ({
     accept: ItemTypes.CATEGORY,
-    drop: (item) => onDrop(date, timeSlot, item),
+    drop: (item) => onDrop(date, timeSlot, item), // Pass category info (name, color)
     collect: (monitor) => ({
       isOver: monitor.isOver(),
       canDrop: monitor.canDrop(),
@@ -931,13 +1104,13 @@ function WeekTimeSlot({ date, timeSlot, events, onDrop, onEventClick }) {
     <div
       ref={drop}
       className={`
-    border-r border-orange-400 border-b 
-    p-1 sm:p-2 md:p-3 lg:p-4
-    relative last:border-r-0 
-    transition-colors 
-    min-h-[60px] sm:min-h-[60px] md:min-h-[60px] lg:min-h-[60px]
-    ${isOver ? 'bg-orange-50' : 'bg-white'}
-  `}
+        border-r border-orange-400 border-b 
+        p-1 sm:p-2 md:p-3 lg:p-4
+        relative last:border-r-0 
+        transition-colors 
+        min-h-[60px] sm:min-h-[60px] md:min-h-[60px] lg:min-h-[60px]
+        ${isOver ? 'bg-orange-50' : 'bg-white'}
+      `}
     >
       {/* Dropped events */}
       {events.map((event, idx) => (
@@ -945,16 +1118,16 @@ function WeekTimeSlot({ date, timeSlot, events, onDrop, onEventClick }) {
           key={idx}
           onClick={() => onEventClick(event, idx)}
           className={`
-        rounded-md text-white 
-        text-xs sm:text-sm md:text-base
-        leading-tight shadow-sm 
-        p-1 sm:p-2 md:p-2.5
-        mb-1 sm:mb-1.5 md:mb-2
-        cursor-pointer hover:opacity-80 
-        transition-opacity
-        max-w-full
-        ${event.color}
-      `}
+            rounded-md text-white 
+            text-xs sm:text-sm md:text-base
+            leading-tight shadow-sm 
+            p-1 sm:p-2 md:p-2.5
+            mb-1 sm:mb-1.5 md:mb-2
+            cursor-pointer hover:opacity-80 
+            transition-opacity
+            max-w-full
+          `}
+          style={{ backgroundColor: event.color || '#f3f3f3' }}
         >
           <div className="font-medium truncate text-xs sm:text-sm md:text-base">
             {event.title}
@@ -967,6 +1140,7 @@ function WeekTimeSlot({ date, timeSlot, events, onDrop, onEventClick }) {
     </div>
   );
 }
+
 
 // Drop Target Time Slot Component for Day View
 function DayTimeSlot({ timeSlot, events, onDrop, onEventClick }) {
@@ -1003,8 +1177,8 @@ function DayTimeSlot({ timeSlot, events, onDrop, onEventClick }) {
         cursor-pointer hover:opacity-80 
         transition-opacity
         max-w-full
-        ${event.color}
       `}
+          style={{ backgroundColor: event.color || '#f3f3f3' }}
         >
           <div className="font-medium truncate text-xs sm:text-sm md:text-base lg:text-lg">
             {event.title}

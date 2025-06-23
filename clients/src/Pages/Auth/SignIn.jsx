@@ -102,7 +102,7 @@ export default function SignIn() {
       const role = res.role;
 
       if (role == 'client') {
-        navigate(`/ClientDashboard/${res.data._id}`); // Redirect to Client Dashboard with user ID
+        navigate("/ClientDashboard"); // Redirect to Client Dashboard with user ID
       } else {
         navigate('/FreelancerDashboard')
       }

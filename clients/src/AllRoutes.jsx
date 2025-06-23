@@ -65,7 +65,7 @@ function AllRoutes() {
         <Route path='/verifyotp' element={<VerifyOTP />} />
         <Route path='/resetpassword' element={<ResetPassword />} />
         {/* Client Dashbord */}
-        <Route path='/ClientDashboard/:id' element={<ClientDashboard />} />
+        <Route path='/ClientDashboard' element={<ClientDashboard />} />
         <Route path='/clientCompanyProfile' element={<ClientCompanyProfile />} />
         <Route path='/clientAllApplications' element={<ClientAllApplications />} />
         <Route path='/clientSchedule' element={<ClientSchedule />} />
