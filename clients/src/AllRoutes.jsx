@@ -37,6 +37,7 @@ import FreelancerPublicProfile from './Pages/freelancer/Pages/FreelancerPublicPr
 import FreelancerAllAplication from './Pages/freelancer/Pages/FreelancerAllApplication'
 import FreelancerMessages from './Pages/freelancer/Pages/FreelancerMessages'
 import FreelancerHelpCenter from './Pages/freelancer/Pages/FreelancerHelpCenter'
+import FreelancerBrowseCompanies from './Pages/freelancer/Pages/FreelancerBrowseCompanies'
 
 function AllRoutes() {
   return (
@@ -81,6 +82,7 @@ function AllRoutes() {
         <Route path='/FreelancerAllAplication' element={<FreelancerAllAplication />} />
         <Route path='/FreelancerMessages' element={<FreelancerMessages />} />
         <Route path='/FreelancerHelpCenter' element={<FreelancerHelpCenter />} />
+        <Route path='/FreelancerBrowseCompanies' element={<FreelancerBrowseCompanies />} />
         
 
 
