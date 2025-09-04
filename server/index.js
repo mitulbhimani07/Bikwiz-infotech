@@ -12,8 +12,9 @@ app.use(express.json())
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Database connection
+//mongodb+srv://vidhisavaliya017_db_user:AlZ8HQs5VeWRVAPL@cluster0.nrpq8yk.mongodb.net/
 const mongoose = require('mongoose');
-    mongoose.connect("mongodb+srv://mitulbhimani281:mF6u0wongMtNZE3l@cluster0.t7dse.mongodb.net/BIKWIZ-INFOTECH").then((res)=>{
+    mongoose.connect("mongodb+srv://vidhisavaliya017_db_user:YnbF0P1lVYFWjTA5@clusterone.xbsfufz.mongodb.net/BikwizInfotech?retryWrites=true&w=majority&appName=Clusterone").then((res)=>{
         console.log('DB is Conected');  
     })
     .catch((err) => {

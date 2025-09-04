@@ -1,5 +1,5 @@
 const mongoose=require('mongoose')
-mongoose.connect("mongodb://127.0.0.1:27017/BikwizInfotech",)
+mongoose.connect("mongodb+srv://vidhisavaliya017_db_user:YnbF0P1lVYFWjTA5@clusterone.xbsfufz.mongodb.net/BikwizInfotech?retryWrites=true&w=majority&appName=Clusterone",)
 
 const db=mongoose.connection;
 

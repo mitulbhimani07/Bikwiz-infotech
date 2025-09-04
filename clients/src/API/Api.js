@@ -90,7 +90,7 @@ export const ContactUs = async (payload) => {
 export const GoogleSignup = async (payload) => {
     try {
         const response = await axios.post("http://localhost:3000/client/googlesignup", payload)
-
+papQPuN6$wJ4ka9
         return response.data
     } catch (error) {
         console.error("Error in Reset Passowrd API:", error);
