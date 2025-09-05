@@ -31,29 +31,29 @@ function ClientSchedule() {
   const [eventts, setEventts] = useState([]);
   const [loading, setLoading] = useState(true);
 
-   useEffect(() => {
-    console.log("Client ID from context:", clientId);
-  }, [clientId]);
+  //  useEffect(() => {
+  //   console.log("Client ID from context:", clientId);
+  // }, [clientId]);
 
-  useEffect(() => {
-    const fetchEvents = async () => {
-      if (clientId) {
-      const Getevent=await GetEvents(clientId)
-        .then((data) => {
-          setEventts(data);
-          setLoading(false);
-        })
-        .catch((error) => {
-          console.error("Failed to fetch events", error);
-          setLoading(false);
-        });
-    }
-    }
-    fetchEvents();
+  // useEffect(() => {
+  //   const fetchEvents = async () => {
+  //     if (clientId) {
+  //     const Getevent=await GetEvents(clientId)
+  //       .then((data) => {
+  //         setEventts(data);
+  //         setLoading(false);
+  //       })
+  //       .catch((error) => {
+  //         console.error("Failed to fetch events", error);
+  //         setLoading(false);
+  //       });
+  //   }
+  //   }
+  //   fetchEvents();
 
-    console.log("get events", eventts);
+  //   console.log("get events", eventts);
     
-  }, [clientId]);
+  // }, [clientId]);
 
   const getCurrentWeekDates = () => {
     const currentDay = selectedDate.getDay();
